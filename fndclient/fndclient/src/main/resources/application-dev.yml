@@ -1,0 +1,101 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/fndclient?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: password
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # for dev; use validate or none in prod
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+
+  # Web server (explicitly disable SSL)
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 8080
+  ssl:
+    enabled: false     # HTTPS = false (use plain HTTP)
+
+  servlet:
+    context-path: /
+
+  compression:
+    enabled: true
+
+
+
+# JWT & Security settings (app-specific)
+app:
+  security:
+    jwt:
+      secret: ThisismySecretKeywhichshouldbemorethanenoughHarakiri1961   # override with env var JWT_SECRET in prod
+      issuer: crm-app
+      audience: crm-app-users
+      # expiry in seconds (e.g., 3600 = 1 hour)
+      expiration: ${JWT_EXPIRATION_SECONDS:3600}
+      # HTTP header where JWT will be expected
+      header: Authorization
+      # prefix in header value, e.g. "Bearer "
+      token-prefix: Bearer
+
+  # optional: paths to ignore for JWT auth (commonly login/register and public endpoints)
+  permitted:
+    - /api/auth/**
+    - /api/public/**
+    - /swagger-ui/**
+    - /v3/api-docs/**
+
+# Spring Security toggles (you'll use these in your security config code)
+security:
+  enabled: false   # your WebSecurityConfigurer should read this or use @ConditionalOnProperty if needed
+
+# CORS - sample defaults (tweak as needed)
+
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+    allowed-headers: "Authorization,Cache-Control,Content-Type"
+    allow-credentials: true
+    max-age: 3600
+
+# Logging - useful defaults for dev
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+
+# Actuator (if you use it)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env
+  endpoint:
+    health:
+      show-details: always
