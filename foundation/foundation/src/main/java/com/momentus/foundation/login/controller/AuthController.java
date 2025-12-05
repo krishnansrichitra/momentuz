@@ -1,6 +1,7 @@
 package com.momentus.foundation.login.controller;
 
-import com.momentus.foundation.login.config.JwtTokenProvider;
+
+import com.momentus.corefw.auth.JwtTokenProvider;
 import com.momentus.foundation.login.dto.AuthRequest;
 import com.momentus.foundation.login.dto.AuthResponse;
 import org.springframework.http.ResponseEntity;

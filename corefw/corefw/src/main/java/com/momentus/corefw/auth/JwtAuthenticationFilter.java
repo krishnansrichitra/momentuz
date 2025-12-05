@@ -1,4 +1,4 @@
-package com.momentus.foundation.login.config;
+package com.momentus.corefw.auth;
 
 
 import jakarta.servlet.FilterChain;

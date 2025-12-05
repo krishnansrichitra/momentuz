@@ -1,6 +1,6 @@
 package com.momentus;
 
-import com.momentus.foundation.organization.model.Role;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(
         scanBasePackages = {
                 "com.momentus",              // your main app
+                "com.momentus.corefw",
                 "com.momentus.foundation"             // package inside your JAR
         }
 )

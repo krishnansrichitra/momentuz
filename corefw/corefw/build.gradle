@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.momentus'
 version = '0.0.1-SNAPSHOT'
-description = 'Momentus Foundation project'
+description = 'Momentus Core Foundation project'
 
 java {
     toolchain {
@@ -26,20 +26,15 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-freemarker'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.14'
-    implementation files('lib/corefw-0.0.1-SNAPSHOT-plain.jar')
-    implementation 'org.flywaydb:flyway-core'
-    implementation 'org.flywaydb:flyway-mysql'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // for Jackson serializer
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -50,5 +45,11 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+bootJar {
+    enabled = false
+}
 
+jar {
+    enabled = true
+}
 
