@@ -4,6 +4,8 @@ import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.organization.model.Organization;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
@@ -26,6 +28,9 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String email;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    List<UserRoles> userRoles ;
 
 
     @Column(nullable = false)
@@ -95,6 +100,14 @@ public class User extends BaseEntity {
 
     public void setOrgId(Organization orgId) {
         this.orgId = orgId;
+    }
+
+    public List<UserRoles> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRoles> userRoles) {
+        this.userRoles = userRoles;
     }
 }
 
