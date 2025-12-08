@@ -4,6 +4,7 @@ package com.momentus.foundation.login.controller;
 import com.momentus.corefw.auth.JwtTokenProvider;
 import com.momentus.foundation.login.dto.AuthRequest;
 import com.momentus.foundation.login.dto.AuthResponse;
+import com.momentus.foundation.login.model.MomLoggedInUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +38,8 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
+        MomLoggedInUser momLoggedInUser = (MomLoggedInUser) authentication.getPrincipal();
+
         // Extract roles/authorities to include in token (optional)
         @SuppressWarnings("unchecked")
         List<String> roles = authentication.getAuthorities()
@@ -43,7 +48,10 @@ public class AuthController {
                 .collect(Collectors.toList());
 
         // Create token (subject = username)
-        String token = jwtTokenProvider.createToken(authentication.getName(), roles);
+        HashMap<String,Object> supplimentaryInfo = new LinkedHashMap<>();
+        supplimentaryInfo.put("loggednOrgCode",momLoggedInUser.getLoggedInOrg().getOrgCode());
+        supplimentaryInfo.put("loggednOrgId",(Long)momLoggedInUser.getLoggedInOrg().getId());
+        String token = jwtTokenProvider.createToken(authentication.getName(), roles,supplimentaryInfo);
 
         return ResponseEntity.ok(new AuthResponse(token));
     }

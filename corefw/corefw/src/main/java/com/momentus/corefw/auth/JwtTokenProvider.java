@@ -31,7 +31,7 @@ public class JwtTokenProvider {
     /**
      * Create JWT with subject (username) and optional roles.
      */
-    public String createToken(String subject, Collection<String> roles) {
+    public String createToken(String subject, Collection<String> roles, Map<String,Object> additionalClaims) {
         long now = System.currentTimeMillis();
         JwtBuilder builder = Jwts.builder()
                 .setSubject(subject)
@@ -41,6 +41,9 @@ public class JwtTokenProvider {
 
         if (roles != null && !roles.isEmpty()) {
             builder.claim("roles", roles);
+        }
+        if(additionalClaims != null && !additionalClaims.isEmpty()) {
+            builder.claim("supplimentaryInfo",additionalClaims);
         }
         return builder.compact();
     }
@@ -85,6 +88,15 @@ public class JwtTokenProvider {
             return ((Collection<?>) roles).stream().map(Object::toString).collect(Collectors.toList());
         }
         return Collections.emptyList();
+    }
+
+    public Map<String,Object> getSupplimentaryInfo(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(hmacKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return (Map)claims.get("supplimentaryInfo");
     }
 
 }

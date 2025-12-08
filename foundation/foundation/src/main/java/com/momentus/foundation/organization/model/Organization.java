@@ -145,4 +145,12 @@ public class Organization  extends BaseEntity {
     public void setActive(Boolean active) {
         this.active = active;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
