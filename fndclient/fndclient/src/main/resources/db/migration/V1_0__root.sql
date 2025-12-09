@@ -82,3 +82,28 @@ CREATE TABLE user_roles (
 );
 
 insert into user_roles(id,org_id,role_id,user_id) values (1,1,1,'admin@momentuz.com');
+
+create table profile_group(
+profile_group_code varchar(100) primary key,
+profile_group_description  varchar(255) NOT NULL,
+active tinyint(1) DEFAULT '1',
+created_by varchar(255) DEFAULT NULL,
+created_time datetime(6) DEFAULT NULL,
+deleted tinyint(1) DEFAULT '0',
+last_updated_by varchar(255) DEFAULT NULL,
+ last_updated_time datetime(6) DEFAULT NULL
+);
+
+
+create table entity (
+entity_name varchar(100) PRIMARY KEY,
+full_package varchar(255) not null,
+profile_group_code varchar(100),
+active tinyint(1) DEFAULT '1',
+created_by varchar(255) DEFAULT NULL,
+created_time datetime(6) DEFAULT NULL,
+deleted tinyint(1) DEFAULT '0',
+last_updated_by varchar(255) DEFAULT NULL,
+ last_updated_time datetime(6) DEFAULT NULL,
+foreign key (profile_group_code) references profile_group(profile_group_code)
+);
