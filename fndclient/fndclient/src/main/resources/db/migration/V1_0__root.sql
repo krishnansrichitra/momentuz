@@ -107,3 +107,6 @@ last_updated_by varchar(255) DEFAULT NULL,
  last_updated_time datetime(6) DEFAULT NULL,
 foreign key (profile_group_code) references profile_group(profile_group_code)
 );
+
+insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('base','Base','seed',now());
+insert into entity (entity_name,full_package,profile_group_code,created_by,created_time) values ('Customer','com.momentus.fndclient.customer.model.Customer', 'base','seed',now());
