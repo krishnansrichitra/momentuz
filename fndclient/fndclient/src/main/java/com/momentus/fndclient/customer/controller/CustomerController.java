@@ -1,5 +1,7 @@
 package com.momentus.fndclient.customer.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
+
+    private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 
 
     @PreAuthorize("hasAuthority('custwr') or hasAuthority('adm')")

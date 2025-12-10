@@ -108,5 +108,31 @@ last_updated_by varchar(255) DEFAULT NULL,
 foreign key (profile_group_code) references profile_group(profile_group_code)
 );
 
-insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('base','Base','seed',now());
-insert into entity (entity_name,full_package,profile_group_code,created_by,created_time) values ('Customer','com.momentus.fndclient.customer.model.Customer', 'base','seed',now());
+insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('CBO','Common Business functionalities','seed',now());
+insert into entity (entity_name,full_package,profile_group_code,created_by,created_time) values ('Customer','com.momentus.fndclient.customer.model.Customer', 'CBO','seed',now());
+
+
+create table profile(
+id bigint PRIMARY KEY  AUTO_INCREMENT ,
+profile_code varchar(255) UNIQUE,
+profile_description varchar(255),
+parent_profile_code varchar(255),
+full_profile_code varchar(255),
+parent_profile_id bigint,
+profile_group_code varchar(100) ,
+active tinyint(1) DEFAULT '1',
+created_by varchar(255) DEFAULT NULL,
+created_time datetime(6) DEFAULT NULL,
+deleted tinyint(1) DEFAULT '0',
+last_updated_by varchar(255) DEFAULT NULL,
+ last_updated_time datetime(6) DEFAULT NULL,
+ foreign key (profile_group_code) references profile_group(profile_group_code)
+);
+
+insert into profile(id,profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values (1,'BASECBO','Base Profile','BASE','CBO','seed',now());
+insert into profile(id,profile_code,profile_description,parent_profile_code,full_profile_code,profile_group_code,parent_profile_id,created_by,created_time)
+values (2,'IT','IT CBO Profile','BASECBO','BASECBO-IT','CBO',1,'seed',now());
+insert into profile(id,profile_code,profile_description,parent_profile_code,full_profile_code,profile_group_code,parent_profile_id,created_by,created_time)
+values (3,'CONST','Construction CBO Profile','BASECBO','BASECBO-CONST','CBO',1,'seed',now());
+
+
