@@ -2,6 +2,8 @@ package com.momentus.foundation.organization.model;
 
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
+import java.util.List;
+
 
 @Entity
 @Table(name = "organization")
@@ -11,14 +13,17 @@ public class Organization  extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "industry_code", referencedColumnName = "code")
+    @ManyToOne(fetch = FetchType.LAZY,optional = true)
+    @JoinColumn(name = "industry_code", referencedColumnName = "code", nullable = true)
     Industry industry;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "sector_code", referencedColumnName = "code")
+    @ManyToOne(fetch = FetchType.LAZY,optional = true)
+    @JoinColumn(name = "sector_code", referencedColumnName = "code",nullable = true)
     Sector sector;
 
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
+    List<OrgProfile> orgProfileList;
 
     @Column(nullable = false)
     private String orgCode;
@@ -176,5 +181,13 @@ public class Organization  extends BaseEntity {
 
     public void setSector(Sector sector) {
         this.sector = sector;
+    }
+
+    public List<OrgProfile> getOrgProfileList() {
+        return orgProfileList;
+    }
+
+    public void setOrgProfileList(List<OrgProfile> orgProfileList) {
+        this.orgProfileList = orgProfileList;
     }
 }

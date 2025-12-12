@@ -27,7 +27,7 @@ public class Profile {
     Long parentProfileId;
 
     @ManyToOne(fetch= FetchType.EAGER)
-    @JoinColumn(columnDefinition = "profile_group_code" , referencedColumnName = "profileGroupCode")
+    @JoinColumn(name = "profile_group_code" , referencedColumnName = "profileGroupCode")
     ProfileGroup profileGroup;
 
     @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
