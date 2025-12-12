@@ -11,6 +11,14 @@ public class Organization  extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "industry_code", referencedColumnName = "code")
+    Industry industry;
+
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "sector_code", referencedColumnName = "code")
+    Sector sector;
+
 
     @Column(nullable = false)
     private String orgCode;
@@ -152,5 +160,21 @@ public class Organization  extends BaseEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Industry getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(Industry industry) {
+        this.industry = industry;
+    }
+
+    public Sector getSector() {
+        return sector;
+    }
+
+    public void setSector(Sector sector) {
+        this.sector = sector;
     }
 }

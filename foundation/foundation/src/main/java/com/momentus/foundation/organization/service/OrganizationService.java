@@ -1,5 +1,6 @@
 package com.momentus.foundation.organization.service;
 
+import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.organization.model.Organization;
 import com.momentus.foundation.organization.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +18,14 @@ public class OrganizationService {
     public Organization getOrgById(Long id)
     {
        return (Organization) organizationRepository.findById(id).get();
+    }
+
+
+    public TransactionResponse saveOrganization(Organization organization)
+    {
+
+        organizationRepository.save(organization);
+        return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+
     }
 }
