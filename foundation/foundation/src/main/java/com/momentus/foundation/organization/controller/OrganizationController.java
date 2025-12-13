@@ -10,10 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -31,6 +28,14 @@ public class OrganizationController {
         Organization organization  = JsonRepHelper.getEntityFromMap(request, Organization.class);
         TransactionResponse transactionResponse = organizationService.saveOrganization(organization);
         return ResponseEntity.ok(transactionResponse.convertToMap());
+
+    }
+
+    @GetMapping("/getBasicMap")
+    public ResponseEntity<Map<String,Object>> getBasicMap() {
+
+        Organization organization  =new Organization();
+        return ResponseEntity.ok(JsonRepHelper.getMapRepresentation(organization));
 
     }
 }

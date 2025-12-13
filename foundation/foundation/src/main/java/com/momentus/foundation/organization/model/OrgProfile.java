@@ -1,19 +1,22 @@
 package com.momentus.foundation.organization.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.profile.model.Profile;
 import com.momentus.foundation.profile.model.ProfileGroup;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "org_profile")
-public class OrgProfile {
+public class OrgProfile  extends BaseEntity {
 
     @Id
     Long id;
 
     @ManyToOne(fetch = FetchType.EAGER , optional = false  )
     @JoinColumn(name = "org_id",referencedColumnName = "id")
+    @JsonIgnore
     Organization organization;
 
     @ManyToOne(fetch = FetchType.LAZY , optional = false  )
@@ -24,8 +27,7 @@ public class OrgProfile {
     @JoinColumn(name = "profile_group_code",referencedColumnName = "profileGroupCode")
     ProfileGroup profileGroup ;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean deleted =false ;
+
 
 
     public Long getId() {
@@ -60,11 +62,5 @@ public class OrgProfile {
         this.profileGroup = profileGroup;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 }

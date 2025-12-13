@@ -1,12 +1,13 @@
 package com.momentus.foundation.profile.model;
 
+import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "profile")
-public class Profile {
+public class Profile extends BaseEntity {
 
     @Id
     Long id;
@@ -34,20 +35,6 @@ public class Profile {
     private boolean active =true ;
 
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean deleted =false ;
-
-    @Column(name = "created_by", nullable = true)
-    private String createdBy;
-
-    @Column(name = "created_time", nullable = true)
-    private LocalDateTime createdTime;
-
-    @Column(name = "last_updated_by", nullable = true)
-    private String lastUpdatedBy;
-
-    @Column(name = "last_updated_time", nullable = true)
-    private LocalDateTime lastUpdatedTime;
 
 
     public Long getId() {
@@ -106,43 +93,5 @@ public class Profile {
         this.active = active;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public String getLastUpdatedBy() {
-        return lastUpdatedBy;
-    }
-
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-    }
-
-    public LocalDateTime getLastUpdatedTime() {
-        return lastUpdatedTime;
-    }
-
-    public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
-        this.lastUpdatedTime = lastUpdatedTime;
-    }
 }

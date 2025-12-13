@@ -6,6 +6,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.momentus.foundation.common.model.BaseEntity;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JsonRepHelper {
@@ -20,7 +26,36 @@ public class JsonRepHelper {
     public static <T extends BaseEntity>  Map<String,Object> getMapRepresentation(T entity)
     {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(entity,new TypeReference<Map<String, Object>>() {});
+        Map<String,Object> map = mapper.convertValue(entity,new TypeReference<Map<String, Object>>() {});
+        for (String key : map.keySet())
+        {
+            try {
+                Field field = entity.getClass().getDeclaredField(key);
+                Class<?> fieldType = field.getType();
+                if (BaseEntity.class.isAssignableFrom( fieldType)) {
+                    Map<String,Object> childMap = getMapRepresentation((BaseEntity) fieldType.newInstance());
+                    map.put(key,childMap);
+                }
+                if (List.class.isAssignableFrom(fieldType)) {
+                    Type type = field.getGenericType();
+                    if (type instanceof ParameterizedType parameterizedType) {
+                        Type actualType = parameterizedType.getActualTypeArguments()[0];
+                        List<Map<String,Object>> childList = new ArrayList<>();
+                        Class<?> cls = (Class<?>) actualType;
+                        if (BaseEntity.class.isAssignableFrom( cls)) {
+                            Map<String,Object> childMap = getMapRepresentation((BaseEntity) cls.newInstance());
+                            childList.add(childMap);
+                        }
+                        map.put(key,childList);
+                    }
+                }
+            }catch ( Exception ex)
+            {
+                // this can't happen
+            }
+
+        }
+        return  map ;
     }
 
     public static <T extends BaseEntity> T getEntityFromJsonString(String json, Class<T> clazz) throws JsonProcessingException, JsonMappingException

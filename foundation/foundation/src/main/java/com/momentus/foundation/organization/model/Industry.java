@@ -1,5 +1,6 @@
 package com.momentus.foundation.organization.model;
 
+import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,7 +8,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "industry")
-public class Industry {
+public class Industry extends BaseEntity {
 
     @Id
     String code;
@@ -15,8 +16,6 @@ public class Industry {
     @Column
     String name ;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean deleted =false ;
 
 
     public String getCode() {
@@ -36,11 +35,5 @@ public class Industry {
         this.name = name;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 }
