@@ -22,9 +22,6 @@ public class Organization  extends BaseEntity {
     Sector sector;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
-    List<OrgProfile> orgProfileList;
-
     @Column(nullable = false)
     private String orgCode;
 
@@ -183,11 +180,5 @@ public class Organization  extends BaseEntity {
         this.sector = sector;
     }
 
-    public List<OrgProfile> getOrgProfileList() {
-        return orgProfileList;
-    }
 
-    public void setOrgProfileList(List<OrgProfile> orgProfileList) {
-        this.orgProfileList = orgProfileList;
-    }
 }

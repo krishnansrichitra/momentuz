@@ -31,11 +31,5 @@ public class OrganizationController {
 
     }
 
-    @GetMapping("/getBasicMap")
-    public ResponseEntity<Map<String,Object>> getBasicMap() {
 
-        Organization organization  =new Organization();
-        return ResponseEntity.ok(JsonRepHelper.getMapRepresentation(organization));
-
-    }
 }

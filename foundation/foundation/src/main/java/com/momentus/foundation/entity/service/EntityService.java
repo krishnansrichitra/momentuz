@@ -13,6 +13,9 @@ public class EntityService {
     public String getFullPackage(String entityName)
     {
         Entity entity = entityRepository.findById(entityName).orElse(null);
-        return entity.getFullPackage();
+        if (entity == null)
+            return entityName;
+        else
+            return entity.getFullPackage();
     }
 }
