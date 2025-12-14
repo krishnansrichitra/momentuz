@@ -23,6 +23,18 @@ public class JsonRepHelper {
         return json;
     }
 
+    private static Field getDeclaredField(Class entityClass, String key)
+    {
+        try {
+            return entityClass.getDeclaredField(key);
+        }catch (NoSuchFieldException ex){
+            entityClass = entityClass.getSuperclass();
+            return  getDeclaredField(entityClass,key);
+        }
+
+
+    }
+
     public static <T extends BaseEntity>  Map<String,Object> getMapRepresentation(T entity)
     {
         ObjectMapper mapper = new ObjectMapper();
@@ -30,7 +42,7 @@ public class JsonRepHelper {
         for (String key : map.keySet())
         {
             try {
-                Field field = entity.getClass().getDeclaredField(key);
+                Field field = getDeclaredField(entity.getClass(),key);
                 Class<?> fieldType = field.getType();
                 if (BaseEntity.class.isAssignableFrom( fieldType)) {
                     Map<String,Object> childMap = getMapRepresentation((BaseEntity) fieldType.newInstance());
@@ -51,6 +63,8 @@ public class JsonRepHelper {
                 }
             }catch ( Exception ex)
             {
+                entity.getClass().getSuperclass();
+                ex.printStackTrace();
                 // this can't happen
             }
 
