@@ -7,6 +7,30 @@ insert into applications(app_code,app_description,app_name) values ('FNDC','Foun
 insert into modules (module_code,description,module_name) values ('ADM','ADMIN','ADMIN') ;
 insert into app_modules(id,app_code,module_code) values (1,'FNDC','ADM');
 
+create table industry (
+code varchar(20) PRIMARY KEY ,
+name varchar(255) NOT NULL,
+created_by varchar(255) DEFAULT NULL,
+created_time datetime(6) DEFAULT NULL,
+deleted tinyint(1) DEFAULT '0',
+last_updated_by varchar(255) DEFAULT NULL,
+last_updated_time datetime(6) DEFAULT NULL,
+version bigint DEFAULT 0
+);
+
+create table sector (
+code varchar(20) PRIMARY KEY ,
+name varchar(255) NOT NULL,
+created_by varchar(255) DEFAULT NULL,
+created_time datetime(6) DEFAULT NULL,
+deleted tinyint(1) DEFAULT '0',
+last_updated_by varchar(255) DEFAULT NULL,
+last_updated_time datetime(6) DEFAULT NULL,
+version bigint DEFAULT 0
+);
+
+
+
 CREATE TABLE organization (
   id bigint   PRIMARY KEY  AUTO_INCREMENT,
   org_code varchar(100) NOT NULL ,
@@ -20,15 +44,22 @@ CREATE TABLE organization (
   email varchar(255) NOT NULL,
   phone varchar(255) NOT NULL,
   primary_contact varchar(255) DEFAULT NULL,
+  industry_code varchar(20) DEFAULT NULL,
+  sector_code  varchar(20) DEFAULT NULL,
   active tinyint(1) DEFAULT '1',
   created_by varchar(255) DEFAULT NULL,
   created_time datetime(6) DEFAULT NULL,
   deleted tinyint(1) DEFAULT '0',
   last_updated_by varchar(255) DEFAULT NULL,
-  last_updated_time datetime(6) DEFAULT NULL
+  last_updated_time datetime(6) DEFAULT NULL,
+  version bigint DEFAULT 0,
+  foreign key (industry_code)  references industry(code),
+  foreign key (sector_code)  references sector(code)
 
 );
 
+insert into industry(code, name ) VALUES ('ALL','ALL');
+insert into sector(code, name ) VALUES ('ALL','ALL');
 insert into organization(id,org_code,organization_name,address1,email,phone) values (1,'momentuz','Momentuz Pvt Ltd','Bhive ','admin@momentuz.com','988497723');
 
 
@@ -45,6 +76,7 @@ CREATE TABLE users(
   deleted tinyint(1) DEFAULT '0',
   last_updated_by varchar(255) DEFAULT NULL,
   last_updated_time datetime(6) DEFAULT NULL,
+  version bigint DEFAULT 0,
   foreign key(org_id) references organization(id)
 
 );
@@ -61,6 +93,7 @@ CREATE TABLE roles (
   deleted tinyint(1) DEFAULT '0',
   last_updated_by varchar(255) DEFAULT NULL,
   last_updated_time datetime(6) DEFAULT NULL,
+  version bigint DEFAULT 0,
   foreign key(org_id) references organization(id)
 );
 
@@ -76,6 +109,7 @@ CREATE TABLE user_roles (
   deleted tinyint(1) DEFAULT '0',
   last_updated_by varchar(255) DEFAULT NULL,
   last_updated_time datetime(6) DEFAULT NULL,
+   version bigint DEFAULT 0,
   foreign key (role_id) references roles (id),
   foreign key (user_id) references users(user_id),
   foreign key(org_id) references organization(id)
@@ -91,7 +125,8 @@ created_by varchar(255) DEFAULT NULL,
 created_time datetime(6) DEFAULT NULL,
 deleted tinyint(1) DEFAULT '0',
 last_updated_by varchar(255) DEFAULT NULL,
- last_updated_time datetime(6) DEFAULT NULL
+ last_updated_time datetime(6) DEFAULT NULL,
+  version bigint DEFAULT 0
 );
 
 
@@ -105,6 +140,7 @@ created_time datetime(6) DEFAULT NULL,
 deleted tinyint(1) DEFAULT '0',
 last_updated_by varchar(255) DEFAULT NULL,
  last_updated_time datetime(6) DEFAULT NULL,
+  version bigint DEFAULT 0,
 foreign key (profile_group_code) references profile_group(profile_group_code)
 );
 
@@ -126,6 +162,7 @@ created_time datetime(6) DEFAULT NULL,
 deleted tinyint(1) DEFAULT '0',
 last_updated_by varchar(255) DEFAULT NULL,
  last_updated_time datetime(6) DEFAULT NULL,
+  version bigint DEFAULT 0,
  foreign key (profile_group_code) references profile_group(profile_group_code)
 );
 

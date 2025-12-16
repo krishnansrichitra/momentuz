@@ -37,7 +37,6 @@ public class OrganizationService {
 
         Industry industry = industryRepository.findById(organization.getIndustry().getCode()).orElse(null);
         Sector sector =sectorRepository.findById(organization.getSector().getCode()).orElse(null);
-        industry.setName(organization.getIndustry().getName());
         organization.setIndustry(industry);
         organization.setSector(sector);
 

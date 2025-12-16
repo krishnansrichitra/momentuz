@@ -1,5 +1,6 @@
 package com.momentus.foundation.accessgroup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.organization.model.Organization;
 import jakarta.persistence.*;
@@ -30,6 +31,7 @@ public class User extends BaseEntity {
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIgnore
     List<UserRoles> userRoles ;
 
 
@@ -108,6 +110,11 @@ public class User extends BaseEntity {
 
     public void setUserRoles(List<UserRoles> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    @Override
+    public Object getPK() {
+        return userId;
     }
 }
 

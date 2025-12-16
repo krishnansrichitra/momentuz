@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 public class Sector extends BaseEntity {
 
     @Id
+    @Column(length = 20)
     String code;
 
     @Column

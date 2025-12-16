@@ -4,7 +4,11 @@ import com.momentus.foundation.accessgroup.model.Role;
 import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.accessgroup.model.UserRoles;
 import com.momentus.foundation.accessgroup.repository.UserRepository;
+import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.transaction.TransactionResponse;
+import com.momentus.foundation.generic.service.MapToEntityMapper;
 import com.momentus.foundation.login.model.MomLoggedInUser;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +28,9 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @Autowired
     UserRepository users;
+
+    @Autowired
+    MapToEntityMapper mapToEntityMapper;
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
@@ -62,5 +70,16 @@ public class AppUserDetailsService implements UserDetailsService {
         return result;
     }
 
+    public TransactionResponse createUser(Map<String,Object> userMap, ApplicationContext context)
+    {
+      User user =new User();
+        mapToEntityMapper.populateFromMap(userMap,user);
+        user.setOrgId(context.getOrganization());
+        user.setCreatedBy(context.getLoggedInUser());
+        user.setCreatedTime(LocalDateTime.now());
+        users.save(user);
+        return  new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+
+    }
 
 }

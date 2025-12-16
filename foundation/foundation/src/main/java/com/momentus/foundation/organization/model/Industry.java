@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 public class Industry extends BaseEntity {
 
     @Id
+    @Column(length = 20)
     String code;
 
     @Column
