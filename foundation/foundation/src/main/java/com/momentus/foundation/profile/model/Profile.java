@@ -1,5 +1,6 @@
 package com.momentus.foundation.profile.model;
 
+import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
 
@@ -10,9 +11,11 @@ import java.time.LocalDateTime;
 public class Profile extends BaseEntity {
 
     @Id
+    @EntityProperties(isPK = true)
     Long id;
 
     @Column(unique = true)
+    @EntityProperties(isBK = true)
     String profileCode;
 
     @Column
@@ -93,5 +96,8 @@ public class Profile extends BaseEntity {
         this.active = active;
     }
 
-
+    @Override
+    public Object getPK() {
+        return id;
+    }
 }

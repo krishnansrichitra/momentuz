@@ -5,6 +5,7 @@ import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.organization.model.OrgProfile;
 import com.momentus.foundation.organization.repository.OrgProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,5 +27,11 @@ public class OrgProfileService {
         orgProfile.setLastUpdatedTime(LocalDateTime.now());
         orgProfileRepository.save(orgProfile);
         return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+    }
+
+    public OrgProfile getById(Long id, ApplicationContext context)
+    {
+        OrgProfile orgProfile = orgProfileRepository.findById(id).get();
+        return  orgProfile;
     }
 }

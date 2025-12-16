@@ -1,5 +1,6 @@
 package com.momentus.foundation.organization.model;
 
+import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
 import java.util.List;
@@ -11,21 +12,24 @@ public class Organization  extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EntityProperties(isPK = true)
     Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = true)
+    @ManyToOne(fetch = FetchType.LAZY,optional = true,cascade = CascadeType.MERGE)
     @JoinColumn(name = "industry_code", referencedColumnName = "code", nullable = true)
     Industry industry;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = true)
+    @ManyToOne(fetch = FetchType.LAZY,optional = true,cascade = CascadeType.MERGE)
     @JoinColumn(name = "sector_code", referencedColumnName = "code",nullable = true)
     Sector sector;
 
 
     @Column(nullable = false)
+    @EntityProperties(isBK = true)
     private String orgCode;
 
     @Column(nullable = false)
+    @EntityProperties(isMandatory = true)
     private  String organizationName;
 
     @Column (nullable = false)
@@ -47,9 +51,11 @@ public class Organization  extends BaseEntity {
     private String country ;
 
     @Column (nullable = false)
+    @EntityProperties(isMandatory = true)
     private String email;
 
     @Column (nullable = false)
+    @EntityProperties(isMandatory = true)
     private  String phone;
 
     @Column
@@ -180,5 +186,8 @@ public class Organization  extends BaseEntity {
         this.sector = sector;
     }
 
-
+    @Override
+    public Object getPK() {
+        return id;
+    }
 }

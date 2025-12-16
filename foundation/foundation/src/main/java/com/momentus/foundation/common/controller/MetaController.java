@@ -22,13 +22,27 @@ public class MetaController {
     @Autowired
     EntityService entityService;
 
-    @GetMapping("/getBasicMap")
-    public ResponseEntity<Map<String,Object>> getBasicMap(@RequestParam String entity) {
+    @GetMapping("/getFullMap")
+    public ResponseEntity<Map<String,Object>> getFullMap(@RequestParam String entity) {
 
         try {
             String fullPackage = entityService.getFullPackage(entity);
             BaseEntity obj = (BaseEntity)Class.forName(fullPackage).newInstance();
-            return ResponseEntity.ok(JsonRepHelper.getMapRepresentation(obj));
+            return ResponseEntity.ok(JsonRepHelper.getFullMapRepresentation(obj));
+        }catch ( Exception ex)
+        {
+            return ResponseEntity.badRequest().body(new HashMap<>());
+        }
+
+    }
+
+    @GetMapping("/getMinimizedMap")
+    public ResponseEntity<Map<String,Object>> getMinimizedMap(@RequestParam String entity) {
+
+        try {
+            String fullPackage = entityService.getFullPackage(entity);
+            BaseEntity obj = (BaseEntity)Class.forName(fullPackage).newInstance();
+            return ResponseEntity.ok(JsonRepHelper.getMapRepresentationWithKeys(obj,false));
         }catch ( Exception ex)
         {
             return ResponseEntity.badRequest().body(new HashMap<>());

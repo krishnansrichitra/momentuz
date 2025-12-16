@@ -36,4 +36,8 @@ public class Industry extends BaseEntity {
     }
 
 
+    @Override
+    public Object getPK() {
+        return code;
+    }
 }

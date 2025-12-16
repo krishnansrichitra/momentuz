@@ -10,10 +10,7 @@ import com.momentus.foundation.organization.service.OrgProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -36,4 +33,18 @@ public class OrgProfileController {
         return ResponseEntity.ok(transactionResponse.convertToMap());
 
     }
+    @GetMapping("/getById")
+    public ResponseEntity<Map<String,Object>> getById(@RequestParam Long id, Authentication authentication) {
+        try {
+            ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+            OrgProfile orgProfile = orgProfileService.getById(id, context);
+            return ResponseEntity.ok(JsonRepHelper.getEntityToMap(orgProfile));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
 }

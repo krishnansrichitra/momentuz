@@ -76,4 +76,9 @@ public abstract  class BaseEntity {
     public void setVersion(Long version) {
         this.version = version;
     }
+
+    public Object getPK()
+    {
+        return null;
+    }
 }

@@ -2,6 +2,7 @@ package com.momentus.foundation.organization.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.profile.model.Profile;
 import com.momentus.foundation.profile.model.ProfileGroup;
@@ -9,21 +10,22 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "org_profile")
-public class OrgProfile  extends BaseEntity {
+public class OrgProfile  extends OrgBasedEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EntityProperties(isPK = true)
     Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER , optional = false  )
-    @JoinColumn(name = "org_id",referencedColumnName = "id")
-    @JsonIgnore
-    Organization organization;
 
-    @ManyToOne(fetch = FetchType.LAZY , optional = false  )
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY , optional = true )
     @JoinColumn(name = "profile_id",referencedColumnName = "id")
     Profile profile;
 
-    @ManyToOne(fetch = FetchType.LAZY , optional = false  )
+    @ManyToOne(fetch = FetchType.LAZY , optional = true    )
     @JoinColumn(name = "profile_group_code",referencedColumnName = "profileGroupCode")
     ProfileGroup profileGroup ;
 
@@ -38,13 +40,7 @@ public class OrgProfile  extends BaseEntity {
         this.id = id;
     }
 
-    public Organization getOrganization() {
-        return organization;
-    }
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
 
     public Profile getProfile() {
         return profile;
@@ -61,6 +57,8 @@ public class OrgProfile  extends BaseEntity {
     public void setProfileGroup(ProfileGroup profileGroup) {
         this.profileGroup = profileGroup;
     }
+
+
 
 
 }

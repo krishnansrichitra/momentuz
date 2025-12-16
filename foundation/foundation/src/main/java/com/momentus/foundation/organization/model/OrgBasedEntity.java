@@ -1,5 +1,6 @@
 package com.momentus.foundation.organization.model;
 
+import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
 
@@ -13,6 +14,7 @@ public class OrgBasedEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EntityProperties(isPK = true)
     Long id;
 
     public Organization getOrgId() {
@@ -29,5 +31,10 @@ public class OrgBasedEntity extends BaseEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public Object getPK() {
+        return id;
     }
 }

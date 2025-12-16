@@ -34,5 +34,8 @@ public class Sector extends BaseEntity {
         this.name = name;
     }
 
-
+    @Override
+    public Object getPK() {
+        return code;
+    }
 }
