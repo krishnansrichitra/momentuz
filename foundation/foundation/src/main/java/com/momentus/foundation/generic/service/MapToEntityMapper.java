@@ -1,7 +1,9 @@
 package com.momentus.foundation.generic.service;
 
+import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.generic.dao.GenericDAO;
+import com.momentus.foundation.organization.model.OrgBasedEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class MapToEntityMapper {
     GenericDAO genericDAO;
 
 
-    public  void populateFromMap(Map<String, Object> source, BaseEntity target) {
+    public  void populateFromMap(Map<String, Object> source, BaseEntity target, ApplicationContext context) {
         if (source == null || target == null) return;
 
         Class<?> clazz = target.getClass();
@@ -49,12 +51,15 @@ public class MapToEntityMapper {
                         field.set(target, nestedObject);
                     }
 
-                    populateFromMap((Map<String, Object>) value, nestedObject);
+                    populateFromMap((Map<String, Object>) value, nestedObject,context);
                     if (nestedObject.getPK() != null && nestedObject.getVersion() ==null)
                     {
                         nestedObject = loadFullObject(nestedObject);
                         field.set(target,nestedObject);
 
+                    }else if(nestedObject.getPK() == null && nestedObject.getBK() != null && nestedObject.getClass().isAssignableFrom(OrgBasedEntity.class))  {
+                        nestedObject = loadFullObjectByBK((OrgBasedEntity) nestedObject,context);
+                        field.set(target,nestedObject);
                     }
                 }
 
@@ -69,6 +74,14 @@ public class MapToEntityMapper {
     private BaseEntity loadFullObject(BaseEntity baseEntity)
     {
         return genericDAO.loadById(baseEntity);
+    }
+
+    private OrgBasedEntity loadFullObjectByBK(OrgBasedEntity basedEntity,ApplicationContext context)
+    {
+        Map<String,Object> filter = basedEntity.getBK();
+        filter.put("orgId.id",context.getOrganization().getId());
+        filter.put("deleted",false);
+        return genericDAO.loadByBK(filter,basedEntity.getClass());
     }
     // ----------------- Helpers -----------------
 

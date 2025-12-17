@@ -23,7 +23,7 @@ public class GenericService {
     @Transactional
     public void createEntity(Map<String,Object> dataMap, OrgBasedEntity entity, ApplicationContext context)
     {
-        mapToEntityMapper.populateFromMap(dataMap,entity);
+        mapToEntityMapper.populateFromMap(dataMap,entity,context);
         entity.setOrgId(context.getOrganization());
         entity.setCreatedBy(context.getLoggedInUser());
         entity.setCreatedTime(LocalDateTime.now());

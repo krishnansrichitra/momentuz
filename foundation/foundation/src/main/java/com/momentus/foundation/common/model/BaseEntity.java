@@ -6,6 +6,7 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @MappedSuperclass
 public abstract  class BaseEntity {
@@ -78,6 +79,11 @@ public abstract  class BaseEntity {
     }
 
     public Object getPK()
+    {
+        return null;
+    }
+
+    public Map<String,Object> getBK()
     {
         return null;
     }

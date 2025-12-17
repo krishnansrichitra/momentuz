@@ -84,9 +84,9 @@ public class AppUserDetailsService implements UserDetailsService {
     {
       User user =new User();
 
-        mapToEntityMapper.populateFromMap(userMap,user);
+        mapToEntityMapper.populateFromMap(userMap,user,context);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setOrgId(context.getOrganization());
+     //   user.setOrgId(context.getOrganization());
         user.setCreatedBy(context.getLoggedInUser());
         user.setCreatedTime(LocalDateTime.now());
         users.save(user);
