@@ -57,7 +57,7 @@ public class MapToEntityMapper {
                         nestedObject = loadFullObject(nestedObject);
                         field.set(target,nestedObject);
 
-                    }else if(nestedObject.getPK() == null && nestedObject.getBK() != null && nestedObject.getClass().isAssignableFrom(OrgBasedEntity.class))  {
+                    }else if(nestedObject.getPK() == null && nestedObject.getBK() != null && OrgBasedEntity.class.isAssignableFrom(nestedObject.getClass()))  {
                         nestedObject = loadFullObjectByBK((OrgBasedEntity) nestedObject,context);
                         field.set(target,nestedObject);
                     }

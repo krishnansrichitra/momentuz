@@ -35,7 +35,7 @@ public class GenericController
     private static final Logger log = LoggerFactory.getLogger(GenericController.class);
 
 
-    @PreAuthorize("hasAuthority('custwr') or hasAuthority('adm')")
+  //  @PreAuthorize("hasAuthority('custwr') or hasAuthority('adm')")
     @PostMapping("/create")
     public ResponseEntity<Map<String,String>> createEntity(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType, Authentication authentication )
     {

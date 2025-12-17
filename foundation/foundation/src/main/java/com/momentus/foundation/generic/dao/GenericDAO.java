@@ -6,10 +6,7 @@ import com.momentus.foundation.organization.model.OrgBasedEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -42,9 +39,13 @@ public class GenericDAO {
         for (Map.Entry<String, Object> entry : filter.entrySet()) {
             String fieldName = entry.getKey();
             Object value = entry.getValue();
-            if (value != null) {
-                predicates.add(cb.equal(root.get(fieldName), value));
+            if (value == null) continue;
+            Path<?> path = root;
+            for (String part : fieldName.split("\\.")) {
+                path = path.get(part);
             }
+
+            predicates.add(cb.equal(path, value));
         }
         cq.select(root)
                 .where(cb.and(predicates.toArray(new Predicate[0])));

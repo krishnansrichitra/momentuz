@@ -1,5 +1,6 @@
 package com.momentus.foundation.generic.service;
 
+import com.momentus.foundation.common.ApplicationConstants;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.generic.dao.GenericDAO;
@@ -23,8 +24,10 @@ public class GenericService {
     @Transactional
     public void createEntity(Map<String,Object> dataMap, OrgBasedEntity entity, ApplicationContext context)
     {
+        if(context.getOrganization().getId() != ApplicationConstants.ROOT_COMPANY) {
+            entity.setOrgId(context.getOrganization());
+        }
         mapToEntityMapper.populateFromMap(dataMap,entity,context);
-        entity.setOrgId(context.getOrganization());
         entity.setCreatedBy(context.getLoggedInUser());
         entity.setCreatedTime(LocalDateTime.now());
 
