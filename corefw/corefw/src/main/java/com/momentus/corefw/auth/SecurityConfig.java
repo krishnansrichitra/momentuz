@@ -29,21 +29,6 @@ public class SecurityConfig {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-         /*return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence rawPassword) {
-                return rawPassword.toString();
-            }
-
-            @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return rawPassword.toString().equals(encodedPassword);
-            }
-        };*/
-        return new BCryptPasswordEncoder();
-    }
 
     // Expose AuthenticationManager so controller can call authenticate(...)
     @Bean

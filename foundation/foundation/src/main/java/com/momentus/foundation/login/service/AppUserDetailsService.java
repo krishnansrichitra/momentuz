@@ -1,5 +1,6 @@
 package com.momentus.foundation.login.service;
 
+import com.momentus.corefw.service.PasswordEncoderFactory;
 import com.momentus.foundation.accessgroup.model.Role;
 import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.accessgroup.model.UserRoles;
@@ -14,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,6 +33,14 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @Autowired
     MapToEntityMapper mapToEntityMapper;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public AppUserDetailsService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
@@ -73,7 +83,9 @@ public class AppUserDetailsService implements UserDetailsService {
     public TransactionResponse createUser(Map<String,Object> userMap, ApplicationContext context)
     {
       User user =new User();
+
         mapToEntityMapper.populateFromMap(userMap,user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setOrgId(context.getOrganization());
         user.setCreatedBy(context.getLoggedInUser());
         user.setCreatedTime(LocalDateTime.now());
