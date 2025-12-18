@@ -1,8 +1,9 @@
 package com.momentus.foundation.common.transaction;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import com.momentus.foundation.common.context.ApplicationContext;
+import org.springframework.util.CollectionUtils;
+
+import java.util.*;
 
 public class TransactionResponse {
 
@@ -38,12 +39,47 @@ public class TransactionResponse {
         this.momentusErrorList = momentusErrorList;
     }
 
+    public void addMomentusError(MomentusError momentusError){
+        if(momentusErrorList == null){
+            momentusErrorList = new ArrayList<>();
+        }
+        momentusErrorList.add(momentusError);
+    }
+
+
     public Map<String,Object> convertToMap()
     {
         Map<String,Object> map = new LinkedHashMap<>();
         map.put(RESULT,responseStatus);
         map.put(errors,momentusErrorList) ;
         return map;
+    }
+
+
+    public  List<String> getErrorMessages(ApplicationContext context) {
+        List <String > result = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(momentusErrorList)) {
+            for (MomentusError error : momentusErrorList) {
+                result.add(error.getErrorMessage());
+            }
+        }
+        return result;
+    }
+
+    public Map<String,Object> errorMap()
+    {
+        Map<String,Object> errors = new HashMap<>() ;
+        if (!CollectionUtils.isEmpty(momentusErrorList)) {
+            for (MomentusError error : momentusErrorList) {
+                errors.put(error.getErrorCode(),error.getErrorMessage());
+            }
+        }
+        return errors;
+    }
+
+    public boolean hasHardError()
+    {
+        return (momentusErrorList != null && momentusErrorList.size() > 0);
     }
 }
 

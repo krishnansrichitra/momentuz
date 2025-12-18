@@ -32,4 +32,18 @@ public class MomentusError {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
+
+    public MomentusError(ERROR_TYPE errorType, String errorCode, String errorMessage) {
+        this.errorType = errorType;
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
+
+    public MomentusError(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
+
+    public MomentusError() {
+    }
 }

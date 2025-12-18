@@ -20,9 +20,13 @@ public class ApplicationContextHelper {
     {
         Map<String,Object> supplimentaryInfo= (Map) authentication.getDetails();
         ApplicationContext applicationContext = new ApplicationContext();
-        Organization organization = organizationService.getOrgById(Long.valueOf((Integer)supplimentaryInfo.get("loggednOrgId")));
-        applicationContext.setOrganization(organization);
-        applicationContext.setLoggedInUser(authentication.getName());
+        if (supplimentaryInfo == null || supplimentaryInfo.keySet().size() == 0 ){
+
+        }else {
+            Organization organization = organizationService.getOrgById(Long.valueOf((Integer) supplimentaryInfo.get("loggednOrgId")));
+            applicationContext.setOrganization(organization);
+            applicationContext.setLoggedInUser(authentication.getName());
+        }
         return applicationContext;
 
     }

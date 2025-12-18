@@ -11,6 +11,8 @@ public class ApplicationContext {
 
     Organization organization;
 
+    boolean externalCall  = false;
+
     public String getLoggedInUser() {
         return loggedInUser;
     }
@@ -27,6 +29,11 @@ public class ApplicationContext {
         this.organization = organization;
     }
 
+    public boolean isExternalCall() {
+        return externalCall;
+    }
 
-
+    public void setExternalCall(boolean externalCall) {
+        this.externalCall = externalCall;
+    }
 }

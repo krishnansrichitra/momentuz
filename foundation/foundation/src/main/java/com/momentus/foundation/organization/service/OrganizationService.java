@@ -1,5 +1,8 @@
 package com.momentus.foundation.organization.service;
 
+import com.momentus.foundation.common.ErrorMessages;
+import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.organization.model.Industry;
 import com.momentus.foundation.organization.model.Organization;
@@ -10,6 +13,11 @@ import com.momentus.foundation.organization.repository.SectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 @Service
 public class OrganizationService {
@@ -24,6 +32,9 @@ public class OrganizationService {
     @Autowired
     SectorRepository sectorRepository;
 
+    @Autowired
+    ErrorMessages errorMessages;
+
 
     @Cacheable
     public Organization getOrgById(Long id)
@@ -32,9 +43,33 @@ public class OrganizationService {
     }
 
 
-    public TransactionResponse saveOrganization(Organization organization)
+    public TransactionResponse basicValidation(Organization organization , ApplicationContext context)
+    {
+        TransactionResponse transactionResponse  =  new TransactionResponse();
+        List<MomentusError> momentusErrorList = new ArrayList<>();
+        if (organization.getIndustry()  == null) {
+            momentusErrorList.add( new MomentusError(ErrorMessages.ORG_INDUSTRY_MANDATORY,
+                    errorMessages.getMessage(ErrorMessages.ORG_INDUSTRY_MANDATORY, Locale.US)));
+        }
+        if (organization.getSector()  == null) {
+            momentusErrorList.add( new MomentusError(ErrorMessages.ORG_SECTOR_MANDATORY,
+                    errorMessages.getMessage(ErrorMessages.ORG_SECTOR_MANDATORY, Locale.US)));
+        }
+        if (!CollectionUtils.isEmpty(momentusErrorList)) {
+            transactionResponse.setMomentusErrorList(momentusErrorList);
+            transactionResponse.setResponseStatus(TransactionResponse.RESPONSE_STATUS.FAILURE);
+        }
+        return transactionResponse;
+    }
+
+    public TransactionResponse saveOrganization(Organization organization, ApplicationContext context)
     {
 
+        TransactionResponse basicValidationResponse =  basicValidation(organization,context);
+        if(basicValidationResponse.hasHardError())
+        {
+            return basicValidationResponse;
+        }
         Industry industry = industryRepository.findById(organization.getIndustry().getCode()).orElse(null);
         Sector sector =sectorRepository.findById(organization.getSector().getCode()).orElse(null);
         organization.setIndustry(industry);
