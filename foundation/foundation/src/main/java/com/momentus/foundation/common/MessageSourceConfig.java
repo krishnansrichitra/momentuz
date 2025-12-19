@@ -14,7 +14,8 @@ public class MessageSourceConfig {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
         source.setBasenames(
                 "FoundErrorMessages",
-                "AppError"
+                "AppError",
+                "Labels"
         );
         source.setDefaultEncoding("UTF-8");
         return source;

@@ -3,6 +3,7 @@ package com.momentus.foundation.generic.controller;
 import com.momentus.foundation.common.JsonRepHelper;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.context.ApplicationContextHelper;
+import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.entity.service.EntityService;
 import com.momentus.foundation.generic.service.GenericService;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
@@ -37,7 +38,7 @@ public class GenericController
 
   //  @PreAuthorize("hasAuthority('custwr') or hasAuthority('adm')")
     @PostMapping("/create")
-    public ResponseEntity<Map<String,String>> createEntity(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType, Authentication authentication )
+    public ResponseEntity<Map<String,Object>> createEntity(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType, Authentication authentication )
     {
 
         try {
@@ -45,15 +46,14 @@ public class GenericController
             ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
             //OrgBasedEntity entity = JsonRepHelper.getEntityFromMap(entityMap, (Class<? extends OrgBasedEntity>) Class.forName(fullPackage));
             OrgBasedEntity entity = (OrgBasedEntity) Class.forName(fullPackage).newInstance();
-            genericService.createEntity(entityMap,entity, context);
-            Map<String, String> response = new HashMap<>();
-            response.put("status", "success");
-            response.put("message", "Customer created successfully");
-            log.info("saving object",entityMap,entityType);
-            return ResponseEntity.ok(response);
+            TransactionResponse transactionResponse = genericService.createEntity(entityMap,entity,context);
+            if(transactionResponse.getResponseStatus().compareTo(TransactionResponse.RESPONSE_STATUS.FAILURE) ==0 ) {
+                return ResponseEntity.badRequest().body(transactionResponse.errorMap());
+            }
+            return ResponseEntity.ok(transactionResponse.convertToMap());
         }catch (Exception ex ){
             String error =  ex.getMessage();
-            Map<String,String> mp = new HashMap<>();
+            Map<String,Object> mp = new HashMap<>();
             mp.put("error",error);
             return ResponseEntity.badRequest().body(mp);
         }

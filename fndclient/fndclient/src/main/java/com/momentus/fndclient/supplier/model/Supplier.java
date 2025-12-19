@@ -8,6 +8,9 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
 @Table(name = "suppliers")
 public class Supplier extends OrgBasedEntity {
@@ -36,5 +39,12 @@ public class Supplier extends OrgBasedEntity {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public Map<String, Object> getBK() {
+        Map<String,Object> objectMap = new HashMap<>();
+        objectMap.put("supplierName",supplierName);
+        return objectMap;
     }
 }

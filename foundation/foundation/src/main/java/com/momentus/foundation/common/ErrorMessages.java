@@ -12,6 +12,7 @@ public class ErrorMessages {
     public static final String ORG_CODE_MANDATORY = "10002";
     public static final String ORG_INDUSTRY_MANDATORY = "10003";
     public static final String ORG_SECTOR_MANDATORY = "10004";
+    public static final String KEY_FIELD_MANDATORY = "10005";
 
 
     private final MessageSource messageSource;
@@ -24,6 +25,14 @@ public class ErrorMessages {
         return messageSource.getMessage(
                 errorCode,
                 null,
+                locale
+        );
+    }
+
+    public String getMessage(String errorCode, Object[] args, Locale locale) {
+        return messageSource.getMessage(
+                errorCode,
+                args,
                 locale
         );
     }
