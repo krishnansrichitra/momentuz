@@ -1,6 +1,7 @@
 package com.momentus.foundation.generic.service;
 
 import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.model.Address;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
@@ -11,6 +12,7 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -38,8 +40,18 @@ public class MapToEntityMapper {
                 field.setAccessible(true);
                 Class<?> fieldType = field.getType();
 
-                // Primitive / simple types
-                if (isSimpleType(fieldType)) {
+                if(Address.class.equals(fieldType) && value instanceof Map) {
+                    Address address = new Address();
+                    Map<String, Object>addressValue =(Map)value;
+                    address.setAddress1(String.valueOf(addressValue.get("address1")));
+                    address.setAddress2(String.valueOf(addressValue.get("address2")));
+                    address.setCity(String.valueOf(addressValue.get("city")));
+                    address.setState(String.valueOf(addressValue.get("state")));
+                    address.setCountry(String.valueOf(addressValue.get("country")));
+                    address.setZipcode(String.valueOf(addressValue.get("zipcode")));
+                    address.setPhoneNumber(String.valueOf(addressValue.get("phoneNumber")));
+                    field.set(target,address);
+                } else if (isSimpleType(fieldType)) { // Primitive / simple types
                     field.set(target, convertValue(value, fieldType));
                 }
                 // Nested object (recursive)

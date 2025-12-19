@@ -6,34 +6,85 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "addresses")
-@Data                       // Lombok: generates getters, setters, toString, equals, hashCode
-@NoArgsConstructor           // Lombok: generates a no-args constructor
-@AllArgsConstructor          // Lombok: generates an all-args constructor
+@Embeddable
 public class Address {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     @Column(nullable = false)
-    private String address1;
+    public String address1;
 
-    private String address2;
-
-    @Column(nullable = false)
-    private String city;
+    public String address2;
 
     @Column(nullable = false)
-    private String state;
+    public String city;
 
     @Column(nullable = false)
-    private String country;
+    public String state;
+
+    @Column(nullable = false)
+    public String country;
 
     @Column(nullable = false, length = 10)
-    private String zipcode;
+    public String zipcode;
 
     @Column(length = 15)
-    private String phoneNumber;
+    public String phoneNumber;
+
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

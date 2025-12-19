@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.momentus.corefw.data.EntityProperties;
+import com.momentus.foundation.common.model.Address;
 import com.momentus.foundation.common.model.BaseEntity;
 
 import java.lang.reflect.Field;
@@ -126,6 +127,11 @@ public class JsonRepHelper {
                     }else {
                         if (BaseEntity.class.isAssignableFrom(fieldType)) {
                             Map<String, Object> childMap = getMapRepresentationWithKeys((BaseEntity) fieldType.newInstance(), true);
+                            newMap.put(key, childMap);
+                        }
+                        else if (Address.class.isAssignableFrom(fieldType)) {
+                            //Map<String, Object> childMap = getMapRepresentationWithKeys((BaseEntity) fieldType.newInstance(), true);
+                            Map<String,Object> childMap = mapper.convertValue(new Address(),new TypeReference<Map<String, Object>>() {});
                             newMap.put(key, childMap);
                         }
                         else if (List.class.isAssignableFrom(fieldType)) {
