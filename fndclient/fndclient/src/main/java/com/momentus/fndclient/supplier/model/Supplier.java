@@ -47,4 +47,10 @@ public class Supplier extends OrgBasedEntity {
         objectMap.put("supplierName",supplierName);
         return objectMap;
     }
+
+
+    @Override
+    public String getBKField() {
+        return "supplierName";
+    }
 }

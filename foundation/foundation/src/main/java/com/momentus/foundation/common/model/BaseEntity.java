@@ -87,4 +87,9 @@ public abstract  class BaseEntity {
     {
         return null;
     }
+
+    public String getBKField()
+    {
+        return null;
+    }
 }

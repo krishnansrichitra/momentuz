@@ -13,6 +13,7 @@ public class ErrorMessages {
     public static final String ORG_INDUSTRY_MANDATORY = "10003";
     public static final String ORG_SECTOR_MANDATORY = "10004";
     public static final String KEY_FIELD_MANDATORY = "10005";
+    public static final String KEY_NOT_UNIQUE = "10006";
 
 
     private final MessageSource messageSource;

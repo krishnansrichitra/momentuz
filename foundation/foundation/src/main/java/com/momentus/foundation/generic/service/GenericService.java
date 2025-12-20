@@ -6,12 +6,14 @@ import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.generic.dao.GenericDAO;
+import com.momentus.foundation.generic.validation.GenericValidation;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,38 +33,29 @@ public class GenericService {
     @Autowired
     ErrorMessages errorMessages;
 
+    @Autowired
+    GenericValidation genericValidation;
 
-    private TransactionResponse basicValidation(OrgBasedEntity entity , ApplicationContext context) {
-        TransactionResponse transactionResponse  =  new TransactionResponse();
-        List<MomentusError> momentusErrorList = new ArrayList<>();
-        Map<String,Object >  bkeys =  entity.getBK() ;
-        if (bkeys != null && !CollectionUtils.isEmpty(bkeys)) {
-            for (Map.Entry<String,Object> entry : bkeys.entrySet()) {
-                if (entry.getValue() == null  )
-                {
-                    String key = errorMessages.getMessage(entry.getKey(),context.getLocale());
-                    momentusErrorList.add( new MomentusError(ErrorMessages.KEY_FIELD_MANDATORY,
-                            errorMessages.getMessage(ErrorMessages.KEY_FIELD_MANDATORY,  new Object[]{key},
-                                    context.getLocale())));
-                } else if(String.class.isAssignableFrom(entry.getValue().getClass())){
-                    String val = (String) entry.getValue();
-                    if(!StringUtils.hasLength(val))
-                    {
-                        String key = errorMessages.getMessage(entry.getKey(),context.getLocale());
-                        momentusErrorList.add( new MomentusError(ErrorMessages.KEY_FIELD_MANDATORY,
-                                errorMessages.getMessage(ErrorMessages.KEY_FIELD_MANDATORY,  new Object[]{key},
-                                        context.getLocale())));
-                    }
 
-                }
-            }
+
+
+    private TransactionResponse validate(OrgBasedEntity entity, ApplicationContext context)
+    {
+        TransactionResponse validationResponse =  genericValidation.basicValidation(entity,context);
+        if(validationResponse.hasHardError())
+        {
+            return validationResponse;
         }
-        if (!CollectionUtils.isEmpty(momentusErrorList)) {
-            transactionResponse.setMomentusErrorList(momentusErrorList);
-            transactionResponse.setResponseStatus(TransactionResponse.RESPONSE_STATUS.FAILURE);
+        validationResponse = genericValidation.bkUniqnessValidation(entity,context);
+        if(validationResponse.hasHardError())
+        {
+            return validationResponse;
         }
-        return transactionResponse;
+        return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+
     }
+
+
 
     @Transactional
     public TransactionResponse createEntity(Map<String,Object> dataMap, OrgBasedEntity entity, ApplicationContext context)
@@ -71,18 +64,29 @@ public class GenericService {
             entity.setOrgId(context.getOrganization());
         }
         mapToEntityMapper.populateFromMap(dataMap,entity,context);
-        TransactionResponse basicValidationResponse =  basicValidation(entity,context);
-        if(basicValidationResponse.hasHardError())
+        TransactionResponse validationResponse  = validate(entity,context);
+        if(validationResponse.hasHardError())
         {
-            return basicValidationResponse;
+            return validationResponse;
         }
+        return saveEntity(entity,context);
+
+    }
+
+
+    public TransactionResponse saveEntity(OrgBasedEntity entity, ApplicationContext context)
+    {
         entity.setCreatedBy(context.getLoggedInUser());
         entity.setCreatedTime(LocalDateTime.now());
-
+        entity.setLastUpdatedBy(context.getLoggedInUser());
+        entity.setLastUpdatedTime(LocalDateTime.now());
         genericDAO.create(entity);
         return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
 
+
     }
+
+
 
 
 
