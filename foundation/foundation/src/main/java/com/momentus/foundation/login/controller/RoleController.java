@@ -38,7 +38,7 @@ public class RoleController {
             ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
             //OrgBasedEntity entity = JsonRepHelper.getEntityFromMap(entityMap, (Class<? extends OrgBasedEntity>) Class.forName(fullPackage));
             Role entity = new Role();
-            genericService.createEntity(entityMap, entity, context);
+            genericService.createOrUpdateEntity(entityMap, entity, context);
             Map<String, String> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Role created successfully");

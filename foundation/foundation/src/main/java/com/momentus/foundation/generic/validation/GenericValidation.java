@@ -1,6 +1,6 @@
 package com.momentus.foundation.generic.validation;
 
-import com.momentus.foundation.common.ErrorMessages;
+import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class GenericValidation {
 
     @Autowired
-    ErrorMessages errorMessages;
+    GeneralMessages generalMessages;
 
     @Autowired
     GenericDAO genericDAO;
@@ -32,17 +32,17 @@ public class GenericValidation {
             for (Map.Entry<String,Object> entry : bkeys.entrySet()) {
                 if (entry.getValue() == null  )
                 {
-                    String key = errorMessages.getMessage(entry.getKey(),context.getLocale());
-                    momentusErrorList.add( new MomentusError(ErrorMessages.KEY_FIELD_MANDATORY,
-                            errorMessages.getMessage(ErrorMessages.KEY_FIELD_MANDATORY,  new Object[]{key},
+                    String key = generalMessages.getMessage(entry.getKey(),context.getLocale());
+                    momentusErrorList.add( new MomentusError(GeneralMessages.KEY_FIELD_MANDATORY,
+                            generalMessages.getMessage(GeneralMessages.KEY_FIELD_MANDATORY,  new Object[]{key},
                                     context.getLocale())));
                 } else if(String.class.isAssignableFrom(entry.getValue().getClass())){
                     String val = (String) entry.getValue();
                     if(!StringUtils.hasLength(val))
                     {
-                        String key = errorMessages.getMessage(entry.getKey(),context.getLocale());
-                        momentusErrorList.add( new MomentusError(ErrorMessages.KEY_FIELD_MANDATORY,
-                                errorMessages.getMessage(ErrorMessages.KEY_FIELD_MANDATORY,  new Object[]{key},
+                        String key = generalMessages.getMessage(entry.getKey(),context.getLocale());
+                        momentusErrorList.add( new MomentusError(GeneralMessages.KEY_FIELD_MANDATORY,
+                                generalMessages.getMessage(GeneralMessages.KEY_FIELD_MANDATORY,  new Object[]{key},
                                         context.getLocale())));
                     }
 
@@ -72,15 +72,15 @@ public class GenericValidation {
             return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
         TransactionResponse transactionResponse = new TransactionResponse();
         List<MomentusError> momentusErrorList = new ArrayList<>();
-        String key = errorMessages.getMessage(orgBasedEntity.getBKField(),context.getLocale());
+        String key = generalMessages.getMessage(orgBasedEntity.getBKField(),context.getLocale());
         if (orgBasedEntity.getPK() == null && currentEntity.getPK() != null) {
-            momentusErrorList.add(new MomentusError(ErrorMessages.KEY_NOT_UNIQUE,
-                    errorMessages.getMessage(ErrorMessages.KEY_NOT_UNIQUE, new Object[]{key},
+            momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
+                    generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
                             context.getLocale())));
         }
         if (orgBasedEntity.getPK() != null && currentEntity.getPK() != orgBasedEntity.getPK() ) {
-            momentusErrorList.add(new MomentusError(ErrorMessages.KEY_NOT_UNIQUE,
-                    errorMessages.getMessage(ErrorMessages.KEY_NOT_UNIQUE, new Object[]{key},
+            momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
+                    generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
                             context.getLocale())));
         }
         if (!CollectionUtils.isEmpty(momentusErrorList)) {

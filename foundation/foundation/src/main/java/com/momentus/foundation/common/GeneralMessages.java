@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.Locale;
 
 @Service
-public class ErrorMessages {
+public class GeneralMessages {
 
     public static final String ORG_NAME_MANDATORY = "10001";
     public static final String ORG_CODE_MANDATORY = "10002";
@@ -18,7 +18,7 @@ public class ErrorMessages {
 
     private final MessageSource messageSource;
 
-    public ErrorMessages(MessageSource messageSource) {
+    public GeneralMessages(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 

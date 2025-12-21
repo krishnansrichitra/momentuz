@@ -1,6 +1,6 @@
 package com.momentus.foundation.organization.service;
 
-import com.momentus.foundation.common.ErrorMessages;
+import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
@@ -33,7 +33,7 @@ public class OrganizationService {
     SectorRepository sectorRepository;
 
     @Autowired
-    ErrorMessages errorMessages;
+    GeneralMessages generalMessages;
 
 
     @Cacheable
@@ -48,12 +48,12 @@ public class OrganizationService {
         TransactionResponse transactionResponse  =  new TransactionResponse();
         List<MomentusError> momentusErrorList = new ArrayList<>();
         if (organization.getIndustry()  == null) {
-            momentusErrorList.add( new MomentusError(ErrorMessages.ORG_INDUSTRY_MANDATORY,
-                    errorMessages.getMessage(ErrorMessages.ORG_INDUSTRY_MANDATORY, Locale.US)));
+            momentusErrorList.add( new MomentusError(GeneralMessages.ORG_INDUSTRY_MANDATORY,
+                    generalMessages.getMessage(GeneralMessages.ORG_INDUSTRY_MANDATORY, Locale.US)));
         }
         if (organization.getSector()  == null) {
-            momentusErrorList.add( new MomentusError(ErrorMessages.ORG_SECTOR_MANDATORY,
-                    errorMessages.getMessage(ErrorMessages.ORG_SECTOR_MANDATORY, Locale.US)));
+            momentusErrorList.add( new MomentusError(GeneralMessages.ORG_SECTOR_MANDATORY,
+                    generalMessages.getMessage(GeneralMessages.ORG_SECTOR_MANDATORY, Locale.US)));
         }
         if (!CollectionUtils.isEmpty(momentusErrorList)) {
             transactionResponse.setMomentusErrorList(momentusErrorList);

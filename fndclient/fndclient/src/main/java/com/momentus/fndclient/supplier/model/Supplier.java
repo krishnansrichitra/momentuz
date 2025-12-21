@@ -1,5 +1,6 @@
 package com.momentus.fndclient.supplier.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.Address;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
@@ -42,6 +43,7 @@ public class Supplier extends OrgBasedEntity {
     }
 
     @Override
+    @JsonIgnore
     public Map<String, Object> getBK() {
         Map<String,Object> objectMap = new HashMap<>();
         objectMap.put("supplierName",supplierName);
@@ -50,6 +52,7 @@ public class Supplier extends OrgBasedEntity {
 
 
     @Override
+    @JsonIgnore
     public String getBKField() {
         return "supplierName";
     }

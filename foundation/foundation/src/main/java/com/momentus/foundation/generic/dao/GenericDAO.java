@@ -30,6 +30,12 @@ public class GenericDAO {
 
     }
 
+    public BaseEntity loadById(Class<?extends OrgBasedEntity > entityClass, Long id)
+    {
+        return em.find(entityClass,id);
+
+    }
+
     public <T extends BaseEntity> T loadByBK(Map<String, Object> filter, Class<T> entityClass) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();

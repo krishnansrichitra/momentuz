@@ -47,4 +47,9 @@ public class Role extends OrgBasedEntity {
         bkMap.put("description",this.description);
         return bkMap;
     }
+
+    @Override
+    public String getBKField() {
+        return "description";
+    }
 }

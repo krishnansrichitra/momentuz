@@ -1,6 +1,8 @@
 package com.momentus.foundation.common.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
@@ -78,16 +80,19 @@ public abstract  class BaseEntity {
         this.version = version;
     }
 
+    @JsonIgnore
     public Object getPK()
     {
         return null;
     }
 
+    @JsonIgnore
     public Map<String,Object> getBK()
     {
         return null;
     }
 
+    @JsonIgnore
     public String getBKField()
     {
         return null;

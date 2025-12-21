@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.hibernate6.Hibernate6Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.Address;
@@ -39,6 +41,8 @@ public class JsonRepHelper {
     public static Map<String, Object> getEntityToMap(Object pojo) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new Hibernate6Module());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return mapper.convertValue(
                 pojo,
                 new TypeReference<Map<String, Object>>() {}
@@ -48,8 +52,10 @@ public class JsonRepHelper {
 
     public static <T extends BaseEntity>  Map<String,Object> getFullMapRepresentation(T entity)
     {
+        if (entity == null ) return new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new Hibernate6Module());
         Map<String,Object> map = mapper.convertValue(entity,new TypeReference<Map<String, Object>>() {});
         for (String key : map.keySet())
         {
@@ -57,7 +63,7 @@ public class JsonRepHelper {
                 Field field = getDeclaredField(entity.getClass(),key);
                 Class<?> fieldType = field.getType();
                 if (BaseEntity.class.isAssignableFrom( fieldType)) {
-                    Map<String,Object> childMap = getFullMapRepresentation((BaseEntity) fieldType.newInstance());
+                    Map<String,Object> childMap = getFullMapRepresentation(  (BaseEntity) fieldType.newInstance());
                     map.put(key,childMap);
                 }
                 if (List.class.isAssignableFrom(fieldType)) {
@@ -100,6 +106,7 @@ public class JsonRepHelper {
     {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new Hibernate6Module());
         return mapper.convertValue(map,clazz);
     }
 
@@ -108,6 +115,7 @@ public class JsonRepHelper {
     {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new Hibernate6Module());
         Map<String,Object> map = mapper.convertValue(entity,new TypeReference<Map<String, Object>>() {});
         Map<String,Object> newMap = new LinkedHashMap<>();
         Iterator<Map.Entry<String, Object>> iterator = map.entrySet().iterator();

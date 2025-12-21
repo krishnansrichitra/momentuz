@@ -1,5 +1,6 @@
 package com.momentus.foundation.organization.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;

@@ -1,7 +1,7 @@
 package com.momentus.fndclient.customer.service;
 
 import com.momentus.fndclient.customer.model.Customer;
-import com.momentus.foundation.common.ErrorMessages;
+import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
@@ -24,7 +24,7 @@ public class CustomerService {
     MapToEntityMapper mapToEntityMapper;
 
     @Autowired
-    ErrorMessages errorMessages;
+    GeneralMessages generalMessages;
 
     @Transactional
     public TransactionResponse createEntity(Map<String, Object> dataMap, OrgBasedEntity entity, ApplicationContext context) {
@@ -36,7 +36,7 @@ public class CustomerService {
         this.mapToEntityMapper.populateFromMap(dataMap, entity, context);
         if (entity.getBK().get("name") == null) {
             transactionResponse.addMomentusError( new MomentusError("20001",
-                    errorMessages.getMessage("20001", Locale.US)));
+                    generalMessages.getMessage("20001", Locale.US)));
             transactionResponse.setResponseStatus(TransactionResponse.RESPONSE_STATUS.FAILURE);
             return transactionResponse;
 
