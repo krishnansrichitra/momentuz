@@ -42,6 +42,12 @@ public class OrganizationService {
        return (Organization) organizationRepository.findById(id).get();
     }
 
+    @Cacheable
+    public Organization getOrgByOrgCode(String code)
+    {
+        return (Organization) organizationRepository.findByOrgCode(code);
+    }
+
 
     public TransactionResponse basicValidation(Organization organization , ApplicationContext context)
     {

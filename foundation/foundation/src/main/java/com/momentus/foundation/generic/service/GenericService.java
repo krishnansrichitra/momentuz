@@ -60,7 +60,7 @@ public class GenericService {
     }
 
 
-    private TransactionResponse validate(OrgBasedEntity entity, ApplicationContext context)
+    protected TransactionResponse validate(OrgBasedEntity entity, ApplicationContext context)
     {
         TransactionResponse validationResponse =  genericValidation.basicValidation(entity,context);
         if(validationResponse.hasHardError())
@@ -78,12 +78,26 @@ public class GenericService {
 
 
 
+
+
+
     @Transactional
     public TransactionResponse createOrUpdateEntity(Map<String,Object> dataMap, OrgBasedEntity entity, ApplicationContext context)
     {
 
         if(context.getOrganization().getId() != ApplicationConstants.ROOT_COMPANY) {
             entity.setOrgId(context.getOrganization());
+        }
+        if (dataMap != null && dataMap.containsKey("id") && ((Number) dataMap.get("id")).longValue() > 0 ) {
+            entity.setId(((Number) dataMap.get("id")).longValue() );
+            TransactionResponse validationResponse  =   genericValidation.validateForUpdate(entity,dataMap,context) ;
+            if(validationResponse.hasHardError())
+            {
+                return validationResponse;
+            }else {
+                entity = (OrgBasedEntity) validationResponse.getTransactionEntity();
+            }
+
         }
         mapToEntityMapper.populateFromMap(dataMap,entity,context);
         TransactionResponse validationResponse  = validate(entity,context);
@@ -103,7 +117,7 @@ public class GenericService {
         entity.setLastUpdatedBy(context.getLoggedInUser());
         entity.setLastUpdatedTime(LocalDateTime.now());
         genericDAO.create(entity);
-        return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+        return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS,entity);
 
     }
 

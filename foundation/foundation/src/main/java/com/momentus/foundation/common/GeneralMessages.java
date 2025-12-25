@@ -14,6 +14,10 @@ public class GeneralMessages {
     public static final String ORG_SECTOR_MANDATORY = "10004";
     public static final String KEY_FIELD_MANDATORY = "10005";
     public static final String KEY_NOT_UNIQUE = "10006";
+    public static final String VERSION_NOT_PROVIDED = "10007";
+    public static final String ENTITY_NOT_EXISTING = "10008";
+    public static final String ENTITY_DELETED = "10009";
+    public static final String STALE_UPDATE = "10010";
 
 
     private final MessageSource messageSource;

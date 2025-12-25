@@ -1,6 +1,7 @@
 package com.momentus.foundation.common.transaction;
 
 import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.model.BaseEntity;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -15,6 +16,8 @@ public class TransactionResponse {
 
     List<MomentusError> momentusErrorList;
 
+    BaseEntity transactionEntity  ;
+
     public RESPONSE_STATUS getResponseStatus() {
         return responseStatus;
     }
@@ -26,6 +29,11 @@ public class TransactionResponse {
     public TransactionResponse(RESPONSE_STATUS responseStatus) {
 
         this.responseStatus = responseStatus;
+    }
+
+    public TransactionResponse(RESPONSE_STATUS responseStatus, BaseEntity transactionEntity) {
+        this.responseStatus = responseStatus;
+        this.transactionEntity = transactionEntity;
     }
 
     public TransactionResponse() {
@@ -80,6 +88,14 @@ public class TransactionResponse {
     public boolean hasHardError()
     {
         return (momentusErrorList != null && momentusErrorList.size() > 0);
+    }
+
+    public BaseEntity getTransactionEntity() {
+        return transactionEntity;
+    }
+
+    public void setTransactionEntity(BaseEntity transactionEntity) {
+        this.transactionEntity = transactionEntity;
     }
 }
 

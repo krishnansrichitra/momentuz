@@ -91,5 +91,47 @@ public class GenericValidation {
     }
 
 
+    public TransactionResponse validateForUpdate(OrgBasedEntity orgBasedEntity, Map<String,Object> entityMap , ApplicationContext context)
+    {
+        TransactionResponse transactionResponse = new TransactionResponse();
+        List<MomentusError> momentusErrorList = new ArrayList<>();
+
+        if(entityMap != null && entityMap.get("version") == null )
+        {
+             momentusErrorList.add( new MomentusError(GeneralMessages.VERSION_NOT_PROVIDED,
+                     generalMessages.getMessage(GeneralMessages.VERSION_NOT_PROVIDED, new Object[]{},
+                             context.getLocale())));
+
+        }else if (orgBasedEntity != null && orgBasedEntity.getId() != null ) {
+            OrgBasedEntity currentEntity  = (OrgBasedEntity)genericDAO.loadById(orgBasedEntity.getClass(),orgBasedEntity.getId());
+            if(currentEntity == null)
+            {
+                momentusErrorList.add( new MomentusError(GeneralMessages.ENTITY_NOT_EXISTING,
+                        generalMessages.getMessage(GeneralMessages.ENTITY_NOT_EXISTING,
+                                context.getLocale())));
+            }else if (currentEntity.isDeleted()) {
+
+                momentusErrorList.add( new MomentusError(GeneralMessages.ENTITY_DELETED,
+                        generalMessages.getMessage(GeneralMessages.ENTITY_DELETED,
+                                context.getLocale())));
+            }else if (currentEntity.getVersion() > ((Number) entityMap.get("version")).longValue() )
+            {
+                momentusErrorList.add( new MomentusError(GeneralMessages.STALE_UPDATE,
+                        generalMessages.getMessage(GeneralMessages.STALE_UPDATE,
+                                context.getLocale())));
+            }else {
+                transactionResponse.setTransactionEntity(currentEntity);
+            }
+        }
+
+        if (!CollectionUtils.isEmpty(momentusErrorList)) {
+            transactionResponse.setMomentusErrorList(momentusErrorList);
+            transactionResponse.setResponseStatus(TransactionResponse.RESPONSE_STATUS.FAILURE);
+        }else {
+
+        }
+        return transactionResponse ;
+
+    }
 
 }
