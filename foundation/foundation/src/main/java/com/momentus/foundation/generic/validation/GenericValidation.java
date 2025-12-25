@@ -64,6 +64,37 @@ public class GenericValidation {
         return  currentEntity;
     }
 
+   public TransactionResponse validateForDeletion(OrgBasedEntity orgBasedEntity,ApplicationContext context)
+   {
+       if(orgBasedEntity != null && orgBasedEntity.getId() != null && orgBasedEntity.getId() > 0) {
+                orgBasedEntity  = (OrgBasedEntity)genericDAO.loadById(orgBasedEntity.getClass(),orgBasedEntity.getId());
+       }else if (!CollectionUtils.isEmpty(orgBasedEntity.getBK())) {
+             orgBasedEntity = (OrgBasedEntity) genericDAO.loadByBK(orgBasedEntity.getBK(), orgBasedEntity.getClass());
+        }
+       TransactionResponse transactionResponse = new TransactionResponse();
+       List<MomentusError> momentusErrorList = new ArrayList<>();
+        if (orgBasedEntity == null || orgBasedEntity.getOrgId().getId() != context.getOrganization().getId() ) {
+            momentusErrorList.add( new MomentusError(GeneralMessages.ENTITY_NOT_EXISTING,
+                    generalMessages.getMessage(GeneralMessages.ENTITY_NOT_EXISTING,
+                            context.getLocale())));
+        }else if (orgBasedEntity.isDeleted()) {
+            momentusErrorList.add( new MomentusError(GeneralMessages.ENTITY_ALREADY_DELETED,
+                    generalMessages.getMessage(GeneralMessages.ENTITY_ALREADY_DELETED,
+                            context.getLocale())));
+
+        }else {
+            transactionResponse.setTransactionEntity(orgBasedEntity);
+        }
+       if (!CollectionUtils.isEmpty(momentusErrorList)) {
+           transactionResponse.setMomentusErrorList(momentusErrorList);
+           transactionResponse.setResponseStatus(TransactionResponse.RESPONSE_STATUS.FAILURE);
+       }
+
+       return transactionResponse ;
+
+
+
+   }
 
     public TransactionResponse bkUniqnessValidation(OrgBasedEntity orgBasedEntity,ApplicationContext context) {
         Map<String,Object> bk = orgBasedEntity.getBK();
@@ -111,7 +142,7 @@ public class GenericValidation {
         }else if (orgBasedEntity != null && orgBasedEntity.getId() != null ) {
             OrgBasedEntity currentEntity  = (OrgBasedEntity)genericDAO.loadById(orgBasedEntity.getClass(),orgBasedEntity.getId());
             populateBKInOrgBasedEntity(entityMap,orgBasedEntity);
-            if(currentEntity == null)
+            if(currentEntity == null || currentEntity.getOrgId().getId() != context.getOrganization().getId())
             {
                 momentusErrorList.add( new MomentusError(GeneralMessages.ENTITY_NOT_EXISTING,
                         generalMessages.getMessage(GeneralMessages.ENTITY_NOT_EXISTING,

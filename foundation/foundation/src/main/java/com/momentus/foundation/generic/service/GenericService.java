@@ -8,6 +8,7 @@ import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.generic.validation.GenericValidation;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import jakarta.transaction.Transactional;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,30 @@ public class GenericService {
 
 
 
+    @Transactional
+    public TransactionResponse deleteEntity(Map<String,Object> dataMap, OrgBasedEntity entity, ApplicationContext context)
+    {
+        if(context.getOrganization().getId() != ApplicationConstants.ROOT_COMPANY) {
+            entity.setOrgId(context.getOrganization());
+        }
+        if (dataMap != null && dataMap.containsKey("id") && ((Number) dataMap.get("id")).longValue() > 0 ) {
+            entity.setId(((Number) dataMap.get("id")).longValue());
+        }else {
+            entity.setBK(dataMap.get(entity.getBKField()));
+        }
+
+        TransactionResponse response = genericValidation.validateForDeletion(entity,context);
+        if (response.hasHardError()) {
+            return response ;
+        }else{
+
+            entity = (OrgBasedEntity) response.getTransactionEntity();
+            entity.setDeleted(true);
+            return saveEntity(entity,context);
+        }
+
+
+    }
 
 
     @Transactional

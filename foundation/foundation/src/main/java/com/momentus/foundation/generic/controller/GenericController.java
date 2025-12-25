@@ -39,6 +39,7 @@ public class GenericController
 
 
 
+
   //  @PreAuthorize("hasAuthority('custwr') or hasAuthority('adm')")
     @PostMapping("/createOrUpdate")
     public ResponseEntity<Map<String,Object>> createEntity(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType, Authentication authentication )
@@ -50,6 +51,28 @@ public class GenericController
             //OrgBasedEntity entity = JsonRepHelper.getEntityFromMap(entityMap, (Class<? extends OrgBasedEntity>) Class.forName(fullPackage));
             OrgBasedEntity entity = (OrgBasedEntity) Class.forName(fullPackage).newInstance();
             TransactionResponse transactionResponse = genericService.createOrUpdateEntity(entityMap,entity,context);
+            if(transactionResponse.getResponseStatus().compareTo(TransactionResponse.RESPONSE_STATUS.FAILURE) ==0 ) {
+                return ResponseEntity.badRequest().body(transactionResponse.errorMap());
+            }
+            return ResponseEntity.ok(transactionResponse.convertToMap());
+        }catch (Exception ex ){
+            String error =  ex.getMessage();
+            Map<String,Object> mp = new HashMap<>();
+            mp.put("error",error);
+            return ResponseEntity.badRequest().body(mp);
+        }
+
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Map<String,Object>> deleteEntity(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType, Authentication authentication )
+    {
+
+        try {
+            String fullPackage = entityService.getFullPackage(entityType);
+            ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+            OrgBasedEntity entity = (OrgBasedEntity) Class.forName(fullPackage).newInstance();
+            TransactionResponse transactionResponse = genericService.deleteEntity(entityMap,entity,context);
             if(transactionResponse.getResponseStatus().compareTo(TransactionResponse.RESPONSE_STATUS.FAILURE) ==0 ) {
                 return ResponseEntity.badRequest().body(transactionResponse.errorMap());
             }
