@@ -60,13 +60,14 @@ public class GenericService {
     }
 
 
-    protected TransactionResponse validate(OrgBasedEntity entity, ApplicationContext context)
+    protected TransactionResponse validate(OrgBasedEntity entity, ApplicationContext context,boolean skipBKValidation)
     {
         TransactionResponse validationResponse =  genericValidation.basicValidation(entity,context);
         if(validationResponse.hasHardError())
         {
             return validationResponse;
         }
+        if (!skipBKValidation)
         validationResponse = genericValidation.bkUniqnessValidation(entity,context);
         if(validationResponse.hasHardError())
         {
@@ -84,6 +85,7 @@ public class GenericService {
     @Transactional
     public TransactionResponse createOrUpdateEntity(Map<String,Object> dataMap, OrgBasedEntity entity, ApplicationContext context)
     {
+        boolean skipBKValidation = false;
 
         if(context.getOrganization().getId() != ApplicationConstants.ROOT_COMPANY) {
             entity.setOrgId(context.getOrganization());
@@ -96,11 +98,12 @@ public class GenericService {
                 return validationResponse;
             }else {
                 entity = (OrgBasedEntity) validationResponse.getTransactionEntity();
+                skipBKValidation=true;
             }
 
         }
         mapToEntityMapper.populateFromMap(dataMap,entity,context);
-        TransactionResponse validationResponse  = validate(entity,context);
+        TransactionResponse validationResponse  = validate(entity,context,skipBKValidation);
         if(validationResponse.hasHardError())
         {
             return validationResponse;

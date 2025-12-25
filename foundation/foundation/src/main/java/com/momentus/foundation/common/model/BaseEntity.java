@@ -89,12 +89,22 @@ public abstract  class BaseEntity {
     @JsonIgnore
     public Map<String,Object> getBK()
     {
+        /** To be done via reflection **/
         return null;
     }
+
+
+    @JsonIgnore
+    public  void setBK(Object object){
+        /** To be done via reflection **/
+    }
+
 
     @JsonIgnore
     public String getBKField()
     {
         return null;
     }
+
+
 }

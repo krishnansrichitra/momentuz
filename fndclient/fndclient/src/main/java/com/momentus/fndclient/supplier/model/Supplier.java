@@ -56,4 +56,11 @@ public class Supplier extends OrgBasedEntity {
     public String getBKField() {
         return "supplierName";
     }
+
+    @JsonIgnore
+    @Override
+    public void setBK(Object object) {
+        setSupplierName(String.valueOf(object));
+    }
 }
+

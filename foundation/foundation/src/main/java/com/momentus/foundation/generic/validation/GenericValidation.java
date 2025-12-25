@@ -91,6 +91,12 @@ public class GenericValidation {
     }
 
 
+    private void populateBKInOrgBasedEntity(Map<String,Object> inputMap ,OrgBasedEntity orgBasedEntity)
+    {
+        orgBasedEntity.setBK(inputMap.get(orgBasedEntity.getBKField()));
+
+    }
+
     public TransactionResponse validateForUpdate(OrgBasedEntity orgBasedEntity, Map<String,Object> entityMap , ApplicationContext context)
     {
         TransactionResponse transactionResponse = new TransactionResponse();
@@ -104,6 +110,7 @@ public class GenericValidation {
 
         }else if (orgBasedEntity != null && orgBasedEntity.getId() != null ) {
             OrgBasedEntity currentEntity  = (OrgBasedEntity)genericDAO.loadById(orgBasedEntity.getClass(),orgBasedEntity.getId());
+            populateBKInOrgBasedEntity(entityMap,orgBasedEntity);
             if(currentEntity == null)
             {
                 momentusErrorList.add( new MomentusError(GeneralMessages.ENTITY_NOT_EXISTING,
@@ -119,6 +126,16 @@ public class GenericValidation {
                 momentusErrorList.add( new MomentusError(GeneralMessages.STALE_UPDATE,
                         generalMessages.getMessage(GeneralMessages.STALE_UPDATE,
                                 context.getLocale())));
+            }else if(!currentEntity.getBK().equals(orgBasedEntity.getBK())) {
+                TransactionResponse newResponse = bkUniqnessValidation(orgBasedEntity,context);
+                if(newResponse.hasHardError()){
+                    String key = generalMessages.getMessage(orgBasedEntity.getBKField(),context.getLocale());
+                    momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
+                            generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
+                                    context.getLocale())));
+                }else {
+                    transactionResponse.setTransactionEntity(currentEntity);
+                }
             }else {
                 transactionResponse.setTransactionEntity(currentEntity);
             }
@@ -127,8 +144,6 @@ public class GenericValidation {
         if (!CollectionUtils.isEmpty(momentusErrorList)) {
             transactionResponse.setMomentusErrorList(momentusErrorList);
             transactionResponse.setResponseStatus(TransactionResponse.RESPONSE_STATUS.FAILURE);
-        }else {
-
         }
         return transactionResponse ;
 
