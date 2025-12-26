@@ -173,3 +173,20 @@ insert into profile(id,profile_code,profile_description,parent_profile_code,full
 values (3,'CONST','Construction CBO Profile','BASECBO','BASECBO-CONST','CBO',1,'seed',now());
 
 
+create table finite_group(
+group_code varchar(100) primary key,
+group_name varchar(255)
+);
+
+create table finite_value(
+fv_code varchar(100) primary key,
+fv_value varchar(255),
+group_code varchar(100),
+foreign key  (group_code) references finite_group(group_code)
+);
+
+insert into finite_group(group_code,group_name) values ('uom_type','UOM Type');
+insert into finite_value(fv_code,fv_value,group_code) values ('UOM_WGHT','WEIGHT','uom_type');
+insert into finite_value(fv_code,fv_value,group_code) values ('UOM_NOS','NOs','uom_type');
+insert into finite_value(fv_code,fv_value,group_code) values ('UOM_VOLU','Volume','uom_type');
+insert into finite_value(fv_code,fv_value,group_code) values ('UOM_CRTN','Cartons','uom_type');

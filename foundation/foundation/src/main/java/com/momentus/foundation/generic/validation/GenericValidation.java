@@ -98,21 +98,23 @@ public class GenericValidation {
 
     public TransactionResponse bkUniqnessValidation(OrgBasedEntity orgBasedEntity,ApplicationContext context) {
         Map<String,Object> bk = orgBasedEntity.getBK();
-        OrgBasedEntity currentEntity = getByBusinessKey(bk, (Class<? extends OrgBasedEntity>)  orgBasedEntity.getClass() ,context);
-        if (currentEntity == null)
-            return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
         TransactionResponse transactionResponse = new TransactionResponse();
         List<MomentusError> momentusErrorList = new ArrayList<>();
-        String key = generalMessages.getMessage(orgBasedEntity.getBKField(),context.getLocale());
-        if (orgBasedEntity.getPK() == null && currentEntity.getPK() != null) {
-            momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
-                    generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
-                            context.getLocale())));
-        }
-        if (orgBasedEntity.getPK() != null && currentEntity.getPK() != orgBasedEntity.getPK() ) {
-            momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
-                    generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
-                            context.getLocale())));
+        if (bk != null && !CollectionUtils.isEmpty(bk)) {
+            OrgBasedEntity currentEntity = getByBusinessKey(bk, (Class<? extends OrgBasedEntity>) orgBasedEntity.getClass(), context);
+            if (currentEntity == null)
+                return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+            String key = generalMessages.getMessage(orgBasedEntity.getBKField(), context.getLocale());
+            if (orgBasedEntity.getPK() == null && currentEntity.getPK() != null) {
+                momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
+                        generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
+                                context.getLocale())));
+            }
+            if (orgBasedEntity.getPK() != null && currentEntity.getPK() != orgBasedEntity.getPK()) {
+                momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
+                        generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
+                                context.getLocale())));
+            }
         }
         if (!CollectionUtils.isEmpty(momentusErrorList)) {
             transactionResponse.setMomentusErrorList(momentusErrorList);

@@ -3,6 +3,8 @@ package com.momentus.foundation.generic.service;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.model.Address;
 import com.momentus.foundation.common.model.BaseEntity;
+import com.momentus.foundation.finitevalue.model.FiniteValue;
+import com.momentus.foundation.finitevalue.service.FiniteValueService;
 import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class MapToEntityMapper {
 
     @Autowired
     GenericDAO genericDAO;
+
+    @Autowired
+    FiniteValueService finiteValueService;
 
 
     public  void populateFromMap(Map<String, Object> source, BaseEntity target, ApplicationContext context) {
@@ -53,9 +58,10 @@ public class MapToEntityMapper {
                     field.set(target,address);
                 } else if (isSimpleType(fieldType)) { // Primitive / simple types
                     field.set(target, convertValue(value, fieldType));
-                }
-                // Nested object (recursive)
-                else if (value instanceof Map) {
+                }else if (FiniteValue.class.equals(fieldType)) {
+                   FiniteValue finiteValue =  finiteValueService.getFinitieValueByCode(String.valueOf(value));
+                   field.set(target,finiteValue);
+                } else if (value instanceof Map) {
                     BaseEntity nestedObject = (BaseEntity) field.get(target);
 
                     if (nestedObject == null) {
