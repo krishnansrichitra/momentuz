@@ -61,6 +61,57 @@ public class GenericDAO {
     }
 
 
+    public <T extends BaseEntity> long getCountForList(Map<String, Object> filter, Class<T> entityClass) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<T> root = cq.from(entityClass);
+        List<Predicate> predicates = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : filter.entrySet()) {
+            String fieldName = entry.getKey();
+            Object value = entry.getValue();
+            if (value == null) continue;
+            Path<?> path = root;
+            for (String part : fieldName.split("\\.")) {
+                path = path.get(part);
+            }
+
+            predicates.add(cb.equal(path, value));
+        }
+        cq.select(cb.count(root))
+                .where(cb.and(predicates.toArray(new Predicate[0])));
+
+        return em.createQuery(cq).getSingleResult();
+    }
+
+
+    public <T extends BaseEntity> List<T> listByFilter(Map<String, Object> filter, Class<T> entityClass,int offset,
+                                                    int limit) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> root = cq.from(entityClass);
+        List<Predicate> predicates = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : filter.entrySet()) {
+            String fieldName = entry.getKey();
+            Object value = entry.getValue();
+            if (value == null) continue;
+            Path<?> path = root;
+            for (String part : fieldName.split("\\.")) {
+                path = path.get(part);
+            }
+            predicates.add(cb.equal(path, value));
+        }
+        cq.select(root)
+                .where(cb.and(predicates.toArray(new Predicate[0])));
+
+        TypedQuery<T> query = em.createQuery(cq);
+
+        query.setFirstResult(offset);  // starting index (0-based)
+        query.setMaxResults(limit);    // page size
+
+        return query.getResultList();
+    }
 
 
 }

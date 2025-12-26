@@ -3,6 +3,7 @@ package com.momentus.foundation.generic.service;
 import com.momentus.foundation.common.ApplicationConstants;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.generic.validation.GenericValidation;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -60,6 +62,32 @@ public class GenericService {
         return  currentEntity;
     }
 
+
+    public long getRecordCount(Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context)
+    {
+        return getRecordCount(filter,cls,context,false);
+    }
+
+    public long getRecordCount(Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context,boolean excludedDeleted)
+    {
+        filter.put("orgId.id",context.getOrganization().getId());
+        if (excludedDeleted) filter.put("deleted",false);
+        return genericDAO.getCountForList(filter,cls);
+
+    }
+
+    public List<? extends OrgBasedEntity> listRecords(Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context,int offset, int limit)
+    {
+        return listRecords(filter,cls,context,offset,limit,false);
+    }
+
+    public List<? extends OrgBasedEntity> listRecords(Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context, int offset, int limit, boolean excludedDeleted)
+    {
+        filter.put("orgId.id",context.getOrganization().getId());
+        if (excludedDeleted) filter.put("deleted",false);
+        return genericDAO.listByFilter(filter,cls,offset,limit);
+
+    }
 
     protected TransactionResponse validate(OrgBasedEntity entity, ApplicationContext context,boolean skipBKValidation)
     {

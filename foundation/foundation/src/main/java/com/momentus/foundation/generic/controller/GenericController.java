@@ -17,7 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -105,6 +107,45 @@ public class GenericController
 
     }
 
+
+    @PostMapping("/getRecordCount")
+    public ResponseEntity<Map<String,Object>> getRecordCount(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType, Authentication authentication )
+    {
+
+        try {
+            String fullPackage = entityService.getFullPackage(entityType);
+            ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+            long  recordCount =   genericService.getRecordCount(entityMap,(Class<? extends OrgBasedEntity>) Class.forName(fullPackage),context);
+            Map<String,Long > result = new HashMap<>();
+            result.put("count",recordCount);
+            return ResponseEntity.ok(JsonRepHelper.getEntityToMap(result));
+        }catch (Exception ex) {
+            String error =  ex.getMessage();
+            Map<String,Object> mp = new HashMap<>();
+            mp.put("error",error);
+            return ResponseEntity.badRequest().body(mp);
+        }
+
+    }
+
+    @PostMapping("/listRecords")
+    public ResponseEntity<List<Object>> listRecords(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType, @RequestParam Integer offset,
+                                                          @RequestParam Integer limit,
+                                                          Authentication authentication )
+    {
+
+        try {
+            String fullPackage = entityService.getFullPackage(entityType);
+            ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+            List< ?  extends  OrgBasedEntity> orgBasedEntityList =   genericService.listRecords(entityMap,(Class<? extends OrgBasedEntity>) Class.forName(fullPackage),context,offset,limit);
+            return ResponseEntity.ok((List)orgBasedEntityList);
+        }catch (Exception ex) {
+            String error =  ex.getMessage();
+            List es = Arrays.asList(ex.getStackTrace());
+            return ResponseEntity.badRequest().body(es);
+        }
+
+    }
 
     @GetMapping("/getById")
     public ResponseEntity<Map<String,Object>> getEntityById( @RequestParam String entityType, @RequestParam Long id, Authentication authentication )

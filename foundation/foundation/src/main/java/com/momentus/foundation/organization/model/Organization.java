@@ -1,6 +1,7 @@
 package com.momentus.foundation.organization.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
@@ -18,10 +19,12 @@ public class Organization  extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY,optional = true,cascade = CascadeType.MERGE)
     @JoinColumn(name = "industry_code", referencedColumnName = "code", nullable = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Industry industry;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = true,cascade = CascadeType.MERGE)
     @JoinColumn(name = "sector_code", referencedColumnName = "code",nullable = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Sector sector;
 
 
