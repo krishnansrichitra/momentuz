@@ -3,15 +3,23 @@ package com.momentus.foundation.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.momentus.corefw.data.EntityProperties;
+import com.momentus.foundation.generic.controller.GenericController;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @MappedSuperclass
 public abstract  class BaseEntity {
+
+    private static final Logger log = LoggerFactory.getLogger(BaseEntity.class);
 
     @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean deleted =false ;
@@ -89,22 +97,95 @@ public abstract  class BaseEntity {
     @JsonIgnore
     public Map<String,Object> getBK()
     {
-        /** To be done via reflection **/
-        return null;
+        Map<String,Object> result = new HashMap<>();
+        Class<?> clazz = this.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            EntityProperties annotation = field.getAnnotation(EntityProperties.class);
+             if (annotation != null && annotation.isBK()) {
+                 field.setAccessible(true);
+                 try {
+                     Object value = field.get(this);
+                     result.put(field.getName(), value);
+                 }catch (Exception ex) {
+                     log.error("error in  getting BK",ex);
+                 }
+            }
+        }
+
+        return result;
     }
 
 
     @JsonIgnore
     public  void setBK(Object object){
-        /** To be done via reflection **/
+        Class<?> clazz = this.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            EntityProperties annotation = field.getAnnotation(EntityProperties.class);
+            if (annotation != null && annotation.isBK()) {
+                field.setAccessible(true);
+                try {
+                    field.set(this,object);
+                }catch (Exception ex) {
+                    log.error("error in  setting BK",ex);
+                }
+            }
+        }
     }
 
 
     @JsonIgnore
     public String getBKField()
     {
+        Map<String,Object> result = new HashMap<>();
+        Class<?> clazz = this.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            EntityProperties annotation = field.getAnnotation(EntityProperties.class);
+            if (annotation != null && annotation.isBK()) {
+                return field.getName();
+            }
+        }
         return null;
     }
 
+
+    @JsonIgnore
+    public Map<String,Object> getMandatoryFields()
+    {
+        Map<String,Object> result = new HashMap<>();
+        Class<?> clazz = this.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            EntityProperties annotation = field.getAnnotation(EntityProperties.class);
+            if (annotation != null && annotation.isMandatory()) {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(this);
+                    result.put(field.getName(), value);
+                }catch (Exception ex) {
+                    log.error("error in  getting BK",ex);
+                }
+            }
+        }
+        return result;
+    }
+
+
+    public Map<String,Object> geUniqueFields()
+    {
+        Map<String,Object> result = new HashMap<>();
+        Class<?> clazz = this.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            EntityProperties annotation = field.getAnnotation(EntityProperties.class);
+            if (annotation != null && annotation.isUnique()) {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(this);
+                    result.put(field.getName(), value);
+                }catch (Exception ex) {
+                    log.error("error in  getting BK",ex);
+                }
+            }
+        }
+        return result;
+    }
 
 }

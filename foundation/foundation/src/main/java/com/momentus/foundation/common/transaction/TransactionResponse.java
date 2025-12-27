@@ -77,11 +77,7 @@ public class TransactionResponse {
     public Map<String,Object> errorMap()
     {
         Map<String,Object> errors = new HashMap<>() ;
-        if (!CollectionUtils.isEmpty(momentusErrorList)) {
-            for (MomentusError error : momentusErrorList) {
-                errors.put(error.getErrorCode(),error.getErrorMessage());
-            }
-        }
+        errors.put("errors",momentusErrorList);
         return errors;
     }
 

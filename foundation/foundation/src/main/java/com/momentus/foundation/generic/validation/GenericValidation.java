@@ -24,6 +24,25 @@ public class GenericValidation {
     @Autowired
     GenericDAO genericDAO;
 
+    protected List<MomentusError> mandatoryFieldsValidation(OrgBasedEntity entity , ApplicationContext context) {
+        TransactionResponse transactionResponse = new TransactionResponse();
+        List<MomentusError> momentusErrorList = new ArrayList<>();
+        Map<String,Object > mandatoryFields =  entity.getMandatoryFields() ;
+        if (mandatoryFields != null && !CollectionUtils.isEmpty(mandatoryFields)) {
+            for (Map.Entry<String, Object> entry : mandatoryFields.entrySet()) {
+                if (entry.getValue() == null){
+                    String key = generalMessages.getMessage(entry.getKey(),context.getLocale());
+                    momentusErrorList.add( new MomentusError(GeneralMessages.KEY_FIELD_MANDATORY,
+                            generalMessages.getMessage(GeneralMessages.KEY_FIELD_MANDATORY,  new Object[]{key},
+                                    context.getLocale())));
+                }
+            }
+        }
+        return momentusErrorList;
+
+    }
+
+
     public TransactionResponse basicValidation(OrgBasedEntity entity , ApplicationContext context) {
         TransactionResponse transactionResponse  =  new TransactionResponse();
         List<MomentusError> momentusErrorList = new ArrayList<>();
@@ -52,6 +71,14 @@ public class GenericValidation {
         if (!CollectionUtils.isEmpty(momentusErrorList)) {
             transactionResponse.setMomentusErrorList(momentusErrorList);
             transactionResponse.setResponseStatus(TransactionResponse.RESPONSE_STATUS.FAILURE);
+        } else
+        {
+            List<MomentusError> mandatoryFieldserrors  =mandatoryFieldsValidation(entity,context);
+            if (!CollectionUtils.isEmpty(mandatoryFieldserrors)) {
+                transactionResponse.setMomentusErrorList(mandatoryFieldserrors);
+                transactionResponse.setResponseStatus(TransactionResponse.RESPONSE_STATUS.FAILURE);
+            }
+
         }
         return transactionResponse;
     }

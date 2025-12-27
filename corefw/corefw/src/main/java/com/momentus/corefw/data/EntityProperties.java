@@ -13,8 +13,9 @@ public @interface EntityProperties {
     boolean isBK() default false;
 
     boolean isMandatory() default false;
-    boolean isFutureDate() default false;
-    boolean isPastDate() default false;
+   /* boolean isFutureDate() default false;
+    boolean isPastDate() default false;*/
 
+    boolean isUnique() default false;
 
 }

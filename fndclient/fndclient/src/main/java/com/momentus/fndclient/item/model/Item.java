@@ -27,6 +27,7 @@ public class Item extends OrgBasedEntity {
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "uom_type",referencedColumnName = "fv_code")
    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+   @EntityProperties(isMandatory = true)
    FiniteValue uomType;
 
     @ManyToOne(fetch = FetchType.LAZY)
