@@ -17,11 +17,11 @@ public class Item extends OrgBasedEntity {
    String itemName;
 
     @Column
-    @EntityProperties(isMandatory = true)
+    @EntityProperties(isMandatory = true,isUnique = true)
     String barcode;
 
     @Column
-    @EntityProperties(isMandatory = true)
+    @EntityProperties(isMandatory = true,isUnique = true)
     String itemCode;
 
    @ManyToOne(fetch = FetchType.LAZY)

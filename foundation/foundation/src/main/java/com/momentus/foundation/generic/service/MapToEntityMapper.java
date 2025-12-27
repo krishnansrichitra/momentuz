@@ -100,7 +100,7 @@ public class MapToEntityMapper {
         Map<String,Object> filter = basedEntity.getBK();
         filter.put("orgId.id",context.getOrganization().getId());
         filter.put("deleted",false);
-        return genericDAO.loadByBK(filter,basedEntity.getClass());
+        return genericDAO.loadByFilter(filter,basedEntity.getClass());
     }
     // ----------------- Helpers -----------------
 

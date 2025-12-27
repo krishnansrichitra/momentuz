@@ -90,14 +90,14 @@ public class GenericController
 
 
     @PostMapping("/getByBusinessKey")
-    public ResponseEntity<Map<String,Object>> geByBusinessKey(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType, Authentication authentication )
+    public ResponseEntity<Object> getByBusinessKey(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType, Authentication authentication )
     {
 
         try {
             String fullPackage = entityService.getFullPackage(entityType);
             ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
             OrgBasedEntity entity =   genericService.findByBusinessKey(entityMap,(Class<? extends OrgBasedEntity>) Class.forName(fullPackage),context);
-            return ResponseEntity.ok(JsonRepHelper.getEntityToMap(entity));
+            return ResponseEntity.ok(entity);
         }catch (Exception ex ){
             String error =  ex.getMessage();
             Map<String,Object> mp = new HashMap<>();
@@ -148,14 +148,14 @@ public class GenericController
     }
 
     @GetMapping("/getById")
-    public ResponseEntity<Map<String,Object>> getEntityById( @RequestParam String entityType, @RequestParam Long id, Authentication authentication )
+    public ResponseEntity<Object> getEntityById( @RequestParam String entityType, @RequestParam Long id, Authentication authentication )
     {
 
         try {
             String fullPackage = entityService.getFullPackage(entityType);
             ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
             OrgBasedEntity entity = genericService.findById(id, (Class<? extends OrgBasedEntity>) Class.forName(fullPackage),context);
-            return ResponseEntity.ok(JsonRepHelper.getEntityToMap(entity));
+            return ResponseEntity.ok(entity);
         }catch (Exception ex ){
             String error =  ex.getMessage();
             Map<String,Object> mp = new HashMap<>();

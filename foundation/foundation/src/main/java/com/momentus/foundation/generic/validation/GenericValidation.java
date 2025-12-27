@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class GenericValidation {
@@ -83,11 +81,11 @@ public class GenericValidation {
         return transactionResponse;
     }
 
-    public OrgBasedEntity getByBusinessKey(Map<String,Object> bk, Class<? extends OrgBasedEntity> cls, ApplicationContext context)
+    public OrgBasedEntity getByFilter(Map<String,Object> bk, Class<? extends OrgBasedEntity> cls, ApplicationContext context)
     {
         bk.put("orgId.id",context.getOrganization().getId());
         bk.put("deleted",false);
-        OrgBasedEntity currentEntity = (OrgBasedEntity)genericDAO.loadByBK(bk,cls);
+        OrgBasedEntity currentEntity = (OrgBasedEntity)genericDAO.loadByFilter(bk,cls);
         return  currentEntity;
     }
 
@@ -96,7 +94,7 @@ public class GenericValidation {
        if(orgBasedEntity != null && orgBasedEntity.getId() != null && orgBasedEntity.getId() > 0) {
                 orgBasedEntity  = (OrgBasedEntity)genericDAO.loadById(orgBasedEntity.getClass(),orgBasedEntity.getId());
        }else if (!CollectionUtils.isEmpty(orgBasedEntity.getBK())) {
-             orgBasedEntity = (OrgBasedEntity) genericDAO.loadByBK(orgBasedEntity.getBK(), orgBasedEntity.getClass());
+             orgBasedEntity = (OrgBasedEntity) genericDAO.loadByFilter(orgBasedEntity.getBK(), orgBasedEntity.getClass());
         }
        TransactionResponse transactionResponse = new TransactionResponse();
        List<MomentusError> momentusErrorList = new ArrayList<>();
@@ -123,25 +121,33 @@ public class GenericValidation {
 
    }
 
+
+   private List<MomentusError> getUniqueErrors(String objKey, Map<String,Object> keyFields ,OrgBasedEntity orgBasedEntity,ApplicationContext context)
+   {
+       List<MomentusError> momentusErrorList = new ArrayList<>();
+       OrgBasedEntity currentEntity = getByFilter(keyFields, (Class<? extends OrgBasedEntity>) orgBasedEntity.getClass(), context);
+       if (currentEntity == null)
+           return Arrays.asList();
+       String key = generalMessages.getMessage(objKey, context.getLocale());
+       if (orgBasedEntity.getPK() == null && currentEntity.getPK() != null) {   // Adding new record checking if another record possess the ky
+           momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
+                   generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
+                           context.getLocale())));
+       }
+       if (orgBasedEntity.getPK() != null && currentEntity.getPK() != orgBasedEntity.getPK()) {   // updating existing record checking if another record possess the ky
+           momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
+                   generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
+                           context.getLocale())));
+       }
+       return momentusErrorList;
+   }
+
     public TransactionResponse bkUniqnessValidation(OrgBasedEntity orgBasedEntity,ApplicationContext context) {
         Map<String,Object> bk = orgBasedEntity.getBK();
         TransactionResponse transactionResponse = new TransactionResponse();
         List<MomentusError> momentusErrorList = new ArrayList<>();
         if (bk != null && !CollectionUtils.isEmpty(bk)) {
-            OrgBasedEntity currentEntity = getByBusinessKey(bk, (Class<? extends OrgBasedEntity>) orgBasedEntity.getClass(), context);
-            if (currentEntity == null)
-                return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
-            String key = generalMessages.getMessage(orgBasedEntity.getBKField(), context.getLocale());
-            if (orgBasedEntity.getPK() == null && currentEntity.getPK() != null) {
-                momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
-                        generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
-                                context.getLocale())));
-            }
-            if (orgBasedEntity.getPK() != null && currentEntity.getPK() != orgBasedEntity.getPK()) {
-                momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
-                        generalMessages.getMessage(GeneralMessages.KEY_NOT_UNIQUE, new Object[]{key},
-                                context.getLocale())));
-            }
+            momentusErrorList= getUniqueErrors(orgBasedEntity.getBKField(),bk,orgBasedEntity,context);
         }
         if (!CollectionUtils.isEmpty(momentusErrorList)) {
             transactionResponse.setMomentusErrorList(momentusErrorList);
@@ -150,10 +156,37 @@ public class GenericValidation {
         return transactionResponse ;
     }
 
+    public TransactionResponse nonBkUniqnessValidation(OrgBasedEntity orgBasedEntity,ApplicationContext context) {
+        Map<String,Object> uniqueFields = orgBasedEntity.geUniqueFields();
+        TransactionResponse transactionResponse = new TransactionResponse();
+        List<MomentusError> momentusErrorList = new ArrayList<>();
+        if (uniqueFields != null && !CollectionUtils.isEmpty(uniqueFields)) {
+            for (Map.Entry<String, Object> entry : uniqueFields.entrySet()) {
+                Map<String,Object > subObject = new HashMap<>();
+                subObject.put(entry.getKey(),entry.getValue());
+                List<MomentusError>  subErrors = getUniqueErrors(entry.getKey(), subObject,orgBasedEntity,context);
+                if (!CollectionUtils.isEmpty(subErrors)){
+                    momentusErrorList.add(subErrors.get(0));
+                }
+            }
+
+        }
+        if (!CollectionUtils.isEmpty(momentusErrorList)) {
+            transactionResponse.setMomentusErrorList(momentusErrorList);
+            transactionResponse.setResponseStatus(TransactionResponse.RESPONSE_STATUS.FAILURE);
+        }
+        return transactionResponse ;
+    }
 
     private void populateBKInOrgBasedEntity(Map<String,Object> inputMap ,OrgBasedEntity orgBasedEntity)
     {
         orgBasedEntity.setBK(inputMap.get(orgBasedEntity.getBKField()));
+
+    }
+
+    private void populateUniqueFieldsInOrgBasedEntity(Map<String,Object> inputMap ,OrgBasedEntity orgBasedEntity)
+    {
+        orgBasedEntity.setUniqueFieldsFromMap(inputMap);
 
     }
 
@@ -188,6 +221,7 @@ public class GenericValidation {
                                 context.getLocale())));
             }else if(!currentEntity.getBK().equals(orgBasedEntity.getBK())) {
                 TransactionResponse newResponse = bkUniqnessValidation(orgBasedEntity,context);
+                populateBKInOrgBasedEntity(entityMap,orgBasedEntity);
                 if(newResponse.hasHardError()){
                     String key = generalMessages.getMessage(orgBasedEntity.getBKField(),context.getLocale());
                     momentusErrorList.add(new MomentusError(GeneralMessages.KEY_NOT_UNIQUE,
@@ -197,7 +231,13 @@ public class GenericValidation {
                     transactionResponse.setTransactionEntity(currentEntity);
                 }
             }else {
-                transactionResponse.setTransactionEntity(currentEntity);
+                populateUniqueFieldsInOrgBasedEntity(entityMap,orgBasedEntity);
+                TransactionResponse newResponse =  nonBkUniqnessValidation(orgBasedEntity,context);
+                if(newResponse.hasHardError()){
+                    momentusErrorList=newResponse.getMomentusErrorList();
+                }else {
+                    transactionResponse.setTransactionEntity(currentEntity);
+                }
             }
         }
 

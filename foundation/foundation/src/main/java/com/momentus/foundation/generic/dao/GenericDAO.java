@@ -36,7 +36,7 @@ public class GenericDAO {
 
     }
 
-    public <T extends BaseEntity> T loadByBK(Map<String, Object> filter, Class<T> entityClass) {
+    public <T extends BaseEntity> T loadByFilter(Map<String, Object> filter, Class<T> entityClass) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);

@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -58,8 +59,9 @@ public class GenericService {
     {
         bk.put("orgId.id",context.getOrganization().getId());
         if (excludedDeleted) bk.put("deleted",false);
-        OrgBasedEntity currentEntity = (OrgBasedEntity)genericDAO.loadByBK(bk,cls);
-        return  currentEntity;
+        OrgBasedEntity currentEntity = (OrgBasedEntity)genericDAO.loadByFilter(bk,cls);
+
+        return currentEntity;
     }
 
 
@@ -96,13 +98,20 @@ public class GenericService {
         {
             return validationResponse;
         }
-        if (!skipBKValidation)
-        validationResponse = genericValidation.bkUniqnessValidation(entity,context);
+        if (!skipBKValidation) {
+            validationResponse = genericValidation.bkUniqnessValidation(entity, context);
+        }
         if(validationResponse.hasHardError())
         {
             return validationResponse;
         }
-        return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+        if (!skipBKValidation) {
+            validationResponse = genericValidation.nonBkUniqnessValidation(entity, context);
+        }
+        if(validationResponse.hasHardError()) {
+            return validationResponse;
+        }
+            return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
 
     }
 

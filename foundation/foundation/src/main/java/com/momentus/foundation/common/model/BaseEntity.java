@@ -188,4 +188,20 @@ public abstract  class BaseEntity {
         return result;
     }
 
+    @JsonIgnore
+    public  void setUniqueFieldsFromMap(Map<String,Object> mp){
+        Class<?> clazz = this.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            EntityProperties annotation = field.getAnnotation(EntityProperties.class);
+            if (annotation != null && annotation.isUnique()) {
+                field.setAccessible(true);
+                try {
+                    field.set(this,mp.get(field.getName()));
+                }catch (Exception ex) {
+                    log.error("error in  setting BK",ex);
+                }
+            }
+        }
+    }
+
 }
