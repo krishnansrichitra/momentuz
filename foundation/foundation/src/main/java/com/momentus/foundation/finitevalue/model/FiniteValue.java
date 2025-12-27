@@ -1,5 +1,6 @@
 package com.momentus.foundation.finitevalue.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,6 +16,7 @@ public class FiniteValue {
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "group_code" ,referencedColumnName = "group_code")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     FiniteGroup finiteGroup;
 
     public String getFvCode() {

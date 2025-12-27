@@ -190,3 +190,15 @@ insert into finite_value(fv_code,fv_value,group_code) values ('UOM_WGHT','WEIGHT
 insert into finite_value(fv_code,fv_value,group_code) values ('UOM_NOS','NOs','uom_type');
 insert into finite_value(fv_code,fv_value,group_code) values ('UOM_VOLU','Volume','uom_type');
 insert into finite_value(fv_code,fv_value,group_code) values ('UOM_CRTN','Cartons','uom_type');
+
+insert into finite_group(group_code,group_name) values ('item_group','Item Grouo');
+insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_merch','Merchandise Item','item_group');
+insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_raw','Raw Material','item_group');
+insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_inhs','In house Item','item_group');
+
+
+
+insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
+('Supplier','com.momentus.fndclient.supplier.model.Supplier','CBO',1);
+insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
+('Item','com.momentus.fndclient.item.model.Item','CBO',1);

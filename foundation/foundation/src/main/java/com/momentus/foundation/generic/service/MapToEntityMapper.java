@@ -58,8 +58,9 @@ public class MapToEntityMapper {
                     field.set(target,address);
                 } else if (isSimpleType(fieldType)) { // Primitive / simple types
                     field.set(target, convertValue(value, fieldType));
-                }else if (FiniteValue.class.equals(fieldType)) {
-                   FiniteValue finiteValue =  finiteValueService.getFinitieValueByCode(String.valueOf(value));
+                }else if (FiniteValue.class.equals(fieldType) ) {
+                   String fvCode = String.valueOf(((Map) value).get("fvCode"));
+                   FiniteValue finiteValue =  finiteValueService.getFinitieValueByCode(fvCode);
                    field.set(target,finiteValue);
                 } else if (value instanceof Map) {
                     BaseEntity nestedObject = (BaseEntity) field.get(target);

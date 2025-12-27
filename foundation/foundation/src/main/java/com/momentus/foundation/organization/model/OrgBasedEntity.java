@@ -11,6 +11,7 @@ public  class OrgBasedEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "org_id", referencedColumnName = "Id")
+    @JsonIgnore
     Organization orgId;
 
 
