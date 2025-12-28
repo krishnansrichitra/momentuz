@@ -63,21 +63,21 @@ public class MapToEntityMapper {
                    FiniteValue finiteValue =  finiteValueService.getFinitieValueByCode(fvCode);
                    field.set(target,finiteValue);
                 } else if (value instanceof Map) {
-                    BaseEntity nestedObject = (BaseEntity) field.get(target);
-
-                    if (nestedObject == null) {
-                        nestedObject = (BaseEntity)fieldType.getDeclaredConstructor().newInstance();
-                        field.set(target, nestedObject);
-                    }
-
+                    BaseEntity nestedObject = (BaseEntity)fieldType.getDeclaredConstructor().newInstance();
                     populateFromMap((Map<String, Object>) value, nestedObject,context);
                     if (nestedObject.getPK() != null && nestedObject.getVersion() ==null)
                     {
                         nestedObject = loadFullObject(nestedObject);
+                        if (nestedObject == null) {
+                            throw new RuntimeException( " object not found ");
+                        }
                         field.set(target,nestedObject);
 
                     }else if(nestedObject.getPK() == null && nestedObject.getBK() != null && OrgBasedEntity.class.isAssignableFrom(nestedObject.getClass()))  {
                         nestedObject = loadFullObjectByBK((OrgBasedEntity) nestedObject,context);
+                        if (nestedObject == null) {
+                            throw new RuntimeException( " object not found ");
+                        }
                         field.set(target,nestedObject);
                     }
                 }
