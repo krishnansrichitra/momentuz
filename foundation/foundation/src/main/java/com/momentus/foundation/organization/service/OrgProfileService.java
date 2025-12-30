@@ -57,4 +57,10 @@ public class OrgProfileService {
         OrgProfile orgProfile = orgProfileRepository.findById(id).get();
         return  orgProfile;
     }
+
+    public  OrgProfile getProfileForGroup(String profileGroupCode, Long orgId)
+    {
+        OrgProfile orgProfile = orgProfileRepository.findByProfileGroupCodeAndOrgId(profileGroupCode,orgId);
+        return orgProfile;
+    }
 }

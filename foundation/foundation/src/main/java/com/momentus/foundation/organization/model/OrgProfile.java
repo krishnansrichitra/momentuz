@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "org_profile")
-public class OrgProfile  extends OrgBasedEntity {
+public class OrgProfile  extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,9 @@ public class OrgProfile  extends OrgBasedEntity {
     Long id;
 
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "org_id", referencedColumnName = "Id")
+    Organization orgId;
 
 
 
@@ -59,5 +62,11 @@ public class OrgProfile  extends OrgBasedEntity {
     }
 
 
+    public Organization getOrgId() {
+        return orgId;
+    }
 
+    public void setOrgId(Organization orgId) {
+        this.orgId = orgId;
+    }
 }
