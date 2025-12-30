@@ -1,5 +1,6 @@
 package com.momentus.foundation.profile.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
@@ -32,6 +33,7 @@ public class Profile extends BaseEntity {
 
     @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "profile_group_code" , referencedColumnName = "profileGroupCode")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     ProfileGroup profileGroup;
 
     @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")

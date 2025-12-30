@@ -1,5 +1,6 @@
 package com.momentus.foundation.profile.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

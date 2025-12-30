@@ -25,7 +25,7 @@ public class MenuService {
     public MenuSet getMenuSet(ApplicationContext context){
        OrgProfile orgProfile =  orgProfileService.getProfileForGroup("MNU",context.getOrganization().getId());
        if (orgProfile != null) {
-        List<MenuSet> menuSetList=   menuRepository.findByProfileCode(Arrays.asList(orgProfile.getProfile().getProfileCode()));
+        List<MenuSet> menuSetList=   menuRepository.findByProfileCodeIn(Arrays.asList(orgProfile.getProfile().getProfileCode()));
         if (!CollectionUtils.isEmpty(menuSetList)){
             return menuSetList.get(menuSetList.size()-1);
         }

@@ -1,6 +1,7 @@
 package com.momentus.foundation.profile.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
@@ -10,10 +11,11 @@ public class ProfileBasedEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "profile_id", referencedColumnName = "Id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Profile profile;
 
 
-    @Column(unique = true)
+    @Column
     String profileCode;
 
     @Id

@@ -9,7 +9,7 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<MenuSet,Long> {
 
 
-    List<MenuSet> findByProfileCode(Collection<String> profileCodes);
+    List<MenuSet> findByProfileCodeIn(Collection<String> profileCodes);
 
     MenuSet findByProfileId(Long profileId);
 

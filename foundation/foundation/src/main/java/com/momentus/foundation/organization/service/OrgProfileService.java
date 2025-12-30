@@ -60,7 +60,7 @@ public class OrgProfileService {
 
     public  OrgProfile getProfileForGroup(String profileGroupCode, Long orgId)
     {
-        OrgProfile orgProfile = orgProfileRepository.findByProfileGroupCodeAndOrgId(profileGroupCode,orgId);
+        OrgProfile orgProfile = orgProfileRepository.findByProfileGroup_ProfileGroupCodeAndOrgId_Id(profileGroupCode,orgId);
         return orgProfile;
     }
 }

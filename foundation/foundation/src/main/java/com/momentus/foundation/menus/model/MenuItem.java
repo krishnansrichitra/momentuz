@@ -1,5 +1,6 @@
 package com.momentus.foundation.menus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,7 @@ public class MenuItem {
 
     @ManyToOne
     @JoinColumn(name = "menu_group_id" ,referencedColumnName = "id")
+    @JsonIgnore
     MenuGroup menuGroup;
 
     @Column(name = "menu_key")

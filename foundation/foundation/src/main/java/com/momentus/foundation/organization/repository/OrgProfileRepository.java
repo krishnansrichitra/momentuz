@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrgProfileRepository extends JpaRepository<OrgProfile,Long> {
 
-    public OrgProfile findByProfileGroupCodeAndOrgId(String profileGroupCode, Long orgId);
+    public OrgProfile findByProfileGroup_ProfileGroupCodeAndOrgId_Id(String profileGroupCode, Long orgId);
 }
