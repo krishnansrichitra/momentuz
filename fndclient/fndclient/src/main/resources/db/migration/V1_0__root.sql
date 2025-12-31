@@ -144,8 +144,6 @@ last_updated_by varchar(255) DEFAULT NULL,
 foreign key (profile_group_code) references profile_group(profile_group_code)
 );
 
-insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('CBO','Common Business functionalities','seed',now());
-insert into entity (entity_name,full_package,profile_group_code,created_by,created_time) values ('Customer','com.momentus.fndclient.customer.model.Customer', 'CBO','seed',now());
 
 
 create table profile(
@@ -166,11 +164,10 @@ last_updated_by varchar(255) DEFAULT NULL,
  foreign key (profile_group_code) references profile_group(profile_group_code)
 );
 
-insert into profile(id,profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values (1,'BASECBO','Base Profile','BASE','CBO','seed',now());
-insert into profile(id,profile_code,profile_description,parent_profile_code,full_profile_code,profile_group_code,parent_profile_id,created_by,created_time)
-values (2,'IT','IT CBO Profile','BASECBO','BASECBO-IT','CBO',1,'seed',now());
-insert into profile(id,profile_code,profile_description,parent_profile_code,full_profile_code,profile_group_code,parent_profile_id,created_by,created_time)
-values (3,'CONST','Construction CBO Profile','BASECBO','BASECBO-CONST','CBO',1,'seed',now());
+insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
+insert into entity (entity_name,full_package,profile_group_code,created_by,created_time) values ('Customer','com.momentus.fndclient.customer.model.Customer', 'GNL','seed',now());
+insert into profile(id,profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values (1,'ROOT','Base Profile','ROOT','GNL','seed',now());
+
 
 
 create table finite_group(
@@ -199,9 +196,9 @@ insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_inhs','In 
 
 
 insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
-('Supplier','com.momentus.fndclient.supplier.model.Supplier','CBO',1);
+('Supplier','com.momentus.fndclient.supplier.model.Supplier','GNL',1);
 insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
-('Item','com.momentus.fndclient.item.model.Item','CBO',1);
+('Item','com.momentus.fndclient.item.model.Item','GNL',1);
 
 
 
@@ -250,14 +247,59 @@ insert into fndclient.entity(entity_name,full_package,profile_group_code,active)
        references profile (id) ;
 
 
-insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('MNU','User Menu','seed',now());
-insert into profile(id,profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values (4,'BASEMNU','Base Menu','BASEMNU','MNU','seed',now());
 
-insert into menu_set(id,profile_id,profile_code,description) values (1,4,'BASEMNU','Default Menu');
+
+insert into menu_set(id,profile_id,profile_code,description) values (1,1,'ROOT','Default Menu');
 insert into menu_group(id,menu_key,menu_set_id,access_code) values(1,'Master',1,null);
 insert into menu_group(id,menu_key,menu_set_id,access_code) values(2,'Transactions',1,null);
 insert into menu_group(id,menu_key,menu_set_id,access_code) values(3,'Reports',1,null);
 
 
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (1,'suppliers','adm','./general/genricList.html?entity=suppliers',1);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (2,'items','adm','./general/genricList.html?entity=items',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (1,'suppliers','adm','./general/genericList.html?entity=suppliers',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (2,'items','adm','./general/genericList.html?entity=items',1);
+
+
+create table list_metadata (
+        id bigint not null auto_increment,
+        created_by varchar(255),
+        created_time datetime(6),
+        deleted BOOLEAN DEFAULT FALSE,
+        last_updated_by varchar(255),
+        last_updated_time datetime(6),
+        version bigint,
+        profile_code varchar(255),
+        description varchar(255),
+        profile_id bigint not null,
+        primary key (id)
+    ) ;
+
+create table list_columns (
+        id bigint not null,
+        field_key varchar(255),
+        list_metadata_id bigint,
+        primary key (id)
+    ) ;
+
+    create table filter_field (
+            id bigint not null,
+            control varchar(255),
+            field_key varchar(255),
+            list_metadata_id bigint,
+            primary key (id)
+        ) ;
+
+alter table list_metadata
+       add constraint FKmvjb81uqom19b0ugawohdhlph
+       foreign key (profile_id)
+       references profile (id);
+
+
+alter table list_columns
+      add constraint FKfsbbi7kn7xc5eijun59n4oje6
+      foreign key (list_metadata_id)
+      references list_metadata (id);
+
+  alter table filter_field
+         add constraint FKmv2aqkv45d1ke2mytuu51stto
+         foreign key (list_metadata_id)
+         references list_metadata (id);
