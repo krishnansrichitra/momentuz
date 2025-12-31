@@ -19,6 +19,7 @@ function login() {
         // Save JWT locally
         localStorage.setItem("jwtToken", token);
 
+
         // Redirect after login
         window.location.href = "landing.html";
     })
