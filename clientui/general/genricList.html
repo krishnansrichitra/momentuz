@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer List</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+
+</style>
+
+    <link rel="stylesheet" href="../styles/common-list.css">
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+ <script src="../scripts/axios-config.js"></script>
+    <script src="../scripts/listpage.js"></script>
+
+
+</head>
+
+
+<body class="bg-light">
+
+<div class="container-fluid p-4">
+
+    <!-- FILTER PANEL -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Filter</h5>
+
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label">Name</label>
+                    <input type="text" id="filterName" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" id="filterPhone" class="form-control">
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" onclick="applyFilter()">
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIST TABLE -->
+    <div class="card">
+        <div class="card-body">
+
+            <table class="table table-bordered custom-table  align-middle table-hover">
+            <thead class="table-light">
+            <tr>
+                <th>Select</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Phone</th>
+            </tr>
+            </thead>
+
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input">
+                        <input type="hidden" value="101">
+                    </td>
+                    <td>John Doe</td>
+                    <td>123 Main Street</td>
+                    <td>New York</td>
+                    <td>NY</td>
+                    <td>+1-555-123-4567</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input">
+                        <input type="hidden" value="102">
+                    </td>
+                    <td>Jane Smith</td>
+                    <td>456 Elm Avenue</td>
+                    <td>San Francisco</td>
+                    <td>CA</td>
+                    <td>+1-555-987-6543</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    loadData();
+</script>
+
+
+
+</body>
+</html>
