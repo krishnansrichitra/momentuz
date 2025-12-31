@@ -15,7 +15,8 @@ public class MessageSourceConfig {
         source.setBasenames(
                 "FoundErrorMessages",
                 "AppError",
-                "Labels"
+                "Labels",
+                "Menus"
         );
         source.setDefaultEncoding("UTF-8");
         return source;
