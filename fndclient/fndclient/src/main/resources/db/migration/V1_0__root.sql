@@ -318,10 +318,15 @@ insert into list_metadata(id,profile_id,profile_code,entity) values(1,1,'ROOT','
 insert into list_metadata(id,profile_id,profile_code,entity) values(2,1,'ROOT','Item');
 insert into list_metadata(id,profile_id,profile_code,entity) values(3,1,'ROOT','Customer');
 
-insert into filter_field(id,list_metadata_id,control,field_key) values(1,1,'supplierName','text');
-insert into filter_field(id,list_metadata_id,control,field_key) values(2,1,'phoneNumber','text');
+insert into filter_field(id,list_metadata_id,field_key,control) values(1,1,'supplierName','text');
+insert into filter_field(id,list_metadata_id,field_key,control) values(2,1,'phoneNumber','text');
+
+insert into list_columns(id,list_metadata_id,field_key) values (1,1,'supplierName');
+insert into list_columns(id,list_metadata_id,field_key) values (2,1,'address1');
+
 
 
 insert into filter_field(id,list_metadata_id,field_key,control) values(3,2,'itemName','text');
 insert into filter_field(id,list_metadata_id,field_key,control,param) values(4,2,'supplierName','lookup','supplier');
 insert into filter_field(id,list_metadata_id,field_key,control,param) values(5,2,'itemGroup','dropdown','fv::item_group');
+

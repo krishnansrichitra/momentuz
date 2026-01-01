@@ -1,5 +1,6 @@
 package com.momentus.foundation.ui.metadata.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,6 +12,7 @@ public class FilterField {
 
     @ManyToOne()
     @JoinColumn(name = "list_metadata_id" , referencedColumnName = "id" ,nullable = true)
+    @JsonIgnore
     ListMetadata listMetadata;
 
     String fieldKey;

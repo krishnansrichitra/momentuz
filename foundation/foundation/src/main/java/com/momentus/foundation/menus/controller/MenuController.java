@@ -30,9 +30,8 @@ public class MenuController {
     public ResponseEntity<MenuSetDTO> getMenus(Authentication authentication)
     {
         ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
-        MenuSet set = menuService.getMenuSet(context);
-        MenuSetDTO menuSetDTO = menuDTOHelper.makeDTO(set,context.getLocale());
-        return ResponseEntity.ok(menuSetDTO);
+        MenuSetDTO set = menuService.getMenuSet(context.getOrganization().getId(),context.getLocale());
+        return ResponseEntity.ok(set);
 
     }
 }
