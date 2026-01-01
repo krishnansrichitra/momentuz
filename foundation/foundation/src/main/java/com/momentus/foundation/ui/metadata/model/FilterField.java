@@ -15,12 +15,18 @@ public class FilterField {
     @JsonIgnore
     ListMetadata listMetadata;
 
+    @Column
     String fieldKey;
 
+    @Column
     String control;
 
-
+    @Column
     String param;
+
+    @Column
+    String accessor;
+
 
     public ListMetadata getListMetadata() {
         return listMetadata;
@@ -60,5 +66,13 @@ public class FilterField {
 
     public void setParam(String param) {
         this.param = param;
+    }
+
+    public String getAccessor() {
+        return accessor;
+    }
+
+    public void setAccessor(String accessor) {
+        this.accessor = accessor;
     }
 }

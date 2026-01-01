@@ -261,6 +261,7 @@ create table list_metadata (
 create table list_columns (
         id bigint not null,
         field_key varchar(255),
+        accessor varchar(255),
         list_metadata_id bigint,
         primary key (id)
     ) ;
@@ -270,6 +271,7 @@ create table list_columns (
             control varchar(255),
             field_key varchar(255),
             param varchar(255),
+            accessor varchar(255),
             list_metadata_id bigint,
             primary key (id)
         ) ;
@@ -318,15 +320,26 @@ insert into list_metadata(id,profile_id,profile_code,entity) values(1,1,'ROOT','
 insert into list_metadata(id,profile_id,profile_code,entity) values(2,1,'ROOT','Item');
 insert into list_metadata(id,profile_id,profile_code,entity) values(3,1,'ROOT','Customer');
 
-insert into filter_field(id,list_metadata_id,field_key,control) values(1,1,'supplierName','text');
-insert into filter_field(id,list_metadata_id,field_key,control) values(2,1,'phoneNumber','text');
+insert into filter_field(id,list_metadata_id,field_key,control,accessor) values(1,1,'supplierName','text','supplierName');
+insert into filter_field(id,list_metadata_id,field_key,control,accessor) values(2,1,'phoneNumber','text','address["phoneNumber"]');
+insert into filter_field(id,list_metadata_id,field_key,control,accessor) values(3,1,'city','text','address["city"]');
 
-insert into list_columns(id,list_metadata_id,field_key) values (1,1,'supplierName');
-insert into list_columns(id,list_metadata_id,field_key) values (2,1,'address1');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (1,1,'supplierName','supplierName');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (2,1,'phoneNumber','address["phoneNumber"]');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (3,1,'city','address["city"]');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (4,1,'state','address["state"]');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (5,1,'zipCode','address["zipCode"]');
 
 
 
-insert into filter_field(id,list_metadata_id,field_key,control) values(3,2,'itemName','text');
-insert into filter_field(id,list_metadata_id,field_key,control,param) values(4,2,'supplierName','lookup','supplier');
-insert into filter_field(id,list_metadata_id,field_key,control,param) values(5,2,'itemGroup','dropdown','fv::item_group');
 
+insert into filter_field(id,list_metadata_id,field_key,control,accessor) values(4,2,'itemName','text','itemName');
+insert into filter_field(id,list_metadata_id,field_key,control,param,accessor) values(5,2,'supplierName','lookup','supplier','supplier["supplierName"]');
+insert into filter_field(id,list_metadata_id,field_key,control,param,accessor) values(6,2,'itemGroup','dropdown','fv::item_group','itemGroup["fvValue"]');
+
+
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (6,2,'itemName','itemName');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (7,2,'supplierName','supplier["supplierName"]');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (8,2,'itemGroup','itemGroup["fvValue"]');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (9,2,'uomType','uomType["fvValue"]');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (10,2,'phoneNumber','supplier.address.phoneNumber');

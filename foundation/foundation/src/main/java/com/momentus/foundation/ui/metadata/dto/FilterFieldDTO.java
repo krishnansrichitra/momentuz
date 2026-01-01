@@ -10,6 +10,8 @@ public class FilterFieldDTO {
 
     String param;
 
+    String accessor;
+
     public String getFieldKey() {
         return fieldKey;
     }
@@ -45,10 +47,19 @@ public class FilterFieldDTO {
     public FilterFieldDTO() {
     }
 
-    public FilterFieldDTO(String fieldKey, String fieldLabel, String control, String param) {
+    public FilterFieldDTO(String fieldKey, String fieldLabel, String control, String param,String accessor) {
         this.fieldKey = fieldKey;
         this.fieldLabel = fieldLabel;
         this.control = control;
         this.param = param;
+        this.accessor = accessor;
+    }
+
+    public String getAccessor() {
+        return accessor;
+    }
+
+    public void setAccessor(String accessor) {
+        this.accessor = accessor;
     }
 }

@@ -26,7 +26,7 @@ public class MetadataDTOHelper {
                  List<ListColumnDTO> listColumnDTOS = new ArrayList<>();
                  for (ListColumn listColumn : listMetadata.getListColumns()) {
                      ListColumnDTO listColumnDTO = new ListColumnDTO(listColumn.getFieldKey(),
-                             generalMessages.getMessage(listColumn.getFieldKey(), locale));
+                             generalMessages.getMessage(listColumn.getFieldKey(), locale),listColumn.getAccessor());
                      listColumnDTOS.add(listColumnDTO);
                  }
                  listMetadataDTO.setListColumns(listColumnDTOS);
@@ -35,7 +35,8 @@ public class MetadataDTOHelper {
                  List<FilterFieldDTO> filterFieldDTOS = new ArrayList<>();
                  for(FilterField filterField : listMetadata.getFilterFields()){
                      FilterFieldDTO filterFieldDTO =new FilterFieldDTO(filterField.getFieldKey(),
-                             generalMessages.getMessage(filterField.getFieldKey(), locale), filterField.getControl(), filterField.getParam());
+                             generalMessages.getMessage(filterField.getFieldKey(), locale), filterField.getControl(), filterField.getParam(),
+                             filterField.getAccessor());
                      filterFieldDTOS.add(filterFieldDTO);
                  }
                  listMetadataDTO.setFilterFields(filterFieldDTOS);

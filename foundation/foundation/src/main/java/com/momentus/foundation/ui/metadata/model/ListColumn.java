@@ -14,7 +14,11 @@ public class ListColumn {
     @JsonIgnore
     ListMetadata listMetadata;
 
+    @Column
     String fieldKey;
+
+    @Column
+    String accessor;
 
     public ListMetadata getListMetadata() {
         return listMetadata;
@@ -38,5 +42,13 @@ public class ListColumn {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAccessor() {
+        return accessor;
+    }
+
+    public void setAccessor(String accessor) {
+        this.accessor = accessor;
     }
 }

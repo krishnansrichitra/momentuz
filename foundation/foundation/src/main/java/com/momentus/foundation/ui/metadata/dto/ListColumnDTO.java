@@ -6,6 +6,8 @@ public class ListColumnDTO {
 
     String fieldLabel;
 
+    String accessor;
+
     public String getFieldkey() {
         return fieldkey;
     }
@@ -25,8 +27,17 @@ public class ListColumnDTO {
     public ListColumnDTO() {
     }
 
-    public ListColumnDTO(String fieldkey, String fieldLabel) {
+    public ListColumnDTO(String fieldkey, String fieldLabel,String accessor) {
         this.fieldkey = fieldkey;
         this.fieldLabel = fieldLabel;
+        this.accessor = accessor;
+    }
+
+    public String getAccessor() {
+        return accessor;
+    }
+
+    public void setAccessor(String accessor) {
+        this.accessor = accessor;
     }
 }
