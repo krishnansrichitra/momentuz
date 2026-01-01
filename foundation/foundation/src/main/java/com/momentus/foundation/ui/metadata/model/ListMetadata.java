@@ -23,6 +23,9 @@ public class ListMetadata extends ProfileBasedEntity {
     List<ListColumn> listColumns;
 
 
+    @Column
+    String entity;
+
     public String getDescription() {
         return description;
     }
@@ -37,6 +40,22 @@ public class ListMetadata extends ProfileBasedEntity {
 
     public void setFilterFields(List<FilterField> filterFields) {
         this.filterFields = filterFields;
+    }
+
+    public List<ListColumn> getListColumns() {
+        return listColumns;
+    }
+
+    public void setListColumns(List<ListColumn> listColumns) {
+        this.listColumns = listColumns;
+    }
+
+    public String getEntity() {
+        return entity;
+    }
+
+    public void setEntity(String entity) {
+        this.entity = entity;
     }
 }
 

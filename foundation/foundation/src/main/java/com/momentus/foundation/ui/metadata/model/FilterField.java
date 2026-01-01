@@ -17,6 +17,9 @@ public class FilterField {
 
     String control;
 
+
+    String param;
+
     public ListMetadata getListMetadata() {
         return listMetadata;
     }
@@ -47,5 +50,13 @@ public class FilterField {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getParam() {
+        return param;
+    }
+
+    public void setParam(String param) {
+        this.param = param;
     }
 }

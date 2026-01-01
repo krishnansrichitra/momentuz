@@ -164,9 +164,6 @@ last_updated_by varchar(255) DEFAULT NULL,
  foreign key (profile_group_code) references profile_group(profile_group_code)
 );
 
-insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
-insert into entity (entity_name,full_package,profile_group_code,created_by,created_time) values ('Customer','com.momentus.fndclient.customer.model.Customer', 'GNL','seed',now());
-insert into profile(id,profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values (1,'ROOT','Base Profile','ROOT','GNL','seed',now());
 
 
 
@@ -188,17 +185,12 @@ insert into finite_value(fv_code,fv_value,group_code) values ('UOM_NOS','NOs','u
 insert into finite_value(fv_code,fv_value,group_code) values ('UOM_VOLU','Volume','uom_type');
 insert into finite_value(fv_code,fv_value,group_code) values ('UOM_CRTN','Cartons','uom_type');
 
-insert into finite_group(group_code,group_name) values ('item_group','Item Grouo');
+insert into finite_group(group_code,group_name) values ('item_group','Item Group');
 insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_merch','Merchandise Item','item_group');
 insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_raw','Raw Material','item_group');
 insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_inhs','In house Item','item_group');
 
 
-
-insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
-('Supplier','com.momentus.fndclient.supplier.model.Supplier','GNL',1);
-insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
-('Item','com.momentus.fndclient.item.model.Item','GNL',1);
 
 
 
@@ -249,14 +241,6 @@ insert into fndclient.entity(entity_name,full_package,profile_group_code,active)
 
 
 
-insert into menu_set(id,profile_id,profile_code,description) values (1,1,'ROOT','Default Menu');
-insert into menu_group(id,menu_key,menu_set_id,access_code) values(1,'Master',1,null);
-insert into menu_group(id,menu_key,menu_set_id,access_code) values(2,'Transactions',1,null);
-insert into menu_group(id,menu_key,menu_set_id,access_code) values(3,'Reports',1,null);
-
-
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (1,'suppliers','adm','./general/genericList.html?entity=suppliers',1);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (2,'items','adm','./general/genericList.html?entity=items',1);
 
 
 create table list_metadata (
@@ -269,6 +253,7 @@ create table list_metadata (
         version bigint,
         profile_code varchar(255),
         description varchar(255),
+        entity varchar(255),
         profile_id bigint not null,
         primary key (id)
     ) ;
@@ -284,6 +269,7 @@ create table list_columns (
             id bigint not null,
             control varchar(255),
             field_key varchar(255),
+            param varchar(255),
             list_metadata_id bigint,
             primary key (id)
         ) ;
@@ -303,3 +289,39 @@ alter table list_columns
          add constraint FKmv2aqkv45d1ke2mytuu51stto
          foreign key (list_metadata_id)
          references list_metadata (id);
+
+
+insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
+insert into profile(id,profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values (1,'ROOT','Base Profile','ROOT','GNL','seed',now());
+
+
+
+insert into entity (entity_name,full_package,profile_group_code,created_by,created_time)
+values ('Customer','com.momentus.fndclient.customer.model.Customer', 'GNL','seed',now());
+insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
+('Supplier','com.momentus.fndclient.supplier.model.Supplier','GNL',1);
+insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
+('Item','com.momentus.fndclient.item.model.Item','GNL',1);
+
+
+insert into menu_set(id,profile_id,profile_code,description) values (1,1,'ROOT','Default Menu');
+insert into menu_group(id,menu_key,menu_set_id,access_code) values(1,'Master',1,null);
+insert into menu_group(id,menu_key,menu_set_id,access_code) values(2,'Transactions',1,null);
+insert into menu_group(id,menu_key,menu_set_id,access_code) values(3,'Reports',1,null);
+
+
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (1,'suppliers','adm','./general/genericList.html?entity=suppliers',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (2,'items','adm','./general/genericList.html?entity=items',1);
+
+
+insert into list_metadata(id,profile_id,profile_code,entity) values(1,1,'ROOT','Supplier');
+insert into list_metadata(id,profile_id,profile_code,entity) values(2,1,'ROOT','Item');
+insert into list_metadata(id,profile_id,profile_code,entity) values(3,1,'ROOT','Customer');
+
+insert into filter_field(id,list_metadata_id,control,field_key) values(1,1,'supplierName','text');
+insert into filter_field(id,list_metadata_id,control,field_key) values(2,1,'phoneNumber','text');
+
+
+insert into filter_field(id,list_metadata_id,field_key,control) values(3,2,'itemName','text');
+insert into filter_field(id,list_metadata_id,field_key,control,param) values(4,2,'supplierName','lookup','supplier');
+insert into filter_field(id,list_metadata_id,field_key,control,param) values(5,2,'itemGroup','dropdown','fv::item_group');
