@@ -8,6 +8,8 @@
 
 
 
+
+
     function loadData() {
     const url = "http://localhost:8080/api/generic/listRecords"
         + "?entityType=Supplier"
@@ -52,13 +54,17 @@
   console.log(filterFields);
   container.innerHTML = ""; // clear previous content
 
+  const row = document.createElement("div");
+  row.className = "row g-3"; 
+
   filterFields.forEach(field => {
     const wrapper = document.createElement("div");
-    wrapper.className = "filter-field";
+    wrapper.className = "col-12 col-md-3";
 
-    const label = document.createElement("label");
+    /*const label = document.createElement("label");
+    label.className="form-label";
     label.innerText = field.fieldLabel;
-    label.htmlFor = field.fieldKey;
+    label.htmlFor = field.fieldKey; */
 
     let control;
     console.log(field);
@@ -66,20 +72,39 @@
       case "text":
         control = document.createElement("input");
         control.type = "text";
+        control.className="form-control";
+        control.placeholder = field.fieldLabel;
         control.id = field.fieldKey;
         break;
 
       case "dropdown":
         control = document.createElement("select");
         control.id = field.fieldKey;
-        control.dataset.param = field.param; // e.g. fv::item_group
+        control.className = "form-control";
+        control.dataset.param = field.param;
+        control.multiple=false;
+
+        // Default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "-1";
+        defaultOption.text = field.fieldLabel;
+        defaultOption.disabled = false;   // optional (recommended)
+        defaultOption.selected = true;
+
+        const secOption = document.createElement("option");
+        secOption.value = "0";
+        secOption.text = "test"
+
+        control.appendChild(defaultOption); // e.g. fv::item_group
+        control.appendChild(secOption);
         break;
 
       case "lookup":
         control = document.createElement("input");
         control.type = "text";
         control.id = field.fieldKey;
-        control.placeholder = "Search...";
+        control.placeholder = field.fieldLabel;
+        control.className="form-control";
         control.dataset.lookup = field.param; // e.g. supplier
         break;
 
@@ -88,8 +113,39 @@
         return;
     }
 
-    wrapper.appendChild(label);
+   // wrapper.appendChild(label);
     wrapper.appendChild(control);
-    container.appendChild(wrapper);
+    row.appendChild(wrapper);
   });
+   
+// apply button
+  {
+    const wrapper = document.createElement("div");
+    wrapper.className = "col-md-3";
+
+
+    let control;
+    control = document.createElement("button");
+    control.className =" btn btn-primary w-40" ;
+    control.onclick="applyFilter()" ;
+    control.innerHTML="Apply";
+
+
+    let control2;
+    control2 = document.createElement("button");
+    control2.className =" btn btn-info w-40" ;
+    control2.onclick="clearFilter()" ;
+    control2.innerHTML="Clear";
+  
+     wrapper.appendChild(control);
+     wrapper.appendChild(document.createTextNode("\u00A0\u00A0"));
+
+     wrapper.appendChild(control2);
+
+    row.appendChild(wrapper);
+  }
+
+  container.appendChild(row);
 }
+
+

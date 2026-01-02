@@ -29,26 +29,42 @@
 
 <div class="container-fluid p-4">
 
+    
+
     <!-- FILTER PANEL -->
     <div class="card mb-4">
-        <div class="card-body" id="filter-container">
-            <h5 class="card-title mb-3">Filter</h5>
+            <div class="card-header d-flex align-items-center">
+                <button
+                    class="btn btn-sm btn-outline-secondary me-2"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#filterPanel"
+                    aria-expanded="true"
+                    aria-controls="filterPanel"
+                    id="filterToggleBtn"
+                >
+                    <span id="filterToggleIcon">−</span>
+                </button>
 
-            <div class="row g-3 align-items-end">
-                <!-- <div class="col-md-4">
-                    <label class="form-label">Name</label>
-                    <input type="text" id="filterName" class="form-control">
-                </div>
+                <h5 class="mb-0">Filter</h5>
+        </div>
+        <!-- Collapsible Body -->
+        <div class="collapse show" id="filterPanel"> 
+            <div class="card-body" id="filter-container">
+                <h5 class="card-title mb-3">Filter</h5>
 
-                <div class="col-md-4">
-                    <label class="form-label">Phone Number</label>
-                    <input type="text" id="filterPhone" class="form-control">
-                </div>-->
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label">Name</label>
+                        <input type="text" id="filterName" class="form-control">
+                    </div>
 
-                <div class="col-md-2">
-                    <button class="btn btn-primary w-100" onclick="applyFilter()">
-                        Apply
-                    </button>
+                    <div class="col-md-4">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" id="filterPhone" class="form-control">
+                    </div>
+
+                    
                 </div>
             </div>
         </div>
@@ -110,6 +126,18 @@
     loadData();
 </script>
 
+    <script>
+  const filterPanel = document.getElementById("filterPanel");
+  const icon = document.getElementById("filterToggleIcon");
+
+  filterPanel.addEventListener("shown.bs.collapse", () => {
+    icon.textContent = "−";
+  });
+
+  filterPanel.addEventListener("hidden.bs.collapse", () => {
+    icon.textContent = "+";
+  });
+</script>
 
 
 </body>
