@@ -1,4 +1,19 @@
-    function applyFilter() {
+const iframeLocation = window.location;
+
+// Query params from iframe URL
+const params = new URLSearchParams(iframeLocation.search);
+
+const entity = params.get("entity");
+
+// Base URL (protocol + host + port)
+const urlPrefix = (iframeLocation.origin + "/").replace("5500","8080");
+
+console.log(entity);    // Item
+console.log(urlPrefix); // http://localhost:8080/
+
+
+
+function applyFilter() {
         const name = document.getElementById("filterName").value;
         const phone = document.getElementById("filterPhone").value;
 
@@ -12,8 +27,8 @@
 
     async function loadData() {
   const url =
-    "http://localhost:8080/api/generic/listRecords" +
-    "?entityType=Item" +
+    urlPrefix +"api/generic/listRecords" +
+    "?entityType=" + entity +
     "&limit=20" +
     "&offset=0";
 
@@ -54,8 +69,8 @@ function getValueByAccessor(row, accessor) {
 
 async function loadMetadata() {
   const url =
-    "http://localhost:8080/api/metadata/getListMetadata" +
-    "?entity=Item";
+    urlPrefix + "api/metadata/getListMetadata" +
+    "?entity="+entity;
 
   try {
     const response = await axios.get(url);
