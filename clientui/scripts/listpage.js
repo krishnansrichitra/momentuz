@@ -4,6 +4,10 @@ const iframeLocation = window.location;
 const params = new URLSearchParams(iframeLocation.search);
 
 const entity = params.get("entity");
+const PAGE_SIZE = 10;
+let listColumns = [];
+let currentPage = 1;
+
 
 // Base URL (protocol + host + port)
 const urlPrefix = (iframeLocation.origin + "/").replace("5500","8080");
@@ -25,12 +29,12 @@ function applyFilter() {
 
 
 
-    async function loadData() {
+    async function loadData(offset) {
   const url =
     urlPrefix +"api/generic/listRecords" +
     "?entityType=" + entity +
-    "&limit=20" +
-    "&offset=0";
+    "&limit=" + PAGE_SIZE +
+    "&offset=" + offset;
 
   try {
     const response = await axios.post(url, {});
@@ -79,14 +83,15 @@ async function loadMetadata() {
     const listMetadata = new ListMetadata(response.data);
     renderFilterFields(listMetadata.filterFields, "filter-container");
 
-    const fullData = await loadData();   // ✅ works
+    const fullData = await loadData(0);   // ✅ works
     console.log("fullData =", fullData);
-
+    listColumns = listMetadata.listColumns;
     renderListTitles(
-      listMetadata.listColumns,
+      listColumns,
       "tbl-listcontent",
       fullData
     );
+       renderPagination();
 
   } catch (error) {
     console.error("Error loading metadata or list:", error);
@@ -238,3 +243,109 @@ async function loadMetadata() {
 }
 
 
+  
+
+  async function renderPagination() {
+  const totalCount = await getTotalCt();
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+  const pagination = document.getElementById("pagination-container");
+  const info = document.getElementById("pagination-info");
+
+  pagination.innerHTML = "";
+
+  // Info text
+  const start = (currentPage - 1) * PAGE_SIZE + 1;
+  const end = Math.min(currentPage * PAGE_SIZE, totalCount);
+  info.textContent = `Showing ${start}-${end} of ${totalCount}`;
+
+  /* ---------- Previous ---------- */
+  pagination.appendChild(
+    createPageItem(
+      "Previous",
+      currentPage - 1,
+      currentPage === 1
+    )
+  );
+
+  /* ---------- Page Numbers ---------- */
+  for (let page = 1; page <= totalPages; page++) {
+    pagination.appendChild(
+      createPageItem(
+        page,
+        page,
+        false,
+        page === currentPage
+      )
+    );
+  }
+
+  /* ---------- Next ---------- */
+  pagination.appendChild(
+    createPageItem(
+      "Next",
+      currentPage + 1,
+      currentPage === totalPages
+    )
+  );
+}
+
+
+ function createPageItem(label, page, disabled = false, active = false) {
+  const li = document.createElement("li");
+  li.className = "page-item";
+
+  if (disabled) li.classList.add("disabled");
+  if (active) li.classList.add("active");
+
+  const a = document.createElement("a");
+  a.className = "page-link";
+  a.href = "#";
+  a.innerText = label;
+
+  a.addEventListener("click", e => {
+    e.preventDefault();
+    if (disabled || active) return;
+
+    currentPage = page;
+
+    const offset = (currentPage - 1) * PAGE_SIZE;
+    onPageChange(offset, PAGE_SIZE);
+
+    renderPagination();
+  });
+
+  li.appendChild(a);
+  return li;
+}
+
+
+  async function onPageChange(offset, limit) {
+    console.log("Pagination clicked → offset:", offset, "limit:", limit);
+     const fullData = await loadData(offset); 
+     console.log(fullData);
+     renderListTitles(
+      listColumns,
+      "tbl-listcontent",
+      fullData
+    );
+
+    // Placeholder: call your API here
+    // loadData(offset, limit);
+  }
+
+  async function getTotalCt() {
+
+      const url =
+    urlPrefix +"api/generic/getRecordCount" +
+    "?entityType=" + entity 
+
+  try {
+    const response = await axios.post(url, {});
+    console.log("list response:", response.data);
+    return response.data['count']; 
+  } catch (error) {
+    console.error("Error loading supplier list:", error);
+    throw error; // important
+  }
+  }
