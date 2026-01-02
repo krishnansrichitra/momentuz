@@ -10,48 +10,122 @@
 
 
 
-    function loadData() {
-    const url = "http://localhost:8080/api/generic/listRecords"
-        + "?entityType=Supplier"
-        + "&limit=20"
-        + "&offset=0";
+    async function loadData() {
+  const url =
+    "http://localhost:8080/api/generic/listRecords" +
+    "?entityType=Item" +
+    "&limit=20" +
+    "&offset=0";
 
-    axios.post(url, {})
-        .then(response => {
-            console.log("Supplier list response:", response.data);
-        })
-        .catch(error => {
-            console.error("Error loading supplier list:", error);
-        });
+  try {
+    const response = await axios.post(url, {});
+    console.log("list response:", response.data);
+    return response.data; // ✅ returned Promise resolves here
+  } catch (error) {
+    console.error("Error loading supplier list:", error);
+    throw error; // important
   }
-
-  function loadMetadata(){
-    const url = "http://localhost:8080/api/metadata/getListMetadata"
-        + "?entity=Item";
+}
 
 
-    axios.get(url, {})
-        .then(response => {
-            console.log(" metadata response:", response.data);
-             const listMetadata = new ListMetadata(response.data);
-            renderFilterFields(listMetadata.filterFields, "filter-container");
+function getValueByAccessor(row, accessor) {
+  if (!row || !accessor) return null;
 
-        })
-        .catch(error => {
-            console.error("Error loading supplier list:", error);
+  try {
+    // Convert bracket notation to dot notation
+    // supplier["supplierName"] -> supplier.supplierName
+    // itemGroup["fvValue"] -> itemGroup.fvValue
+    const normalizedAccessor = accessor
+      .replace(/\["([^"]+)"\]/g, ".$1")
+      .replace(/\['([^']+)'\]/g, ".$1");
+
+    return normalizedAccessor
+      .split(".")
+      .reduce((obj, key) => {
+        return obj && obj[key] !== undefined ? obj[key] : null;
+      }, row);
+
+  } catch (e) {
+    console.error("Invalid accessor:", accessor, e);
+    return null;
+  }
+}
+
+
+async function loadMetadata() {
+  const url =
+    "http://localhost:8080/api/metadata/getListMetadata" +
+    "?entity=Item";
+
+  try {
+    const response = await axios.get(url);
+    console.log("metadata response:", response.data);
+
+    const listMetadata = new ListMetadata(response.data);
+    renderFilterFields(listMetadata.filterFields, "filter-container");
+
+    const fullData = await loadData();   // ✅ works
+    console.log("fullData =", fullData);
+
+    renderListTitles(
+      listMetadata.listColumns,
+      "tbl-listcontent",
+      fullData
+    );
+
+  } catch (error) {
+    console.error("Error loading metadata or list:", error);
+  }
+}
+
+
+
+
+
+
+  function renderListTitles(listColumns,containerId,fullData)
+  {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.log(" no contaioner");
+        return;
+    }
+      container.innerHTML = ""; 
+      const theadcontent = document.createElement("thead");
+      theadcontent.className="table-light";
+      let innerCnt = "<tr><th>Select</th>" ;
+      listColumns.forEach(field=>{
+      innerCnt+='<th>' + field.fieldLabel +'</th>';
+      });
+      innerCnt+='</tr>';
+      theadcontent.innerHTML=innerCnt;
+      container.appendChild(theadcontent);
+     
+      const tbodyContent = document.createElement("tbody");
+
+      fullData.forEach( rowData => {
+        const trowContent = document.createElement("tr")
+        let innerrow = '<td><input type="checkbox" class="form-check-input">';
+        innerrow+= '<input type="hidden" value="' + rowData['id'] +'"></td>';
+          listColumns.forEach(field => {
+            const value = getValueByAccessor(rowData, field.accessor);
+            innerrow += `<td>${value ?? ''}</td>`;
         });
+        trowContent.innerHTML = innerrow;
+        tbodyContent.appendChild(trowContent);
+      });
+      container.appendChild(tbodyContent);
+
 
   }
-
 
 
   function renderFilterFields(filterFields, containerId) {
   const container = document.getElementById(containerId);
   if (!container) {
     console.log(" no contaioner")
-;    return;
+    return;
   }
-  console.log(filterFields);
   container.innerHTML = ""; // clear previous content
 
   const row = document.createElement("div");
