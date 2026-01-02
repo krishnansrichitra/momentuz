@@ -27,3 +27,12 @@
     .custom-table tbody tr:hover td {
         background-color: #e7f1ff !important;
     }
+
+.filter-field {
+  margin-bottom: 12px;
+}
+.filter-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+}

@@ -22,3 +22,74 @@
             console.error("Error loading supplier list:", error);
         });
   }
+
+  function loadMetadata(){
+    const url = "http://localhost:8080/api/metadata/getListMetadata"
+        + "?entity=Item";
+
+
+    axios.get(url, {})
+        .then(response => {
+            console.log(" metadata response:", response.data);
+             const listMetadata = new ListMetadata(response.data);
+            renderFilterFields(listMetadata.filterFields, "filter-container");
+
+        })
+        .catch(error => {
+            console.error("Error loading supplier list:", error);
+        });
+
+  }
+
+
+
+  function renderFilterFields(filterFields, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) {
+    console.log(" no contaioner")
+;    return;
+  }
+  console.log(filterFields);
+  container.innerHTML = ""; // clear previous content
+
+  filterFields.forEach(field => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "filter-field";
+
+    const label = document.createElement("label");
+    label.innerText = field.fieldLabel;
+    label.htmlFor = field.fieldKey;
+
+    let control;
+    console.log(field);
+    switch (field.control) {
+      case "text":
+        control = document.createElement("input");
+        control.type = "text";
+        control.id = field.fieldKey;
+        break;
+
+      case "dropdown":
+        control = document.createElement("select");
+        control.id = field.fieldKey;
+        control.dataset.param = field.param; // e.g. fv::item_group
+        break;
+
+      case "lookup":
+        control = document.createElement("input");
+        control.type = "text";
+        control.id = field.fieldKey;
+        control.placeholder = "Search...";
+        control.dataset.lookup = field.param; // e.g. supplier
+        break;
+
+      default:
+        console.warn("Unsupported control:", field.control);
+        return;
+    }
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(control);
+    container.appendChild(wrapper);
+  });
+}
