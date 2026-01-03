@@ -7,6 +7,7 @@ const entity = params.get("entity");
 const PAGE_SIZE = 10;
 let listColumns = [];
 let currentPage = 1;
+let filterFields =[]
 
 
 // Base URL (protocol + host + port)
@@ -16,13 +17,56 @@ console.log(entity);    // Item
 console.log(urlPrefix); // http://localhost:8080/
 
 
+function getFilter()
+{
 
-function applyFilter() {
-        const name = document.getElementById("filterName").value;
-        const phone = document.getElementById("filterPhone").value;
+    let filterData = {};
+    filterFields.forEach ( filterField =>  { 
+       let selValue =  document.getElementById(filterField.fieldKey).value;
+       if (selValue != '' && selValue != null) {
+          if (selValue != '-1' ||  filterField.control != 'dropdown')
+             filterData[normalizeAccessor(filterField.accessor)] = selValue ;
+       } 
 
-        console.log("Filter applied:", { name, phone });
+    });
+    return filterData;
+
+
+}
+
+
+async function clearFilter() {
+   
+    console.log('clearing all filter');
+    filterFields.forEach ( filterField =>  { 
+          if (filterField.control == 'dropdown')
+             document.getElementById(filterField.fieldKey).value= '-1' ;
+          else
+            document.getElementById(filterField.fieldKey).value = '';
+
+    });
         // TODO: implement filtering logic or backend call
+    const fullData = await loadData(0);   // ✅ works
+    renderListTitles(
+      listColumns,
+      "tbl-listcontent",
+      fullData
+    );
+       renderPagination();
+    }
+
+
+async function applyFilter() {
+ 
+        // TODO: implement filtering logic or backend call
+    const fullData = await loadData(0);   // ✅ works
+    console.log("fullData After Filter =", fullData);
+    renderListTitles(
+      listColumns,
+      "tbl-listcontent",
+      fullData
+    );
+       renderPagination();
     }
 
 
@@ -37,13 +81,40 @@ function applyFilter() {
     "&offset=" + offset;
 
   try {
-    const response = await axios.post(url, {});
+    console.log('filter condition = ' +JSON.stringify(getFilter()));
+    const response = await axios.post(url, getFilter());
     console.log("list response:", response.data);
     return response.data; // ✅ returned Promise resolves here
   } catch (error) {
     console.error("Error loading supplier list:", error);
     throw error; // important
   }
+}
+
+function normalizeAccessor(expr) {
+  if (!expr || typeof expr !== "string") return expr;
+
+  // Base case: no brackets left
+  if (!expr.includes("[")) {
+    return expr;
+  }
+
+  // Replace innermost bracket expression first
+  const replaced = expr.replace(
+    /(\w+)\[(.+?)\]/,
+    (match, parent, inner) => {
+      const normalizedInner = normalizeAccessor(inner);
+
+      // remove quotes if present
+      const cleanInner = normalizedInner
+        .replace(/^["']|["']$/g, "");
+
+      return `${parent}.${cleanInner}`;
+    }
+  );
+
+  // Recurse until fully normalized
+  return normalizeAccessor(replaced);
 }
 
 
@@ -81,7 +152,8 @@ async function loadMetadata() {
     console.log("metadata response:", response.data);
 
     const listMetadata = new ListMetadata(response.data);
-    renderFilterFields(listMetadata.filterFields, "filter-container");
+    filterFields=listMetadata.filterFields
+    renderFilterFields(filterFields, "filter-container");
 
     const fullData = await loadData(0);   // ✅ works
     console.log("fullData =", fullData);
@@ -113,7 +185,7 @@ async function loadMetadata() {
       container.innerHTML = ""; 
       const theadcontent = document.createElement("thead");
       theadcontent.className="table-light";
-      let innerCnt = "<tr><th>Select</th>" ;
+      let innerCnt = "<tr><th width=\"5%\">Select</th>" ;
       listColumns.forEach(field=>{
       innerCnt+='<th>' + field.fieldLabel +'</th>';
       });
@@ -125,7 +197,7 @@ async function loadMetadata() {
 
       fullData.forEach( rowData => {
         const trowContent = document.createElement("tr")
-        let innerrow = '<td><input type="checkbox" class="form-check-input">';
+        let innerrow = '<td width="5%"><input type="checkbox" class="form-check-input">';
         innerrow+= '<input type="hidden" value="' + rowData['id'] +'"></td>';
           listColumns.forEach(field => {
             const value = getValueByAccessor(rowData, field.accessor);
@@ -146,6 +218,8 @@ async function loadMetadata() {
     console.log(" no contaioner")
     return;
   }
+
+  console.log(" filter fields ");
   container.innerHTML = ""; // clear previous content
 
   const row = document.createElement("div");
@@ -161,7 +235,6 @@ async function loadMetadata() {
     label.htmlFor = field.fieldKey; */
 
     let control;
-    console.log(field);
     switch (field.control) {
       case "text":
         control = document.createElement("input");
@@ -221,14 +294,14 @@ async function loadMetadata() {
     let control;
     control = document.createElement("button");
     control.className =" btn btn-primary w-40" ;
-    control.onclick="applyFilter()" ;
+   control.addEventListener("click", applyFilter);
     control.innerHTML="Apply";
 
 
     let control2;
     control2 = document.createElement("button");
     control2.className =" btn btn-info w-40" ;
-    control2.onclick="clearFilter()" ;
+    control2.addEventListener("click", clearFilter);
     control2.innerHTML="Clear";
   
      wrapper.appendChild(control);
@@ -341,7 +414,7 @@ async function loadMetadata() {
     "?entityType=" + entity 
 
   try {
-    const response = await axios.post(url, {});
+    const response = await axios.post(url, getFilter());
     console.log("list response:", response.data);
     return response.data['count']; 
   } catch (error) {
