@@ -422,3 +422,55 @@ async function loadMetadata() {
     throw error; // important
   }
   }
+
+
+  function onCreate() {
+  console.log("Create clicked");
+}
+
+function onEdit() {
+  console.log("Edit clicked");
+}
+
+function onDelete() {
+  console.log("Delete clicked");
+}
+
+async function onExport() {
+  console.log("Export clicked");
+
+    const url =
+    urlPrefix +"api/generic/downloadCSV" +
+    "?entityType=" + entity ;
+
+  try {
+    console.log('filter condition = ' +JSON.stringify(getFilter()));
+    const response = await axios.post(url, getFilter());
+       const blob = new Blob([response.data], { type: "text/csv" });
+
+    // Create a temporary URL
+    const downloadUrl = window.URL.createObjectURL(blob);
+
+    // Create link element
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = "export.csv"; // file name
+
+    // Trigger download
+    document.body.appendChild(link);
+    link.click();
+
+    // Cleanup
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(downloadUrl);
+  } catch (error) {
+    console.error("Error loading supplier list:", error);
+    throw error; // important
+  }
+
+
+}
+
+function onRefresh() {
+  applyFilter(); // or reload data
+}

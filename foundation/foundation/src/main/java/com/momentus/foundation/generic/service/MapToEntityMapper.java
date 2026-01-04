@@ -1,12 +1,17 @@
 package com.momentus.foundation.generic.service;
 
+import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.model.Address;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import com.momentus.foundation.finitevalue.service.FiniteValueService;
+import com.momentus.foundation.generic.controller.GenericController;
 import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
+import org.hibernate.proxy.HibernateProxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +30,79 @@ public class MapToEntityMapper {
 
     @Autowired
     FiniteValueService finiteValueService;
+
+    private static final Logger log = LoggerFactory.getLogger(GenericController.class);
+
+
+
+    public Map<String,Object> converToMapFromEntity(BaseEntity source,boolean loadOnlyBK)
+    {
+        Map<String, Object> result = new HashMap<>();
+
+        if (source == null) {
+            return result;
+        }
+
+        Class<?> clazz = source.getClass();
+
+
+            Field[] fields = clazz.getDeclaredFields();
+
+            for (Field field : fields) {
+                try {
+                    EntityProperties annotation = field.getAnnotation(EntityProperties.class);
+                    if( !loadOnlyBK || (annotation!=null && annotation.isBK())) {
+                        field.setAccessible(true); // allows access to private fields
+                        Object value = field.get(source);
+                        if( FiniteValue.class.isAssignableFrom(value.getClass())){
+                            if (value != null){
+                                result.put(field.getName() +".fvCode",((FiniteValue) value).getFvCode());
+                                result.put(field.getName() +".fvValue",((FiniteValue) value).getFvValue());
+                            }else {
+                                result.put(field.getName() +".fvCode","");
+                                result.put(field.getName() +".fvValue","");
+                            }
+                        }else if (Address.class.isAssignableFrom(value.getClass())) {
+                            Address address = (Address) value;
+                            result.put(field.getName()+ ".address1",address != null?address.getAddress1():"" );
+                            result.put(field.getName()+".address2",address != null?address.getAddress2():"" );
+                            result.put(field.getName()+".city",address != null?address.getCity():"" );
+                            result.put(field.getName()+".state",address != null?address.getState():"" );
+                            result.put(field.getName()+".country",address != null?address.getCountry():"" );
+                            result.put(field.getName()+".zipcode",address != null?address.getZipcode():"" );
+                            result.put(field.getName()+".phoneNumber",address != null?address.getPhoneNumber():"" );
+
+                        } else if (BaseEntity.class.isAssignableFrom(value.getClass()) && value != null) {
+                            Map<String,Object> mapValue = converToMapFromEntity((BaseEntity)unproxy( value),true);
+                            for ( Map.Entry<String,Object> val : mapValue.entrySet()){
+                                result.put(field.getName()+ "."+ val.getKey(), val.getValue());
+                            }
+
+                        }else {
+                            result.put(field.getName(), value);
+                        }
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    log.error("Error on converting to Map" , e);
+                }
+            }
+
+
+        return result;
+    }
+
+    private static Object unproxy(Object entity) {
+        if (entity instanceof HibernateProxy) {
+            return ((HibernateProxy) entity)
+                    .getHibernateLazyInitializer()
+                    .getImplementation();
+        }
+        return entity;
+    }
+
+
+
 
 
     public  void populateFromMap(Map<String, Object> source, BaseEntity target, ApplicationContext context) {

@@ -147,6 +147,28 @@ public class GenericController
 
     }
 
+
+    @PostMapping("/downloadCSV")
+    public ResponseEntity<byte[]> downloadCSV(@RequestBody Map<String,Object> entityMap, @RequestParam String entityType,
+                                                    Authentication authentication )
+    {
+
+        try {
+            String fullPackage = entityService.getFullPackage(entityType);
+            ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+            byte[]  csvData =   genericService.downLoadRecords(entityMap,(Class<? extends OrgBasedEntity>) Class.forName(fullPackage),context);
+            return ResponseEntity.ok(csvData);
+        }catch (Exception ex) {
+            String error =  ex.getMessage();
+            List es = Arrays.asList(ex.getStackTrace());
+            return ResponseEntity.badRequest().body(null);
+        }
+
+    }
+
+
+
+
     @GetMapping("/getById")
     public ResponseEntity<Object> getEntityById( @RequestParam String entityType, @RequestParam Long id, Authentication authentication )
     {

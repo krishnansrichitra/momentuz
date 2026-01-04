@@ -14,9 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class GenericService {
@@ -81,6 +84,35 @@ public class GenericService {
     public List<? extends OrgBasedEntity> listRecords(Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context,int offset, int limit)
     {
         return listRecords(filter,cls,context,offset,limit,false);
+    }
+
+
+    public byte[] downLoadRecords (Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context)
+    {
+        List< ?  extends  OrgBasedEntity> orgBasedEntityList =  listRecords(filter,cls,context,0,9999,false);
+        List<Map<String,Object>> records  = new ArrayList<>();
+        orgBasedEntityList.stream().forEach(  orgBasedEntity -> {
+             Map<String,Object> record = mapToEntityMapper.converToMapFromEntity(orgBasedEntity,false);
+             records.add(record);
+
+        });
+        StringBuilder csvBuilder = new StringBuilder();
+
+        // Header
+        Set<String> headers = records.get(0).keySet();
+        csvBuilder.append(String.join(",", headers)).append("\n");
+        for (Map<String, Object> row : records) {
+            for (String header : headers) {
+                Object value = row.get(header);
+                csvBuilder.append(value != null ? value.toString() : "")
+                        .append(",");
+            }
+            csvBuilder.deleteCharAt(csvBuilder.length() - 1); // remove last comma
+            csvBuilder.append("\n");
+        }
+
+        byte[] csvBytes = csvBuilder.toString().getBytes(StandardCharsets.UTF_8);
+        return csvBytes;
     }
 
     public List<? extends OrgBasedEntity> listRecords(Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context, int offset, int limit, boolean excludedDeleted)
