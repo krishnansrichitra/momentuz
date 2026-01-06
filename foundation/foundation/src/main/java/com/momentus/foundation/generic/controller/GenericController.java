@@ -11,12 +11,16 @@ import com.momentus.foundation.organization.model.Organization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -186,6 +190,32 @@ public class GenericController
         }
 
     }
+
+
+        @PostMapping(
+                value = "/upload",
+                consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+        )
+        public ResponseEntity<String> uploadCsv(
+                @RequestParam("file") MultipartFile file, @RequestParam String entityType, Authentication authentication) {
+
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest()
+                        .body("Uploaded file is empty");
+            }
+
+            if (!file.getOriginalFilename().endsWith(".csv")) {
+                return ResponseEntity.badRequest()
+                        .body("Only CSV files are allowed");
+            }
+
+            ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+            genericService.uploaCSV(file,entityType,context);
+
+
+
+            return ResponseEntity.ok("CSV uploaded and processed successfully");
+        }
 
 
 

@@ -5,21 +5,24 @@ import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.common.transaction.TransactionResponse;
+import com.momentus.foundation.entity.service.EntityService;
 import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.generic.validation.GenericValidation;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import jakarta.transaction.Transactional;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class GenericService {
@@ -35,6 +38,9 @@ public class GenericService {
 
     @Autowired
     GenericValidation genericValidation;
+
+    @Autowired
+    EntityService entityService;
 
 
     public OrgBasedEntity findById(Object pk, Class<? extends OrgBasedEntity> cls, ApplicationContext context)
@@ -84,6 +90,77 @@ public class GenericService {
     public List<? extends OrgBasedEntity> listRecords(Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context,int offset, int limit)
     {
         return listRecords(filter,cls,context,offset,limit,false);
+    }
+
+    private static void putWithPath(Map<String, Object> map,
+                                  String keyPath,
+                                  Object value) {
+
+        if (keyPath == null || keyPath.isEmpty()) {
+            return;
+        }
+        int dotIndex = keyPath.indexOf('.');
+        // Base case: no dot
+        if (dotIndex == -1) {
+            map.put(keyPath, value);
+            return;
+        }
+        // Recursive case
+        String firstPart = keyPath.substring(0, dotIndex);
+        String remainingPart = keyPath.substring(dotIndex + 1);
+        Map<String, Object> nestedMap ;
+        if (map.containsKey(firstPart)) {
+            nestedMap = (Map)map.get(firstPart);
+        }else {
+            nestedMap = new HashMap<>();
+        }
+
+        // recursive call
+        putWithPath(nestedMap, remainingPart, value);
+        // put nested map in caller
+        map.put(firstPart, nestedMap);
+    }
+
+
+    @Transactional
+    public void uploaCSV(MultipartFile file,String entityType, ApplicationContext context)
+    {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+
+            String line;
+            int row = 0;
+            List<String> fields = new ArrayList<>();
+            List<Map<String,Object>> records = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                row++;
+                Map<String,Object> record = new LinkedHashMap<>();
+                String[] columns = line.split(",");
+                for (int i = 0 ; i < columns.length ; i ++) {
+                    String col = columns[i];
+                    if (row == 1 ){
+                        fields.add(col);
+                    }else {
+                         putWithPath(record,fields.get(i),col);
+                    }
+                }
+                if (row > 1) {
+                    records.add(record);
+                    try {
+                        String fullPackage = entityService.getFullPackage(entityType);
+                        OrgBasedEntity entity = (OrgBasedEntity) Class.forName(fullPackage).newInstance();
+                        createOrUpdateEntity(record, entity, context);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+
+        } catch (IOException e) {
+                e.printStackTrace();
+        }
+
     }
 
 
