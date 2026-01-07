@@ -171,6 +171,38 @@ async function loadMetadata() {
 }
 
 
+async function loadFvDropdown(selectId, fvGroup) {
+  const url =
+    urlPrefix + "api/lookup/fvdropdowns?fvGroup=" + encodeURIComponent(fvGroup);
+
+  try {
+    const response = await axios.get(url);
+    const data = response.data;
+
+    const select = document.getElementById(selectId);
+    select.innerHTML = "";
+
+    // Default option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "-1";
+    defaultOption.textContent = "Select";
+    defaultOption.disabled =false;
+    defaultOption.selected=true;
+    select.appendChild(defaultOption);
+
+    // Populate from response
+    Object.entries(data).forEach(([key, value]) => {
+      const option = document.createElement("option");
+      option.value = key;     // itmgrp_raw
+      option.textContent = value; // Raw Material
+      select.appendChild(option);
+    });
+
+  } catch (error) {
+    console.error("Error loading dropdown:", error);
+  }
+}
+
 
 
 
@@ -250,20 +282,15 @@ async function loadMetadata() {
         control.className = "form-control";
         control.dataset.param = field.param;
         control.multiple=false;
+   
 
-        // Default option
-        const defaultOption = document.createElement("option");
-        defaultOption.value = "-1";
-        defaultOption.text = field.fieldLabel;
-        defaultOption.disabled = false;   // optional (recommended)
-        defaultOption.selected = true;
+        if (field.param.startsWith("fv::")) {
+            let fvGroup = field.param.substring(4);
+            loadFvDropdown(control.id,fvGroup);
+        }
 
-        const secOption = document.createElement("option");
-        secOption.value = "0";
-        secOption.text = "test"
-
-        control.appendChild(defaultOption); // e.g. fv::item_group
-        control.appendChild(secOption);
+    
+        
         break;
 
       case "lookup":
@@ -454,7 +481,7 @@ async function onExport() {
     // Create link element
     const link = document.createElement("a");
     link.href = downloadUrl;
-    link.download = "export.csv"; // file name
+    link.download = entity + ".csv"; // file name
 
     // Trigger download
     document.body.appendChild(link);
@@ -486,7 +513,7 @@ console.log("file input called");
   formData.append("file", file); // "file" must match @RequestParam name
 console.log("Calling upload");
   axios.post(
-    "http://localhost:8080/api/generic/upload" +"?entityType=" + entity ,
+    urlPrefix + "api/generic/upload" +"?entityType=" + entity ,
     formData,
     {
       headers: {

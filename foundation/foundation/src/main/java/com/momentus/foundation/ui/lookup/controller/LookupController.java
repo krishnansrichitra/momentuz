@@ -1,0 +1,43 @@
+package com.momentus.foundation.ui.lookup.controller;
+
+
+import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.context.ApplicationContextHelper;
+import com.momentus.foundation.generic.controller.GenericController;
+import com.momentus.foundation.ui.lookup.service.LookupService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/lookup")
+public class LookupController {
+
+  @Autowired
+  ApplicationContextHelper applicationContextHelper;
+
+  @Autowired
+  LookupService lookupService;
+
+    private static final Logger log = LoggerFactory.getLogger(LookupController.class);
+
+    @GetMapping("fvdropdowns")
+    public ResponseEntity<Map<String,String>> getFiniteValueDropdowns(@RequestParam String fvGroup, Authentication authentication)
+    {
+        ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+        Map<String,String>  retValue  = lookupService.getFValuesforDropDown(fvGroup,context.getLocale());
+        return ResponseEntity.ok(retValue);
+
+    }
+
+
+}

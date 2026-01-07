@@ -5,6 +5,8 @@ import com.momentus.foundation.finitevalue.repository.FiniteValueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FiniteValueService {
 
@@ -14,4 +16,11 @@ public class FiniteValueService {
     public FiniteValue getFinitieValueByCode(String code){
         return finiteValueRepository.findById(code).orElse(null);
     }
+
+    public List<FiniteValue> getFiniteValueByGroup(String group){
+       return finiteValueRepository.findByFiniteGroup_GroupCode(group);
+    }
+
+
+
 }
