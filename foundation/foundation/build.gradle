@@ -63,3 +63,6 @@ tasks.register('copyJar', Copy) {
 }
 
 
+tasks.withType(JavaCompile) {
+    options.debug = true
+}

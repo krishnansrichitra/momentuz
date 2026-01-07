@@ -5,6 +5,7 @@ import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.finitevalue.model.FiniteGroup;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import com.momentus.foundation.finitevalue.service.FiniteValueService;
+import com.momentus.foundation.generic.service.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -20,6 +21,8 @@ public class LookupService {
     @Autowired
     FiniteValueService finiteValueService ;
 
+    @Autowired
+    GenericService genericService;
 
     @Autowired
     GeneralMessages generalMessages;
@@ -30,10 +33,13 @@ public class LookupService {
         List<FiniteValue> finiteValueList =finiteValueService.getFiniteValueByGroup(groupCode);
         if (!CollectionUtils.isEmpty(finiteValueList)) {
             for (FiniteValue finiteValue : finiteValueList) {
-            //    retValues.put(groupCode,generalMessages.getMessage(finiteValue.getFvValue(),locale));
-                retValues.put(finiteValue.getFvCode(),finiteValue.getFvValue());
+                retValues.put(finiteValue.getFvCode(),generalMessages.getMessage(finiteValue.getFvValue(),locale));
+               // retValues.put(finiteValue.getFvCode(),finiteValue.getFvValue());
             }
         }
         return  retValues;
     }
+
+
+
 }

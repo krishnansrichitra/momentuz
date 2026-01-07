@@ -33,9 +33,17 @@ public class LookupController {
     @GetMapping("fvdropdowns")
     public ResponseEntity<Map<String,String>> getFiniteValueDropdowns(@RequestParam String fvGroup, Authentication authentication)
     {
+        log.debug("getting getFiniteValueDropdowns for " + fvGroup);
         ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
         Map<String,String>  retValue  = lookupService.getFValuesforDropDown(fvGroup,context.getLocale());
         return ResponseEntity.ok(retValue);
+
+    }
+
+
+    @GetMapping("typeaheadsearch")
+    public ResponseEntity<List<String>> getTypeAheadValues(@RequestParam String entity, String field, String value){
+      return null;
 
     }
 
