@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -54,7 +55,7 @@ public class MapToEntityMapper {
                     if( !loadOnlyBK || (annotation!=null && annotation.isBK())) {
                         field.setAccessible(true); // allows access to private fields
                         Object value = field.get(source);
-                        if( FiniteValue.class.isAssignableFrom(value.getClass())){
+                        if( FiniteValue.class.isAssignableFrom(field.getType())){
                             if (value != null){
                                 result.put(field.getName() +".fvCode",((FiniteValue) value).getFvCode());
                                 result.put(field.getName() +".fvValue",((FiniteValue) value).getFvValue());
@@ -62,7 +63,7 @@ public class MapToEntityMapper {
                                 result.put(field.getName() +".fvCode","");
                                 result.put(field.getName() +".fvValue","");
                             }
-                        }else if (Address.class.isAssignableFrom(value.getClass())) {
+                        }else if (Address.class.isAssignableFrom(field.getType())) {
                             Address address = (Address) value;
                             result.put(field.getName()+ ".address1",address != null?address.getAddress1():"" );
                             result.put(field.getName()+".address2",address != null?address.getAddress2():"" );
@@ -72,7 +73,7 @@ public class MapToEntityMapper {
                             result.put(field.getName()+".zipcode",address != null?address.getZipcode():"" );
                             result.put(field.getName()+".phoneNumber",address != null?address.getPhoneNumber():"" );
 
-                        } else if (BaseEntity.class.isAssignableFrom(value.getClass()) && value != null) {
+                        } else if (BaseEntity.class.isAssignableFrom(field.getType()) && value != null) {
                             Map<String,Object> mapValue = converToMapFromEntity((BaseEntity)unproxy( value),true);
                             for ( Map.Entry<String,Object> val : mapValue.entrySet()){
                                 result.put(field.getName()+ "."+ val.getKey(), val.getValue());
@@ -87,6 +88,11 @@ public class MapToEntityMapper {
                     log.error("Error on converting to Map" , e);
                 }
             }
+            /**result.put("version",source.getVersion());
+            result.put("id",source.getPK());
+             *
+             *  To be decided if editing should be allowed
+             * */
 
 
         return result;
@@ -192,7 +198,7 @@ public class MapToEntityMapper {
     }
 
     private static Object convertValue(Object value, Class<?> targetType) {
-        if (value == null) return null;
+        if (value == null || !StringUtils.hasLength(String.valueOf(value))) return null;
 
         if (targetType.equals(String.class)) {
             return value.toString();

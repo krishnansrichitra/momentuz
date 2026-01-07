@@ -9,6 +9,8 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +27,14 @@ public class Supplier extends OrgBasedEntity {
     @Embedded
     Address address;
 
+    @Column
+    BigDecimal creditLimit;
+
+    @Column
+    LocalDateTime joiningDate ;
+
+    @Column
+    Integer supplierRank;
 
     public String getSupplierName() {
         return supplierName;
@@ -61,6 +71,30 @@ public class Supplier extends OrgBasedEntity {
     @Override
     public void setBK(Object object) {
         setSupplierName(String.valueOf(object));
+    }
+
+    public BigDecimal getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(BigDecimal creditLimit) {
+        this.creditLimit = creditLimit;
+    }
+
+    public LocalDateTime getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(LocalDateTime joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public Integer getSupplierRank() {
+        return supplierRank;
+    }
+
+    public void setSupplierRank(Integer supplierRank) {
+        this.supplierRank = supplierRank;
     }
 }
 
