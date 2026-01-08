@@ -10,6 +10,8 @@ public class ListMetadataDTO {
 
     List<ListColumnDTO> listColumns ;
 
+    List<ListButtonDTO> listButtons ;
+
     public String getEntity() {
         return entity;
     }
@@ -34,6 +36,14 @@ public class ListMetadataDTO {
         this.listColumns = listColumns;
     }
 
+    public List<ListButtonDTO> getListButtons() {
+        return listButtons;
+    }
+
+    public void setListButtons(List<ListButtonDTO> listButtons) {
+        this.listButtons = listButtons;
+    }
+
     public ListMetadataDTO() {
     }
 
@@ -41,5 +51,12 @@ public class ListMetadataDTO {
         this.entity = entity;
         this.filterFields = filterFields;
         this.listColumns = listColumns;
+    }
+
+    public ListMetadataDTO(String entity, List<FilterFieldDTO> filterFields, List<ListColumnDTO> listColumns, List<ListButtonDTO> listButtons) {
+        this.entity = entity;
+        this.filterFields = filterFields;
+        this.listColumns = listColumns;
+        this.listButtons = listButtons;
     }
 }

@@ -164,6 +164,7 @@ async function loadMetadata() {
       fullData
     );
        renderPagination();
+    renderButtons(listMetadata.listButtons,"btnListDiv");
 
   } catch (error) {
     console.error("Error loading metadata or list:", error);
@@ -172,7 +173,19 @@ async function loadMetadata() {
 
 
 
-
+function renderButtons(listButtons,containerId)
+{
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+    listButtons.forEach(lButton => {
+        let btn = document.createElement("button");
+        btn.className = lButton.buttonClass;
+        btn.addEventListener(
+         "click",window[lButton.jsMethod]);
+        btn.innerHTML =lButton.innerText 
+        container.appendChild(btn);
+    });
+}
 
 
 

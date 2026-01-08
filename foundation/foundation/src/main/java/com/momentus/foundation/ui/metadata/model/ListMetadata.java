@@ -22,6 +22,9 @@ public class ListMetadata extends ProfileBasedEntity {
     @OneToMany(mappedBy = "listMetadata")
     List<ListColumn> listColumns;
 
+    @OneToMany(mappedBy = "listMetadata")
+    List<ListButton> listButtons;
+
 
     @Column
     String entity;
@@ -56,6 +59,14 @@ public class ListMetadata extends ProfileBasedEntity {
 
     public void setEntity(String entity) {
         this.entity = entity;
+    }
+
+    public List<ListButton> getListButtons() {
+        return listButtons;
+    }
+
+    public void setListButtons(List<ListButton> listButtons) {
+        this.listButtons = listButtons;
     }
 }
 

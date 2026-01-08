@@ -2,6 +2,7 @@ package com.momentus.foundation.ui.metadata.dto;
 
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.ui.metadata.model.FilterField;
+import com.momentus.foundation.ui.metadata.model.ListButton;
 import com.momentus.foundation.ui.metadata.model.ListColumn;
 import com.momentus.foundation.ui.metadata.model.ListMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,16 @@ public class MetadataDTOHelper {
                      filterFieldDTOS.add(filterFieldDTO);
                  }
                  listMetadataDTO.setFilterFields(filterFieldDTOS);
+             }
+
+             if(!CollectionUtils.isEmpty(listMetadata.getListButtons())){
+                 List<ListButtonDTO> listButtonDTOS = new ArrayList<>();
+                 for (ListButton listButton : listMetadata.getListButtons()) {
+                     ListButtonDTO listButtonDTO = new ListButtonDTO(listButton.getButtonClass(),listButton.getJsMethod(),
+                             generalMessages.getMessage(listButton.getInnerText(),locale));
+                     listButtonDTOS.add(listButtonDTO);
+                 }
+                 listMetadataDTO.setListButtons(listButtonDTOS);
              }
          }
          return listMetadataDTO;

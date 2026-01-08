@@ -135,6 +135,7 @@ entity_name varchar(100) PRIMARY KEY,
 full_package varchar(255) not null,
 profile_group_code varchar(100),
 active tinyint(1) DEFAULT '1',
+support_import tinyint(1) DEFAULT '1',
 created_by varchar(255) DEFAULT NULL,
 created_time datetime(6) DEFAULT NULL,
 deleted tinyint(1) DEFAULT '0',
@@ -276,6 +277,17 @@ create table list_columns (
             primary key (id)
         ) ;
 
+    create table list_buttons (
+            id bigint not null,
+            button_class varchar(255),
+            inner_text varchar(255),
+            js_method varchar(255),
+            list_metadata_id bigint,
+            primary key (id)
+        ) ;
+
+
+
 alter table list_metadata
        add constraint FKmvjb81uqom19b0ugawohdhlph
        foreign key (profile_id)
@@ -291,6 +303,11 @@ alter table list_columns
          add constraint FKmv2aqkv45d1ke2mytuu51stto
          foreign key (list_metadata_id)
          references list_metadata (id);
+
+alter table list_buttons
+       add constraint FKpp8qgcfilmv5jdnhipkhlu8cp
+       foreign key (list_metadata_id)
+       references list_metadata (id) ;
 
 
 insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
@@ -312,8 +329,9 @@ insert into menu_group(id,menu_key,menu_set_id,access_code) values(2,'Transactio
 insert into menu_group(id,menu_key,menu_set_id,access_code) values(3,'Reports',1,null);
 
 
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (1,'suppliers','adm','./general/genericList.html?entity=suppliers',1);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (2,'items','adm','./general/genericList.html?entity=items',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (1,'suppliers','adm','./general/genericList.html?entity=Supplier',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (2,'items','adm','./general/genericList.html?entity=Item',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (3,'dataImport','adm','./general/dataImport.html',1);
 
 
 insert into list_metadata(id,profile_id,profile_code,entity) values(1,1,'ROOT','Supplier');
@@ -331,15 +349,23 @@ insert into list_columns(id,list_metadata_id,field_key,accessor) values (4,1,'st
 insert into list_columns(id,list_metadata_id,field_key,accessor) values (5,1,'zipCode','address["zipCode"]');
 
 
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(1,'btn btn-primary','Create','onCreate',1);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(2,'btn btn-info','View','onView',1);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(3,'btn btn-warning','Edit','onEdit',1);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(4,'btn btn-danger','Delete','onDelete',1);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(5,'btn btn-success','Export','onExport',1);
+
 
 
 insert into filter_field(id,list_metadata_id,field_key,control,accessor) values(4,2,'itemName','text','itemName');
 insert into filter_field(id,list_metadata_id,field_key,control,param,accessor) values(5,2,'supplierName','lookup','supplier','supplier["supplierName"]');
-insert into filter_field(id,list_metadata_id,field_key,control,param,accessor) values(6,2,'itemGroup','dropdown','fv::item_group','itemGroup["fvValue"]');
+insert into filter_field(id,list_metadata_id,field_key,control,param,accessor) values(6,2,'itemGroup','dropdown','fv::item_group','itemGroup["fvCode"]');
 
 
 insert into list_columns(id,list_metadata_id,field_key,accessor) values (6,2,'itemName','itemName');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values (7,2,'supplierName','supplier["supplierName"]');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values (8,2,'itemGroup','itemGroup["fvValue"]');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values (9,2,'uomType','uomType["fvValue"]');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values (10,2,'phoneNumber','supplier.address.phoneNumber');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (7,2,'itemName','itemName');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (8,2,'barcode','barcode');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (9,2,'supplierName','supplier["supplierName"]');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (10,2,'itemGroup','itemGroup["fvValue"]');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (11,2,'uomType','uomType["fvValue"]');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (12,2,'supplierPhoneNumber','supplier.address.phoneNumber');

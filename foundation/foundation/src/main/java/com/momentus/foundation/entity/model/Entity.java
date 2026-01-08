@@ -41,7 +41,7 @@ public class Entity {
     @Column(name = "last_updated_time", nullable = true)
     private LocalDateTime lastUpdatedTime;
 
-    @Column(nullable = true)
+    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
     Boolean supportImport= true;
 
 
