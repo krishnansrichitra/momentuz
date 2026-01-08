@@ -3,6 +3,7 @@ package com.momentus.foundation.ui.lookup.controller;
 
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.context.ApplicationContextHelper;
+import com.momentus.foundation.entity.service.EntityService;
 import com.momentus.foundation.generic.controller.GenericController;
 import com.momentus.foundation.ui.lookup.service.LookupService;
 import org.slf4j.Logger;
@@ -28,6 +29,9 @@ public class LookupController {
   @Autowired
   LookupService lookupService;
 
+  @Autowired
+  EntityService entityService;
+
     private static final Logger log = LoggerFactory.getLogger(LookupController.class);
 
     @GetMapping("fvdropdowns")
@@ -47,6 +51,16 @@ public class LookupController {
         ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
         List<String> retValues = lookupService.getTypeAheadValues(context,entity,field,value);
       return ResponseEntity.ok(retValues);
+
+    }
+
+    @GetMapping("getEntityDropDowns")
+    public ResponseEntity<Map<String,String>> getEntityDropDowns(Authentication authentication)
+    {
+        log.debug("getting getEntityDropDowns ");
+        ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+        Map<String,String> result = entityService.getAllEntities(context.getLocale());
+        return ResponseEntity.ok(result);
 
     }
 

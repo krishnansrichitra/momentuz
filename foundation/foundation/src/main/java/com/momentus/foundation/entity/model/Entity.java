@@ -41,6 +41,9 @@ public class Entity {
     @Column(name = "last_updated_time", nullable = true)
     private LocalDateTime lastUpdatedTime;
 
+    @Column(nullable = true)
+    Boolean supportImport= true;
+
 
     public String getEntityName() {
         return entityName;
@@ -104,5 +107,21 @@ public class Entity {
 
     public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
         this.lastUpdatedTime = lastUpdatedTime;
+    }
+
+    public ProfileGroup getProfileGroup() {
+        return profileGroup;
+    }
+
+    public void setProfileGroup(ProfileGroup profileGroup) {
+        this.profileGroup = profileGroup;
+    }
+
+    public Boolean getSupportImport() {
+        return supportImport;
+    }
+
+    public void setSupportImport(Boolean supportImport) {
+        this.supportImport = supportImport;
     }
 }
