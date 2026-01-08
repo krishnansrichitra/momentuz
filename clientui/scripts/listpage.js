@@ -171,37 +171,7 @@ async function loadMetadata() {
 }
 
 
-async function loadFvDropdown(selectId, fvGroup) {
-  const url =
-    urlPrefix + "api/lookup/fvdropdowns?fvGroup=" + encodeURIComponent(fvGroup);
 
-  try {
-    const response = await axios.get(url);
-    const data = response.data;
-
-    const select = document.getElementById(selectId);
-    select.innerHTML = "";
-
-    // Default option
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "-1";
-    defaultOption.textContent = "Select";
-    defaultOption.disabled =false;
-    defaultOption.selected=true;
-    select.appendChild(defaultOption);
-
-    // Populate from response
-    Object.entries(data).forEach(([key, value]) => {
-      const option = document.createElement("option");
-      option.value = key;     // itmgrp_raw
-      option.textContent = value; // Raw Material
-      select.appendChild(option);
-    });
-
-  } catch (error) {
-    console.error("Error loading dropdown:", error);
-  }
-}
 
 
 
@@ -286,7 +256,7 @@ async function loadFvDropdown(selectId, fvGroup) {
 
         if (field.param.startsWith("fv::")) {
             let fvGroup = field.param.substring(4);
-            loadFvDropdown(control.id,fvGroup);
+            loadFvDropdown(urlPrefix,control.id,fvGroup);
         }
 
     
@@ -300,6 +270,19 @@ async function loadFvDropdown(selectId, fvGroup) {
         control.placeholder = field.fieldLabel;
         control.className="form-control";
         control.dataset.lookup = field.param; // e.g. supplier
+       
+
+        let datactrl = document.createElement("datalist");
+        datactrl.id = 'sgst' + field.fieldKey;
+        control.setAttribute("list", "sgst" + field.fieldKey);
+       wrapper.appendChild(datactrl);
+         control.addEventListener(
+         "input",
+            createTypeaheadHandler(urlPrefix,field.param, field.fieldKey, control, datactrl)
+            );
+
+        
+
         break;
 
       default:
