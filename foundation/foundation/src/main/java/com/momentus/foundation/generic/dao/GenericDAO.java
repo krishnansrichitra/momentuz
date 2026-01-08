@@ -113,5 +113,56 @@ public class GenericDAO {
         return query.getResultList();
     }
 
+    public <T extends BaseEntity, R> List<R> listFieldByFilter(
+            Map<String, Object> filter,
+            Class<T> entityClass,
+            String field,
+            Class<R> fieldClass,
+            int offset,
+            int limit) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<R> cq = cb.createQuery(fieldClass);
+        Root<T> root = cq.from(entityClass);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        for (Map.Entry<String, Object> entry : filter.entrySet()) {
+            if (entry.getValue() == null) continue;
+
+            Path<?> path = root;
+            for (String part : entry.getKey().split("\\.")) {
+                path = path.get(part);
+            }
+
+            if (!entry.getKey().equals(field)){
+                predicates.add(cb.equal(path, entry.getValue()));
+            }else {
+                Expression<String> exp = path.as(String.class);
+                predicates.add(cb.like(exp, "%" + entry.getValue().toString() + "%"));
+            }
+        }
+
+        // resolve selected field
+        Path<?> fieldPath = root;
+        for (String part : field.split("\\.")) {
+            fieldPath = fieldPath.get(part);
+        }
+
+        @SuppressWarnings("unchecked")
+        Path<R> typedFieldPath = (Path<R>) fieldPath;
+
+        cq.select(typedFieldPath)
+                .where(cb.and(predicates.toArray(new Predicate[0])));
+
+        TypedQuery<R> query = em.createQuery(cq);
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+
+        return query.getResultList();
+    }
+
+
+
 
 }

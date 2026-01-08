@@ -42,8 +42,11 @@ public class LookupController {
 
 
     @GetMapping("typeaheadsearch")
-    public ResponseEntity<List<String>> getTypeAheadValues(@RequestParam String entity, String field, String value){
-      return null;
+    public ResponseEntity<List<String>> getTypeAheadValues(@RequestParam String entity, String field, String value,Authentication authentication){
+        log.debug("getting getTypeAheadValues for " + entity , field , value);
+        ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+        List<String> retValues = lookupService.getTypeAheadValues(context,entity,field,value);
+      return ResponseEntity.ok(retValues);
 
     }
 

@@ -166,7 +166,7 @@ public class GenericService {
 
     public byte[] downLoadRecords (Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context)
     {
-        List< ?  extends  OrgBasedEntity> orgBasedEntityList =  listRecords(filter,cls,context,0,9999,false);
+        List< ?  extends  OrgBasedEntity> orgBasedEntityList =  listRecords(filter,cls,context,0,9999,true);
         List<Map<String,Object>> records  = new ArrayList<>();
         orgBasedEntityList.stream().forEach(  orgBasedEntity -> {
              Map<String,Object> record = mapToEntityMapper.converToMapFromEntity(orgBasedEntity,false);
@@ -198,8 +198,17 @@ public class GenericService {
         if (excludedDeleted) filter.put("deleted",false);
         return genericDAO.listByFilter(filter,cls,offset,limit);
 
+
     }
 
+
+    public List<String> listFields(Map<String,Object> filter, Class<? extends OrgBasedEntity> cls, ApplicationContext context, String field,int offset, int limit, boolean excludedDeleted)
+    {
+        filter.put("orgId.id",context.getOrganization().getId());
+        if (excludedDeleted) filter.put("deleted",false);
+        return genericDAO.listFieldByFilter(filter,cls,field, String.class,offset,limit);
+
+    }
     protected TransactionResponse validate(OrgBasedEntity entity, ApplicationContext context,boolean skipBKValidation)
     {
         TransactionResponse validationResponse =  genericValidation.basicValidation(entity,context);
