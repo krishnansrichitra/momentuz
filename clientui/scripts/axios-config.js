@@ -8,3 +8,10 @@ axios.interceptors.request.use(
     },
     error => Promise.reject(error)
 );
+
+
+const iframeLocation = window.location;
+
+// Query params from iframe URL
+const params = new URLSearchParams(iframeLocation.search);
+const urlPrefix = (iframeLocation.origin + "/").replace("5500","8080");

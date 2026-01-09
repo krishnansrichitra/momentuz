@@ -1,7 +1,4 @@
-const iframeLocation = window.location;
 
-// Query params from iframe URL
-const params = new URLSearchParams(iframeLocation.search);
 
 const entity = params.get("entity");
 const PAGE_SIZE = 10;
@@ -11,10 +8,10 @@ let filterFields =[]
 
 
 // Base URL (protocol + host + port)
-const urlPrefix = (iframeLocation.origin + "/").replace("5500","8080");
+
 
 console.log(entity);    // Item
-console.log(urlPrefix); // http://localhost:8080/
+ // http://localhost:8080/
 
 
 function getFilter()
@@ -494,35 +491,3 @@ async function onExport() {
 
 }
 
-function onUpload() {
-  const fileInput = document.getElementById("fileInput");
-   console.log("method called");
-  if (!fileInput.files || fileInput.files.length === 0) {
-    console.log("return called");
-    return;
-  }
-console.log("file input called");
-  const file = fileInput.files[0];
-
-  // Create multipart form data
-  const formData = new FormData();
-  formData.append("file", file); // "file" must match @RequestParam name
-console.log("Calling upload");
-  axios.post(
-    urlPrefix + "api/generic/upload" +"?entityType=" + entity ,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    }
-  )
-  .then(response => {
-    console.log("Upload success:", response.data);
-
-  })
-  .catch(error => {
-    console.error("Upload failed:", error);
-
-  });// or reload data
-}
