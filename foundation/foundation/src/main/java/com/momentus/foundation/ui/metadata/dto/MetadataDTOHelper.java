@@ -31,6 +31,8 @@ public class MetadataDTOHelper {
                      listColumnDTOS.add(listColumnDTO);
                  }
                  listMetadataDTO.setListColumns(listColumnDTOS);
+             }else {
+                 listMetadataDTO.setListColumns(new ArrayList<>());
              }
              if(!CollectionUtils.isEmpty(listMetadata.getFilterFields())) {
                  List<FilterFieldDTO> filterFieldDTOS = new ArrayList<>();
@@ -41,6 +43,8 @@ public class MetadataDTOHelper {
                      filterFieldDTOS.add(filterFieldDTO);
                  }
                  listMetadataDTO.setFilterFields(filterFieldDTOS);
+             }else {
+                 listMetadataDTO.setFilterFields(new ArrayList<>());
              }
 
              if(!CollectionUtils.isEmpty(listMetadata.getListButtons())){
@@ -51,6 +55,8 @@ public class MetadataDTOHelper {
                      listButtonDTOS.add(listButtonDTO);
                  }
                  listMetadataDTO.setListButtons(listButtonDTOS);
+             }else {
+                 listMetadataDTO.setListButtons( new ArrayList<>());
              }
          }
          return listMetadataDTO;

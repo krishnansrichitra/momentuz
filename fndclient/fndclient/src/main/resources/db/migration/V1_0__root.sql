@@ -355,7 +355,11 @@ insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id)
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(4,'btn btn-danger','Delete','onDelete',1);
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(5,'btn btn-success','Export','onExport',1);
 
-
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(6,'btn btn-primary','Create','onCreate',2);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(7,'btn btn-info','View','onView',2);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(8,'btn btn-warning','Edit','onEdit',2);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(9,'btn btn-danger','Delete','onDelete',2);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values(10,'btn btn-success','Export','onExport',2);
 
 insert into filter_field(id,list_metadata_id,field_key,control,accessor) values(4,2,'itemName','text','itemName');
 insert into filter_field(id,list_metadata_id,field_key,control,param,accessor) values(5,2,'supplierName','lookup','supplier','supplier["supplierName"]');
@@ -363,7 +367,7 @@ insert into filter_field(id,list_metadata_id,field_key,control,param,accessor) v
 
 
 insert into list_columns(id,list_metadata_id,field_key,accessor) values (6,2,'itemName','itemName');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values (7,2,'itemName','itemName');
+insert into list_columns(id,list_metadata_id,field_key,accessor) values (7,2,'itemCode','itemCode');
 insert into list_columns(id,list_metadata_id,field_key,accessor) values (8,2,'barcode','barcode');
 insert into list_columns(id,list_metadata_id,field_key,accessor) values (9,2,'supplierName','supplier["supplierName"]');
 insert into list_columns(id,list_metadata_id,field_key,accessor) values (10,2,'itemGroup','itemGroup["fvValue"]');

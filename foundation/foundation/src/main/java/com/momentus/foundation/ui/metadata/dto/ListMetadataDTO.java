@@ -1,16 +1,17 @@
 package com.momentus.foundation.ui.metadata.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListMetadataDTO {
 
     String entity;
 
-    List<FilterFieldDTO> filterFields;
+    List<FilterFieldDTO> filterFields = new ArrayList();
 
-    List<ListColumnDTO> listColumns ;
+    List<ListColumnDTO> listColumns = new ArrayList();
 
-    List<ListButtonDTO> listButtons ;
+    List<ListButtonDTO> listButtons = new ArrayList();
 
     public String getEntity() {
         return entity;
