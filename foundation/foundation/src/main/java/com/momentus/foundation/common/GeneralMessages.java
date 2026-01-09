@@ -19,6 +19,7 @@ public class GeneralMessages {
     public static final String ENTITY_DELETED = "10009";
     public static final String STALE_UPDATE = "10010";
     public static final String ENTITY_ALREADY_DELETED = "10011";
+    public static final String UNAUTHORIZED_SYSTEM_OPERATION = "10012";
 
 
     private final MessageSource messageSource;

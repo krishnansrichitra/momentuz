@@ -36,6 +36,12 @@ public class TransactionResponse {
         this.transactionEntity = transactionEntity;
     }
 
+    public TransactionResponse(RESPONSE_STATUS responseStatus, List<MomentusError> momentusErrorList, BaseEntity transactionEntity) {
+        this.responseStatus = responseStatus;
+        this.momentusErrorList = momentusErrorList;
+        this.transactionEntity = transactionEntity;
+    }
+
     public TransactionResponse() {
     }
 
