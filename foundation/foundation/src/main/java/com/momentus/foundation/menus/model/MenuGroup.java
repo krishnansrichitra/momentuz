@@ -11,8 +11,7 @@ import java.util.List;
 public class MenuGroup {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    String id;
 
     @Column(name = "menu_key")
     String menuKey;
@@ -26,11 +25,11 @@ public class MenuGroup {
     @Column(name = "access_code")
     String accessCode;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

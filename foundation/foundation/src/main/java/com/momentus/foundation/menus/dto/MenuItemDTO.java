@@ -2,7 +2,7 @@ package com.momentus.foundation.menus.dto;
 
 public class MenuItemDTO {
 
-    Long id;
+    String id;
 
     String label;
 
@@ -10,11 +10,11 @@ public class MenuItemDTO {
 
     String icon;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,7 +45,7 @@ public class MenuItemDTO {
     public MenuItemDTO() {
     }
 
-    public MenuItemDTO(Long id, String label, String page, String icon) {
+    public MenuItemDTO(String id, String label, String page, String icon) {
         this.id = id;
         this.label = label;
         this.page = page;

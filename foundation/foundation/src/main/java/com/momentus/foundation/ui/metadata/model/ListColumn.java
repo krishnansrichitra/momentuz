@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Table(name = "list_columns")
 public class ListColumn {
     @Id
-    Long id;
+    String id;
 
     @ManyToOne()
     @JoinColumn(name = "list_metadata_id" , referencedColumnName = "id" ,nullable = true)
@@ -36,11 +36,11 @@ public class ListColumn {
         this.fieldKey = fieldKey;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

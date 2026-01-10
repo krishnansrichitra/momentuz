@@ -196,22 +196,22 @@ insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_inhs','In 
 
 
     create table menu_group (
-        id bigint not null auto_increment,
+        id varchar(100) not null,
         menu_key varchar(255),
-        menu_set_id bigint,
+        menu_set_id varchar(100) ,
         access_code varchar(255),
         primary key (id)
     ) ;
     create table menu_item (
-        id bigint not null auto_increment,
+        id varchar(100) not null ,
         menu_key varchar(255),
         access_code varchar(255),
         page varchar(255),
-        menu_group_id bigint,
+        menu_group_id varchar(100) ,
         primary key (id)
     ) ;
     create table menu_set (
-        id bigint not null auto_increment,
+        id varchar(100) not null ,
         created_by varchar(255),
         created_time datetime(6),
         deleted BOOLEAN DEFAULT FALSE,
@@ -323,15 +323,15 @@ insert into fndclient.entity(entity_name,full_package,profile_group_code,active)
 ('Item','com.momentus.fndclient.item.model.Item','GNL',1);
 
 
-insert into menu_set(id,profile_id,profile_code,description) values (1,1,'ROOT','Default Menu');
-insert into menu_group(id,menu_key,menu_set_id,access_code) values(1,'Master',1,null);
-insert into menu_group(id,menu_key,menu_set_id,access_code) values(2,'Transactions',1,null);
-insert into menu_group(id,menu_key,menu_set_id,access_code) values(3,'Reports',1,null);
+insert into menu_set(id,profile_id,profile_code,description) values ('DFLT',1,'ROOT','Default Menu');
+insert into menu_group(id,menu_key,menu_set_id,access_code) values('DFLT-MSTR','Master','DFLT',null);
+insert into menu_group(id,menu_key,menu_set_id,access_code) values('DFLT-TRNS','Transactions','DFLT',null);
+insert into menu_group(id,menu_key,menu_set_id,access_code) values('DFLT-RPTS','Reports', 'DFLT',null);
 
 
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (1,'suppliers','adm','./general/genericList.html?entity=Supplier',1);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (2,'items','adm','./general/genericList.html?entity=Item',1);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values (3,'dataImport','adm','./general/dataImport.html',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values ('DFLT-MSTR-SUP','suppliers','adm','./general/genericList.html?entity=Supplier','DFLT-MSTR');
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values ('DFLT-MSTR-ITM','items','adm','./general/genericList.html?entity=Item','DFLT-MSTR');
+insert into menu_item (id,menu_key,access_code,page,menu_group_id) values ('DFLT-MSTR-DTIMP','dataImport','adm','./general/dataImport.html','DFLT-MSTR');
 
 
 insert into list_metadata(id,profile_id,profile_code,entity) values(1,1,'ROOT','Supplier');

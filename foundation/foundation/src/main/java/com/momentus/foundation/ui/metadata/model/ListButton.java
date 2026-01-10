@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class ListButton {
 
     @Id
-    Long id;
+    String id;
 
     @ManyToOne()
     @JoinColumn(name = "list_metadata_id" , referencedColumnName = "id" ,nullable = true)
@@ -26,11 +26,11 @@ public class ListButton {
     String innerText ;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

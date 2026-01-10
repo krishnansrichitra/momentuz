@@ -18,10 +18,6 @@ public class ProfileBasedEntity extends BaseEntity {
     @Column
     String profileCode;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EntityProperties(isPK = true)
-    Long id;
 
 
     public Profile getProfile() {
@@ -40,17 +36,4 @@ public class ProfileBasedEntity extends BaseEntity {
         this.profileCode = profileCode;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    @JsonIgnore
-    public Object getPK() {
-        return id;
-    }
 }

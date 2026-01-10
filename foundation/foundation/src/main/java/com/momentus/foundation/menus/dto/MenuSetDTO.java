@@ -4,15 +4,15 @@ import java.util.List;
 
 public class MenuSetDTO {
 
-    Long id;
+    String id;
 
     List<MenuGroupDTO> groups;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -28,7 +28,7 @@ public class MenuSetDTO {
 
     }
 
-    public MenuSetDTO(Long id, List<MenuGroupDTO> groups) {
+    public MenuSetDTO(String id, List<MenuGroupDTO> groups) {
         this.id = id;
         this.groups = groups;
     }

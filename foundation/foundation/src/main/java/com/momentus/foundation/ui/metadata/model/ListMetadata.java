@@ -1,16 +1,20 @@
 package com.momentus.foundation.ui.metadata.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.profile.model.ProfileBasedEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "list_metadata")
 public class ListMetadata extends ProfileBasedEntity {
+
+    @Id
+    @EntityProperties(isPK = true)
+    String id;
+
 
     @Column
     String description;
@@ -67,6 +71,21 @@ public class ListMetadata extends ProfileBasedEntity {
 
     public void setListButtons(List<ListButton> listButtons) {
         this.listButtons = listButtons;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    @JsonIgnore
+    public Object getPK() {
+        return id;
     }
 }
 

@@ -1,16 +1,20 @@
 package com.momentus.foundation.menus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.profile.model.ProfileBasedEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "menu_set")
 public class MenuSet extends ProfileBasedEntity {
+
+    @Id
+    @EntityProperties(isPK = true)
+    String id;
+
 
     @Column(name = "description")
     String menuSetdescription;
@@ -33,5 +37,20 @@ public class MenuSet extends ProfileBasedEntity {
 
     public void setMenuGroupList(List<MenuGroup> menuGroupList) {
         this.menuGroupList = menuGroupList;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    @JsonIgnore
+    public Object getPK() {
+        return id;
     }
 }

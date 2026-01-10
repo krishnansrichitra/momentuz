@@ -8,8 +8,7 @@ import jakarta.persistence.*;
 public class MenuItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    String id;
 
     @ManyToOne
     @JoinColumn(name = "menu_group_id" ,referencedColumnName = "id")
@@ -25,12 +24,11 @@ public class MenuItem {
     @Column(name = "page")
     String page;
 
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
