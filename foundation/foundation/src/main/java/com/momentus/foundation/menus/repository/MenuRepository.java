@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 import java.util.List;
 
-public interface MenuRepository extends JpaRepository<MenuSet,Long> {
+public interface MenuRepository extends JpaRepository<MenuSet,String> {
 
 
     List<MenuSet> findByProfileCodeIn(Collection<String> profileCodes);

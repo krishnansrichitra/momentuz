@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 import java.util.List;
 
-public interface ListMetadataRepository extends JpaRepository<ListMetadata,Long> {
+public interface ListMetadataRepository extends JpaRepository<ListMetadata,String> {
 
     List<ListMetadata> findByProfile_ProfileCodeInAndEntity(
             Collection<String> profileCodes,

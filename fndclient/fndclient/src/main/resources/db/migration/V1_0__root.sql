@@ -315,6 +315,64 @@ alter table list_buttons
        references list_metadata (id) ;
 
 
+    create table updateview_buttons (
+        id varchar(255) not null,
+        button_class varchar(255),
+        inner_text varchar(255),
+        js_method varchar(255),
+        seq_no decimal(10,2),
+        visibility varchar(20),
+        updateview_metadata_id varchar(255),
+        primary key (id)
+    ) ;
+
+
+
+    create table updateview_fields (
+        id varchar(255) not null,
+        accessor varchar(255),
+        control varchar(255),
+        field_key varchar(255),
+        param varchar(255),
+        seq_no decimal(10,2),
+        visibility varchar(20),
+        updateview_metadata_id varchar(255),
+        primary key (id)
+    ) ;
+
+
+    create table updateview_metadata (
+        id varchar(255) not null,
+        created_by varchar(255),
+        created_time datetime(6),
+        deleted BOOLEAN DEFAULT FALSE,
+        last_updated_by varchar(255),
+        last_updated_time datetime(6),
+        version bigint,
+        profile_code varchar(255),
+        description varchar(255),
+        entity varchar(255),
+        profile_id bigint not null,
+        primary key (id)
+    ) ;
+
+    alter table updateview_buttons
+       add constraint FKjue3hi6i7ula26p36crt285ue
+       foreign key (updateview_metadata_id)
+       references updateview_metadata (id);
+
+    alter table updateview_fields
+       add constraint FK8akf64il7p9rpsckqtf891p9b
+       foreign key (updateview_metadata_id)
+       references updateview_metadata (id) ;
+
+    alter table updateview_metadata
+       add constraint FKj7gpm63mwmdcgflxbakvv7y7a
+       foreign key (profile_id)
+       references profile (id);
+
+
+
 insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
 insert into profile(id,profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values (1,'ROOT','Base Profile','ROOT','GNL','seed',now());
 
@@ -337,6 +395,11 @@ insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('DFLT-
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('DFLT-MSTR-SUP','suppliers','adm','./general/genericList.html?entity=Supplier','DFLT-MSTR',1);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('DFLT-MSTR-ITM','items','adm','./general/genericList.html?entity=Item','DFLT-MSTR',2);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('DFLT-MSTR-DTIMP','dataImport','adm','./general/dataImport.html','DFLT-MSTR',3);
+
+insert into updateview_metadata(id,profile_id,profile_code,entity) values ('SUP',1,'ROOT','Supplier');
+insert into updateview_metadata(id,profile_id,profile_code,entity) values ('ITM',1,'ROOT','Item');
+
+
 
 
 insert into list_metadata(id,profile_id,profile_code,entity) values('SUP',1,'ROOT','Supplier');
@@ -380,3 +443,27 @@ insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITM-EDT','btn btn-warning','Edit','onEdit','ITM',3);
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITM-DEL','btn btn-danger','Delete','onDelete','ITM',4);
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITM-EXP','btn btn-success','Export','onExport','ITM',5);
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-NAME','supplierName','text','supplierName',null,1,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CRDLMT','creditLimit','text','creditLimit',null,2,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-JNDDT','joiningDate','date','joiningDate',null,3,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-RNK','supplierRank','text','supplierRank',null,4,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ADD1','address.address1','text','Address1',null,5,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ADD2','address.address2','text','Address2',null,6,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CTY','address.city','text','City',null,7,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CNTY','address.country','dropdown','country','cntry',8,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ST','address.state','dropdown','state','st',9,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ZPCD','address.zipcode','text','zipCode',null,10,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-PHNO','address.phoneNumber','text','phoneNumber',null,11,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CRTDBY','createdBy','text','createdBy',null,100,'V','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CRTDDT','createdDate','text','createdDate',null,101,'V','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-LSUPBY','lastUpdatedBy','text','lastUpdatedBy',null,102,'V','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-LSUPDT','lastUpdatedTime','text','lastUpdatedTime',null,103,'V','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ID','id','hidden','id',null,1,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-VERSION','version','hidden','version',null,2,'AEV','SUP');
+
+
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('SUP-SAVE','btn btn-primary','save','onSave',1,'AE','SUP');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('SUP-EDT','btn btn-info','edit','onEdit',2,'V','SUP');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('SUP-CNCL','btn btn-secondary','cancel','onCancel',1,'AEV','SUP');
+

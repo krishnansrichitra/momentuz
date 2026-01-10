@@ -1,29 +1,41 @@
 package com.momentus.foundation.ui.metadata.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.momentus.foundation.profile.model.ProfileBasedEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
-
+@Entity
+@Table(name ="updateview_fields")
 public class UpdateViewField  {
 
+    @Id
     String  id;
 
+    @Column
     String fieldKey;
 
+    @Column
     String control;
 
+    @Column
     String param;
 
+    @Column
     String accessor;
 
 
+    @Column
     BigDecimal seqNo;
 
+    @ManyToOne()
+    @JoinColumn( name = "updateview_metadata_id" , referencedColumnName = "id" , nullable = true)
+    @JsonIgnore
+    UpdateViewMetadata updateViewMetadata;
+
+    @Column
+    String visibility;
 
     public String getId() {
         return id;
@@ -72,5 +84,21 @@ public class UpdateViewField  {
 
     public void setSeqNo(BigDecimal seqNo) {
         this.seqNo = seqNo;
+    }
+
+    public UpdateViewMetadata getUpdateViewMetadata() {
+        return updateViewMetadata;
+    }
+
+    public void setUpdateViewMetadata(UpdateViewMetadata updateViewMetadata) {
+        this.updateViewMetadata = updateViewMetadata;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 }
