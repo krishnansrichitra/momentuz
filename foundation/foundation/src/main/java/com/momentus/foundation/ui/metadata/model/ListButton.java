@@ -3,6 +3,8 @@ package com.momentus.foundation.ui.metadata.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "list_buttons")
 public class ListButton {
@@ -24,6 +26,9 @@ public class ListButton {
 
     @Column
     String innerText ;
+
+    @Column(name = "seq_no")
+    BigDecimal seqNo;
 
 
     public String getId() {
@@ -64,5 +69,13 @@ public class ListButton {
 
     public void setInnerText(String innerText) {
         this.innerText = innerText;
+    }
+
+    public BigDecimal getSeqNo() {
+        return seqNo;
+    }
+
+    public void setSeqNo(BigDecimal seqNo) {
+        this.seqNo = seqNo;
     }
 }

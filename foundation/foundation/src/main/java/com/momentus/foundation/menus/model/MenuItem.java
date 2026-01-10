@@ -3,6 +3,8 @@ package com.momentus.foundation.menus.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "menu_item")
 public class MenuItem {
@@ -23,6 +25,9 @@ public class MenuItem {
 
     @Column(name = "page")
     String page;
+
+    @Column(name ="seq_no" )
+    BigDecimal seqNo;
 
     public String getId() {
         return id;
@@ -62,5 +67,13 @@ public class MenuItem {
 
     public void setPage(String page) {
         this.page = page;
+    }
+
+    public BigDecimal getSeqNo() {
+        return seqNo;
+    }
+
+    public void setSeqNo(BigDecimal seqNo) {
+        this.seqNo = seqNo;
     }
 }

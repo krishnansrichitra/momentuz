@@ -28,6 +28,7 @@ public class MenuSet extends ProfileBasedEntity {
     }
 
     @OneToMany(mappedBy = "menuSet")
+    @OrderBy("seqNo Asc")
     List<MenuGroup> menuGroupList;
 
 

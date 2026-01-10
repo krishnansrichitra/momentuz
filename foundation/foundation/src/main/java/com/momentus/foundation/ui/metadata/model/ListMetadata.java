@@ -21,12 +21,15 @@ public class ListMetadata extends ProfileBasedEntity {
 
 
     @OneToMany(mappedBy = "listMetadata")
+    @OrderBy("seqNo ASC")
     List<FilterField> filterFields;
 
     @OneToMany(mappedBy = "listMetadata")
+    @OrderBy("seqNo ASC")
     List<ListColumn> listColumns;
 
     @OneToMany(mappedBy = "listMetadata")
+    @OrderBy("seqNo ASC")
     List<ListButton> listButtons;
 
 

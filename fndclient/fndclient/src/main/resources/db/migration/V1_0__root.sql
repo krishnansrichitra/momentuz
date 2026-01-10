@@ -200,6 +200,7 @@ insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_inhs','In 
         menu_key varchar(255),
         menu_set_id varchar(100) ,
         access_code varchar(255),
+        seq_no NUMERIC(10,2),
         primary key (id)
     ) ;
     create table menu_item (
@@ -208,6 +209,7 @@ insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_inhs','In 
         access_code varchar(255),
         page varchar(255),
         menu_group_id varchar(100) ,
+        seq_no NUMERIC(10,2),
         primary key (id)
     ) ;
     create table menu_set (
@@ -264,6 +266,7 @@ create table list_columns (
         field_key varchar(255),
         accessor varchar(255),
         list_metadata_id varchar(100),
+        seq_no NUMERIC(10,2),
         primary key (id)
     ) ;
 
@@ -274,6 +277,7 @@ create table list_columns (
             param varchar(255),
             accessor varchar(255),
             list_metadata_id varchar(100),
+            seq_no NUMERIC(10,2),
             primary key (id)
         ) ;
 
@@ -283,6 +287,7 @@ create table list_columns (
             inner_text varchar(255),
             js_method varchar(255),
             list_metadata_id varchar(100),
+            seq_no NUMERIC(10,2),
             primary key (id)
         ) ;
 
@@ -324,54 +329,54 @@ insert into fndclient.entity(entity_name,full_package,profile_group_code,active)
 
 
 insert into menu_set(id,profile_id,profile_code,description) values ('DFLT',1,'ROOT','Default Menu');
-insert into menu_group(id,menu_key,menu_set_id,access_code) values('DFLT-MSTR','Master','DFLT',null);
-insert into menu_group(id,menu_key,menu_set_id,access_code) values('DFLT-TRNS','Transactions','DFLT',null);
-insert into menu_group(id,menu_key,menu_set_id,access_code) values('DFLT-RPTS','Reports', 'DFLT',null);
+insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('DFLT-MSTR','Master','DFLT',null,1);
+insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('DFLT-TRNS','Transactions','DFLT',null,2);
+insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('DFLT-RPTS','Reports', 'DFLT',null,3);
 
 
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values ('DFLT-MSTR-SUP','suppliers','adm','./general/genericList.html?entity=Supplier','DFLT-MSTR');
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values ('DFLT-MSTR-ITM','items','adm','./general/genericList.html?entity=Item','DFLT-MSTR');
-insert into menu_item (id,menu_key,access_code,page,menu_group_id) values ('DFLT-MSTR-DTIMP','dataImport','adm','./general/dataImport.html','DFLT-MSTR');
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('DFLT-MSTR-SUP','suppliers','adm','./general/genericList.html?entity=Supplier','DFLT-MSTR',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('DFLT-MSTR-ITM','items','adm','./general/genericList.html?entity=Item','DFLT-MSTR',2);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('DFLT-MSTR-DTIMP','dataImport','adm','./general/dataImport.html','DFLT-MSTR',3);
 
 
 insert into list_metadata(id,profile_id,profile_code,entity) values('SUP',1,'ROOT','Supplier');
 insert into list_metadata(id,profile_id,profile_code,entity) values('ITM',1,'ROOT','Item');
 insert into list_metadata(id,profile_id,profile_code,entity) values('CUST',1,'ROOT','Customer');
 
-insert into filter_field(id,list_metadata_id,field_key,control,accessor) values('SUP-NAME','SUP','supplierName','text','supplierName');
-insert into filter_field(id,list_metadata_id,field_key,control,accessor) values('SUP-PHONE','SUP','phoneNumber','text','address["phoneNumber"]');
-insert into filter_field(id,list_metadata_id,field_key,control,accessor) values('SUP-CITY','SUP','city','text','address["city"]');
+insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('SUP-NAME','SUP','supplierName','text','supplierName',1);
+insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('SUP-PHONE','SUP','phoneNumber','text','address["phoneNumber"]',2);
+insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('SUP-CITY','SUP','city','text','address["city"]',3);
 
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('SUP-NAME','SUP','supplierName','supplierName');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('SUP-PHONE','SUP','phoneNumber','address["phoneNumber"]');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('SUP-CITY','SUP','city','address["city"]');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('SUP-STATE','SUP','state','address["state"]');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('SUP-ZIP','SUP','zipCode','address["zipCode"]');
-
-
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('SUP-CRT','btn btn-primary','Create','onCreate','SUP');
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('SUP-VIEW','btn btn-info','View','onView','SUP');
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('SUP-EDT','btn btn-warning','Edit','onEdit','SUP');
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('SUP-DEL','btn btn-danger','Delete','onDelete','SUP');
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('SUP-EXP','btn btn-success','Export','onExport','SUP');
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-NAME','SUP','supplierName','supplierName',1);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-PHONE','SUP','phoneNumber','address["phoneNumber"]',2);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-CITY','SUP','city','address["city"]',3);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-STATE','SUP','state','address["state"]',4);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-ZIP','SUP','zipCode','address["zipCode"]',5);
 
 
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('SUP-CRT','btn btn-primary','Create','onCreate','SUP',1);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('SUP-VIEW','btn btn-info','View','onView','SUP',2);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('SUP-EDT','btn btn-warning','Edit','onEdit','SUP',3);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('SUP-DEL','btn btn-danger','Delete','onDelete','SUP',4);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('SUP-EXP','btn btn-success','Export','onExport','SUP',5);
 
-insert into filter_field(id,list_metadata_id,field_key,control,accessor) values(4,'ITM','itemName','text','itemName');
-insert into filter_field(id,list_metadata_id,field_key,control,param,accessor) values(5,'ITM','supplierName','lookup','supplier','supplier["supplierName"]');
-insert into filter_field(id,list_metadata_id,field_key,control,param,accessor) values(6,'ITM','itemGroup','dropdown','fv::item_group','itemGroup["fvCode"]');
 
 
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('ITM-ITMNAME','ITM','itemName','itemName');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('ITM-ITCD','ITM','itemCode','itemCode');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('ITM-BRCD','ITM','barcode','barcode');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('ITEM-SUP','ITM','supplierName','supplier["supplierName"]');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('ITM-ITMGRP','ITM','itemGroup','itemGroup["fvValue"]');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('ITM-UM-TYPE','ITM','uomType','uomType["fvValue"]');
-insert into list_columns(id,list_metadata_id,field_key,accessor) values ('ITEM-SUP-PH','ITM','supplierPhoneNumber','supplier.address.phoneNumber');
+insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('ITM-ITMNAME','ITM','itemName','text','itemName',1);
+insert into filter_field(id,list_metadata_id,field_key,control,param,accessor,seq_no) values('ITEM-SUPNAME','ITM','supplierName','lookup','supplier','supplier["supplierName"]',2);
+insert into filter_field(id,list_metadata_id,field_key,control,param,accessor,seq_no) values('ITM-ITMGRP','ITM','itemGroup','dropdown','fv::item_group','itemGroup["fvCode"]',3);
 
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('ITM-CRT','btn btn-primary','Create','onCreate','ITM');
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('ITEM-VIW','btn btn-info','View','onView','ITM');
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('ITM-EDT','btn btn-warning','Edit','onEdit','ITM');
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('ITM-DEL','btn btn-danger','Delete','onDelete','ITM');
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id) values('ITM-EXP','btn btn-success','Export','onExport','ITM');
+
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('ITM-ITMNAME','ITM','itemName','itemName',1);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('ITM-ITCD','ITM','itemCode','itemCode',2);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('ITM-BRCD','ITM','barcode','barcode',3);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('ITEM-SUP','ITM','supplierName','supplier["supplierName"]',4);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('ITM-ITMGRP','ITM','itemGroup','itemGroup["fvValue"]',5);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('ITM-UM-TYPE','ITM','uomType','uomType["fvValue"]',6);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('ITEM-SUP-PH','ITM','supplierPhoneNumber','supplier.address.phoneNumber',7);
+
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITM-CRT','btn btn-primary','Create','onCreate','ITM',1);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITEM-VIW','btn btn-info','View','onView','ITM',2);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITM-EDT','btn btn-warning','Edit','onEdit','ITM',3);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITM-DEL','btn btn-danger','Delete','onDelete','ITM',4);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITM-EXP','btn btn-success','Export','onExport','ITM',5);

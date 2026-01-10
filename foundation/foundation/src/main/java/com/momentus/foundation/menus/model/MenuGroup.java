@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.momentus.corefw.data.EntityProperties;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -24,6 +25,9 @@ public class MenuGroup {
 
     @Column(name = "access_code")
     String accessCode;
+
+    @Column(name = "seq_no")
+    BigDecimal seqNo;
 
     public String getId() {
         return id;
@@ -50,6 +54,7 @@ public class MenuGroup {
     }
 
     @OneToMany(mappedBy = "menuGroup")
+    @OrderBy("seqNo Asc")
     List<MenuItem> menuItemList;
 
     public List<MenuItem> getMenuItemList() {
@@ -66,5 +71,14 @@ public class MenuGroup {
 
     public void setAccessCode(String accessCode) {
         this.accessCode = accessCode;
+    }
+
+
+    public BigDecimal getSeqNo() {
+        return seqNo;
+    }
+
+    public void setSeqNo(BigDecimal seqNo) {
+        this.seqNo = seqNo;
     }
 }

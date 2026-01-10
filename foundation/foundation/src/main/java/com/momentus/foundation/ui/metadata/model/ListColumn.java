@@ -3,6 +3,8 @@ package com.momentus.foundation.ui.metadata.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "list_columns")
 public class ListColumn {
@@ -19,6 +21,9 @@ public class ListColumn {
 
     @Column
     String accessor;
+
+    @Column(name = "seq_no")
+    BigDecimal seqNo;
 
     public ListMetadata getListMetadata() {
         return listMetadata;
@@ -50,5 +55,14 @@ public class ListColumn {
 
     public void setAccessor(String accessor) {
         this.accessor = accessor;
+    }
+
+
+    public BigDecimal getSeqNo() {
+        return seqNo;
+    }
+
+    public void setSeqNo(BigDecimal seqNo) {
+        this.seqNo = seqNo;
     }
 }
