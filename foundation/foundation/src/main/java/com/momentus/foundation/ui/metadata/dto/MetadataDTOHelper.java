@@ -18,6 +18,10 @@ public class MetadataDTOHelper {
 
     @Autowired
     GeneralMessages generalMessages;
+
+
+    
+
     public ListMetadataDTO makeListMetadataDTO(ListMetadata listMetadata , Locale locale)
     {
         ListMetadataDTO listMetadataDTO = new ListMetadataDTO();

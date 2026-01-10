@@ -2,13 +2,29 @@ package com.momentus.foundation.ui.metadata.dto;
 
 import jakarta.persistence.Column;
 
-public class ListButtonDTO {
+import java.math.BigDecimal;
+
+public class UpdateViewButtonDTO {
+
+    String id ;
 
     String buttonClass ;
 
     String jsMethod;
 
     String innerText ;
+
+    String visibility;
+
+    BigDecimal seqNo;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getButtonClass() {
         return buttonClass;
@@ -34,12 +50,19 @@ public class ListButtonDTO {
         this.innerText = innerText;
     }
 
-    public ListButtonDTO() {
+    public String getVisibility() {
+        return visibility;
     }
 
-    public ListButtonDTO(String buttonClass, String jsMethod, String innerText) {
-        this.buttonClass = buttonClass;
-        this.jsMethod = jsMethod;
-        this.innerText = innerText;
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
+    }
+
+    public BigDecimal getSeqNo() {
+        return seqNo;
+    }
+
+    public void setSeqNo(BigDecimal seqNo) {
+        this.seqNo = seqNo;
     }
 }
