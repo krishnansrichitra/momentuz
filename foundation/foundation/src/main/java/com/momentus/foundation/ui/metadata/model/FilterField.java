@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class FilterField {
 
     @Id
-    Long id;
+    String id;
 
     @ManyToOne()
     @JoinColumn(name = "list_metadata_id" , referencedColumnName = "id" ,nullable = true)
@@ -52,11 +52,11 @@ public class FilterField {
         this.control = control;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
