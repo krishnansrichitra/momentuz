@@ -1,6 +1,5 @@
 package com.momentus.foundation.organization.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.Column;
@@ -9,36 +8,34 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table( name = "sector")
+@Table(name = "sector")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Sector extends BaseEntity {
 
-    @Id
-    @Column(length = 20)
-    String code;
+  @Id
+  @Column(length = 20)
+  String code;
 
-    @Column
-    String name;
+  @Column String name;
 
+  public String getCode() {
+    return code;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public Object getPK() {
-        return code;
-    }
+  @Override
+  public Object getPK() {
+    return code;
+  }
 }

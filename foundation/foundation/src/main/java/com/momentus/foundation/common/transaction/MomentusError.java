@@ -2,48 +2,51 @@ package com.momentus.foundation.common.transaction;
 
 public class MomentusError {
 
-    public enum ERROR_TYPE{ HARDERROR , SOFTERROR  } ;
-    ERROR_TYPE errorType;
+  public enum ERROR_TYPE {
+    HARDERROR,
+    SOFTERROR
+  };
 
-    String errorCode;
+  ERROR_TYPE errorType;
 
-    String errorMessage;
+  String errorCode;
 
-    public ERROR_TYPE getErrorType() {
-        return errorType;
-    }
+  String errorMessage;
 
-    public void setErrorType(ERROR_TYPE errorType) {
-        this.errorType = errorType;
-    }
+  public ERROR_TYPE getErrorType() {
+    return errorType;
+  }
 
-    public String getErrorCode() {
-        return errorCode;
-    }
+  public void setErrorType(ERROR_TYPE errorType) {
+    this.errorType = errorType;
+  }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
+  public String getErrorCode() {
+    return errorCode;
+  }
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+  public void setErrorCode(String errorCode) {
+    this.errorCode = errorCode;
+  }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+  public String getErrorMessage() {
+    return errorMessage;
+  }
 
-    public MomentusError(ERROR_TYPE errorType, String errorCode, String errorMessage) {
-        this.errorType = errorType;
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-    }
+  public void setErrorMessage(String errorMessage) {
+    this.errorMessage = errorMessage;
+  }
 
-    public MomentusError(String errorCode, String errorMessage) {
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-    }
+  public MomentusError(ERROR_TYPE errorType, String errorCode, String errorMessage) {
+    this.errorType = errorType;
+    this.errorCode = errorCode;
+    this.errorMessage = errorMessage;
+  }
 
-    public MomentusError() {
-    }
+  public MomentusError(String errorCode, String errorMessage) {
+    this.errorCode = errorCode;
+    this.errorMessage = errorMessage;
+  }
+
+  public MomentusError() {}
 }

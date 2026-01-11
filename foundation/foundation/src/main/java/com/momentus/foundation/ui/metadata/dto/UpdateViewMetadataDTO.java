@@ -4,33 +4,33 @@ import java.util.List;
 
 public class UpdateViewMetadataDTO {
 
-    String entity ;
+  String entity;
 
-    List<UpdateViewButtonDTO> updateViewButtons;
+  List<UpdateViewButtonDTO> updateViewButtons;
 
-    List<UpdateViewFieldDTO> updateViewFields;
+  List<UpdateViewFieldDTO> updateViewFields;
 
-    public String getEntity() {
-        return entity;
-    }
+  public String getEntity() {
+    return entity;
+  }
 
-    public void setEntity(String entity) {
-        this.entity = entity;
-    }
+  public void setEntity(String entity) {
+    this.entity = entity;
+  }
 
-    public List<UpdateViewButtonDTO> getUpdateViewButtons() {
-        return updateViewButtons;
-    }
+  public List<UpdateViewButtonDTO> getUpdateViewButtons() {
+    return updateViewButtons;
+  }
 
-    public void setUpdateViewButtons(List<UpdateViewButtonDTO> updateViewButtons) {
-        this.updateViewButtons = updateViewButtons;
-    }
+  public void setUpdateViewButtons(List<UpdateViewButtonDTO> updateViewButtons) {
+    this.updateViewButtons = updateViewButtons;
+  }
 
-    public List<UpdateViewFieldDTO> getUpdateViewFields() {
-        return updateViewFields;
-    }
+  public List<UpdateViewFieldDTO> getUpdateViewFields() {
+    return updateViewFields;
+  }
 
-    public void setUpdateViewFields(List<UpdateViewFieldDTO> updateViewFields) {
-        this.updateViewFields = updateViewFields;
-    }
+  public void setUpdateViewFields(List<UpdateViewFieldDTO> updateViewFields) {
+    this.updateViewFields = updateViewFields;
+  }
 }

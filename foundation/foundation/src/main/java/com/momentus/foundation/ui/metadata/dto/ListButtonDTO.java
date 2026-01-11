@@ -1,45 +1,42 @@
 package com.momentus.foundation.ui.metadata.dto;
 
-import jakarta.persistence.Column;
-
 public class ListButtonDTO {
 
-    String buttonClass ;
+  String buttonClass;
 
-    String jsMethod;
+  String jsMethod;
 
-    String innerText ;
+  String innerText;
 
-    public String getButtonClass() {
-        return buttonClass;
-    }
+  public String getButtonClass() {
+    return buttonClass;
+  }
 
-    public void setButtonClass(String buttonClass) {
-        this.buttonClass = buttonClass;
-    }
+  public void setButtonClass(String buttonClass) {
+    this.buttonClass = buttonClass;
+  }
 
-    public String getJsMethod() {
-        return jsMethod;
-    }
+  public String getJsMethod() {
+    return jsMethod;
+  }
 
-    public void setJsMethod(String jsMethod) {
-        this.jsMethod = jsMethod;
-    }
+  public void setJsMethod(String jsMethod) {
+    this.jsMethod = jsMethod;
+  }
 
-    public String getInnerText() {
-        return innerText;
-    }
+  public String getInnerText() {
+    return innerText;
+  }
 
-    public void setInnerText(String innerText) {
-        this.innerText = innerText;
-    }
+  public void setInnerText(String innerText) {
+    this.innerText = innerText;
+  }
 
-    public ListButtonDTO() {
-    }
+  public ListButtonDTO() {}
 
-    public ListButtonDTO(String buttonClass, String jsMethod, String innerText) {
-        this.buttonClass = buttonClass;
-        this.jsMethod = jsMethod;
-        this.innerText = innerText;
-    }
+  public ListButtonDTO(String buttonClass, String jsMethod, String innerText) {
+    this.buttonClass = buttonClass;
+    this.jsMethod = jsMethod;
+    this.innerText = innerText;
+  }
 }

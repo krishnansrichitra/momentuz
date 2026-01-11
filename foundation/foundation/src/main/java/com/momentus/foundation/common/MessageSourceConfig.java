@@ -8,19 +8,12 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 @Configuration
 public class MessageSourceConfig {
-    @Bean
-    @Primary
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-        source.setBasenames(
-                "FoundErrorMessages",
-                "AppError",
-                "Labels",
-                "Menus",
-                "FiniteValues"
-        );
-        source.setDefaultEncoding("UTF-8");
-        return source;
-    }
-
+  @Bean
+  @Primary
+  public MessageSource messageSource() {
+    ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+    source.setBasenames("FoundErrorMessages", "AppError", "Labels", "Menus", "FiniteValues");
+    source.setDefaultEncoding("UTF-8");
+    return source;
+  }
 }

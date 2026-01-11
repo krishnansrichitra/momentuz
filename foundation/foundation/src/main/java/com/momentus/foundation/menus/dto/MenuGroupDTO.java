@@ -4,36 +4,33 @@ import java.util.List;
 
 public class MenuGroupDTO {
 
-    String id;
+  String id;
 
-    String name;
+  String name;
 
-    List<MenuItemDTO> items;
+  List<MenuItemDTO> items;
 
+  public String getName() {
+    return name;
+  }
 
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public List<MenuItemDTO> getItems() {
+    return items;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setItems(List<MenuItemDTO> items) {
+    this.items = items;
+  }
 
-    public List<MenuItemDTO> getItems() {
-        return items;
-    }
+  public MenuGroupDTO() {}
 
-    public void setItems(List<MenuItemDTO> items) {
-        this.items = items;
-    }
-
-    public MenuGroupDTO() {
-    }
-
-    public MenuGroupDTO(String id, String name, List<MenuItemDTO> items) {
-        this.id = id;
-        this.name = name;
-        this.items = items;
-    }
+  public MenuGroupDTO(String id, String name, List<MenuItemDTO> items) {
+    this.id = id;
+    this.name = name;
+    this.items = items;
+  }
 }

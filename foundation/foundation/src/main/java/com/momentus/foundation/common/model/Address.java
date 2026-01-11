@@ -1,90 +1,83 @@
 package com.momentus.foundation.common.model;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Embeddable
 public class Address {
 
+  @Column(nullable = false)
+  public String address1;
 
+  public String address2;
 
-    @Column(nullable = false)
-    public String address1;
+  @Column(nullable = false)
+  public String city;
 
-    public String address2;
+  @Column(nullable = false)
+  public String state;
 
-    @Column(nullable = false)
-    public String city;
+  @Column(nullable = false)
+  public String country;
 
-    @Column(nullable = false)
-    public String state;
+  @Column(nullable = false, length = 10)
+  public String zipcode;
 
-    @Column(nullable = false)
-    public String country;
+  @Column(length = 15)
+  public String phoneNumber;
 
-    @Column(nullable = false, length = 10)
-    public String zipcode;
+  public String getAddress1() {
+    return address1;
+  }
 
-    @Column(length = 15)
-    public String phoneNumber;
+  public void setAddress1(String address1) {
+    this.address1 = address1;
+  }
 
+  public String getAddress2() {
+    return address2;
+  }
 
-    public String getAddress1() {
-        return address1;
-    }
+  public void setAddress2(String address2) {
+    this.address2 = address2;
+  }
 
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
+  public String getCity() {
+    return city;
+  }
 
-    public String getAddress2() {
-        return address2;
-    }
+  public void setCity(String city) {
+    this.city = city;
+  }
 
-    public void setAddress2(String address2) {
-        this.address2 = address2;
-    }
+  public String getState() {
+    return state;
+  }
 
-    public String getCity() {
-        return city;
-    }
+  public void setState(String state) {
+    this.state = state;
+  }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+  public String getCountry() {
+    return country;
+  }
 
-    public String getState() {
-        return state;
-    }
+  public void setCountry(String country) {
+    this.country = country;
+  }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+  public String getZipcode() {
+    return zipcode;
+  }
 
-    public String getCountry() {
-        return country;
-    }
+  public void setZipcode(String zipcode) {
+    this.zipcode = zipcode;
+  }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
 
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
 }

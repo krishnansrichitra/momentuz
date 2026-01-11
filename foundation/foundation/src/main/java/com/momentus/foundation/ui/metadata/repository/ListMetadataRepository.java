@@ -1,16 +1,12 @@
 package com.momentus.foundation.ui.metadata.repository;
 
-import com.momentus.foundation.menus.model.MenuSet;
 import com.momentus.foundation.ui.metadata.model.ListMetadata;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Collection;
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ListMetadataRepository extends JpaRepository<ListMetadata,String> {
+public interface ListMetadataRepository extends JpaRepository<ListMetadata, String> {
 
-    List<ListMetadata> findByProfile_ProfileCodeInAndEntity(
-            Collection<String> profileCodes,
-            String entity
-    );
+  List<ListMetadata> findByProfile_ProfileCodeInAndEntity(
+      Collection<String> profileCodes, String entity);
 }

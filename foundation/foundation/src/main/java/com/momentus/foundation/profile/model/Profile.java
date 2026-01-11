@@ -5,101 +5,93 @@ import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "profile")
 public class Profile extends BaseEntity {
 
-    @Id
-    @EntityProperties(isPK = true)
-    Long id;
+  @Id
+  @EntityProperties(isPK = true)
+  Long id;
 
-    @Column(unique = true)
-    @EntityProperties(isBK = true)
-    String profileCode;
+  @Column(unique = true)
+  @EntityProperties(isBK = true)
+  String profileCode;
 
-    @Column
-    String parentProfileCode ;
+  @Column String parentProfileCode;
 
-    @Column
-    String profileDescription;
+  @Column String profileDescription;
 
-    @Column(unique = true)
-    String fullProfileCode;
+  @Column(unique = true)
+  String fullProfileCode;
 
-    @Column
-    Long parentProfileId;
+  @Column Long parentProfileId;
 
-    @ManyToOne(fetch= FetchType.EAGER)
-    @JoinColumn(name = "profile_group_code" , referencedColumnName = "profileGroupCode")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    ProfileGroup profileGroup;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "profile_group_code", referencedColumnName = "profileGroupCode")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  ProfileGroup profileGroup;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private boolean active =true ;
+  @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+  private boolean active = true;
 
+  public Long getId() {
+    return id;
+  }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
 
+  public String getProfileCode() {
+    return profileCode;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public void setProfileCode(String profileCode) {
+    this.profileCode = profileCode;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public String getParentProfileCode() {
+    return parentProfileCode;
+  }
 
-    public String getProfileCode() {
-        return profileCode;
-    }
+  public void setParentProfileCode(String parentProfileCode) {
+    this.parentProfileCode = parentProfileCode;
+  }
 
-    public void setProfileCode(String profileCode) {
-        this.profileCode = profileCode;
-    }
+  public String getFullProfileCode() {
+    return fullProfileCode;
+  }
 
-    public String getParentProfileCode() {
-        return parentProfileCode;
-    }
+  public void setFullProfileCode(String fullProfileCode) {
+    this.fullProfileCode = fullProfileCode;
+  }
 
-    public void setParentProfileCode(String parentProfileCode) {
-        this.parentProfileCode = parentProfileCode;
-    }
+  public Long getParentProfileId() {
+    return parentProfileId;
+  }
 
-    public String getFullProfileCode() {
-        return fullProfileCode;
-    }
+  public void setParentProfileId(Long parentProfileId) {
+    this.parentProfileId = parentProfileId;
+  }
 
-    public void setFullProfileCode(String fullProfileCode) {
-        this.fullProfileCode = fullProfileCode;
-    }
+  public ProfileGroup getProfileGroup() {
+    return profileGroup;
+  }
 
-    public Long getParentProfileId() {
-        return parentProfileId;
-    }
+  public void setProfileGroup(ProfileGroup profileGroup) {
+    this.profileGroup = profileGroup;
+  }
 
-    public void setParentProfileId(Long parentProfileId) {
-        this.parentProfileId = parentProfileId;
-    }
+  public boolean isActive() {
+    return active;
+  }
 
-    public ProfileGroup getProfileGroup() {
-        return profileGroup;
-    }
+  public void setActive(boolean active) {
+    this.active = active;
+  }
 
-    public void setProfileGroup(ProfileGroup profileGroup) {
-        this.profileGroup = profileGroup;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    @Override
-    public Object getPK() {
-        return id;
-    }
+  @Override
+  public Object getPK() {
+    return id;
+  }
 }

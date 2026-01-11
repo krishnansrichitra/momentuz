@@ -2,91 +2,83 @@ package com.momentus.foundation.ui.metadata.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "filter_field")
 public class FilterField {
 
-    @Id
-    String id;
+  @Id String id;
 
-    @ManyToOne()
-    @JoinColumn(name = "list_metadata_id" , referencedColumnName = "id" ,nullable = true)
-    @JsonIgnore
-    ListMetadata listMetadata;
+  @ManyToOne()
+  @JoinColumn(name = "list_metadata_id", referencedColumnName = "id", nullable = true)
+  @JsonIgnore
+  ListMetadata listMetadata;
 
-    @Column
-    String fieldKey;
+  @Column String fieldKey;
 
-    @Column
-    String control;
+  @Column String control;
 
-    @Column
-    String param;
+  @Column String param;
 
-    @Column
-    String accessor;
+  @Column String accessor;
 
-    @Column(name = "seq_no")
-    BigDecimal seqNo;
+  @Column(name = "seq_no")
+  BigDecimal seqNo;
 
+  public ListMetadata getListMetadata() {
+    return listMetadata;
+  }
 
-    public ListMetadata getListMetadata() {
-        return listMetadata;
-    }
+  public void setListMetadata(ListMetadata listMetadata) {
+    this.listMetadata = listMetadata;
+  }
 
-    public void setListMetadata(ListMetadata listMetadata) {
-        this.listMetadata = listMetadata;
-    }
+  public String getFieldKey() {
+    return fieldKey;
+  }
 
-    public String getFieldKey() {
-        return fieldKey;
-    }
+  public void setFieldKey(String fieldKey) {
+    this.fieldKey = fieldKey;
+  }
 
-    public void setFieldKey(String fieldKey) {
-        this.fieldKey = fieldKey;
-    }
+  public String getControl() {
+    return control;
+  }
 
-    public String getControl() {
-        return control;
-    }
+  public void setControl(String control) {
+    this.control = control;
+  }
 
-    public void setControl(String control) {
-        this.control = control;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getParam() {
+    return param;
+  }
 
-    public String getParam() {
-        return param;
-    }
+  public void setParam(String param) {
+    this.param = param;
+  }
 
-    public void setParam(String param) {
-        this.param = param;
-    }
+  public String getAccessor() {
+    return accessor;
+  }
 
-    public String getAccessor() {
-        return accessor;
-    }
+  public void setAccessor(String accessor) {
+    this.accessor = accessor;
+  }
 
-    public void setAccessor(String accessor) {
-        this.accessor = accessor;
-    }
+  public BigDecimal getSeqNo() {
+    return seqNo;
+  }
 
-
-    public BigDecimal getSeqNo() {
-        return seqNo;
-    }
-
-    public void setSeqNo(BigDecimal seqNo) {
-        this.seqNo = seqNo;
-    }
+  public void setSeqNo(BigDecimal seqNo) {
+    this.seqNo = seqNo;
+  }
 }

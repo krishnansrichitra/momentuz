@@ -4,117 +4,112 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.organization.model.Organization;
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
 
-    @Id
-    private String userId;
+  @Id private String userId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "org_id", referencedColumnName = "Id")
-    Organization orgId;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "org_id", referencedColumnName = "Id")
+  Organization orgId;
 
-    @Column(nullable = false)
-    private String firstName;
+  @Column(nullable = false)
+  private String firstName;
 
-    @Column(nullable = false)
-    private String lastName;
+  @Column(nullable = false)
+  private String lastName;
 
-    @Column(nullable = false)
-    private String phone;
+  @Column(nullable = false)
+  private String phone;
 
-    @Column(nullable = false)
-    private String email;
+  @Column(nullable = false)
+  private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @JsonIgnore
-    List<UserRoles> userRoles ;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+  @JsonIgnore
+  List<UserRoles> userRoles;
 
+  @Column(nullable = false)
+  private String password; // stored as BCrypt-hash
 
-    @Column(nullable = false)
-    private String password; // stored as BCrypt-hash
+  /**
+   * Simple roles storage for this example: comma separated (e.g. "ROLE_USER,ROLE_ADMIN") In prod,
+   * prefer a join table Role entity.
+   */
 
+  // --- constructors, getters, setters ---
 
-    /**
-     * Simple roles storage for this example: comma separated (e.g. "ROLE_USER,ROLE_ADMIN")
-     * In prod, prefer a join table Role entity.
-     */
+  public User() {}
 
-    // --- constructors, getters, setters ---
+  public String getUserId() {
+    return userId;
+  }
 
-    public User() {}
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
-    public String getUserId() {
-        return userId;
-    }
+  public String getFirstName() {
+    return firstName;
+  }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-    public String getFirstName() {
-        return firstName;
-    }
+  public String getLastName() {
+    return lastName;
+  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-    public String getLastName() {
-        return lastName;
-    }
+  public String getPhone() {
+    return phone;
+  }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
 
-    public String getPhone() {
-        return phone;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public Organization getOrgId() {
+    return orgId;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setOrgId(Organization orgId) {
+    this.orgId = orgId;
+  }
 
-    public Organization getOrgId() {
-        return orgId;
-    }
+  public List<UserRoles> getUserRoles() {
+    return userRoles;
+  }
 
-    public void setOrgId(Organization orgId) {
-        this.orgId = orgId;
-    }
+  public void setUserRoles(List<UserRoles> userRoles) {
+    this.userRoles = userRoles;
+  }
 
-    public List<UserRoles> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(List<UserRoles> userRoles) {
-        this.userRoles = userRoles;
-    }
-
-    @Override
-    public Object getPK() {
-        return userId;
-    }
+  @Override
+  public Object getPK() {
+    return userId;
+  }
 }
-

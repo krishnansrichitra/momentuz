@@ -4,32 +4,30 @@ import java.util.List;
 
 public class MenuSetDTO {
 
-    String id;
+  String id;
 
-    List<MenuGroupDTO> groups;
+  List<MenuGroupDTO> groups;
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public List<MenuGroupDTO> getGroups() {
-        return groups;
-    }
+  public List<MenuGroupDTO> getGroups() {
+    return groups;
+  }
 
-    public void setGroups(List<MenuGroupDTO> groups) {
-        this.groups = groups;
-    }
+  public void setGroups(List<MenuGroupDTO> groups) {
+    this.groups = groups;
+  }
 
-    public MenuSetDTO() {
+  public MenuSetDTO() {}
 
-    }
-
-    public MenuSetDTO(String id, List<MenuGroupDTO> groups) {
-        this.id = id;
-        this.groups = groups;
-    }
+  public MenuSetDTO(String id, List<MenuGroupDTO> groups) {
+    this.id = id;
+    this.groups = groups;
+  }
 }

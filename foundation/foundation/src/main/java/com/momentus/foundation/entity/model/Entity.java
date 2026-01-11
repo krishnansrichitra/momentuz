@@ -2,126 +2,119 @@ package com.momentus.foundation.entity.model;
 
 import com.momentus.foundation.profile.model.ProfileGroup;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @jakarta.persistence.Entity
 @Table(name = "entity")
 public class Entity {
 
-    @Id
-    String entityName;
+  @Id String entityName;
 
-    @Column(name = "full_package", nullable = true)
-    String fullPackage;
+  @Column(name = "full_package", nullable = true)
+  String fullPackage;
 
+  @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+  private boolean active = true;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private boolean active =true ;
+  @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+  private boolean deleted = false;
 
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "profile_group_code", referencedColumnName = "profileGroupCode")
+  ProfileGroup profileGroup;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean deleted =false ;
+  @Column(name = "created_by", nullable = true)
+  private String createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "profile_group_code" ,referencedColumnName = "profileGroupCode")
-    ProfileGroup profileGroup;
+  @Column(name = "created_time", nullable = true)
+  private LocalDateTime createdTime;
 
+  @Column(name = "last_updated_by", nullable = true)
+  private String lastUpdatedBy;
 
-    @Column(name = "created_by", nullable = true)
-    private String createdBy;
+  @Column(name = "last_updated_time", nullable = true)
+  private LocalDateTime lastUpdatedTime;
 
-    @Column(name = "created_time", nullable = true)
-    private LocalDateTime createdTime;
+  @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+  Boolean supportImport = true;
 
+  public String getEntityName() {
+    return entityName;
+  }
 
-    @Column(name = "last_updated_by", nullable = true)
-    private String lastUpdatedBy;
+  public void setEntityName(String entityName) {
+    this.entityName = entityName;
+  }
 
-    @Column(name = "last_updated_time", nullable = true)
-    private LocalDateTime lastUpdatedTime;
+  public String getFullPackage() {
+    return fullPackage;
+  }
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-    Boolean supportImport= true;
+  public void setFullPackage(String fullPackage) {
+    this.fullPackage = fullPackage;
+  }
 
+  public boolean isActive() {
+    return active;
+  }
 
-    public String getEntityName() {
-        return entityName;
-    }
+  public void setActive(boolean active) {
+    this.active = active;
+  }
 
-    public void setEntityName(String entityName) {
-        this.entityName = entityName;
-    }
+  public boolean isDeleted() {
+    return deleted;
+  }
 
-    public String getFullPackage() {
-        return fullPackage;
-    }
+  public void setDeleted(boolean deleted) {
+    this.deleted = deleted;
+  }
 
-    public void setFullPackage(String fullPackage) {
-        this.fullPackage = fullPackage;
-    }
+  public String getCreatedBy() {
+    return createdBy;
+  }
 
-    public boolean isActive() {
-        return active;
-    }
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+  public LocalDateTime getCreatedTime() {
+    return createdTime;
+  }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
+  public void setCreatedTime(LocalDateTime createdTime) {
+    this.createdTime = createdTime;
+  }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
+  public String getLastUpdatedBy() {
+    return lastUpdatedBy;
+  }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+  public void setLastUpdatedBy(String lastUpdatedBy) {
+    this.lastUpdatedBy = lastUpdatedBy;
+  }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+  public LocalDateTime getLastUpdatedTime() {
+    return lastUpdatedTime;
+  }
 
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
-    }
+  public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
+    this.lastUpdatedTime = lastUpdatedTime;
+  }
 
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
-    }
+  public ProfileGroup getProfileGroup() {
+    return profileGroup;
+  }
 
-    public String getLastUpdatedBy() {
-        return lastUpdatedBy;
-    }
+  public void setProfileGroup(ProfileGroup profileGroup) {
+    this.profileGroup = profileGroup;
+  }
 
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-    }
+  public Boolean getSupportImport() {
+    return supportImport;
+  }
 
-    public LocalDateTime getLastUpdatedTime() {
-        return lastUpdatedTime;
-    }
-
-    public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
-        this.lastUpdatedTime = lastUpdatedTime;
-    }
-
-    public ProfileGroup getProfileGroup() {
-        return profileGroup;
-    }
-
-    public void setProfileGroup(ProfileGroup profileGroup) {
-        this.profileGroup = profileGroup;
-    }
-
-    public Boolean getSupportImport() {
-        return supportImport;
-    }
-
-    public void setSupportImport(Boolean supportImport) {
-        this.supportImport = supportImport;
-    }
+  public void setSupportImport(Boolean supportImport) {
+    this.supportImport = supportImport;
+  }
 }

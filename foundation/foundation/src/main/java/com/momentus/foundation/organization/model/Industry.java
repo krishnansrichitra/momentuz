@@ -12,35 +12,30 @@ import jakarta.persistence.Table;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Industry extends BaseEntity {
 
-    @Id
-    @Column(length = 20)
-    String code;
+  @Id
+  @Column(length = 20)
+  String code;
 
-    @Column
-    String name ;
+  @Column String name;
 
+  public String getCode() {
+    return code;
+  }
 
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    @Override
-    public Object getPK() {
-        return code;
-    }
+  @Override
+  public Object getPK() {
+    return code;
+  }
 }

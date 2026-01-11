@@ -1,197 +1,185 @@
 package com.momentus.foundation.organization.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
-import java.util.List;
-
 
 @Entity
 @Table(name = "organization")
-public class Organization  extends BaseEntity {
+public class Organization extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EntityProperties(isPK = true)
-    Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EntityProperties(isPK = true)
+  Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = true,cascade = CascadeType.MERGE)
-    @JoinColumn(name = "industry_code", referencedColumnName = "code", nullable = true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    Industry industry;
+  @ManyToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "industry_code", referencedColumnName = "code", nullable = true)
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  Industry industry;
 
-    @ManyToOne(fetch = FetchType.LAZY,optional = true,cascade = CascadeType.MERGE)
-    @JoinColumn(name = "sector_code", referencedColumnName = "code",nullable = true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    Sector sector;
+  @ManyToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.MERGE)
+  @JoinColumn(name = "sector_code", referencedColumnName = "code", nullable = true)
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  Sector sector;
 
+  @Column(nullable = false)
+  @EntityProperties(isBK = true)
+  private String orgCode;
 
-    @Column(nullable = false)
-    @EntityProperties(isBK = true)
-    private String orgCode;
+  @Column(nullable = false)
+  @EntityProperties(isMandatory = true)
+  private String organizationName;
 
-    @Column(nullable = false)
-    @EntityProperties(isMandatory = true)
-    private  String organizationName;
+  @Column(nullable = false)
+  private String address1;
 
-    @Column (nullable = false)
-    private String address1 ;
+  @Column private String address2;
 
-    @Column
-    private String address2 ;
+  @Column private String zipCode;
 
-    @Column
-    private String zipCode;
+  @Column private String city;
 
-    @Column
-    private String city ;
+  @Column private String state;
 
-    @Column
-    private String state;
+  @Column private String country;
 
-    @Column
-    private String country ;
+  @Column(nullable = false)
+  @EntityProperties(isMandatory = true)
+  private String email;
 
-    @Column (nullable = false)
-    @EntityProperties(isMandatory = true)
-    private String email;
+  @Column(nullable = false)
+  @EntityProperties(isMandatory = true)
+  private String phone;
 
-    @Column (nullable = false)
-    @EntityProperties(isMandatory = true)
-    private  String phone;
+  @Column private String primaryContact;
 
-    @Column
-    private String primaryContact ;
+  @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+  private Boolean active;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private Boolean active;
+  public String getOrgCode() {
+    return orgCode;
+  }
 
+  public void setOrgCode(String orgCode) {
+    this.orgCode = orgCode;
+  }
 
+  public String getOrganizationName() {
+    return organizationName;
+  }
 
-    public String getOrgCode() {
-        return orgCode;
-    }
+  public void setOrganizationName(String organizationName) {
+    this.organizationName = organizationName;
+  }
 
-    public void setOrgCode(String orgCode) {
-        this.orgCode = orgCode;
-    }
+  public String getAddress1() {
+    return address1;
+  }
 
-    public String getOrganizationName() {
-        return organizationName;
-    }
+  public void setAddress1(String address1) {
+    this.address1 = address1;
+  }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
-    }
+  public String getAddress2() {
+    return address2;
+  }
 
-    public String getAddress1() {
-        return address1;
-    }
+  public void setAddress2(String address2) {
+    this.address2 = address2;
+  }
 
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
+  public String getZipCode() {
+    return zipCode;
+  }
 
-    public String getAddress2() {
-        return address2;
-    }
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
+  }
 
-    public void setAddress2(String address2) {
-        this.address2 = address2;
-    }
+  public String getCity() {
+    return city;
+  }
 
-    public String getZipCode() {
-        return zipCode;
-    }
+  public void setCity(String city) {
+    this.city = city;
+  }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
+  public String getState() {
+    return state;
+  }
 
-    public String getCity() {
-        return city;
-    }
+  public void setState(String state) {
+    this.state = state;
+  }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+  public String getCountry() {
+    return country;
+  }
 
-    public String getState() {
-        return state;
-    }
+  public void setCountry(String country) {
+    this.country = country;
+  }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getCountry() {
-        return country;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+  public String getPhone() {
+    return phone;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getPrimaryContact() {
+    return primaryContact;
+  }
 
-    public String getPhone() {
-        return phone;
-    }
+  public void setPrimaryContact(String primaryContact) {
+    this.primaryContact = primaryContact;
+  }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+  public Boolean getActive() {
+    return active;
+  }
 
-    public String getPrimaryContact() {
-        return primaryContact;
-    }
+  public void setActive(Boolean active) {
+    this.active = active;
+  }
 
-    public void setPrimaryContact(String primaryContact) {
-        this.primaryContact = primaryContact;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public Boolean getActive() {
-        return active;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
+  public Industry getIndustry() {
+    return industry;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public void setIndustry(Industry industry) {
+    this.industry = industry;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Sector getSector() {
+    return sector;
+  }
 
-    public Industry getIndustry() {
-        return industry;
-    }
+  public void setSector(Sector sector) {
+    this.sector = sector;
+  }
 
-    public void setIndustry(Industry industry) {
-        this.industry = industry;
-    }
-
-    public Sector getSector() {
-        return sector;
-    }
-
-    public void setSector(Sector sector) {
-        this.sector = sector;
-    }
-
-    @Override
-    public Object getPK() {
-        return id;
-    }
+  @Override
+  public Object getPK() {
+    return id;
+  }
 }

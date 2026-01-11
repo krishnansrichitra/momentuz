@@ -1,80 +1,83 @@
 package com.momentus.foundation.ui.metadata.dto;
 
-import jakarta.persistence.Column;
-
 import java.math.BigDecimal;
 
 public class UpdateViewButtonDTO {
 
-    String id ;
+  String id;
 
-    String buttonClass ;
+  String buttonClass;
 
-    String jsMethod;
+  String jsMethod;
 
-    String innerText ;
+  String innerText;
 
-    String visibility;
+  String visibility;
 
-    BigDecimal seqNo;
+  BigDecimal seqNo;
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getButtonClass() {
-        return buttonClass;
-    }
+  public String getButtonClass() {
+    return buttonClass;
+  }
 
-    public void setButtonClass(String buttonClass) {
-        this.buttonClass = buttonClass;
-    }
+  public void setButtonClass(String buttonClass) {
+    this.buttonClass = buttonClass;
+  }
 
-    public String getJsMethod() {
-        return jsMethod;
-    }
+  public String getJsMethod() {
+    return jsMethod;
+  }
 
-    public void setJsMethod(String jsMethod) {
-        this.jsMethod = jsMethod;
-    }
+  public void setJsMethod(String jsMethod) {
+    this.jsMethod = jsMethod;
+  }
 
-    public String getInnerText() {
-        return innerText;
-    }
+  public String getInnerText() {
+    return innerText;
+  }
 
-    public void setInnerText(String innerText) {
-        this.innerText = innerText;
-    }
+  public void setInnerText(String innerText) {
+    this.innerText = innerText;
+  }
 
-    public String getVisibility() {
-        return visibility;
-    }
+  public String getVisibility() {
+    return visibility;
+  }
 
-    public void setVisibility(String visibility) {
-        this.visibility = visibility;
-    }
+  public void setVisibility(String visibility) {
+    this.visibility = visibility;
+  }
 
-    public BigDecimal getSeqNo() {
-        return seqNo;
-    }
+  public BigDecimal getSeqNo() {
+    return seqNo;
+  }
 
-    public void setSeqNo(BigDecimal seqNo) {
-        this.seqNo = seqNo;
-    }
+  public void setSeqNo(BigDecimal seqNo) {
+    this.seqNo = seqNo;
+  }
 
-    public UpdateViewButtonDTO() {
-    }
+  public UpdateViewButtonDTO() {}
 
-    public UpdateViewButtonDTO(String id, String buttonClass, String jsMethod, String innerText, String visibility, BigDecimal seqNo) {
-        this.id = id;
-        this.buttonClass = buttonClass;
-        this.jsMethod = jsMethod;
-        this.innerText = innerText;
-        this.visibility = visibility;
-        this.seqNo = seqNo;
-    }
+  public UpdateViewButtonDTO(
+      String id,
+      String buttonClass,
+      String jsMethod,
+      String innerText,
+      String visibility,
+      BigDecimal seqNo) {
+    this.id = id;
+    this.buttonClass = buttonClass;
+    this.jsMethod = jsMethod;
+    this.innerText = innerText;
+    this.visibility = visibility;
+    this.seqNo = seqNo;
+  }
 }

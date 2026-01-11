@@ -4,91 +4,83 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.profile.model.ProfileBasedEntity;
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
 @Table(name = "list_metadata")
 public class ListMetadata extends ProfileBasedEntity {
 
-    @Id
-    @EntityProperties(isPK = true)
-    String id;
+  @Id
+  @EntityProperties(isPK = true)
+  String id;
 
+  @Column String description;
 
-    @Column
-    String description;
+  @OneToMany(mappedBy = "listMetadata")
+  @OrderBy("seqNo ASC")
+  List<FilterField> filterFields;
 
+  @OneToMany(mappedBy = "listMetadata")
+  @OrderBy("seqNo ASC")
+  List<ListColumn> listColumns;
 
-    @OneToMany(mappedBy = "listMetadata")
-    @OrderBy("seqNo ASC")
-    List<FilterField> filterFields;
+  @OneToMany(mappedBy = "listMetadata")
+  @OrderBy("seqNo ASC")
+  List<ListButton> listButtons;
 
-    @OneToMany(mappedBy = "listMetadata")
-    @OrderBy("seqNo ASC")
-    List<ListColumn> listColumns;
+  @Column String entity;
 
-    @OneToMany(mappedBy = "listMetadata")
-    @OrderBy("seqNo ASC")
-    List<ListButton> listButtons;
+  public String getDescription() {
+    return description;
+  }
 
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    @Column
-    String entity;
+  public List<FilterField> getFilterFields() {
+    return filterFields;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setFilterFields(List<FilterField> filterFields) {
+    this.filterFields = filterFields;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public List<ListColumn> getListColumns() {
+    return listColumns;
+  }
 
-    public List<FilterField> getFilterFields() {
-        return filterFields;
-    }
+  public void setListColumns(List<ListColumn> listColumns) {
+    this.listColumns = listColumns;
+  }
 
-    public void setFilterFields(List<FilterField> filterFields) {
-        this.filterFields = filterFields;
-    }
+  public String getEntity() {
+    return entity;
+  }
 
-    public List<ListColumn> getListColumns() {
-        return listColumns;
-    }
+  public void setEntity(String entity) {
+    this.entity = entity;
+  }
 
-    public void setListColumns(List<ListColumn> listColumns) {
-        this.listColumns = listColumns;
-    }
+  public List<ListButton> getListButtons() {
+    return listButtons;
+  }
 
-    public String getEntity() {
-        return entity;
-    }
+  public void setListButtons(List<ListButton> listButtons) {
+    this.listButtons = listButtons;
+  }
 
-    public void setEntity(String entity) {
-        this.entity = entity;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public List<ListButton> getListButtons() {
-        return listButtons;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setListButtons(List<ListButton> listButtons) {
-        this.listButtons = listButtons;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Override
-    @JsonIgnore
-    public Object getPK() {
-        return id;
-    }
+  @Override
+  @JsonIgnore
+  public Object getPK() {
+    return id;
+  }
 }
-

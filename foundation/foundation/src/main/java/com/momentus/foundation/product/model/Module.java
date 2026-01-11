@@ -10,23 +10,15 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "modules")
-@Data                       // Lombok: generates getters, setters, toString, equals, hashCode
-@NoArgsConstructor           // Lombok: generates a no-args constructor
+@Data // Lombok: generates getters, setters, toString, equals, hashCode
+@NoArgsConstructor // Lombok: generates a no-args constructor
 @AllArgsConstructor
 public class Module {
 
-    @Id
-    String moduleCode;
+  @Id String moduleCode;
 
+  @Column String moduleName;
 
-    @Column
-    String moduleName;
-
-    @Column(length = 100)
-    String description;
-
-
-
+  @Column(length = 100)
+  String description;
 }
-
-

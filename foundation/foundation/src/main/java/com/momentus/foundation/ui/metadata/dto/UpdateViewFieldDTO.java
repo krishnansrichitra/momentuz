@@ -2,87 +2,92 @@ package com.momentus.foundation.ui.metadata.dto;
 
 public class UpdateViewFieldDTO {
 
-    String  id;
+  String id;
 
-    String fieldKey;
+  String fieldKey;
 
-    String fieldLabel ;
+  String fieldLabel;
 
-    String control ;
+  String control;
 
-    String param;
+  String param;
 
-    String accessor;
+  String accessor;
 
-    String visibility ;
+  String visibility;
 
+  public String getId() {
+    return id;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getFieldKey() {
+    return fieldKey;
+  }
 
-    public String getFieldKey() {
-        return fieldKey;
-    }
+  public void setFieldKey(String fieldKey) {
+    this.fieldKey = fieldKey;
+  }
 
-    public void setFieldKey(String fieldKey) {
-        this.fieldKey = fieldKey;
-    }
+  public String getFieldLabel() {
+    return fieldLabel;
+  }
 
-    public String getFieldLabel() {
-        return fieldLabel;
-    }
+  public void setFieldLabel(String fieldLabel) {
+    this.fieldLabel = fieldLabel;
+  }
 
-    public void setFieldLabel(String fieldLabel) {
-        this.fieldLabel = fieldLabel;
-    }
+  public String getControl() {
+    return control;
+  }
 
-    public String getControl() {
-        return control;
-    }
+  public void setControl(String control) {
+    this.control = control;
+  }
 
-    public void setControl(String control) {
-        this.control = control;
-    }
+  public String getParam() {
+    return param;
+  }
 
-    public String getParam() {
-        return param;
-    }
+  public void setParam(String param) {
+    this.param = param;
+  }
 
-    public void setParam(String param) {
-        this.param = param;
-    }
+  public String getAccessor() {
+    return accessor;
+  }
 
-    public String getAccessor() {
-        return accessor;
-    }
+  public void setAccessor(String accessor) {
+    this.accessor = accessor;
+  }
 
-    public void setAccessor(String accessor) {
-        this.accessor = accessor;
-    }
+  public String getVisibility() {
+    return visibility;
+  }
 
-    public String getVisibility() {
-        return visibility;
-    }
+  public void setVisibility(String visibility) {
+    this.visibility = visibility;
+  }
 
-    public void setVisibility(String visibility) {
-        this.visibility = visibility;
-    }
+  public UpdateViewFieldDTO() {}
 
-    public UpdateViewFieldDTO() {
-    }
-
-    public UpdateViewFieldDTO(String id, String fieldKey, String fieldLabel, String control, String param, String accessor, String visibility) {
-        this.id = id;
-        this.fieldKey = fieldKey;
-        this.fieldLabel = fieldLabel;
-        this.control = control;
-        this.param = param;
-        this.accessor = accessor;
-        this.visibility = visibility;
-    }
+  public UpdateViewFieldDTO(
+      String id,
+      String fieldKey,
+      String fieldLabel,
+      String control,
+      String param,
+      String accessor,
+      String visibility) {
+    this.id = id;
+    this.fieldKey = fieldKey;
+    this.fieldLabel = fieldLabel;
+    this.control = control;
+    this.param = param;
+    this.accessor = accessor;
+    this.visibility = visibility;
+  }
 }
