@@ -72,4 +72,17 @@ public class UpdateViewFieldDTO {
     public void setVisibility(String visibility) {
         this.visibility = visibility;
     }
+
+    public UpdateViewFieldDTO() {
+    }
+
+    public UpdateViewFieldDTO(String id, String fieldKey, String fieldLabel, String control, String param, String accessor, String visibility) {
+        this.id = id;
+        this.fieldKey = fieldKey;
+        this.fieldLabel = fieldLabel;
+        this.control = control;
+        this.param = param;
+        this.accessor = accessor;
+        this.visibility = visibility;
+    }
 }

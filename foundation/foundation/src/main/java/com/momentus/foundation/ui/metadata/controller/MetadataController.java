@@ -4,6 +4,7 @@ import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.context.ApplicationContextHelper;
 import com.momentus.foundation.menus.dto.MenuSetDTO;
 import com.momentus.foundation.ui.metadata.dto.ListMetadataDTO;
+import com.momentus.foundation.ui.metadata.dto.UpdateViewMetadataDTO;
 import com.momentus.foundation.ui.metadata.service.MetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,4 +33,15 @@ public class MetadataController {
         return ResponseEntity.ok(set);
 
     }
+
+
+    @GetMapping("/getUpdateViewMetadata")
+    public ResponseEntity<UpdateViewMetadataDTO> getUpdateViewMetadata(Authentication authentication, @RequestParam String entity)
+    {
+        ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+        UpdateViewMetadataDTO set = metadataService.getUpdateViewMetadata(context.getOrganization().getId(),entity,context.getLocale());
+        return ResponseEntity.ok(set);
+
+    }
+
 }

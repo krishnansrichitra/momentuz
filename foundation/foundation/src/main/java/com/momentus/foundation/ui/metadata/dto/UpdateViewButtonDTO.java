@@ -65,4 +65,16 @@ public class UpdateViewButtonDTO {
     public void setSeqNo(BigDecimal seqNo) {
         this.seqNo = seqNo;
     }
+
+    public UpdateViewButtonDTO() {
+    }
+
+    public UpdateViewButtonDTO(String id, String buttonClass, String jsMethod, String innerText, String visibility, BigDecimal seqNo) {
+        this.id = id;
+        this.buttonClass = buttonClass;
+        this.jsMethod = jsMethod;
+        this.innerText = innerText;
+        this.visibility = visibility;
+        this.seqNo = seqNo;
+    }
 }

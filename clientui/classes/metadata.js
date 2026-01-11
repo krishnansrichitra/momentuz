@@ -44,3 +44,57 @@ class ListButton{
         this.innerText = innerText;
     };
 }
+
+
+class UpdateViewMetadata {
+  constructor(json) {
+    this.entity = json.entity;
+    this.updateViewButtons = (json.updateViewButtons || [])
+      .map(b => new UpdateViewButton(b))
+      .sort((a, b) => a.seqNo - b.seqNo);
+
+    this.updateViewFields = (json.updateViewFields || [])
+      .map(f => new UpdateViewField(f));
+  }
+}
+
+class UpdateViewButton {
+  constructor(json) {
+    this.id = json.id;
+    this.buttonClass = json.buttonClass;
+    this.jsMethod = json.jsMethod;
+    this.innerText = json.innerText;
+    this.visibility = json.visibility; // A, E, V
+    this.seqNo = Number(json.seqNo ?? 0);
+  }
+
+  isVisible(mode) {
+    return this.visibility?.includes(mode);
+  }
+}
+
+class UpdateViewField {
+  constructor(json) {
+    this.id = json.id;
+    this.fieldKey = json.fieldKey;
+    this.fieldLabel = json.fieldLabel;
+    this.control = json.control;
+    this.param = json.param;
+    this.accessor = json.accessor;
+    this.visibility = json.visibility;
+  }
+
+  isVisible(mode) {
+    return this.visibility?.includes(mode);
+  }
+
+  isHidden() {
+    return this.control === "hidden";
+  }
+}
+
+const ViewMode = Object.freeze({
+  ADD: "A",
+  EDIT: "E",
+  VIEW: "V"
+});
