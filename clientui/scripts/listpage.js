@@ -445,7 +445,9 @@ function renderButtons(listButtons,containerId)
 
 
   function onCreate() {
-  console.log("Create clicked");
+
+       window.location.href = './genericaddview.html?entity=' + entity ;
+    
 }
 
 function onEdit() {
