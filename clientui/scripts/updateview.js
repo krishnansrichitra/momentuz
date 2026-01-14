@@ -11,7 +11,8 @@ async function loadMetadata() {
     let met = response.data
     console.log("metadata response:", met);
     const updateMetData = new UpdateViewMetadata(met);
-        renderUpdateViewForm(updateMetData,'A');
+       await renderUpdateViewForm(updateMetData,'A');
+          loadDropdownOptions();
    /* filterFields=listMetadata.filterFields
     renderFilterFields(filterFields, "filter-container");
 
@@ -32,7 +33,7 @@ async function loadMetadata() {
 }
 
 
-function renderUpdateViewForm(metadata, mode = 'E') {
+async function renderUpdateViewForm(metadata, mode = 'E') {
     const form = document.getElementById('genericForm');
     form.innerHTML = ''; // clear existing content
 
@@ -89,7 +90,9 @@ function renderControl(field) {
                 <input type="text"
                        class="form-control"
                        id="${field.id}"
-                       name="${field.fieldKey}">
+                       name="${field.fieldKey}"
+                       data-dType="${field.dType}"
+                       data-accessor="${field.accessor}">
             `;
 
         case 'date':
@@ -97,15 +100,20 @@ function renderControl(field) {
                 <input type="date"
                        class="form-control"
                        id="${field.id}"
-                       name="${field.fieldKey}">
+                       name="${field.fieldKey}"
+                       data-dType="${field.dType}"
+                       data-accessor="${field.accessor}">
             `;
 
         case 'dropdown':
             return `
                 <select class="form-select"
                         id="${field.id}"
-                        name="${field.fieldKey}">
-                    ${renderDropdownOptions(field.param)}
+                        name="${field.fieldKey}"
+                        data-lookup="${field.param}"
+                        data-dType="${field.dType}"
+                        data-accessor="${field.accessor}">
+                    <option value="">Loading...</option>
                 </select>
             `;
 
@@ -113,28 +121,48 @@ function renderControl(field) {
             return `
                 <input type="hidden"
                        id="${field.id}"
-                       name="${field.fieldKey}">
+                       name="${field.fieldKey}"
+                       data-dType="${field.dType}"
+                       data-accessor="${field.accessor}">
             `;
 
         default:
             return '';
-            function renderDropdownOptions(param) {
-    if (!Array.isArray(param)) {
-        return `<option value="">Select</option>`;
+        
+        }
+
     }
 
-    let options = `<option value="">Select</option>`;
 
-    param.forEach(item => {
-        options += `<option value="${item.value}">${item.label}</option>`;
+
+
+
+function populateSelect(select, items) {
+    select.innerHTML = `<option value="">Select</option>`;
+   console.log(JSON.stringify(items));
+   Object.entries(items).forEach(([key, value]) => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = value;
+        select.appendChild(opt);
     });
-
-    return options;
 }
 
+async function loadDropdownOptions() {
+    const selects = document.querySelectorAll('select[data-lookup]');
+ console.log('selects =' + selects.length);
+    for (const select of selects) {
+        const lookupKey = select.dataset.lookup;
+         
+        try {
+            const options = await fetchLookupData(lookupKey);
+            populateSelect(select, options);
+        } catch (e) {
+            console.error('Lookup failed', lookupKey, e);
+            select.innerHTML = `<option value="">Error loading</option>`;
+        }
     }
 }
-
 
 function renderButtons(metadata, mode) {
 
@@ -175,5 +203,29 @@ function onCancel()
 
 function onSave()
 {
+    const form = document.getElementById('genericForm');
+const payload = buildJsonFromForm(form);
+
+console.log(JSON.stringify(payload, null, 2));
+
+axios.post(
+    urlPrefix + `api/generic/createOrUpdate`,
+    payload,
+    {
+        params: {
+            entityType: entity
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+)
+.then(response => {
+    console.log('Success:', response.data);
+})
+.catch(error => {
+    console.error('Error:', error);
+});
+
 
 }

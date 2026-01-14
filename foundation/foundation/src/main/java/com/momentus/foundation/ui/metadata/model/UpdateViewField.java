@@ -20,6 +20,8 @@ public class UpdateViewField {
 
   @Column BigDecimal seqNo;
 
+  @Column String dataType;
+
   @ManyToOne()
   @JoinColumn(name = "updateview_metadata_id", referencedColumnName = "id", nullable = true)
   @JsonIgnore
@@ -89,5 +91,13 @@ public class UpdateViewField {
 
   public void setVisibility(String visibility) {
     this.visibility = visibility;
+  }
+
+  public String getDataType() {
+    return dataType;
+  }
+
+  public void setDataType(String dataType) {
+    this.dataType = dataType;
   }
 }

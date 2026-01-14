@@ -337,6 +337,7 @@ alter table list_buttons
         seq_no decimal(10,2),
         visibility varchar(20),
         updateview_metadata_id varchar(255),
+        data_type varchar(50),
         primary key (id)
     ) ;
 
@@ -444,23 +445,23 @@ insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITM-DEL','btn btn-danger','Delete','onDelete','ITM',4);
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('ITM-EXP','btn btn-success','Export','onExport','ITM',5);
 
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-NAME','supplierName','text','supplierName',null,1,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CRDLMT','creditLimit','text','creditLimit',null,2,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-JNDDT','joiningDate','date','joiningDate',null,3,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-RNK','supplierRank','text','supplierRank',null,4,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ADD1','address.address1','text','address1',null,5,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ADD2','address.address2','text','address2',null,6,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CTY','address.city','text','city',null,7,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CNTY','address.country','dropdown','country','cntry',8,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ST','address.state','dropdown','state','st',9,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ZPCD','address.zipcode','text','zipCode',null,10,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-PHNO','address.phoneNumber','text','phoneNumber',null,11,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CRTDBY','createdBy','text','createdBy',null,100,'V','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-CRTDDT','createdTime','text','createdTime',null,101,'V','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-LSUPBY','lastUpdatedBy','text','lastUpdatedBy',null,102,'V','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-LSUPDT','lastUpdatedTime','text','lastUpdatedTime',null,103,'V','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-ID','id','hidden','id',null,1,'AEV','SUP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id) values ('SUP-VERSION','version','hidden','version',null,2,'AEV','SUP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-ID','id','hidden','id',null,1,'AEV','SUP','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-NAME','supplierName','text','supplierName',null,1,'AEV','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-CRDLMT','creditLimit','text','creditLimit',null,2,'AEV','SUP','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-JNDDT','joiningDate','date','joiningDate',null,3,'AEV','SUP','Date');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-RNK','supplierRank','text','supplierRank',null,4,'AEV','SUP','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-ADD1','address.address1','text','address1',null,5,'AEV','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-ADD2','address.address2','text','address2',null,6,'AEV','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-CTY','address.city','text','city',null,7,'AEV','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-ST','address.state','text','state','st',8,'AEV','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-CNTY','address.country','dropdown','country','cntry',9,'AEV','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-ZPCD','address.zipcode','text','zipCode',null,10,'AEV','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-PHNO','address.phoneNumber','text','phoneNumber',null,11,'AEV','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-CRTDBY','createdBy','text','createdBy',null,100,'V','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-CRTDDT','createdTime','text','createdTime',null,101,'V','SUP','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-LSUPBY','lastUpdatedBy','text','lastUpdatedBy',null,102,'V','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-LSUPDT','lastUpdatedTime','text','lastUpdatedTime',null,103,'V','SUP','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-VERSION','version','hidden','version',null,104,'AEV','SUP','Numeric');
 
 
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('SUP-SAVE','btn btn-primary','save','onSave',1,'AE','SUP');

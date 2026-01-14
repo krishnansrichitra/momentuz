@@ -30,6 +30,22 @@ async function loadFvDropdown(urlPrefix,selectId, fvGroup) {
   }
 }
 
+async function fetchLookupData(lookupKey) {
+    if (lookupKey == 'country' || lookupKey == 'cntry') {
+        const url =
+            urlPrefix + "api/common/getAllCountries";
+      const response = await axios.get(url);
+      const data = response.data;
+         console.log(data);
+        return data;
+
+    }
+
+    return null;
+    /*const res = await fetch(`/api/lookups/${lookupKey}`);
+    return await res.json();*/
+}
+
 function createTypeaheadHandler(urlPrefix, entity, field, input, datalist) {
   let timer = null;
 
@@ -57,4 +73,101 @@ function createTypeaheadHandler(urlPrefix, entity, field, input, datalist) {
       });
     }, 300);
   };
+}
+
+
+function buildJsonFromForm(formEl) {
+    const result = {};
+
+    const controls = formEl.querySelectorAll('[data-accessor]');
+
+    controls.forEach(control => {
+        const accessor = control.dataset.accessor;
+        if (!accessor) return;
+
+        const value = getControlValue(control);
+
+        if (value === undefined || value === null) return;
+        
+         const typedValue = applyDataType(control, value);
+          if (typedValue === undefined || typedValue === null) return;
+
+
+        setNestedValue(result, accessor, typedValue);
+    });
+
+    return result;
+}
+
+function applyDataType(control, value) {
+    const dtype = control.dataset.dtype;
+
+    if (value === null || value === '') return null;
+
+    switch (dtype) {
+
+        case 'Numeric': {
+            const num = Number(value);
+            return isNaN(num) ? null : num;
+        }
+
+        case 'Date':
+            // Keep date-only (maps to LocalDate in backend)
+           // return value; // yyyy-MM-dd
+
+            return  value
+                ? (value.includes('T') ? value : `${value}T00:00:00`)
+                : null;
+
+        case 'DateTime':
+            // Convert date-only to full ISO datetime
+            // HTML date inputs give yyyy-MM-dd
+            return  value
+                ? (value.includes('T') ? value : `${value}T00:00:00`)
+                : null;
+
+        default:
+            return value; // String
+    }
+}
+
+
+
+
+function getControlValue(control) {
+    const tag = control.tagName.toLowerCase();
+    const type = control.type;
+
+    if (tag === 'input') {
+        if (type === 'checkbox') {
+            return control.checked;
+        }
+        if (type === 'radio') {
+            return control.checked ? control.value : undefined;
+        }
+        return control.value;
+    }
+
+    if (tag === 'select' || tag === 'textarea') {
+        return control.value;
+    }
+
+    return undefined;
+}
+
+
+function setNestedValue(obj, path, value) {
+    const keys = path.split('.');
+    let current = obj;
+
+    keys.forEach((key, index) => {
+        if (index === keys.length - 1) {
+            current[key] = value;
+        } else {
+            if (!current[key] || typeof current[key] !== 'object') {
+                current[key] = {};
+            }
+            current = current[key];
+        }
+    });
 }

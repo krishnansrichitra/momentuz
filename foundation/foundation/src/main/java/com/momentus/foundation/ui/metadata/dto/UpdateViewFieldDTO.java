@@ -16,6 +16,8 @@ public class UpdateViewFieldDTO {
 
   String visibility;
 
+  String dType;
+
   public String getId() {
     return id;
   }
@@ -81,7 +83,8 @@ public class UpdateViewFieldDTO {
       String control,
       String param,
       String accessor,
-      String visibility) {
+      String visibility,
+      String dType) {
     this.id = id;
     this.fieldKey = fieldKey;
     this.fieldLabel = fieldLabel;
@@ -89,5 +92,14 @@ public class UpdateViewFieldDTO {
     this.param = param;
     this.accessor = accessor;
     this.visibility = visibility;
+    this.dType = dType;
+  }
+
+  public String getdType() {
+    return dType;
+  }
+
+  public void setdType(String dType) {
+    this.dType = dType;
   }
 }
