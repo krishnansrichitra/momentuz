@@ -96,6 +96,32 @@ function renderControl(field) {
 
     switch (field.control) {
 
+        case 'lookup':
+        el = document.createElement('div');
+
+        let inpel = document.createElement("input");
+        inpel.type = "text";
+        inpel.className="form-control";
+        inpel.dataset.lookup = field.param; // e.g. supplier
+        inpel.id = field.id;
+        inpel.name = field.fieldKey;
+        inpel.dataset.accessor = field.accessor;
+        inpel.dataset.dtype = field.dType;
+        inpel.placeholder = field.fieldLabel;
+       
+
+        let datactrl = document.createElement("datalist");
+        datactrl.id = 'sgst' + field.fieldKey;
+        inpel.setAttribute("list", "sgst" + field.fieldKey);
+        inpel.addEventListener(
+         "input",
+            createTypeaheadHandler(urlPrefix,field.param, field.fieldKey, inpel, datactrl)
+            );
+        el.appendChild(inpel);
+        el.appendChild(datactrl);
+        return el;
+            break;
+
         case 'text':
             el = document.createElement('input');
             el.type = 'text';
@@ -132,6 +158,7 @@ function renderControl(field) {
     el.name = field.fieldKey;
     el.dataset.accessor = field.accessor;
     el.dataset.dtype = field.dType;
+    el.placeholder = field.fieldLabel;
 
 
 
@@ -140,79 +167,6 @@ function renderControl(field) {
 
 
 
-function renderControlToBeDel(field) {
-
-    switch (field.control) {
-
-        case 'lookup' :
-            let dtclId = 'dtcl'+ field.id;
-            let retText =  `
-                <input type="text"
-                       class="form-control"
-                       id="${field.id}"
-                       name="${field.fieldKey}"
-                       data-dType="${field.dType}"
-                       data-list="${dtclId}"
-                       data-accessor="${field.accessor}">
-            ` +
-            `
-                <input type="datalist"
-                    class="form-control"
-                    id="${dtclId}"
-                    data-lookup="${field.param}" 
-                    >` ;
-
-                    
-
-                    return retText;
-
-        case 'text':
-            return `
-                <input type="text"
-                       class="form-control"
-                       id="${field.id}"
-                       name="${field.fieldKey}"
-                       data-dType="${field.dType}"
-                       data-accessor="${field.accessor}">
-            `;
-
-        case 'date':
-            return `
-                <input type="date"
-                       class="form-control"
-                       id="${field.id}"
-                       name="${field.fieldKey}"
-                       data-dType="${field.dType}"
-                       data-accessor="${field.accessor}">
-            `;
-
-        case 'dropdown':
-            return `
-                <select class="form-select"
-                        id="${field.id}"
-                        name="${field.fieldKey}"
-                        data-lookup="${field.param}"
-                        data-dType="${field.dType}"
-                        data-accessor="${field.accessor}">
-                    <option value="">Loading...</option>
-                </select>
-            `;
-
-        case 'hidden':
-            return `
-                <input type="hidden"
-                       id="${field.id}"
-                       name="${field.fieldKey}"
-                       data-dType="${field.dType}"
-                       data-accessor="${field.accessor}">
-            `;
-
-        default:
-            return '';
-        
-        }
-
-    }
 
 
     async function populateSelectOptions(select, param) {
@@ -233,32 +187,6 @@ function renderControlToBeDel(field) {
 
 
 
-function populateSelectToBeDel(select, items) {
-    select.innerHTML = `<option value="">Select</option>`;
-   console.log(JSON.stringify(items));
-   Object.entries(items).forEach(([key, value]) => {
-        const opt = document.createElement('option');
-        opt.value = key;
-        opt.textContent = value;
-        select.appendChild(opt);
-    });
-}
-
-async function loadDropdownOptionsTobeDel() {
-    const selects = document.querySelectorAll('select[data-lookup]');
- console.log('selects =' + selects.length);
-    for (const select of selects) {
-        const lookupKey = select.dataset.lookup;
-         
-        try {
-            const options = await fetchLookupData(lookupKey);
-            populateSelect(select, options);
-        } catch (e) {
-            console.error('Lookup failed', lookupKey, e);
-            select.innerHTML = `<option value="">Error loading</option>`;
-        }
-    }
-}
 
 function renderButtons(metadata, mode) {
     const container = document.createElement('div');
