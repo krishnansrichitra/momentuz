@@ -415,7 +415,7 @@ insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values (
 insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-PHONE','SUP','phoneNumber','address["phoneNumber"]',2);
 insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-CITY','SUP','city','address["city"]',3);
 insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-STATE','SUP','state','address["state"]',4);
-insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-ZIP','SUP','zipCode','address["zipCode"]',5);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('SUP-ZIP','SUP','zipCode','address["zipcode"]',5);
 
 
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('SUP-CRT','btn btn-primary','Create','onCreate','SUP',1);
@@ -455,7 +455,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-CTY','address.city','text','city',null,7,'AEV','SUP','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-ST','address.state','text','state','st',8,'AEV','SUP','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-CNTY','address.country','dropdown','country','cntry',9,'AEV','SUP','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-ZPCD','address.zipcode','text','zipCode',null,10,'AEV','SUP','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-ZPCD','address.zipcode','text','zipcode',null,10,'AEV','SUP','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-PHNO','address.phoneNumber','text','phoneNumber',null,11,'AEV','SUP','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-CRTDBY','createdBy','text','createdBy',null,100,'V','SUP','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('SUP-CRTDDT','createdTime','text','createdTime',null,101,'V','SUP','DateTime');
@@ -468,3 +468,20 @@ insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visib
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('SUP-EDT','btn btn-info','edit','onEdit',2,'V','SUP');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('SUP-CNCL','btn btn-secondary','cancel','onCancel',1,'AEV','SUP');
 
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-ID','id','hidden','id',null,1,'AEV','ITM','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-itemName','itemName','text','itemName',null,2,'AEV','ITM','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-barcode','barcode','text','barcode',null,3,'AEV','ITM','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-itemCode','itemCode','text','itemCode',null,4,'AEV','ITM','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-supplierName','supplier.supplierName','lookup','supplierName',null,5,'AEV','ITM','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-itemGroup','itemGroup.fvCode','dropdown','itemGroup','fv::item_group',6,'AEV','ITM','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-uomType','uomType.fvCode','dropdown','uomType','fv::uom_type',7,'AEV','ITM','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-CRTDBY','createdBy','text','createdBy',null,100,'V','ITM','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-CRTDDT','createdTime','text','createdTime',null,101,'V','ITM','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-LSUPBY','lastUpdatedBy','text','lastUpdatedBy',null,102,'V','ITM','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-LSUPDT','lastUpdatedTime','text','lastUpdatedTime',null,103,'V','ITM','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('ITM-VERSION','version','hidden','version',null,104,'AEV','ITM','Numeric');
+
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('ITM-SAVE','btn btn-primary','save','onSave',1,'AE','ITM');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('ITM-EDT','btn btn-info','edit','onEdit',2,'V','ITM');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('ITM-CNCL','btn btn-secondary','cancel','onCancel',1,'AEV','ITM');

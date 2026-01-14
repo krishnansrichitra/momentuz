@@ -12,7 +12,7 @@ async function loadMetadata() {
     console.log("metadata response:", met);
     const updateMetData = new UpdateViewMetadata(met);
        await renderUpdateViewForm(updateMetData,'A');
-          loadDropdownOptions();
+   //       loadDropdownOptions();
    /* filterFields=listMetadata.filterFields
     renderFilterFields(filterFields, "filter-container");
 
@@ -35,7 +35,7 @@ async function loadMetadata() {
 
 async function renderUpdateViewForm(metadata, mode = 'E') {
     const form = document.getElementById('genericForm');
-    form.innerHTML = ''; // clear existing content
+    form.innerHTML = '';
 
     const visibleFields = metadata.updateViewFields
         .filter(f => f.isVisible(mode) && !f.isHidden());
@@ -43,47 +43,128 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     const hiddenFields = metadata.updateViewFields
         .filter(f => f.isVisible(mode) && f.isHidden());
 
-    let html = '';
+    let row = createRow();
     let colCount = 0;
 
-    // Start first row
-    html += `<div class="row g-3">`;
+    visibleFields.forEach(field => {
 
-    visibleFields.forEach((field, index) => {
-
-        // 4 fixed columns per row
         if (colCount === 4) {
-            html += `</div><div class="row g-3 mt-2">`;
+            form.appendChild(row);
+            row = createRow();
             colCount = 0;
         }
 
-        html += `
-            <div class="col-lg-3 col-md-6 col-sm-12">
-                <label class="form-label">${field.fieldLabel}</label>
-                ${renderControl(field)}
-            </div>
-        `;
+        const col = document.createElement('div');
+        col.className = 'col-lg-3 col-md-6 col-sm-12';
 
+        const label = document.createElement('label');
+        label.className = 'form-label';
+        label.textContent = field.fieldLabel;
+
+        const control = renderControl(field);
+
+        col.appendChild(label);
+        col.appendChild(control);
+
+        row.appendChild(col);
         colCount++;
     });
 
-    html += `</div>`; // close last row
+    // append last row
+    if (row.children.length > 0) {
+        form.appendChild(row);
+    }
 
-    // Hidden fields
+    // hidden fields
     hiddenFields.forEach(field => {
-        html += renderControl(field);
+        form.appendChild(renderControl(field));
     });
 
-    // Action buttons
-    html += renderButtons(metadata, mode);
-
-    form.innerHTML = html;
+    // action buttons
+    form.appendChild(renderButtons(metadata, mode));
 }
 
 
+function createRow() {
+    const row = document.createElement('div');
+    row.className = 'row g-3 mt-2';
+    return row;
+}
+
 function renderControl(field) {
+    let el;
 
     switch (field.control) {
+
+        case 'text':
+            el = document.createElement('input');
+            el.type = 'text';
+            el.className = 'form-control';
+            break;
+
+        case 'date':
+            el = document.createElement('input');
+            el.type = 'date';
+            el.className = 'form-control';
+            break;
+
+        case 'dropdown':
+            el = document.createElement('select');
+            el.className = 'form-select';
+
+            // async lookup
+            populateSelectOptions(el, field.param);
+            break;
+
+        case 'hidden':
+            el = document.createElement('input');
+            el.type = 'hidden';
+            break;
+
+        default:
+            el = document.createElement('input');
+            el.type = 'text';
+            el.className = 'form-control';
+    }
+
+    // common attributes
+    el.id = field.id;
+    el.name = field.fieldKey;
+    el.dataset.accessor = field.accessor;
+    el.dataset.dtype = field.dType;
+
+
+
+    return el;
+}
+
+
+
+function renderControlToBeDel(field) {
+
+    switch (field.control) {
+
+        case 'lookup' :
+            let dtclId = 'dtcl'+ field.id;
+            let retText =  `
+                <input type="text"
+                       class="form-control"
+                       id="${field.id}"
+                       name="${field.fieldKey}"
+                       data-dType="${field.dType}"
+                       data-list="${dtclId}"
+                       data-accessor="${field.accessor}">
+            ` +
+            `
+                <input type="datalist"
+                    class="form-control"
+                    id="${dtclId}"
+                    data-lookup="${field.param}" 
+                    >` ;
+
+                    
+
+                    return retText;
 
         case 'text':
             return `
@@ -134,10 +215,25 @@ function renderControl(field) {
     }
 
 
+    async function populateSelectOptions(select, param) {
+    const items = await fetchLookupData(param);
+
+    const empty = document.createElement('option');
+    empty.value = '';
+    empty.textContent = 'Select';
+    select.appendChild(empty);
+
+    Object.entries(items).forEach(([key, label]) => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = label;
+        select.appendChild(opt);
+    });
+}
 
 
 
-function populateSelect(select, items) {
+function populateSelectToBeDel(select, items) {
     select.innerHTML = `<option value="">Select</option>`;
    console.log(JSON.stringify(items));
    Object.entries(items).forEach(([key, value]) => {
@@ -148,7 +244,7 @@ function populateSelect(select, items) {
     });
 }
 
-async function loadDropdownOptions() {
+async function loadDropdownOptionsTobeDel() {
     const selects = document.querySelectorAll('select[data-lookup]');
  console.log('selects =' + selects.length);
     for (const select of selects) {
@@ -165,34 +261,28 @@ async function loadDropdownOptions() {
 }
 
 function renderButtons(metadata, mode) {
+    const container = document.createElement('div');
+    container.className = 'mt-4 d-flex justify-content-end gap-2';
 
-    const buttons = metadata.updateViewButtons
+    metadata.updateViewButtons
         .filter(b => b.isVisible(mode))
-        .sort((a, b) => a.seqNo - b.seqNo);
+        .forEach(btnMeta => {
 
-    let html = `
-        <div class="row mt-4">
-            <div class="col text-end">
-    `;
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = btnMeta.buttonClass;
+            btn.textContent = btnMeta.innerText;
 
-    buttons.forEach(btn => {
-        html += `
-            <button type="button"
-                    id="${btn.id}"
-                    class="${btn.buttonClass}"
-                    onclick="${btn.jsMethod}()">
-                ${btn.innerText}
-            </button>
-        `;
-    });
+            btn.addEventListener('click', () => {
+                window[btnMeta.jsMethod]?.();
+            });
 
-    html += `
-            </div>
-        </div>
-    `;
+            container.appendChild(btn);
+        });
 
-    return html;
+    return container;
 }
+
 
 function onCancel()
 {
@@ -207,6 +297,7 @@ function onSave()
 const payload = buildJsonFromForm(form);
 
 console.log(JSON.stringify(payload, null, 2));
+console.log('urlPrefix=' + urlPrefix);
 
 axios.post(
     urlPrefix + `api/generic/createOrUpdate`,
@@ -222,6 +313,7 @@ axios.post(
 )
 .then(response => {
     console.log('Success:', response.data);
+     window.location.href = './genericList.html?entity=' + entity ;
 })
 .catch(error => {
     console.error('Error:', error);
