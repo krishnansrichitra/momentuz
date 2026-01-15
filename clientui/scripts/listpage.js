@@ -209,8 +209,7 @@ function renderButtons(listButtons,containerId)
 
       fullData.forEach( rowData => {
         const trowContent = document.createElement("tr")
-        let innerrow = '<td width="5%"><input type="checkbox" class="form-check-input">';
-        innerrow+= '<input type="hidden" value="' + rowData['id'] +'"></td>';
+        let innerrow = '<td width="5%"><input type="checkbox" class="row-check"  id="chkId" data-id="' + rowData['id'] + '" class="form-check-input">';
           listColumns.forEach(field => {
             const value = getValueByAccessor(rowData, field.accessor);
             innerrow += `<td>${value ?? ''}</td>`;
@@ -452,6 +451,16 @@ function renderButtons(listButtons,containerId)
 
 function onEdit() {
   console.log("Edit clicked");
+
+  const selectedIds = [...document.querySelectorAll('.row-check:checked')]
+    .map(cb => Number(cb.dataset.id));
+
+    console.log('selectedIds=' + selectedIds);
+    if(selectedIds.length > 1 || selectedIds.length == 0){
+        showErrorFromUI('Please select only one row for edit');
+    }else {
+        window.location.href = './genericaddview.html?entity=' + entity +'&mode=Edit&id=' + selectedIds[0];
+    }
 }
 
 function onDelete() {

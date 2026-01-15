@@ -196,7 +196,44 @@ function showErrors(messages) {
     container.style.display = 'block';
 }
 
+function showErrorFromUI(message) {
+    const container = document.getElementById('errorContainer');
+    const span = document.getElementById('errorMessage');
+
+    span.innerHTML = `
+        <ul class="mb-0 ps-3">
+            ${message}
+        </ul>
+    `;
+    container.style.display = 'block';
+}
 function clearErrors() {
     document.getElementById('errorMessage').innerHTML = '';
     document.getElementById('errorContainer').style.display = 'none';
+}
+
+async function fetchDataByEntityAndId(entity, id)
+{
+   const url =
+    urlPrefix + "api/generic/getById?entityType=" + encodeURIComponent(entity) + "&id=" + id ;
+    try {
+    const response = await axios.get(url);
+    const data = response.data;
+    return data;
+    }catch (error) {
+    console.error("Error loading dropdown:", error);
+  }
+}
+
+
+function traverseJson(obj, prefix = '') {
+    Object.entries(obj).forEach(([key, value]) => {
+        const path = prefix ? `${prefix}.${key}` : key;
+
+        if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+            traverseJson(value, path);
+        } else {
+            console.log(path, value);
+        }
+    });
 }

@@ -1,36 +1,33 @@
 const entity = params.get("entity");
 const mode = params.get("mode");
+const id = params.get("id");
+
 
 
 async function loadMetadata() {
-  const url =
-    urlPrefix + "api/metadata/getUpdateViewMetadata" +
-    "?entity="+entity + '&mode='+mode;
+    const url =
+        urlPrefix + "api/metadata/getUpdateViewMetadata" +
+        "?entity=" + entity + '&mode=' + mode;
 
-  try {
-    const response = await axios.get(url);
-    let met = response.data
-    console.log("metadata response:", met);
-    const updateMetData = new UpdateViewMetadata(met);
-       await renderUpdateViewForm(updateMetData,'A');
-   //       loadDropdownOptions();
-   /* filterFields=listMetadata.filterFields
-    renderFilterFields(filterFields, "filter-container");
+    try {
+        const response = await axios.get(url);
+        let met = response.data
+        console.log("metadata response:", met);
+        const updateMetData = new UpdateViewMetadata(met);
+        if (mode == 'Add') {
+            await renderUpdateViewForm(updateMetData, 'A');
+        } else if (mode == 'Edit') {
 
-    const fullData = await loadData(0);   // ✅ works
-    console.log("fullData =", fullData);
-    listColumns = listMetadata.listColumns;
-    renderListTitles(
-      listColumns,
-      "tbl-listcontent",
-      fullData
-    );*/
-    //   renderPagination();
-    //renderButtons(listMetadata.listButtons,"btnListDiv");
+            await renderUpdateViewForm(updateMetData, 'E');
+            let jsonContent = await fetchDataByEntityAndId(entity,id);
+            let formControl = document.getElementById("genericForm");
+           traverseJson(formControl,jsonContent);
+        }
 
-  } catch (error) {
-    console.error("Error loading metadata or list:", error);
-  }
+
+    } catch (error) {
+        console.error("Error loading metadata or list:", error);
+    }
 }
 
 
@@ -84,13 +81,13 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     });
 
     let hr1 = document.createElement('hr');
-    hr1.className='border border-secondary border-2 my-3';
+    hr1.className = 'border border-secondary border-2 my-3';
 
     let hr2 = document.createElement('hr');
-    hr2.className='border border-secondary border-2 my-3';
+    hr2.className = 'border border-secondary border-2 my-3';
 
     form.appendChild(hr1);
-  //  form.appendChild(hr2)
+    //  form.appendChild(hr2)
 
 
     // action buttons
@@ -110,29 +107,29 @@ function renderControl(field) {
     switch (field.control) {
 
         case 'lookup':
-        el = document.createElement('div');
+            el = document.createElement('div');
 
-        let inpel = document.createElement("input");
-        inpel.type = "text";
-        inpel.className="form-control";
-        inpel.dataset.lookup = field.param; // e.g. supplier
-        inpel.id = field.id;
-        inpel.name = field.fieldKey;
-        inpel.dataset.accessor = field.accessor;
-        inpel.dataset.dtype = field.dType;
-        inpel.placeholder = field.fieldLabel;
-       
+            let inpel = document.createElement("input");
+            inpel.type = "text";
+            inpel.className = "form-control";
+            inpel.dataset.lookup = field.param; // e.g. supplier
+            inpel.id = field.id;
+            inpel.name = field.fieldKey;
+            inpel.dataset.accessor = field.accessor;
+            inpel.dataset.dtype = field.dType;
+            inpel.placeholder = field.fieldLabel;
 
-        let datactrl = document.createElement("datalist");
-        datactrl.id = 'sgst' + field.fieldKey;
-        inpel.setAttribute("list", "sgst" + field.fieldKey);
-        inpel.addEventListener(
-         "input",
-            createTypeaheadHandler(urlPrefix,field.param, field.fieldKey, inpel, datactrl)
+
+            let datactrl = document.createElement("datalist");
+            datactrl.id = 'sgst' + field.fieldKey;
+            inpel.setAttribute("list", "sgst" + field.fieldKey);
+            inpel.addEventListener(
+                "input",
+                createTypeaheadHandler(urlPrefix, field.param, field.fieldKey, inpel, datactrl)
             );
-        el.appendChild(inpel);
-        el.appendChild(datactrl);
-        return el;
+            el.appendChild(inpel);
+            el.appendChild(datactrl);
+            return el;
             break;
 
         case 'text':
@@ -182,7 +179,7 @@ function renderControl(field) {
 
 
 
-    async function populateSelectOptions(select, param) {
+async function populateSelectOptions(select, param) {
     const items = await fetchLookupData(param);
 
     const empty = document.createElement('option');
@@ -225,10 +222,9 @@ function renderButtons(metadata, mode) {
 }
 
 
-function onCancel()
-{
+function onCancel() {
 
-    window.location.href = './genericList.html?entity=' + entity ;
+    window.location.href = './genericList.html?entity=' + entity;
 
 }
 
@@ -267,4 +263,62 @@ function onSave() {
         });
 
 
+}
+
+
+function traverseJson(formEl, obj, prefix = '') {
+    Object.entries(obj).forEach(([key, value]) => {
+        const path = prefix ? `${prefix}.${key}` : key;
+
+        if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+            traverseJson(formEl,value, path);
+        } else {
+            console.log(path, value);
+            setValueByAccessor(formEl,path,value);
+        }
+    });
+}
+
+
+function setValueByAccessor(formEl, accessor, value) {
+    const control = formEl.querySelector(`[data-accessor="${accessor}"]`);
+
+    if (!control) return; // field not present on form
+
+   const normalized = normalizeValueForControl(control, value);
+
+    if (control.type === 'checkbox') {
+        control.checked = Boolean(normalized);
+    }  
+    else if (control.tagName === 'SELECT') {
+        control.value = value;
+    } 
+    else {
+        control.value = normalized;
+    }
+}
+
+
+function normalizeValueForControl(control, value) {
+    if (value == null) return '';
+
+    const dtype = control.dataset.dtype;
+
+    // HTML <input type="date">
+    if (control.type === 'date' || dtype === 'Date') {
+        return typeof value === 'string' ? value.split('T')[0] : '';
+    }
+
+    // HTML <input type="datetime-local">
+    if (control.type === 'datetime-local' || dtype === 'DateTime') {
+        return typeof value === 'string' ? value.substring(0, 16) : '';
+    }
+
+    // Numeric
+    if (dtype === 'Numeric') {
+        const num = Number(value);
+        return isNaN(num) ? '' : num;
+    }
+
+    return value;
 }
