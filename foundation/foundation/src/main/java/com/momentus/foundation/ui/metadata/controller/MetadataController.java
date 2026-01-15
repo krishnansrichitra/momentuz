@@ -33,11 +33,11 @@ public class MetadataController {
 
   @GetMapping("/getUpdateViewMetadata")
   public ResponseEntity<UpdateViewMetadataDTO> getUpdateViewMetadata(
-      Authentication authentication, @RequestParam String entity) {
+      Authentication authentication, @RequestParam String entity, @RequestParam String mode) {
     ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
     UpdateViewMetadataDTO set =
         metadataService.getUpdateViewMetadata(
-            context.getOrganization().getId(), entity, context.getLocale());
+            context.getOrganization().getId(), entity, context.getLocale(), mode);
     return ResponseEntity.ok(set);
   }
 }

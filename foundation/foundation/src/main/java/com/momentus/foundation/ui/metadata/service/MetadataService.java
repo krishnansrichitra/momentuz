@@ -45,7 +45,8 @@ public class MetadataService {
   }
 
   @Cacheable("UpdateViewMetadata")
-  public UpdateViewMetadataDTO getUpdateViewMetadata(Long orgId, String entity, Locale locale) {
+  public UpdateViewMetadataDTO getUpdateViewMetadata(
+      Long orgId, String entity, Locale locale, String mode) {
 
     OrgProfile orgProfile = orgProfileService.getProfileForGroup("GNL", orgId);
     if (orgProfile != null) {
@@ -54,7 +55,7 @@ public class MetadataService {
               Arrays.asList(orgProfile.getProfile().getProfileCode()), entity);
       if (!CollectionUtils.isEmpty(updateViewMetadatas)) {
         return metadataDTOHelper.makeUpdateViewDTO(
-            updateViewMetadatas.get(updateViewMetadatas.size() - 1), locale);
+            updateViewMetadatas.get(updateViewMetadatas.size() - 1), locale, mode);
       }
     }
     return null;

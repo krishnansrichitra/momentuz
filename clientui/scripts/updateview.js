@@ -1,10 +1,11 @@
 const entity = params.get("entity");
+const mode = params.get("mode");
 
 
 async function loadMetadata() {
   const url =
     urlPrefix + "api/metadata/getUpdateViewMetadata" +
-    "?entity="+entity;
+    "?entity="+entity + '&mode='+mode;
 
   try {
     const response = await axios.get(url);
@@ -36,6 +37,8 @@ async function loadMetadata() {
 async function renderUpdateViewForm(metadata, mode = 'E') {
     const form = document.getElementById('genericForm');
     form.innerHTML = '';
+    console.log('metadsta title=' + metadata.title);
+    document.getElementById("hpageTitle").innerHTML = metadata.title;
 
     const visibleFields = metadata.updateViewFields
         .filter(f => f.isVisible(mode) && !f.isHidden());
@@ -79,6 +82,16 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     hiddenFields.forEach(field => {
         form.appendChild(renderControl(field));
     });
+
+    let hr1 = document.createElement('hr');
+    hr1.className='border border-secondary border-2 my-3';
+
+    let hr2 = document.createElement('hr');
+    hr2.className='border border-secondary border-2 my-3';
+
+    form.appendChild(hr1);
+  //  form.appendChild(hr2)
+
 
     // action buttons
     form.appendChild(renderButtons(metadata, mode));

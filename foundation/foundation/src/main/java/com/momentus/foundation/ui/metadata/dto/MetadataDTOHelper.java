@@ -14,8 +14,13 @@ public class MetadataDTOHelper {
 
   @Autowired GeneralMessages generalMessages;
 
-  public UpdateViewMetadataDTO makeUpdateViewDTO(UpdateViewMetadata metadata, Locale locale) {
+  public UpdateViewMetadataDTO makeUpdateViewDTO(
+      UpdateViewMetadata metadata, Locale locale, String mode) {
     UpdateViewMetadataDTO updateViewMetadataDTO = new UpdateViewMetadataDTO();
+    updateViewMetadataDTO.setTitle(
+        generalMessages.getMessage(mode, locale)
+            + " "
+            + generalMessages.getMessage(metadata.getEntity(), locale));
     if (metadata != null) {
       updateViewMetadataDTO.setEntity(metadata.getEntity());
       List<UpdateViewFieldDTO> updateViewFieldDTOS = new ArrayList<>();

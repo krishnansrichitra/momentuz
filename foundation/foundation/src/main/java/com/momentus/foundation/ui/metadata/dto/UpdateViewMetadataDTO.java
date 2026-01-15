@@ -6,6 +6,8 @@ public class UpdateViewMetadataDTO {
 
   String entity;
 
+  String title;
+
   List<UpdateViewButtonDTO> updateViewButtons;
 
   List<UpdateViewFieldDTO> updateViewFields;
@@ -32,5 +34,13 @@ public class UpdateViewMetadataDTO {
 
   public void setUpdateViewFields(List<UpdateViewFieldDTO> updateViewFields) {
     this.updateViewFields = updateViewFields;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 }
