@@ -1,16 +1,15 @@
 package com.momentus.foundation.generic.controller;
 
+import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.JsonRepHelper;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.context.ApplicationContextHelper;
+import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.entity.service.EntityService;
 import com.momentus.foundation.generic.service.GenericService;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,8 @@ public class GenericController {
 
   @Autowired EntityService entityService;
 
+  @Autowired GeneralMessages generalMessages;
+
   private static final Logger log = LoggerFactory.getLogger(GenericController.class);
 
   //  @PreAuthorize("hasAuthority('custwr') or hasAuthority('adm')")
@@ -37,10 +38,10 @@ public class GenericController {
       @RequestBody Map<String, Object> entityMap,
       @RequestParam String entityType,
       Authentication authentication) {
-
+    ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
     try {
       String fullPackage = entityService.getFullPackage(entityType);
-      ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+
       // OrgBasedEntity entity = JsonRepHelper.getEntityFromMap(entityMap, (Class<? extends
       // OrgBasedEntity>) Class.forName(fullPackage));
       OrgBasedEntity entity = (OrgBasedEntity) Class.forName(fullPackage).newInstance();
@@ -56,7 +57,14 @@ public class GenericController {
     } catch (Exception ex) {
       String error = ex.getMessage();
       Map<String, Object> mp = new HashMap<>();
-      mp.put("error", error);
+      List<MomentusError> errors = new ArrayList<>();
+      MomentusError momentusError =
+          new MomentusError(
+              GeneralMessages.UNIDIENTIFABLE_ERROR,
+              generalMessages.getMessage(
+                  GeneralMessages.UNIDIENTIFABLE_ERROR, context.getLocale()));
+      errors.add(momentusError);
+      mp.put("errors", errors);
       return ResponseEntity.badRequest().body(mp);
     }
   }

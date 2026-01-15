@@ -5,24 +5,24 @@ import jakarta.persistence.*;
 @Embeddable
 public class Address {
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   public String address1;
 
   public String address2;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   public String city;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   public String state;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   public String country;
 
-  @Column(nullable = false, length = 10)
+  @Column(nullable = true, length = 10)
   public String zipcode;
 
-  @Column(length = 15)
+  @Column(length = 15, nullable = true)
   public String phoneNumber;
 
   public String getAddress1() {

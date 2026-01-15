@@ -232,33 +232,39 @@ function onCancel()
 
 }
 
-function onSave()
-{
+function onSave() {
     const form = document.getElementById('genericForm');
-const payload = buildJsonFromForm(form);
+    const payload = buildJsonFromForm(form);
 
-console.log(JSON.stringify(payload, null, 2));
-console.log('urlPrefix=' + urlPrefix);
+    console.log(JSON.stringify(payload, null, 2));
+    console.log('urlPrefix=' + urlPrefix);
 
-axios.post(
-    urlPrefix + `api/generic/createOrUpdate`,
-    payload,
-    {
-        params: {
-            entityType: entity
-        },
-        headers: {
-            'Content-Type': 'application/json'
+    axios.post(
+        urlPrefix + `api/generic/createOrUpdate`,
+        payload,
+        {
+            params: {
+                entityType: entity
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }
-    }
-)
-.then(response => {
-    console.log('Success:', response.data);
-     window.location.href = './genericList.html?entity=' + entity ;
-})
-.catch(error => {
-    console.error('Error:', error);
-});
+    )
+        .then(response => {
+            console.log('Success:', response.data);
+            window.location.href = './genericList.html?entity=' + entity;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const response = error.response?.data;
+            const apiErrors = new ApiErrorResponse(response);
+            if (apiErrors.hasErrors()) {
+                const messages = apiErrors.getMessages();
+                showErrors(messages);
+            }
+
+        });
 
 
 }

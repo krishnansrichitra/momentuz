@@ -182,3 +182,21 @@ function setNestedValue(obj, path, value) {
         }
     });
 }
+
+
+function showErrors(messages) {
+    const container = document.getElementById('errorContainer');
+    const span = document.getElementById('errorMessage');
+
+    span.innerHTML = `
+        <ul class="mb-0 ps-3">
+            ${messages.map(m => `<li>${m}</li>`).join('')}
+        </ul>
+    `;
+    container.style.display = 'block';
+}
+
+function clearErrors() {
+    document.getElementById('errorMessage').innerHTML = '';
+    document.getElementById('errorContainer').style.display = 'none';
+}

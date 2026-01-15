@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class GeneralMessages {
 
+  public static final String UNIDIENTIFABLE_ERROR = "10000";
+
   public static final String ORG_NAME_MANDATORY = "10001";
   public static final String ORG_CODE_MANDATORY = "10002";
   public static final String ORG_INDUSTRY_MANDATORY = "10003";
