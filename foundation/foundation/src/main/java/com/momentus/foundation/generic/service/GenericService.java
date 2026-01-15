@@ -3,6 +3,7 @@ package com.momentus.foundation.generic.service;
 import com.momentus.foundation.common.ApplicationConstants;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.entity.service.EntityService;
 import com.momentus.foundation.generic.dao.GenericDAO;
@@ -254,6 +255,43 @@ public class GenericService {
       entity = (OrgBasedEntity) response.getTransactionEntity();
       entity.setDeleted(true);
       return saveEntity(entity, context);
+    }
+  }
+
+  @Transactional
+  public TransactionResponse deleteBulkEntity(
+      List<Long> pks, String entityName, ApplicationContext context) {
+
+    try {
+      for (Long pk : pks) {
+        String fullPackage = entityService.getFullPackage(entityName);
+        OrgBasedEntity entity = (OrgBasedEntity) Class.forName(fullPackage).newInstance();
+        if (context.getOrganization().getId() != ApplicationConstants.ROOT_COMPANY) {
+          entity.setOrgId(context.getOrganization());
+        }
+        entity.setId(pk);
+        TransactionResponse response = genericValidation.validateForDeletion(entity, context);
+        if (response.hasHardError()) {
+          //  return response;
+        } else {
+
+          entity = (OrgBasedEntity) response.getTransactionEntity();
+          entity.setDeleted(true);
+          saveEntity(entity, context);
+        }
+      }
+      return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+    } catch (Exception ex) {
+      TransactionResponse transactionResponse = new TransactionResponse();
+      List<MomentusError> errors = new ArrayList<>();
+      MomentusError momentusError =
+          new MomentusError(
+              GeneralMessages.UNIDIENTIFABLE_ERROR,
+              generalMessages.getMessage(
+                  GeneralMessages.UNIDIENTIFABLE_ERROR, context.getLocale()));
+      errors.add(momentusError);
+      transactionResponse.setMomentusErrorList(errors);
+      return transactionResponse;
     }
   }
 

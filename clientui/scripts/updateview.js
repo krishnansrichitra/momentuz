@@ -19,9 +19,15 @@ async function loadMetadata() {
         } else if (mode == 'Edit') {
 
             await renderUpdateViewForm(updateMetData, 'E');
-            let jsonContent = await fetchDataByEntityAndId(entity,id);
+            let jsonContent = await fetchDataByEntityAndId(entity, id);
             let formControl = document.getElementById("genericForm");
-           traverseJson(formControl,jsonContent);
+            traverseJson(formControl, jsonContent);
+        } else if (mode == 'View') {
+
+            await renderUpdateViewForm(updateMetData, 'V');
+            let jsonContent = await fetchDataByEntityAndId(entity, id);
+            let formControl = document.getElementById("genericForm");
+            traverseJson(formControl, jsonContent);
         }
 
 
@@ -59,12 +65,22 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
 
         const label = document.createElement('label');
         label.className = 'form-label';
-        label.textContent = field.fieldLabel;
+        label.textContent = field.fieldLabel  ;
 
-        const control = renderControl(field);
+        if (mode != 'V') {
+            const control = renderControl(field);
+            label.classList.add('form-label', 'mb-1');
+            
+            col.appendChild(label);
+            col.appendChild(control);
+        } else {
+            const control = renderViewControl(field);
+            label.classList.add('form-label', 'mb-1');
+            control.classList.add('form-control');
+            col.appendChild(label);
+            col.appendChild(control);
+        }
 
-        col.appendChild(label);
-        col.appendChild(control);
 
         row.appendChild(col);
         colCount++;
@@ -99,6 +115,18 @@ function createRow() {
     const row = document.createElement('div');
     row.className = 'row g-3 mt-2';
     return row;
+}
+
+function renderViewControl(field) {
+    let inpel = document.createElement("span");
+    inpel.className = "fw-bold";
+    inpel.id = field.id;
+    inpel.name = field.fieldKey;
+    let accessor =  field.accessor.includes('.fvCode')? field.accessor.replace('.fvCode', '.fvValue'):field.accessor;
+    inpel.dataset.accessor = accessor;
+    inpel.dataset.dtype = field.dType;
+    return inpel;
+
 }
 
 function renderControl(field) {
@@ -271,10 +299,10 @@ function traverseJson(formEl, obj, prefix = '') {
         const path = prefix ? `${prefix}.${key}` : key;
 
         if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
-            traverseJson(formEl,value, path);
+            traverseJson(formEl, value, path);
         } else {
             console.log(path, value);
-            setValueByAccessor(formEl,path,value);
+            setValueByAccessor(formEl, path, value);
         }
     });
 }
@@ -285,14 +313,22 @@ function setValueByAccessor(formEl, accessor, value) {
 
     if (!control) return; // field not present on form
 
-   const normalized = normalizeValueForControl(control, value);
-
-    if (control.type === 'checkbox') {
+    const normalized = normalizeValueForControl(control, value);
+    if (!(control instanceof HTMLInputElement) &&
+        !(control instanceof HTMLSelectElement) &&
+        !(control instanceof HTMLTextAreaElement)) {
+            if (normalized != '') {
+        control.textContent = normalized;
+            }else {
+                control.innerHTML = '&nbsp;&nbsp;';           // nothing shown
+       // control.className ='text-muted';
+            }
+    } else if (control.type === 'checkbox') {
         control.checked = Boolean(normalized);
-    }  
+    }
     else if (control.tagName === 'SELECT') {
         control.value = value;
-    } 
+    }
     else {
         control.value = normalized;
     }
@@ -321,4 +357,11 @@ function normalizeValueForControl(control, value) {
     }
 
     return value;
+}
+
+
+function onEdit()
+{
+
+    window.location.href = './genericaddview.html?entity=' + entity +'&mode=Edit&id=' + id;
 }

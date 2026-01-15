@@ -69,6 +69,31 @@ public class GenericController {
     }
   }
 
+  @PostMapping("/bulkDelete")
+  public ResponseEntity<Map<String, Object>> bulkDelete(
+      @RequestBody List<Long> entityIdList,
+      @RequestParam String entityType,
+      Authentication authentication) {
+    ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+    try {
+      TransactionResponse response =
+          genericService.deleteBulkEntity(entityIdList, entityType, context);
+      return ResponseEntity.ok(response.convertToMap());
+
+    } catch (Exception ex) {
+      Map<String, Object> mp = new HashMap<>();
+      List<MomentusError> errors = new ArrayList<>();
+      MomentusError momentusError =
+          new MomentusError(
+              GeneralMessages.UNIDIENTIFABLE_ERROR,
+              generalMessages.getMessage(
+                  GeneralMessages.UNIDIENTIFABLE_ERROR, context.getLocale()));
+      errors.add(momentusError);
+      mp.put("errors", errors);
+      return ResponseEntity.badRequest().body(mp);
+    }
+  }
+
   @PostMapping("/delete")
   public ResponseEntity<Map<String, Object>> deleteEntity(
       @RequestBody Map<String, Object> entityMap,

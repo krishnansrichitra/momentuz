@@ -1,6 +1,7 @@
 package com.momentus.foundation.generic.service;
 
 import com.momentus.corefw.data.EntityProperties;
+import com.momentus.foundation.common.Utils;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.model.Address;
 import com.momentus.foundation.common.model.BaseEntity;
@@ -119,20 +120,21 @@ public class MapToEntityMapper {
         if (Address.class.equals(fieldType) && value instanceof Map) {
           Address address = new Address();
           Map<String, Object> addressValue = (Map) value;
-          address.setAddress1(String.valueOf(addressValue.get("address1")));
-          address.setAddress2(String.valueOf(addressValue.get("address2")));
-          address.setCity(String.valueOf(addressValue.get("city")));
-          address.setState(String.valueOf(addressValue.get("state")));
-          address.setCountry(String.valueOf(addressValue.get("country")));
-          address.setZipcode(String.valueOf(addressValue.get("zipcode")));
-          address.setPhoneNumber(String.valueOf(addressValue.get("phoneNumber")));
+          address.setAddress2(Utils.ConvertToString(addressValue.get("address2")));
+          address.setCity(Utils.ConvertToString(addressValue.get("city")));
+          address.setState(Utils.ConvertToString(addressValue.get("state")));
+          address.setCountry(Utils.ConvertToString(addressValue.get("country")));
+          address.setZipcode(Utils.ConvertToString(addressValue.get("zipcode")));
+          address.setPhoneNumber(Utils.ConvertToString(addressValue.get("phoneNumber")));
           field.set(target, address);
         } else if (isSimpleType(fieldType)) { // Primitive / simple types
           field.set(target, convertValue(value, fieldType));
         } else if (FiniteValue.class.equals(fieldType)) {
-          String fvCode = String.valueOf(((Map) value).get("fvCode"));
-          FiniteValue finiteValue = finiteValueService.getFinitieValueByCode(fvCode);
-          field.set(target, finiteValue);
+          String fvCode = Utils.ConvertToString(((Map) value).get("fvCode"));
+          if (fvCode != null) {
+            FiniteValue finiteValue = finiteValueService.getFinitieValueByCode(fvCode);
+            field.set(target, finiteValue);
+          }
         } else if (value instanceof Map) {
           BaseEntity nestedObject = (BaseEntity) fieldType.getDeclaredConstructor().newInstance();
           populateFromMap((Map<String, Object>) value, nestedObject, context);
@@ -185,7 +187,7 @@ public class MapToEntityMapper {
   }
 
   private static Object convertValue(Object value, Class<?> targetType) {
-    if (value == null || !StringUtils.hasLength(String.valueOf(value))) return null;
+    if (value == null || !StringUtils.hasLength(Utils.ConvertToString(value))) return null;
 
     if (targetType.equals(String.class)) {
       return value.toString();

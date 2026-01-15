@@ -98,10 +98,10 @@ function buildJsonFromForm(formEl) {
 
         const value = getControlValue(control);
 
-        if (value === undefined || value === null) return;
+        //if (value === undefined || value === null) return;
         
-         const typedValue = applyDataType(control, value);
-          if (typedValue === undefined || typedValue === null) return;
+        const typedValue = applyDataType(control, value);
+        //if (typedValue === undefined || typedValue === null) return;
 
 
         setNestedValue(result, accessor, typedValue);
@@ -226,14 +226,3 @@ async function fetchDataByEntityAndId(entity, id)
 }
 
 
-function traverseJson(obj, prefix = '') {
-    Object.entries(obj).forEach(([key, value]) => {
-        const path = prefix ? `${prefix}.${key}` : key;
-
-        if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
-            traverseJson(value, path);
-        } else {
-            console.log(path, value);
-        }
-    });
-}
