@@ -139,7 +139,7 @@ public class AppUserDetailsService implements UserDetailsService {
         return new TransactionResponse(
             TransactionResponse.RESPONSE_STATUS.FAILURE, List.of(momentusError), null);
       }
-
+      user.setSystemCreated(false);
       user.setPassword(passwordEncoder.encode(newPassword));
     }
     users.save(user);

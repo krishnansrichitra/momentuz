@@ -39,15 +39,37 @@ async function renderPasswordUpdateForm(metadata, mode = 'E') {
         const label = document.createElement('label');
         label.className = 'form-label';
         label.textContent = field.fieldLabel + ":";
+        let ctrDiv = document.createElement("div");
+        ctrDiv.className="input-group";
         const control = renderControl(field);
         label.classList.add('form-label', 'mb-1');
+        let spanCtrl = document.createElement('span');
+        spanCtrl.className = 'input-group-text';
+        spanCtrl.id = "togglePassword" + field.id;
+        spanCtrl.style="cursor: pointer;";
+        spanCtrl.innerHTML = '👁️';
+
+        
+        
         col.appendChild(label);
-        col.appendChild(control);
+        ctrDiv.appendChild(control);
+         ctrDiv.appendChild(spanCtrl);
+         col.appendChild(ctrDiv);
+
+          spanCtrl.addEventListener('click', function () {
+        const pwd = document.getElementById(field.id);
+        const isPassword = pwd.type === 'password';
+        pwd.type = isPassword ? 'text' : 'password';
+
+        this.textContent = isPassword ? '🙈' : '👁️';
+        });;
 
         row.appendChild(col);
         form.appendChild(row);
     });
 
+     
+    
 
 
     let hr1 = document.createElement('hr');

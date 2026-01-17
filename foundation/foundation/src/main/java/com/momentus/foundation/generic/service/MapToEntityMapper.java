@@ -120,6 +120,7 @@ public class MapToEntityMapper {
         if (Address.class.equals(fieldType) && value instanceof Map) {
           Address address = new Address();
           Map<String, Object> addressValue = (Map) value;
+          address.setAddress1(Utils.ConvertToString(addressValue.get("address1")));
           address.setAddress2(Utils.ConvertToString(addressValue.get("address2")));
           address.setCity(Utils.ConvertToString(addressValue.get("city")));
           address.setState(Utils.ConvertToString(addressValue.get("state")));
