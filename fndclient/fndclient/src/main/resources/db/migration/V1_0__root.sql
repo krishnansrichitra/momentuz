@@ -77,11 +77,14 @@ CREATE TABLE users(
   last_updated_by varchar(255) DEFAULT NULL,
   last_updated_time datetime(6) DEFAULT NULL,
   version bigint DEFAULT 0,
+  org_owner tinyint(1) DEFAULT 0,
+  system_created tinyint(1) DEFAULT 0,
   foreign key(org_id) references organization(id)
 
 );
 
-insert into users (user_id,org_id,email,first_name,last_name,password,phone) values ('admin@momentuz.com',1,'admin@momentuz.com','Admin','Momentus','$2a$10$0w.63IKihn65p1s1hZS12Omx7KmjVB/Xp3nUJMMdN3urxqJAHB0cO','908889');
+insert into users (user_id,org_id,email,first_name,last_name,password,phone,org_owner,system_created) values
+ ('admin@momentuz.com',1,'admin@momentuz.com','Admin','Momentus','$2a$10$0w.63IKihn65p1s1hZS12Omx7KmjVB/Xp3nUJMMdN3urxqJAHB0cO','908889',true,true);
 
 CREATE TABLE roles (
   id bigint   PRIMARY KEY  AUTO_INCREMENT,

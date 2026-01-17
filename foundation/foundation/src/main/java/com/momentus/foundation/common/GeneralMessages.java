@@ -21,6 +21,8 @@ public class GeneralMessages {
   public static final String STALE_UPDATE = "10010";
   public static final String ENTITY_ALREADY_DELETED = "10011";
   public static final String UNAUTHORIZED_SYSTEM_OPERATION = "10012";
+  public static final String PASSWORDS_NOT_MATCH = "10013";
+  public static final String PASSWORD_NOT_VALID = "10014";
 
   private final MessageSource messageSource;
 

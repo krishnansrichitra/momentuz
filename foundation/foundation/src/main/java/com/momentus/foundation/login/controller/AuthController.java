@@ -1,13 +1,18 @@
 package com.momentus.foundation.login.controller;
 
 import com.momentus.corefw.auth.JwtTokenProvider;
+import com.momentus.foundation.common.GeneralMessages;
+import com.momentus.foundation.common.transaction.MomentusError;
+import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.login.dto.AuthRequest;
 import com.momentus.foundation.login.dto.AuthResponse;
 import com.momentus.foundation.login.model.MomLoggedInUser;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import com.momentus.foundation.login.service.AppUserDetailsService;
+import java.util.*;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +26,12 @@ public class AuthController {
 
   private final AuthenticationManager authenticationManager;
   private final JwtTokenProvider jwtTokenProvider;
+
+  @Autowired AppUserDetailsService appUserDetailsService;
+
+  @Autowired GeneralMessages generalMessages;
+
+  private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
   public AuthController(
       AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
@@ -56,5 +67,27 @@ public class AuthController {
   @GetMapping("/hello") // Handles GET requests to /hello
   public String sayHello() {
     return "Hello World";
+  }
+
+  @PostMapping("/resetPassword")
+  public ResponseEntity<Map<String, Object>> resetPassword(@RequestParam String email) {
+
+    log.debug("Calling resetPassword by " + email);
+    try {
+
+      TransactionResponse response = appUserDetailsService.resetPassword(email);
+      log.info("Updating Password");
+      return ResponseEntity.ok(response.convertToMap());
+    } catch (Exception ex) {
+      Map<String, Object> mp = new HashMap<>();
+      List<MomentusError> errors = new ArrayList<>();
+      MomentusError momentusError =
+          new MomentusError(
+              GeneralMessages.UNIDIENTIFABLE_ERROR,
+              generalMessages.getMessage(GeneralMessages.UNIDIENTIFABLE_ERROR, Locale.US));
+      errors.add(momentusError);
+      mp.put("errors", errors);
+      return ResponseEntity.badRequest().body(mp);
+    }
   }
 }

@@ -35,6 +35,12 @@ public class User extends BaseEntity {
   @Column(nullable = false)
   private String password; // stored as BCrypt-hash
 
+  @Column(nullable = true)
+  Boolean systemCreated;
+
+  @Column(nullable = true)
+  Boolean orgOwner = false;
+
   /**
    * Simple roles storage for this example: comma separated (e.g. "ROLE_USER,ROLE_ADMIN") In prod,
    * prefer a join table Role entity.
@@ -111,5 +117,21 @@ public class User extends BaseEntity {
   @Override
   public Object getPK() {
     return userId;
+  }
+
+  public Boolean getSystemCreated() {
+    return systemCreated;
+  }
+
+  public void setSystemCreated(Boolean systemCreated) {
+    this.systemCreated = systemCreated;
+  }
+
+  public Boolean getOrgOwner() {
+    return orgOwner;
+  }
+
+  public void setOrgOwner(Boolean orgOwner) {
+    this.orgOwner = orgOwner;
   }
 }

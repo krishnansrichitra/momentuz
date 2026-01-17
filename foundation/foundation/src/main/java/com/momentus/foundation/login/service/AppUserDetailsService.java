@@ -1,10 +1,13 @@
 package com.momentus.foundation.login.service;
 
+import com.momentus.corefw.auth.PasswordGenerator;
 import com.momentus.foundation.accessgroup.model.Role;
 import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.accessgroup.model.UserRoles;
 import com.momentus.foundation.accessgroup.repository.UserRepository;
+import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.generic.service.MapToEntityMapper;
 import com.momentus.foundation.login.model.MomLoggedInUser;
@@ -14,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +35,10 @@ public class AppUserDetailsService implements UserDetailsService {
   @Autowired MapToEntityMapper mapToEntityMapper;
 
   private final PasswordEncoder passwordEncoder;
+
+  private static final Logger log = LoggerFactory.getLogger(AppUserDetailsService.class);
+
+  @Autowired GeneralMessages generalMessages;
 
   public AppUserDetailsService(PasswordEncoder passwordEncoder) {
     this.passwordEncoder = passwordEncoder;
@@ -93,5 +102,47 @@ public class AppUserDetailsService implements UserDetailsService {
     user.setCreatedTime(LocalDateTime.now());
     users.save(user);
     return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+  }
+
+  public TransactionResponse updatePassword(
+      String userId, String newPassword, String newPasswordConfirm, ApplicationContext context) {
+    if (!newPassword.equalsIgnoreCase(newPasswordConfirm)) {
+      MomentusError momentusError =
+          new MomentusError(
+              GeneralMessages.PASSWORDS_NOT_MATCH,
+              generalMessages.getMessage(GeneralMessages.PASSWORDS_NOT_MATCH, context.getLocale()));
+      TransactionResponse transactionResponse =
+          new TransactionResponse(
+              TransactionResponse.RESPONSE_STATUS.FAILURE, List.of(momentusError), null);
+    }
+    Boolean validPassword = PasswordGenerator.isValidPassword(newPassword);
+    if (!validPassword) {
+      MomentusError momentusError =
+          new MomentusError(
+              GeneralMessages.PASSWORD_NOT_VALID,
+              generalMessages.getMessage(GeneralMessages.PASSWORD_NOT_VALID, context.getLocale()));
+      TransactionResponse transactionResponse =
+          new TransactionResponse(
+              TransactionResponse.RESPONSE_STATUS.FAILURE, List.of(momentusError), null);
+    }
+    User user = users.findByUserId(userId).orElse(null);
+    if (user != null) {
+      user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
+    users.save(user);
+    return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+  }
+
+  public TransactionResponse resetPassword(String userId) {
+    User user = users.findByUserId(userId).orElse(null);
+    String randomPassword = PasswordGenerator.generatePassword(8);
+    user.setPassword(passwordEncoder.encode(randomPassword));
+    user.setSystemCreated(true);
+    return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+  }
+
+  private void emailPassword(String email, String newPassword, ApplicationContext context) {
+    System.out.println("email=" + newPassword);
+    log.debug("Emailing password=" + newPassword);
   }
 }
