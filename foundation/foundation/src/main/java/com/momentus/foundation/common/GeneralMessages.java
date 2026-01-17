@@ -23,6 +23,8 @@ public class GeneralMessages {
   public static final String UNAUTHORIZED_SYSTEM_OPERATION = "10012";
   public static final String PASSWORDS_NOT_MATCH = "10013";
   public static final String PASSWORD_NOT_VALID = "10014";
+  public static final String PASSWORD_ENTERED_WRONG = "10015";
+  public static final String PASSWORD_UPDATED_SUCCESFULLY = "10016";
 
   private final MessageSource messageSource;
 
@@ -31,10 +33,12 @@ public class GeneralMessages {
   }
 
   public String getMessage(String errorCode, Locale locale) {
-    return messageSource.getMessage(errorCode, null, locale);
+    if (errorCode == null || errorCode.trim().length() == 0) return "";
+    else return messageSource.getMessage(errorCode, null, locale);
   }
 
   public String getMessage(String errorCode, Object[] args, Locale locale) {
-    return messageSource.getMessage(errorCode, args, locale);
+    if (errorCode == null || errorCode.trim().length() == 0) return "";
+    else return messageSource.getMessage(errorCode, args, locale);
   }
 }

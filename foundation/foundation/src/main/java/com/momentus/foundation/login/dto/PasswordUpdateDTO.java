@@ -2,6 +2,8 @@ package com.momentus.foundation.login.dto;
 
 public class PasswordUpdateDTO {
 
+  String currentPassword;
+
   String newPassword;
 
   String confirmPassword;
@@ -20,5 +22,13 @@ public class PasswordUpdateDTO {
 
   public void setConfirmPassword(String confirmPassword) {
     this.confirmPassword = confirmPassword;
+  }
+
+  public String getCurrentPassword() {
+    return currentPassword;
+  }
+
+  public void setCurrentPassword(String currentPassword) {
+    this.currentPassword = currentPassword;
   }
 }

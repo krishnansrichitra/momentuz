@@ -98,6 +98,8 @@
                     </button>
                 </form>
 
+                
+
                 <!-- USER MENU -->
                 <div class="dropdown">
                     <a href="#" class="text-white fs-5"
@@ -145,14 +147,14 @@
     }
 
     function openSettings() {
-        console.log("Settings clicked");
+        document.getElementById("contentFrame").src = './general/userprofile.html';
         // TODO: open settings page
     }
 
     function logout() {
         console.log("Logout clicked");
         localStorage.removeItem("jwtToken");
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     }
 
     

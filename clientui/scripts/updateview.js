@@ -53,6 +53,7 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     let colCount = 0;
 
     visibleFields.forEach(field => {
+        
 
         if (colCount === 4) {
             form.appendChild(row);
@@ -65,7 +66,8 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
 
         const label = document.createElement('label');
         label.className = 'form-label';
-        label.textContent = field.fieldLabel  ;
+        if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
+             label.textContent = field.fieldLabel  +":";
 
         if (mode != 'V') {
             const control = renderControl(field);
@@ -159,10 +161,19 @@ function renderControl(field) {
             el.appendChild(datactrl);
             return el;
             break;
-
+  
+        case 'blank':
+                el = document.createElement('div');
+                return el;
         case 'text':
             el = document.createElement('input');
             el.type = 'text';
+            el.className = 'form-control';
+            break;
+
+        case 'password':
+            el = document.createElement('input');
+            el.type = 'password';
             el.className = 'form-control';
             break;
 

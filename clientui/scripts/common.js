@@ -183,6 +183,21 @@ function setNestedValue(obj, path, value) {
     });
 }
 
+function showSuccessMessage(messages) {
+    const container = document.getElementById('errorContainer');
+    const spanError = document.getElementById('errorMessage');
+    spanError.innerHTML='';
+
+    const spanMessage = document.getElementById('infoMessage');    
+
+    spanMessage.innerHTML = `
+        <ul class="mb-0 ps-3">
+            ${messages.map(m => `<li>${m}</li>`).join('')}
+        </ul>
+    `;
+    container.style.display = 'block';
+}
+
 
 function showErrors(messages) {
     const container = document.getElementById('errorContainer');
@@ -193,7 +208,10 @@ function showErrors(messages) {
             ${messages.map(m => `<li>${m}</li>`).join('')}
         </ul>
     `;
-    container.style.display = 'block';
+     container.style.display = 'block';
+    const spanMessage = document.getElementById('infoMessage');    
+    spanMessage.innerHTML='';
+   
 }
 
 function showErrorFromUI(message) {

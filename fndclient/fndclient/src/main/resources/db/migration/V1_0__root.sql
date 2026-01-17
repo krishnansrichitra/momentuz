@@ -403,6 +403,8 @@ insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values
 insert into updateview_metadata(id,profile_id,profile_code,entity) values ('SUP',1,'ROOT','Supplier');
 insert into updateview_metadata(id,profile_id,profile_code,entity) values ('ITM',1,'ROOT','Item');
 
+insert into updateview_metadata(id,profile_id,profile_code,entity) values ('USPRF',1,'ROOT','UserProfile');
+
 
 
 
@@ -488,3 +490,12 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('ITM-SAVE','btn btn-primary','save','onSave',1,'AE','ITM');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('ITM-EDT','btn btn-info','edit','onEdit',2,'V','ITM');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('ITM-CNCL','btn btn-secondary','cancel','onCancel',1,'AEV','ITM');
+
+
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USPRF-CRUPWD','currentPassword','password','currentPassword',null,1,'E','USPRF','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USPRF-PWD','password','password','password',null,2,'E','USPRF','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USPRF-CNFPWD','confirmPassword','password','confirmPassword',null,3,'E','USPRF','String');
+
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USPRF-UPD','btn btn-primary','updatePassword','onUpdate',1,'E','USPRF');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USPRF-CLS','btn btn-secondary','close','onClose',1,'E','USPRF');

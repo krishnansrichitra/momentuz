@@ -105,15 +105,18 @@ public class AppUserDetailsService implements UserDetailsService {
   }
 
   public TransactionResponse updatePassword(
-      String userId, String newPassword, String newPasswordConfirm, ApplicationContext context) {
+      String userId,
+      String currentPassword,
+      String newPassword,
+      String newPasswordConfirm,
+      ApplicationContext context) {
     if (!newPassword.equalsIgnoreCase(newPasswordConfirm)) {
       MomentusError momentusError =
           new MomentusError(
               GeneralMessages.PASSWORDS_NOT_MATCH,
               generalMessages.getMessage(GeneralMessages.PASSWORDS_NOT_MATCH, context.getLocale()));
-      TransactionResponse transactionResponse =
-          new TransactionResponse(
-              TransactionResponse.RESPONSE_STATUS.FAILURE, List.of(momentusError), null);
+      return new TransactionResponse(
+          TransactionResponse.RESPONSE_STATUS.FAILURE, List.of(momentusError), null);
     }
     Boolean validPassword = PasswordGenerator.isValidPassword(newPassword);
     if (!validPassword) {
@@ -121,16 +124,31 @@ public class AppUserDetailsService implements UserDetailsService {
           new MomentusError(
               GeneralMessages.PASSWORD_NOT_VALID,
               generalMessages.getMessage(GeneralMessages.PASSWORD_NOT_VALID, context.getLocale()));
-      TransactionResponse transactionResponse =
-          new TransactionResponse(
-              TransactionResponse.RESPONSE_STATUS.FAILURE, List.of(momentusError), null);
+      return new TransactionResponse(
+          TransactionResponse.RESPONSE_STATUS.FAILURE, List.of(momentusError), null);
     }
     User user = users.findByUserId(userId).orElse(null);
     if (user != null) {
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+      if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+        MomentusError momentusError =
+            new MomentusError(
+                GeneralMessages.PASSWORD_ENTERED_WRONG,
+                generalMessages.getMessage(
+                    GeneralMessages.PASSWORD_ENTERED_WRONG, context.getLocale()));
+        return new TransactionResponse(
+            TransactionResponse.RESPONSE_STATUS.FAILURE, List.of(momentusError), null);
+      }
+
+      user.setPassword(passwordEncoder.encode(newPassword));
     }
     users.save(user);
-    return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+    TransactionResponse response =
+        new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+    response.setResponseMesage(
+        generalMessages.getMessage(
+            GeneralMessages.PASSWORD_UPDATED_SUCCESFULLY, context.getLocale()));
+    return response;
   }
 
   public TransactionResponse resetPassword(String userId) {

@@ -67,11 +67,15 @@ public class UserController {
       TransactionResponse response =
           appUserDetailsService.updatePassword(
               context.getLoggedInUser(),
+              passwordUpdateDTO.getCurrentPassword(),
               passwordUpdateDTO.getNewPassword(),
               passwordUpdateDTO.getConfirmPassword(),
               context);
       log.info("Updating Password");
-      return ResponseEntity.ok(response.convertToMap());
+      return response.getResponseStatus().compareTo(TransactionResponse.RESPONSE_STATUS.FAILURE)
+              == 0
+          ? ResponseEntity.badRequest().body(response.errorMap())
+          : ResponseEntity.ok(response.convertToMap());
     } catch (Exception ex) {
       Map<String, Object> mp = new HashMap<>();
       List<MomentusError> errors = new ArrayList<>();

@@ -9,12 +9,15 @@ public class TransactionResponse {
 
   private static final String RESULT = "Result";
   private static final String errors = "Errors";
+  private static final String messages = "Messages";
 
   public enum RESPONSE_STATUS {
     SUCCESS,
     FAILURE,
     WARNING
   };
+
+  String responseMesage;
 
   RESPONSE_STATUS responseStatus;
 
@@ -70,6 +73,7 @@ public class TransactionResponse {
     Map<String, Object> map = new LinkedHashMap<>();
     map.put(RESULT, responseStatus);
     map.put(errors, momentusErrorList);
+    map.put(messages, Arrays.asList(responseMesage));
     return map;
   }
 
@@ -99,5 +103,13 @@ public class TransactionResponse {
 
   public void setTransactionEntity(BaseEntity transactionEntity) {
     this.transactionEntity = transactionEntity;
+  }
+
+  public String getResponseMesage() {
+    return responseMesage;
+  }
+
+  public void setResponseMesage(String responseMesage) {
+    this.responseMesage = responseMesage;
   }
 }

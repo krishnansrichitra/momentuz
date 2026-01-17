@@ -116,3 +116,10 @@ function loadMenusFromBackend() {
             }
         });
 }
+
+
+function openSettings()
+{
+
+
+}
