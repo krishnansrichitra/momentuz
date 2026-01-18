@@ -117,3 +117,10 @@ function onUpdate() {
         });
 
 }
+
+function onClose()
+{
+
+        window.parent.closeHtmlDialog();
+
+}

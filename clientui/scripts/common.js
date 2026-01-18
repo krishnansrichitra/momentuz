@@ -208,7 +208,7 @@ function showErrors(messages) {
             ${messages.map(m => `<li>${m}</li>`).join('')}
         </ul>
     `;
-     container.style.display = 'block';
+    container.style.display = 'block';
     const spanMessage = document.getElementById('infoMessage');    
     spanMessage.innerHTML='';
    

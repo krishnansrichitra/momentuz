@@ -164,7 +164,7 @@ function renderControl(field) {
   
         case 'blank':
                 el = document.createElement('div');
-                return el;
+            return el;
         case 'text':
             el = document.createElement('input');
             el.type = 'text';
