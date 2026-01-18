@@ -34,3 +34,14 @@ function showError(message) {
     errorDiv.textContent = message;
     errorDiv.style.display = "block";
 }
+
+function forgotPassword()
+{
+    const modalEl = document.getElementById('htmlDialog');
+
+    //modalEl.querySelector('.modal-title').textContent = "Email Password";
+    modalEl.querySelector('#dialogFrame').src = './forgotpassword.html';
+
+    htmlDialogInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+    htmlDialogInstance.show();
+}
