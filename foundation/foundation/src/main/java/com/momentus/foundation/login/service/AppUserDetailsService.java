@@ -156,7 +156,10 @@ public class AppUserDetailsService implements UserDetailsService {
     String randomPassword = PasswordGenerator.generatePassword(8);
     user.setPassword(passwordEncoder.encode(randomPassword));
     user.setSystemCreated(true);
-    return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+    TransactionResponse response =
+        new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+    response.setResponseMesage("Password updated and emailed");
+    return response;
   }
 
   private void emailPassword(String email, String newPassword, ApplicationContext context) {

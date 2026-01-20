@@ -69,7 +69,7 @@ public class AuthController {
     return "Hello World";
   }
 
-  @PostMapping("/resetPassword")
+  @GetMapping("/resetPassword")
   public ResponseEntity<Map<String, Object>> resetPassword(@RequestParam String email) {
 
     log.debug("Calling resetPassword by " + email);
@@ -77,7 +77,10 @@ public class AuthController {
 
       TransactionResponse response = appUserDetailsService.resetPassword(email);
       log.info("Updating Password");
-      return ResponseEntity.ok(response.convertToMap());
+      return response.getResponseStatus().compareTo(TransactionResponse.RESPONSE_STATUS.FAILURE)
+              == 0
+          ? ResponseEntity.badRequest().body(response.errorMap())
+          : ResponseEntity.ok(response.convertToMap());
     } catch (Exception ex) {
       Map<String, Object> mp = new HashMap<>();
       List<MomentusError> errors = new ArrayList<>();
