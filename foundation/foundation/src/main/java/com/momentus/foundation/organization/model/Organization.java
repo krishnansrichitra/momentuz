@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "organization")
@@ -57,6 +58,13 @@ public class Organization extends BaseEntity {
 
   @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
   private Boolean active;
+
+  @Column LocalDate registrationDate;
+
+  @Column(columnDefinition = "BLOB")
+  String supplimentaryInfo;
+
+  @Column Boolean trialPeriod;
 
   public String getOrgCode() {
     return orgCode;
@@ -181,5 +189,29 @@ public class Organization extends BaseEntity {
   @Override
   public Object getPK() {
     return id;
+  }
+
+  public LocalDate getRegistrationDate() {
+    return registrationDate;
+  }
+
+  public void setRegistrationDate(LocalDate registrationDate) {
+    this.registrationDate = registrationDate;
+  }
+
+  public String getSupplimentaryInfo() {
+    return supplimentaryInfo;
+  }
+
+  public void setSupplimentaryInfo(String supplimentaryInfo) {
+    this.supplimentaryInfo = supplimentaryInfo;
+  }
+
+  public Boolean getTrialPeriod() {
+    return trialPeriod;
+  }
+
+  public void setTrialPeriod(Boolean trialPeriod) {
+    this.trialPeriod = trialPeriod;
   }
 }
