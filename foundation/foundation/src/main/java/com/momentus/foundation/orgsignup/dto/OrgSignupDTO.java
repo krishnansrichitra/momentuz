@@ -9,6 +9,8 @@ public class OrgSignupDTO extends BaseEntityDTO {
   private String orgCode;
   private String organizationName;
 
+  private String firstName;
+  private String lastName;
   private String address1;
   private String address2;
   private String zipCode;
@@ -117,4 +119,20 @@ public class OrgSignupDTO extends BaseEntityDTO {
   public void setSector(String sector) {
     this.sector = sector;
   }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }
