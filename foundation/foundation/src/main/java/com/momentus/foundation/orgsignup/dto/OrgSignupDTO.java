@@ -22,6 +22,8 @@ public class OrgSignupDTO extends BaseEntityDTO {
   private String phone;
   private String primaryContact;
 
+  String primaryUserEmail;
+
   public OrgSignupDTO() {}
 
   public String getOrgCode() {
@@ -134,5 +136,13 @@ public class OrgSignupDTO extends BaseEntityDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getPrimaryUserEmail() {
+        return primaryUserEmail;
+    }
+
+    public void setPrimaryUserEmail(String primaryUserEmail) {
+        this.primaryUserEmail = primaryUserEmail;
     }
 }

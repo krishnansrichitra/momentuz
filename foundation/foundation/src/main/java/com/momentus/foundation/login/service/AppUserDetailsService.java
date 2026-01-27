@@ -166,4 +166,10 @@ public class AppUserDetailsService implements UserDetailsService {
     System.out.println("email=" + newPassword);
     log.debug("Emailing password=" + newPassword);
   }
+
+  public  String makeRandomPassword()
+  {
+      String randomPassword = PasswordGenerator.generatePassword(8);
+      return randomPassword;
+  }
 }

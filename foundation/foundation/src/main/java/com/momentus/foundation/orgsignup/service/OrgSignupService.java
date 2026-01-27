@@ -1,8 +1,10 @@
 package com.momentus.foundation.orgsignup.service;
 
+import com.momentus.corefw.auth.PasswordGenerator;
 import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.TransactionResponse;
+import com.momentus.foundation.login.service.AppUserDetailsService;
 import com.momentus.foundation.organization.model.OrgProfile;
 import com.momentus.foundation.organization.model.Organization;
 import com.momentus.foundation.organization.model.Sector;
@@ -15,6 +17,7 @@ import com.momentus.foundation.profile.model.Profile;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -26,6 +29,10 @@ public class OrgSignupService {
   @Autowired OrgProfileService orgProfileService;
 
   @Autowired SectorProfileRepository sectorProfileRepository;
+
+  @Autowired
+    AppUserDetailsService appUserDetailsService;
+
 
   public TransactionResponse orgSignup(OrgSignupDTO orgSignupDTO, ApplicationContext context) {
     Organization organization = createOrgFromDTO(orgSignupDTO);
@@ -55,6 +62,11 @@ public class OrgSignupService {
     user.setPhone(orgSignupDTO.getPhone());
     user.setEmail(orgSignupDTO.getEmail());
     user.setOrgOwner(true);
+    String pwd = appUserDetailsService.makeRandomPassword();;
+    user.setPassword(pwd);
+    user.setUserId(orgSignupDTO.getPrimaryUserEmail());
+    appUserDetailsService.createUser()
+
     //user.setPassword();
     // user.getFirstName(orgSignupDTO.)
 
