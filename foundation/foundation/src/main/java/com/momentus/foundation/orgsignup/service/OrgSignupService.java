@@ -1,9 +1,13 @@
 package com.momentus.foundation.orgsignup.service;
 
 import com.momentus.corefw.auth.PasswordGenerator;
+import com.momentus.foundation.accessgroup.model.Role;
 import com.momentus.foundation.accessgroup.model.User;
+import com.momentus.foundation.accessgroup.model.UserRoles;
+import com.momentus.foundation.accessgroup.repository.UserRepository;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.TransactionResponse;
+import com.momentus.foundation.generic.service.GenericService;
 import com.momentus.foundation.login.service.AppUserDetailsService;
 import com.momentus.foundation.organization.model.OrgProfile;
 import com.momentus.foundation.organization.model.Organization;
@@ -11,7 +15,9 @@ import com.momentus.foundation.organization.model.Sector;
 import com.momentus.foundation.organization.service.OrgProfileService;
 import com.momentus.foundation.organization.service.OrganizationService;
 import com.momentus.foundation.orgsignup.dto.OrgSignupDTO;
+import com.momentus.foundation.orgsignup.model.PrimaryUserRole;
 import com.momentus.foundation.orgsignup.model.SectorProfileData;
+import com.momentus.foundation.orgsignup.repository.PrimaryUserRoleRepository;
 import com.momentus.foundation.orgsignup.repository.SectorProfileRepository;
 import com.momentus.foundation.profile.model.Profile;
 import java.time.LocalDate;
@@ -33,6 +39,18 @@ public class OrgSignupService {
   @Autowired
     AppUserDetailsService appUserDetailsService;
 
+  @Autowired
+    UserRepository userRepository;
+
+  @Autowired
+    PrimaryUserRoleRepository primaryUserRoleRepository;
+
+  @Autowired
+    GenericService genericService;
+
+  @Autowired
+
+
 
   public TransactionResponse orgSignup(OrgSignupDTO orgSignupDTO, ApplicationContext context) {
     Organization organization = createOrgFromDTO(orgSignupDTO);
@@ -43,11 +61,12 @@ public class OrgSignupService {
     }
 
     organization = organizationService.getOrgByOrgCode(organization.getOrgCode());
+      Profile profile = null;
     List<SectorProfileData> sectorProfileDatas =
         sectorProfileRepository.findBySector(orgSignupDTO.getSector());
     if (!CollectionUtils.isEmpty(sectorProfileDatas)) {
       OrgProfile orgProfile = new OrgProfile();
-      Profile profile = sectorProfileDatas.get(0).getProfile();
+      profile = sectorProfileDatas.get(0).getProfile();
       orgProfile.setProfileGroup(profile.getProfileGroup());
       orgProfile.setProfile(profile);
       orgProfile.setOrgId(organization);
@@ -62,16 +81,27 @@ public class OrgSignupService {
     user.setPhone(orgSignupDTO.getPhone());
     user.setEmail(orgSignupDTO.getEmail());
     user.setOrgOwner(true);
-    String pwd = appUserDetailsService.makeRandomPassword();;
-    user.setPassword(pwd);
+    user.setPassword(appUserDetailsService.makePasswordForPrimaryUser(orgSignupDTO.getPrimaryUserEmail()));
     user.setUserId(orgSignupDTO.getPrimaryUserEmail());
-    appUserDetailsService.createUser()
+    userRepository.save(user);
 
-    //user.setPassword();
-    // user.getFirstName(orgSignupDTO.)
+    if (profile != null) {
+        UserRoles userRoles = new UserRoles();
+        List<PrimaryUserRole> primaryUserRoles = primaryUserRoleRepository.findByProfileId(profile.getId());
+        if (!CollectionUtils.isEmpty(primaryUserRoles)) {
+            PrimaryUserRole primaryUserRole = primaryUserRoles.get(0);
+            Role role =new Role();
+            role.setDescription(primaryUserRole.getRoleDescription());
+            role.setAccessCodes(primaryUserRole.getAccessCodes());
+            role.setOrgId(organization);
+            genericService.saveEntity(role,context);
+            role = (Role)genericService.findByBusinessKey(role.getBK(),Role.class,context);
+            userRoles.setUser(user);
+            userRoles.setRole(role);
+            genericService.saveEntity(userRoles,context);
 
-    // Save Roles
-
+        }
+    }
     return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
   }
 
