@@ -2,7 +2,6 @@ package com.momentus.foundation.common.context;
 
 import com.momentus.foundation.organization.model.Organization;
 import com.momentus.foundation.organization.service.OrganizationService;
-
 import java.util.Locale;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +28,12 @@ public class ApplicationContextHelper {
     return applicationContext;
   }
 
-    public ApplicationContext generateRootContext()
-    {
-        ApplicationContext applicationContext = new ApplicationContext();
-        Organization organization =
-                organizationService.getOrgById(
-                        Long.valueOf((Integer) 1));
-        applicationContext.setOrganization(organization);
-        applicationContext.setLoggedInUser("rootuser@momentusone.com");
-        applicationContext.setLocale(Locale.US);
-        return applicationContext;
-
-    }
-
+  public ApplicationContext generateRootContext() {
+    ApplicationContext applicationContext = new ApplicationContext();
+    Organization organization = organizationService.getOrgById(Long.valueOf((Integer) 1));
+    applicationContext.setOrganization(organization);
+    applicationContext.setLoggedInUser("rootuser@momentusone.com");
+    applicationContext.setLocale(Locale.US);
+    return applicationContext;
+  }
 }

@@ -167,10 +167,9 @@ public class AppUserDetailsService implements UserDetailsService {
     log.debug("Emailing password=" + newPassword);
   }
 
-  public  String makePasswordForPrimaryUser(String email)
-  {
-      String randomPassword = PasswordGenerator.generatePassword(8);
+  public String makePasswordForPrimaryUser(String email) {
+    String randomPassword = PasswordGenerator.generatePassword(8);
 
-      return passwordEncoder.encode(randomPassword);
+    return passwordEncoder.encode(randomPassword);
   }
 }

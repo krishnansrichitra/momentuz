@@ -1,6 +1,8 @@
 package com.momentus.foundation.common.controller;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +16,12 @@ public class CountryStateController {
 
   @GetMapping("/getAllCountries")
   public ResponseEntity<Map<String, String>> getAllCountries() {
-    Map<String, String> countries = new HashMap<>();
-    countries.put("India", "India");
-    countries.put("USA", "USA");
+    Map<String, String> countries = new LinkedHashMap<>();
+
+    for (String countryCode : Locale.getISOCountries()) {
+      Locale locale = new Locale("", countryCode);
+      countries.put(locale.getDisplayCountry(), locale.getDisplayCountry());
+    }
     return ResponseEntity.ok(countries);
   }
 
