@@ -8,7 +8,7 @@ function login() {
         return;
     }
 
-    axios.post("http://localhost:8080/api/auth/login", {
+    axios.post(urlPrefix + "api/auth/login", {
         username: username,
         password: password
     })
@@ -38,10 +38,24 @@ function showError(message) {
 function forgotPassword()
 {
     const modalEl = document.getElementById('htmlDialog');
+    modalEl.querySelector('.modal-dialog')
+       .classList.remove('modal-xl');
 
     //modalEl.querySelector('.modal-title').textContent = "Email Password";
     modalEl.querySelector('#dialogFrame').src = './forgotpassword.html';
 
     htmlDialogInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
     htmlDialogInstance.show();
+}
+function signUp()
+{
+
+    const modalEl = document.getElementById('htmlDialog');
+    modalEl.querySelector('.modal-dialog')
+       .classList.add('modal-xl');
+    //modalEl.querySelector('.modal-title').textContent = "Email Password";
+    modalEl.querySelector('#dialogFrame').src = './signup.html';
+    htmlDialogInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+    htmlDialogInstance.show();
+
 }
