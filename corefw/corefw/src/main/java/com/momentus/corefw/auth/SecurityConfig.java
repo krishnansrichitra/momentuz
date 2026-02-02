@@ -52,6 +52,7 @@ public class SecurityConfig {
                         org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/orgsignup/**").permitAll()
                         .requestMatchers("/api/common/**").permitAll()// public endpoints
                         .requestMatchers(
                                 "/swagger-ui.html",

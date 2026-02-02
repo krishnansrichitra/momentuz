@@ -11,6 +11,7 @@ import com.momentus.foundation.login.service.AppUserDetailsService;
 import com.momentus.foundation.organization.model.OrgProfile;
 import com.momentus.foundation.organization.model.Organization;
 import com.momentus.foundation.organization.model.Sector;
+import com.momentus.foundation.organization.repository.SectorRepository;
 import com.momentus.foundation.organization.service.OrgProfileService;
 import com.momentus.foundation.organization.service.OrganizationService;
 import com.momentus.foundation.orgsignup.dto.OrgSignupDTO;
@@ -20,7 +21,9 @@ import com.momentus.foundation.orgsignup.repository.PrimaryUserRoleRepository;
 import com.momentus.foundation.orgsignup.repository.SectorProfileRepository;
 import com.momentus.foundation.profile.model.Profile;
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -41,6 +44,17 @@ public class OrgSignupService {
   @Autowired PrimaryUserRoleRepository primaryUserRoleRepository;
 
   @Autowired GenericService genericService;
+
+  @Autowired SectorRepository sectorRepository;
+
+  public Map<String, String> getAllSectorsforUI() {
+    Map<String, String> result = new LinkedHashMap<>();
+    List<Sector> sectors = sectorRepository.findAll();
+    for (Sector sector : sectors) {
+      result.put(sector.getName(), sector.getName());
+    }
+    return result;
+  }
 
   public TransactionResponse orgSignup(OrgSignupDTO orgSignupDTO, ApplicationContext context) {
     Organization organization = createOrgFromDTO(orgSignupDTO);

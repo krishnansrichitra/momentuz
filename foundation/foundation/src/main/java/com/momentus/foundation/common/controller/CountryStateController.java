@@ -1,9 +1,11 @@
 package com.momentus.foundation.common.controller;
 
+import com.momentus.foundation.orgsignup.service.OrgSignupService;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/common")
 public class CountryStateController {
+
+  @Autowired OrgSignupService orgSignupService;
 
   @GetMapping("/getAllCountries")
   public ResponseEntity<Map<String, String>> getAllCountries() {
@@ -37,5 +41,12 @@ public class CountryStateController {
     }
 
     return ResponseEntity.ok(states);
+  }
+
+  @GetMapping("/getAllSectors")
+  public ResponseEntity<Map<String, String>> getAllSectors() {
+    Map<String, String> sectors = orgSignupService.getAllSectorsforUI();
+
+    return ResponseEntity.ok(sectors);
   }
 }
