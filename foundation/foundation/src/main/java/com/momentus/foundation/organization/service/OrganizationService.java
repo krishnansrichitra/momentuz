@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @Service
 public class OrganizationService {
@@ -43,12 +44,27 @@ public class OrganizationService {
       Organization organization, ApplicationContext context) {
     TransactionResponse transactionResponse = new TransactionResponse();
     List<MomentusError> momentusErrorList = new ArrayList<>();
-    if (organization.getIndustry() == null) {
+    /* if (organization.getIndustry() == null) {
       momentusErrorList.add(
           new MomentusError(
               GeneralMessages.ORG_INDUSTRY_MANDATORY,
               generalMessages.getMessage(GeneralMessages.ORG_INDUSTRY_MANDATORY, Locale.US)));
+    }*/
+
+    if (!StringUtils.hasLength(organization.getOrgCode())) {
+      momentusErrorList.add(
+          new MomentusError(
+              GeneralMessages.ORG_CODE_MANDATORY,
+              generalMessages.getMessage(GeneralMessages.ORG_CODE_MANDATORY, Locale.US)));
     }
+    Organization existingOrg = getOrgByOrgCode(organization.getOrgCode());
+    if (existingOrg != null && existingOrg.getId() != organization.getId()) {
+      momentusErrorList.add(
+          new MomentusError(
+              GeneralMessages.ORG_CODE_EXISTS,
+              generalMessages.getMessage(GeneralMessages.ORG_CODE_EXISTS, Locale.US)));
+    }
+
     if (organization.getSector() == null) {
       momentusErrorList.add(
           new MomentusError(
@@ -69,10 +85,13 @@ public class OrganizationService {
     if (basicValidationResponse.hasHardError()) {
       return basicValidationResponse;
     }
-    Industry industry =
-        industryRepository.findById(organization.getIndustry().getCode()).orElse(null);
+    if (organization.getIndustry() != null) {
+      Industry industry =
+          industryRepository.findById(organization.getIndustry().getCode()).orElse(null);
+      organization.setIndustry(industry);
+    }
     Sector sector = sectorRepository.findById(organization.getSector().getCode()).orElse(null);
-    organization.setIndustry(industry);
+
     organization.setSector(sector);
 
     organizationRepository.save(organization);

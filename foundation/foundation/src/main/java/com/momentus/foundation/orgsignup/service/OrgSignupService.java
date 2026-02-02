@@ -51,7 +51,7 @@ public class OrgSignupService {
     Map<String, String> result = new LinkedHashMap<>();
     List<Sector> sectors = sectorRepository.findAll();
     for (Sector sector : sectors) {
-      result.put(sector.getName(), sector.getName());
+      result.put(sector.getCode(), sector.getName());
     }
     return result;
   }
@@ -113,7 +113,7 @@ public class OrgSignupService {
   private Organization createOrgFromDTO(OrgSignupDTO orgSignupDTO) {
     Organization organization = new Organization();
     organization.setOrgCode(orgSignupDTO.getOrgCode());
-    organization.setOrganizationName(organization.getOrganizationName());
+    organization.setOrganizationName(orgSignupDTO.getOrganizationName());
     organization.setRegistrationDate(LocalDate.now());
     organization.setAddress1(orgSignupDTO.getAddress1());
     organization.setAddress2(orgSignupDTO.getAddress2());
