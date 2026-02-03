@@ -118,7 +118,7 @@ async function  signUpCompany() {
     )
         .then(response => {
             console.log('Success:', response.data);
-            showSuccessMessage('Company Registered.  Please check your primary email for login credentials');
+            showSuccessMessage(response.data.Messages);
         })
         .catch(error => {
             console.error('Error:', error);
