@@ -13,6 +13,7 @@ import com.momentus.foundation.common.utils.EmailProperties;
 import com.momentus.foundation.common.utils.EmailSender;
 import com.momentus.foundation.generic.service.MapToEntityMapper;
 import com.momentus.foundation.login.model.MomLoggedInUser;
+import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -153,6 +154,7 @@ public class AppUserDetailsService implements UserDetailsService {
     return response;
   }
 
+  @Transactional
   public TransactionResponse resetPassword(String userId) {
     User user = users.findByUserId(userId).orElse(null);
     String randomPassword = PasswordGenerator.generatePassword(8);
@@ -161,6 +163,7 @@ public class AppUserDetailsService implements UserDetailsService {
     TransactionResponse response =
         new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
     emailPassword(user.getEmail(), randomPassword);
+    users.save(user);
     response.setResponseMesage("Password updated and emailed");
     return response;
   }
