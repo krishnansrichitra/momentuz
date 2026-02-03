@@ -28,7 +28,7 @@ public class MenuService {
     OrgProfile orgProfile = orgProfileService.getProfileForGroup("GNL", orgId);
     if (orgProfile != null) {
       List<MenuSet> menuSetList =
-          menuRepository.findByProfileCodeIn(
+          menuRepository.findByProfileProfileCodeIn(
               Arrays.asList(orgProfile.getProfile().getProfileCode()));
       if (!CollectionUtils.isEmpty(menuSetList)) {
         MenuSetDTO menuSetDTO =

@@ -154,8 +154,7 @@ foreign key (profile_group_code) references profile_group(profile_group_code)
 
 
 create table profile(
-id bigint PRIMARY KEY  AUTO_INCREMENT ,
-profile_code varchar(255) UNIQUE,
+profile_code varchar(255) PRIMARY KEY,
 profile_description varchar(255),
 parent_profile_code varchar(255),
 full_profile_code varchar(255),
@@ -228,7 +227,6 @@ insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_inhs','In 
         version bigint,
         profile_code varchar(255),
         description varchar(255),
-        profile_id bigint not null,
         primary key (id)
     ) ;
 
@@ -244,8 +242,8 @@ insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_inhs','In 
 
     alter table menu_set
        add constraint FKitfu1nkb9m9opksviepldll9a
-       foreign key (profile_id)
-       references profile (id) ;
+       foreign key (profile_code)
+       references profile (profile_code) ;
 
 
 
@@ -263,7 +261,6 @@ create table list_metadata (
         profile_code varchar(255),
         description varchar(255),
         entity varchar(255),
-        profile_id bigint not null,
         primary key (id)
     ) ;
 
@@ -301,8 +298,8 @@ create table list_columns (
 
 alter table list_metadata
        add constraint FKmvjb81uqom19b0ugawohdhlph
-       foreign key (profile_id)
-       references profile (id);
+       foreign key (profile_code)
+       references profile (profile_code);
 
 
 alter table list_columns
@@ -359,7 +356,6 @@ alter table list_buttons
         profile_code varchar(255),
         description varchar(255),
         entity varchar(255),
-        profile_id bigint not null,
         primary key (id)
     ) ;
 
@@ -375,13 +371,13 @@ alter table list_buttons
 
     alter table updateview_metadata
        add constraint FKj7gpm63mwmdcgflxbakvv7y7a
-       foreign key (profile_id)
-       references profile (id);
+       foreign key (profile_code)
+       references profile (profile_code);
 
 
 
 insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
-insert into profile(id,profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values (1,'ROOT','Base Profile','ROOT','GNL','seed',now());
+insert into profile(profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values ('ROOT','Base Profile','ROOT','GNL','seed',now());
 
 
 
@@ -393,7 +389,7 @@ insert into fndclient.entity(entity_name,full_package,profile_group_code,active)
 ('Item','com.momentus.fndclient.item.model.Item','GNL',1);
 
 
-insert into menu_set(id,profile_id,profile_code,description) values ('DFLT',1,'ROOT','Default Menu');
+insert into menu_set(id,profile_code,description) values ('DFLT','ROOT','Default Menu');
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('DFLT-MSTR','Master','DFLT',null,1);
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('DFLT-TRNS','Transactions','DFLT',null,2);
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('DFLT-RPTS','Reports', 'DFLT',null,3);
@@ -403,17 +399,17 @@ insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('DFLT-MSTR-ITM','items','adm','./general/genericList.html?entity=Item','DFLT-MSTR',2);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('DFLT-MSTR-DTIMP','dataImport','adm','./general/dataImport.html','DFLT-MSTR',3);
 
-insert into updateview_metadata(id,profile_id,profile_code,entity) values ('SUP',1,'ROOT','Supplier');
-insert into updateview_metadata(id,profile_id,profile_code,entity) values ('ITM',1,'ROOT','Item');
+insert into updateview_metadata(id,profile_code,entity) values ('SUP','ROOT','Supplier');
+insert into updateview_metadata(id,profile_code,entity) values ('ITM','ROOT','Item');
 
-insert into updateview_metadata(id,profile_id,profile_code,entity) values ('USPRF',1,'ROOT','UserProfile');
-
-
+insert into updateview_metadata(id,profile_code,entity) values ('USPRF','ROOT','UserProfile');
 
 
-insert into list_metadata(id,profile_id,profile_code,entity) values('SUP',1,'ROOT','Supplier');
-insert into list_metadata(id,profile_id,profile_code,entity) values('ITM',1,'ROOT','Item');
-insert into list_metadata(id,profile_id,profile_code,entity) values('CUST',1,'ROOT','Customer');
+
+
+insert into list_metadata(id,profile_code,entity) values('SUP','ROOT','Supplier');
+insert into list_metadata(id,profile_code,entity) values('ITM','ROOT','Item');
+insert into list_metadata(id,profile_code,entity) values('CUST','ROOT','Customer');
 
 insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('SUP-NAME','SUP','supplierName','text','supplierName',1);
 insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('SUP-PHONE','SUP','phoneNumber','text','address["phoneNumber"]',2);

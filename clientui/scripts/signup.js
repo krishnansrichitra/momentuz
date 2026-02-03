@@ -85,7 +85,8 @@ async function  signUpCompany() {
     let zipCode  = document.getElementById("txtZipCode").value;
     let phone  = document.getElementById("txtPhone").value;
     let email  = document.getElementById("txtEmail").value;
-    let primaryContact  = document.getElementById("txtPrimaryContact").value;
+    let firstName  = document.getElementById("txtFirstName").value;
+    let lastName  = document.getElementById("txtLastName").value;
     let primaryEmail  = document.getElementById("txtPrimaryEmail").value;
 
     let country = document.getElementById("slCountry").value;
@@ -102,7 +103,9 @@ async function  signUpCompany() {
     input['country'] =country;
     input['phone'] =phone;
     input['email'] =email;
-    input['primaryContact'] =primaryContact;
+    input['firstName'] =firstName;
+    input['lastName'] =lastName;
+
     input['primaryUserEmail'] =primaryEmail;
 
     const url =

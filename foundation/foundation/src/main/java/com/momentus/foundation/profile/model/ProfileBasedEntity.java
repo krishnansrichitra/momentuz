@@ -8,11 +8,9 @@ import jakarta.persistence.*;
 public class ProfileBasedEntity extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "profile_id", referencedColumnName = "Id")
+  @JoinColumn(name = "profile_code", referencedColumnName = "profileCode")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   Profile profile;
-
-  @Column String profileCode;
 
   public Profile getProfile() {
     return profile;
@@ -20,13 +18,5 @@ public class ProfileBasedEntity extends BaseEntity {
 
   public void setProfile(Profile profile) {
     this.profile = profile;
-  }
-
-  public String getProfileCode() {
-    return profileCode;
-  }
-
-  public void setProfileCode(String profileCode) {
-    this.profileCode = profileCode;
   }
 }

@@ -20,7 +20,7 @@ public class OrgProfile extends BaseEntity {
   Organization orgId;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = true)
-  @JoinColumn(name = "profile_id", referencedColumnName = "id")
+  @JoinColumn(name = "profile_code", referencedColumnName = "profileCode")
   Profile profile;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = true)

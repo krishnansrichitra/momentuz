@@ -12,7 +12,7 @@ public class SectorProfileData {
   @Column String sector;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "profile_id", referencedColumnName = "id")
+  @JoinColumn(name = "profile_code", referencedColumnName = "profileCode")
   Profile profile;
 
   public String getId() {

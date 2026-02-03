@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PrimaryUserRoleRepository extends JpaRepository<PrimaryUserRole, String> {
 
-  List<PrimaryUserRole> findByProfileId(Long profileId);
+  List<PrimaryUserRole> findByProfileProfileCode(String profileCode);
 }

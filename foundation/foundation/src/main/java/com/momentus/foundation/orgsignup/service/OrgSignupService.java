@@ -93,7 +93,7 @@ public class OrgSignupService {
     if (profile != null) {
       UserRoles userRoles = new UserRoles();
       List<PrimaryUserRole> primaryUserRoles =
-          primaryUserRoleRepository.findByProfileId(profile.getId());
+          primaryUserRoleRepository.findByProfileProfileCode(profile.getProfileCode());
       if (!CollectionUtils.isEmpty(primaryUserRoles)) {
         PrimaryUserRole primaryUserRole = primaryUserRoles.get(0);
         Role role = new Role();

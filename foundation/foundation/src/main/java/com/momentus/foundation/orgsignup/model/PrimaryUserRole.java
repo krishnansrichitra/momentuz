@@ -4,13 +4,13 @@ import com.momentus.foundation.profile.model.Profile;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "primary_user_rolex")
+@Table(name = "primary_user_role")
 public class PrimaryUserRole {
 
   @Id String roleDescription;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "profile_id", referencedColumnName = "id")
+  @JoinColumn(name = "profile_code", referencedColumnName = "profileCode")
   Profile profile;
 
   @Column(columnDefinition = "BLOB")

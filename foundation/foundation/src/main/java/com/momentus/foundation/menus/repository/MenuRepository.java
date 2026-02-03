@@ -7,7 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MenuRepository extends JpaRepository<MenuSet, String> {
 
-  List<MenuSet> findByProfileCodeIn(Collection<String> profileCodes);
-
-  MenuSet findByProfileId(Long profileId);
+  List<MenuSet> findByProfileProfileCodeIn(Collection<String> profileCodes);
 }

@@ -10,11 +10,8 @@ import jakarta.persistence.*;
 public class Profile extends BaseEntity {
 
   @Id
-  @EntityProperties(isPK = true)
-  Long id;
-
   @Column(unique = true)
-  @EntityProperties(isBK = true)
+  @EntityProperties(isPK = true)
   String profileCode;
 
   @Column String parentProfileCode;
@@ -34,12 +31,12 @@ public class Profile extends BaseEntity {
   @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
   private boolean active = true;
 
-  public Long getId() {
-    return id;
+  public String getProfileDescription() {
+    return profileDescription;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setProfileDescription(String profileDescription) {
+    this.profileDescription = profileDescription;
   }
 
   public String getProfileCode() {
@@ -92,6 +89,6 @@ public class Profile extends BaseEntity {
 
   @Override
   public Object getPK() {
-    return id;
+    return profileCode;
   }
 }
