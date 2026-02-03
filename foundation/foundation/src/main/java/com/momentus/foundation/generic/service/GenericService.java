@@ -305,6 +305,7 @@ public class GenericService {
     }
     if (dataMap != null
         && dataMap.containsKey("id")
+        && dataMap.get("id") != null
         && ((Number) dataMap.get("id")).longValue() > 0) {
       entity.setId(((Number) dataMap.get("id")).longValue());
       TransactionResponse validationResponse =
