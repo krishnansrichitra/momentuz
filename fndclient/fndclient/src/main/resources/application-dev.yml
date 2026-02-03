@@ -27,7 +27,13 @@ spring:
   # Web server (explicitly disable SSL)
   main:
     allow-bean-definition-overriding: true
+
 server:
+  email:
+    user: control@momentusone.com
+    password: Godfather@1971
+    smtpport: 587
+
   port: 8080
   ssl:
     enabled: false     # HTTPS = false (use plain HTTP)

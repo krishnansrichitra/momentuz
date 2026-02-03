@@ -9,6 +9,7 @@ import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
+import com.momentus.foundation.common.utils.EmailProperties;
 import com.momentus.foundation.common.utils.EmailSender;
 import com.momentus.foundation.generic.service.MapToEntityMapper;
 import com.momentus.foundation.login.model.MomLoggedInUser;
@@ -34,12 +35,15 @@ public class AppUserDetailsService implements UserDetailsService {
 
   private final PasswordEncoder passwordEncoder;
 
+  private final EmailProperties emailProperties;
+
   private static final Logger log = LoggerFactory.getLogger(AppUserDetailsService.class);
 
   @Autowired GeneralMessages generalMessages;
 
-  public AppUserDetailsService(PasswordEncoder passwordEncoder) {
+  public AppUserDetailsService(PasswordEncoder passwordEncoder, EmailProperties emailProperties) {
     this.passwordEncoder = passwordEncoder;
+    this.emailProperties = emailProperties;
   }
 
   @Override
@@ -166,12 +170,12 @@ public class AppUserDetailsService implements UserDetailsService {
     log.debug("Emailing password=" + newPassword);
     EmailSender.sendEmail(
         "smtpout.secureserver.net",
-        587,
-        "control@momentusone.com",
-        "Godfather@1971",
+        emailProperties.getSmtpport(),
+        emailProperties.getUser(),
+        emailProperties.getPassword(),
         email,
         "Password for MomentusOne",
-        " Please find your credentials to log in to Momentusone. User Id:"
+        " Please find your credentials to log in to Momentusone. User Id: "
             + email
             + " password: "
             + newPassword
