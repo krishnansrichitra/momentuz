@@ -169,7 +169,7 @@ public class AppUserDetailsService implements UserDetailsService {
 
   public String makePasswordForPrimaryUser(String email) {
     String randomPassword = PasswordGenerator.generatePassword(8);
-
+    System.out.println("password = " + randomPassword);
     return passwordEncoder.encode(randomPassword);
   }
 }

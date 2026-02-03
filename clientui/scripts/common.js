@@ -187,6 +187,7 @@ function showSuccessMessage(messages) {
     const container = document.getElementById('errorContainer');
     const spanError = document.getElementById('errorMessage');
     spanError.innerHTML='';
+    console.log(messages);
 
     const spanMessage = document.getElementById('infoMessage');    
 

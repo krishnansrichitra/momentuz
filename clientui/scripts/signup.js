@@ -123,6 +123,7 @@ async function  signUpCompany() {
         .catch(error => {
             console.error('Error:', error);
             const response = error.response?.data;
+            console.log(response);
             const apiErrors = new ApiErrorResponse(response);
             if (apiErrors.hasErrors()) {
                 const messages = apiErrors.getMessages();

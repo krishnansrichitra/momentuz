@@ -9,7 +9,7 @@ public class PrimaryUserRole {
 
   @Id String roleDescription;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "profile_code", referencedColumnName = "profileCode")
   Profile profile;
 

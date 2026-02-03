@@ -375,10 +375,28 @@ alter table list_buttons
        references profile (profile_code);
 
 
+create table sector_profile(
+id varchar(255) primary key,
+sector varchar(255) ,
+profile_code varchar(255),
+foreign key (profile_code) references profile (profile_code)
+);
+
+create table primary_user_role (
+role_description  varchar(255) primary key,
+profile_code varchar(255) ,
+access_codes blob,
+foreign key (profile_code) references profile (profile_code)
+);
+
+
+
 
 insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
 insert into profile(profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values ('ROOT','Base Profile','ROOT','GNL','seed',now());
 
+insert into sector_profile(id,sector,profile_code)values ('ROOT-ALL','ALL','ROOT');
+insert into primary_user_role(role_description,profile_code,access_codes) values ('PRIMARY-ROOT','ROOT','extn,adm');
 
 
 insert into entity (entity_name,full_package,profile_group_code,created_by,created_time)

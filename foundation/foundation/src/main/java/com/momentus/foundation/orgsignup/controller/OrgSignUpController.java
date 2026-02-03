@@ -25,6 +25,7 @@ public class OrgSignUpController {
   public ResponseEntity<Map<String, Object>> register(@RequestBody OrgSignupDTO orgSignupDTO) {
     ApplicationContext context = applicationContextHelper.generateRootContext();
     TransactionResponse response = orgSignupService.orgSignup(orgSignupDTO, context);
-    return ResponseEntity.ok(response.convertToMap());
+    if (!response.hasHardError()) return ResponseEntity.ok(response.convertToMap());
+    else return ResponseEntity.badRequest().body(response.convertToMap());
   }
 }
