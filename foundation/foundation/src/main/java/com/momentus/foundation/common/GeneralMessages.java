@@ -27,6 +27,7 @@ public class GeneralMessages {
   public static final String PASSWORD_UPDATED_SUCCESFULLY = "10016";
   public static final String ORG_CODE_EXISTS = "10017";
   public static final String ORG_CREATED_SUCCESS = "10018";
+  public static final String PRIMARY_USER_EMAIL_MANDATORY = "10019";
 
   private final MessageSource messageSource;
 

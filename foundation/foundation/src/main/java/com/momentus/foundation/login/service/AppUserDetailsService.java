@@ -9,13 +9,11 @@ import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
+import com.momentus.foundation.common.utils.EmailSender;
 import com.momentus.foundation.generic.service.MapToEntityMapper;
 import com.momentus.foundation.login.model.MomLoggedInUser;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,18 +156,34 @@ public class AppUserDetailsService implements UserDetailsService {
     user.setSystemCreated(true);
     TransactionResponse response =
         new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+    emailPassword(user.getEmail(), randomPassword);
     response.setResponseMesage("Password updated and emailed");
     return response;
   }
 
-  private void emailPassword(String email, String newPassword, ApplicationContext context) {
+  private void emailPassword(String email, String newPassword) {
     System.out.println("email=" + newPassword);
     log.debug("Emailing password=" + newPassword);
+    EmailSender.sendEmail(
+        "smtpout.secureserver.net",
+        587,
+        "control@momentusone.com",
+        "Godfather@1971",
+        email,
+        "Password for MomentusOne",
+        " Please find your credentials to log in to Momentusone. User Id:"
+            + email
+            + " password: "
+            + newPassword
+            + "<p>"
+            + " It is recommended to change the password once you loging",
+        new HashMap<>());
   }
 
   public String makePasswordForPrimaryUser(String email) {
     String randomPassword = PasswordGenerator.generatePassword(8);
     System.out.println("password = " + randomPassword);
+    emailPassword(email, randomPassword);
     return passwordEncoder.encode(randomPassword);
   }
 }

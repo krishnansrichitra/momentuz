@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @Service
 public class OrgSignupService {
@@ -63,10 +64,73 @@ public class OrgSignupService {
     return result;
   }
 
+  private TransactionResponse basicValidation(OrgSignupDTO orgSignupDTO, Locale locale) {
+
+    /** check for mandator */
+    if (!StringUtils.hasLength(orgSignupDTO.getSector())
+        || !StringUtils.hasLength(orgSignupDTO.getOrgCode())
+        || !StringUtils.hasLength(orgSignupDTO.getOrganizationName())
+        || !StringUtils.hasLength(orgSignupDTO.getPrimaryUserEmail())) {
+      List<MomentusError> errors = new ArrayList<>();
+      if (!StringUtils.hasLength(orgSignupDTO.getSector())) {
+        MomentusError momentusError =
+            new MomentusError(
+                GeneralMessages.ORG_SECTOR_MANDATORY,
+                generalMessages.getMessage(GeneralMessages.ORG_SECTOR_MANDATORY, locale));
+        errors.add(momentusError);
+      }
+      if (!StringUtils.hasLength(orgSignupDTO.getOrgCode())) {
+        MomentusError momentusError =
+            new MomentusError(
+                GeneralMessages.ORG_CODE_MANDATORY,
+                generalMessages.getMessage(GeneralMessages.ORG_CODE_MANDATORY, locale));
+        errors.add(momentusError);
+      }
+      if (!StringUtils.hasLength(orgSignupDTO.getOrganizationName())) {
+        MomentusError momentusError =
+            new MomentusError(
+                GeneralMessages.ORG_NAME_MANDATORY,
+                generalMessages.getMessage(GeneralMessages.ORG_NAME_MANDATORY, locale));
+        errors.add(momentusError);
+      }
+      if (!StringUtils.hasLength(orgSignupDTO.getPrimaryUserEmail())) {
+        MomentusError momentusError =
+            new MomentusError(
+                GeneralMessages.PRIMARY_USER_EMAIL_MANDATORY,
+                generalMessages.getMessage(GeneralMessages.PRIMARY_USER_EMAIL_MANDATORY, locale));
+        errors.add(momentusError);
+      }
+
+      TransactionResponse tr = new TransactionResponse(TransactionResponse.RESPONSE_STATUS.FAILURE);
+      tr.setMomentusErrorList(errors);
+      return tr;
+    }
+    Organization org = organizationService.getOrgByOrgCode(orgSignupDTO.getOrgCode());
+    if (org != null) {
+      List<MomentusError> errors = new ArrayList<>();
+      MomentusError momentusError =
+          new MomentusError(
+              GeneralMessages.ORG_CODE_EXISTS,
+              generalMessages.getMessage(GeneralMessages.ORG_CODE_EXISTS, locale));
+      errors.add(momentusError);
+      TransactionResponse tr = new TransactionResponse(TransactionResponse.RESPONSE_STATUS.FAILURE);
+      tr.setMomentusErrorList(errors);
+      return tr;
+    }
+
+    return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
+  }
+
   @Transactional
   public TransactionResponse orgSignup(OrgSignupDTO orgSignupDTO, ApplicationContext context) {
     try {
+
       log.debug("Signing up Org=" + orgSignupDTO);
+
+      TransactionResponse tr = basicValidation(orgSignupDTO, Locale.US);
+      if (tr.hasHardError()) {
+        return tr;
+      }
       Organization organization = createOrgFromDTO(orgSignupDTO);
       TransactionResponse transactionResponse =
           organizationService.saveOrganization(organization, context);
@@ -93,7 +157,7 @@ public class OrgSignupService {
       user.setFirstName(orgSignupDTO.getFirstName());
       user.setLastName(orgSignupDTO.getLastName());
       user.setPhone(orgSignupDTO.getPhone());
-      user.setEmail(orgSignupDTO.getEmail());
+      user.setEmail(orgSignupDTO.getPrimaryUserEmail());
       user.setOrgOwner(true);
       user.setPassword(
           appUserDetailsService.makePasswordForPrimaryUser(orgSignupDTO.getPrimaryUserEmail()));
@@ -130,7 +194,6 @@ public class OrgSignupService {
               + organization.getOrganizationName());
     } catch (Exception e) {
       log.error("Error while org signup", e);
-      Map<String, Object> mp = new HashMap<>();
       List<MomentusError> errors = new ArrayList<>();
       MomentusError momentusError =
           new MomentusError(

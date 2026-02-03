@@ -121,16 +121,26 @@ async function  signUpCompany() {
             showSuccessMessage(response.data.Messages);
         })
         .catch(error => {
-            console.error('Error:', error);
-            const response = error.response?.data;
-            console.log(response);
-            const apiErrors = new ApiErrorResponse(response);
-            if (apiErrors.hasErrors()) {
-                const messages = apiErrors.getMessages();
-                showErrors(messages);
-            }
+        const response = error.response?.data;
+        console.log(response);
+        const apiErrors = new ApiErrorResponse(response);
+        if (apiErrors.hasErrors()) {
+            const messages = apiErrors.getMessages();
+            showErrors(messages);
+        
+        }else {
+            console.log(apiErrors);
+        }
 
         });
 
     
+}
+
+function closePopup()
+{
+    if (window.parent && window.parent.htmlDialogInstance) {
+        window.parent.htmlDialogInstance.hide();
+    }
+
 }

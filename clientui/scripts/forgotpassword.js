@@ -12,7 +12,7 @@ async function resetPassword() {
     } catch (error) {
         console.error('Error:', error);
         const response = error.response?.data;
-        const apiErrors = new ApiErrorResponse(response);
+        const apiErrors = new ApiErrorResponse(response.errors);
         if (apiErrors.hasErrors()) {
             const messages = apiErrors.getMessages();
             showErrors(messages);

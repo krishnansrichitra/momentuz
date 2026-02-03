@@ -205,7 +205,7 @@ function showErrors(messages) {
     const span = document.getElementById('errorMessage');
 
     span.innerHTML = `
-        <ul class="mb-0 ps-3">
+        <ul class="ps-3 mb-0">
             ${messages.map(m => `<li>${m}</li>`).join('')}
         </ul>
     `;

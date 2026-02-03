@@ -26,6 +26,6 @@ public class OrgSignUpController {
     ApplicationContext context = applicationContextHelper.generateRootContext();
     TransactionResponse response = orgSignupService.orgSignup(orgSignupDTO, context);
     if (!response.hasHardError()) return ResponseEntity.ok(response.convertToMap());
-    else return ResponseEntity.badRequest().body(response.convertToMap());
+    else return ResponseEntity.badRequest().body(response.errorMap());
   }
 }
