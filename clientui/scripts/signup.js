@@ -74,6 +74,8 @@ async function loadSectors()
 
 
 async function  signUpCompany() {
+    document.getElementById("btnSignup").disabled=true;
+    showSuccessMessage(['Please wait ! Setting up Organization']);
 
     let input = { };
     let company  = document.getElementById("txtCompany").value;
@@ -134,7 +136,7 @@ async function  signUpCompany() {
 
         });
 
-    
+    document.getElementById("btnSignup").disabled=false;
 }
 
 function closePopup()
