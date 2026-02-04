@@ -5,6 +5,7 @@ async function resetPassword() {
     const url =
         urlPrefix + "api/auth/resetPassword?email=" + email;
     try {
+        showSuccessMessage(['Please wait ! Resetting password!']);
         const response = await axios.get(url);
         console.log('responded');
         console.log(response);
@@ -19,4 +20,12 @@ async function resetPassword() {
         }
 
     }
+}
+
+function closePopup()
+{
+    if (window.parent && window.parent.htmlDialogInstance) {
+        window.parent.htmlDialogInstance.hide();
+    }
+
 }
