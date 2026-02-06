@@ -197,7 +197,46 @@ insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_raw','Raw 
 insert into finite_value(fv_code,fv_value,group_code) values ('itmgrp_inhs','In house Item','item_group');
 
 
+insert into finite_group(group_code,group_name) values ('po_status','PO Status');
+insert into finite_value(fv_code,fv_value,group_code) values ('po_crt','Order Created','po_status');
+insert into finite_value(fv_code,fv_value,group_code) values ('po_inprg','In Progress','po_status');
+insert into finite_value(fv_code,fv_value,group_code) values ('po_dlvd','Delivered','po_status');
+insert into finite_value(fv_code,fv_value,group_code) values ('po_clsd','Closed','po_status');
+insert into finite_value(fv_code,fv_value,group_code) values ('po_cncld','Cancelled','po_status');
 
+insert into finite_group(group_code,group_name) values ('po_line_status','PO Line Status');
+insert into finite_value(fv_code,fv_value,group_code) values ('pl_crt','PO Line Created','po_line_status');
+insert into finite_value(fv_code,fv_value,group_code) values ('pl_prtdlv','Partially Delivered','po_line_status');
+insert into finite_value(fv_code,fv_value,group_code) values ('pl_dlvd','Delivered','po_line_status');
+insert into finite_value(fv_code,fv_value,group_code) values ('pl_cncld','Cancelled','po_line_status');
+
+
+insert into finite_group(group_code,group_name) values ('nextup_comp','Nextup Components');
+insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_dt','Date','nextup_comp');
+insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_prfx','Entity Prefix','nextup_comp');
+insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_BK','Parent Object Business Key','nextup_comp');
+insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_seq','Sequence','nextup_comp');
+
+
+create table nextup_config(
+ id varchar(100) primary key ,
+ profile_code varchar(255),
+ entity varchar(255),
+ field1 varchar(100),
+ field2 varchar(100),
+ field3 varchar(100),
+ field4 varchar(100),
+ field5 varchar(100),
+ date_format varchar(100),
+ reset_seq_per_day tinyint(1),
+ sequence_width Numeric(3),
+ foreign key (profile_code) references profile (profile_code),
+ foreign key (field1) references finite_value (fv_code),
+ foreign key (field2) references finite_value (fv_code),
+ foreign key (field3) references finite_value (fv_code),
+ foreign key (field4) references finite_value (fv_code),
+ foreign key (field5) references finite_value (fv_code)
+) ;
 
 
     create table menu_group (
@@ -405,7 +444,11 @@ insert into fndclient.entity(entity_name,full_package,profile_group_code,active)
 ('Supplier','com.momentus.fndclient.supplier.model.Supplier','GNL',1);
 insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
 ('Item','com.momentus.fndclient.item.model.Item','GNL',1);
+insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
+('Purchase Order','com.momentus.fndclient.purchase.model.PurchaseOrder','GNL',1);
 
+INSERT INTO nextup_config(id,profile_code,entity,field1,field2,field3,date_format,reset_seq_per_day,sequence_width)
+values ('PO-ROOT','ROOT','Purchase Order','nxtup_prfx','nxtup_dt','nxtup_seq','ddmmyyyy',0,3);
 
 insert into menu_set(id,profile_code,description) values ('DFLT','ROOT','Default Menu');
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('DFLT-MSTR','Master','DFLT',null,1);
