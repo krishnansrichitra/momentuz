@@ -1,101 +1,94 @@
 package com.momentus.fndclient.purchase.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.fndclient.item.model.Item;
+import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 
 @Entity
-@Table(name ="purchase_lines")
-public class POLine {
+@Table(name = "purchase_lines")
+public class POLine extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER )
-    @JoinColumn(name = "supplier_id" , referencedColumnName = "id",nullable = true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    PurchaseOrder purchase;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = true)
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  PurchaseOrder purchase;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  Item item;
 
+  @Column Integer qty;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name = "item_id" , referencedColumnName = "id",nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    Item item;
+  @Column BigDecimal price;
 
-    @Column
-    Integer qty;
+  @Column BigDecimal total;
 
-    @Column
-    BigDecimal price;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "line_status", referencedColumnName = "fv_code")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  FiniteValue lineStatus;
 
-    @Column
-    BigDecimal total;
+  public Long getId() {
+    return id;
+  }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "line_status",referencedColumnName = "fv_code")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    FiniteValue lineStatus;
+  public void setId(Long id) {
+    this.id = id;
+  }
 
+  public PurchaseOrder getPurchase() {
+    return purchase;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public void setPurchase(PurchaseOrder purchase) {
+    this.purchase = purchase;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Item getItem() {
+    return item;
+  }
 
-    public PurchaseOrder getPurchase() {
-        return purchase;
-    }
+  public void setItem(Item item) {
+    this.item = item;
+  }
 
-    public void setPurchase(PurchaseOrder purchase) {
-        this.purchase = purchase;
-    }
+  public Integer getQty() {
+    return qty;
+  }
 
-    public Item getItem() {
-        return item;
-    }
+  public void setQty(Integer qty) {
+    this.qty = qty;
+  }
 
-    public void setItem(Item item) {
-        this.item = item;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    public Integer getQty() {
-        return qty;
-    }
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
 
-    public void setQty(Integer qty) {
-        this.qty = qty;
-    }
+  public BigDecimal getTotal() {
+    return total;
+  }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public void setTotal(BigDecimal total) {
+    this.total = total;
+  }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+  public FiniteValue getLineStatus() {
+    return lineStatus;
+  }
 
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-    public FiniteValue getLineStatus() {
-        return lineStatus;
-    }
-
-    public void setLineStatus(FiniteValue lineStatus) {
-        this.lineStatus = lineStatus;
-    }
+  public void setLineStatus(FiniteValue lineStatus) {
+    this.lineStatus = lineStatus;
+  }
 }

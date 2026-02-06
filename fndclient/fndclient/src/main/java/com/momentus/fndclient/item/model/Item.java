@@ -8,85 +8,82 @@ import com.momentus.foundation.organization.model.OrgBasedEntity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="items")
+@Table(name = "items")
 public class Item extends OrgBasedEntity {
 
+  @Column
+  @EntityProperties(isBK = true)
+  String itemName;
 
-   @Column
-   @EntityProperties(isBK = true)
-   String itemName;
+  @Column
+  @EntityProperties(isMandatory = true, isUnique = true)
+  String barcode;
 
-    @Column
-    @EntityProperties(isMandatory = true,isUnique = true)
-    String barcode;
+  @Column
+  @EntityProperties(isMandatory = true, isUnique = true)
+  String itemCode;
 
-    @Column
-    @EntityProperties(isMandatory = true,isUnique = true)
-    String itemCode;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "uom_type", referencedColumnName = "fv_code")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  @EntityProperties(isMandatory = true)
+  FiniteValue uomType;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "uom_type",referencedColumnName = "fv_code")
-   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-   @EntityProperties(isMandatory = true)
-   FiniteValue uomType;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "item_group", referencedColumnName = "fv_code")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  FiniteValue itemGroup;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_group",referencedColumnName = "fv_code")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    FiniteValue itemGroup;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "supplier_id", referencedColumnName = "id")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  Supplier supplier;
 
+  public String getItemName() {
+    return itemName;
+  }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "supplier_id" , referencedColumnName = "id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    Supplier supplier;
+  public void setItemName(String itemName) {
+    this.itemName = itemName;
+  }
 
+  public String getBarcode() {
+    return barcode;
+  }
 
-    public String getItemName() {
-        return itemName;
-    }
+  public void setBarcode(String barcode) {
+    this.barcode = barcode;
+  }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
+  public String getItemCode() {
+    return itemCode;
+  }
 
-    public String getBarcode() {
-        return barcode;
-    }
+  public void setItemCode(String itemCode) {
+    this.itemCode = itemCode;
+  }
 
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
+  public FiniteValue getUomType() {
+    return uomType;
+  }
 
-    public String getItemCode() {
-        return itemCode;
-    }
+  public void setUomType(FiniteValue uomType) {
+    this.uomType = uomType;
+  }
 
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
-    }
+  public FiniteValue getItemGroup() {
+    return itemGroup;
+  }
 
-    public FiniteValue getUomType() {
-        return uomType;
-    }
+  public void setItemGroup(FiniteValue itemGroup) {
+    this.itemGroup = itemGroup;
+  }
 
-    public void setUomType(FiniteValue uomType) {
-        this.uomType = uomType;
-    }
+  public Supplier getSupplier() {
+    return supplier;
+  }
 
-    public FiniteValue getItemGroup() {
-        return itemGroup;
-    }
-
-    public void setItemGroup(FiniteValue itemGroup) {
-        this.itemGroup = itemGroup;
-    }
-
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
+  public void setSupplier(Supplier supplier) {
+    this.supplier = supplier;
+  }
 }

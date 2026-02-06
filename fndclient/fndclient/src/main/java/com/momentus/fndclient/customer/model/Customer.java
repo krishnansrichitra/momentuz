@@ -5,7 +5,6 @@ import com.momentus.foundation.organization.model.OrgBasedEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,47 +12,43 @@ import java.util.Map;
 @Table(name = "customers")
 public class Customer extends OrgBasedEntity {
 
-    @Column
-    @EntityProperties (isBK = true)
-    String name;
+  @Column
+  @EntityProperties(isBK = true)
+  String name;
 
+  @Column Long age;
 
-    @Column
-    Long age ;
+  @Column String address1;
 
-    @Column
-    String address1;
+  public String getName() {
+    return name;
+  }
 
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public Long getAge() {
+    return age;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setAge(Long age) {
+    this.age = age;
+  }
 
-    public Long getAge() {
-        return age;
-    }
+  public String getAddress1() {
+    return address1;
+  }
 
-    public void setAge(Long age) {
-        this.age = age;
-    }
+  public void setAddress1(String address1) {
+    this.address1 = address1;
+  }
 
-    public String getAddress1() {
-        return address1;
-    }
+  @Override
+  public Map<String, Object> getBK() {
 
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
-
-    @Override
-    public Map<String, Object> getBK() {
-
-        Map<String,Object> mp = new HashMap<>();
-        mp.put("name",name);
-        return mp;
-    }
+    Map<String, Object> mp = new HashMap<>();
+    mp.put("name", name);
+    return mp;
+  }
 }
