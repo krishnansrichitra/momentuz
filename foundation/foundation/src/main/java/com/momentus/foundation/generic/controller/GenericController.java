@@ -8,6 +8,7 @@ import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.entity.service.EntityService;
 import com.momentus.foundation.generic.service.GenericService;
+import com.momentus.foundation.generic.service.IServiceFactory;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import java.util.*;
 import org.slf4j.Logger;
@@ -22,13 +23,15 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/generic")
 public class GenericController {
-  @Autowired GenericService genericService;
+  // @Autowired GenericService genericService;
 
   @Autowired ApplicationContextHelper applicationContextHelper;
 
   @Autowired EntityService entityService;
 
   @Autowired GeneralMessages generalMessages;
+
+  private final IServiceFactory iServiceFactory;
 
   private static final Logger log = LoggerFactory.getLogger(GenericController.class);
 
@@ -45,6 +48,7 @@ public class GenericController {
       // OrgBasedEntity entity = JsonRepHelper.getEntityFromMap(entityMap, (Class<? extends
       // OrgBasedEntity>) Class.forName(fullPackage));
       OrgBasedEntity entity = (OrgBasedEntity) Class.forName(fullPackage).newInstance();
+      GenericService genericService = iServiceFactory.getService(entityType);
       TransactionResponse transactionResponse =
           genericService.createOrUpdateEntity(entityMap, entity, context);
       if (transactionResponse
@@ -76,6 +80,7 @@ public class GenericController {
       Authentication authentication) {
     ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
     try {
+      GenericService genericService = iServiceFactory.getService(entityType);
       TransactionResponse response =
           genericService.deleteBulkEntity(entityIdList, entityType, context);
       return ResponseEntity.ok(response.convertToMap());
@@ -104,6 +109,7 @@ public class GenericController {
       String fullPackage = entityService.getFullPackage(entityType);
       ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
       OrgBasedEntity entity = (OrgBasedEntity) Class.forName(fullPackage).newInstance();
+      GenericService genericService = iServiceFactory.getService(entityType);
       TransactionResponse transactionResponse =
           genericService.deleteEntity(entityMap, entity, context);
       if (transactionResponse
@@ -130,6 +136,7 @@ public class GenericController {
     try {
       String fullPackage = entityService.getFullPackage(entityType);
       ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+      GenericService genericService = iServiceFactory.getService(entityType);
       OrgBasedEntity entity =
           genericService.findByBusinessKey(
               entityMap, (Class<? extends OrgBasedEntity>) Class.forName(fullPackage), context);
@@ -151,6 +158,7 @@ public class GenericController {
     try {
       String fullPackage = entityService.getFullPackage(entityType);
       ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+      GenericService genericService = iServiceFactory.getService(entityType);
       long recordCount =
           genericService.getRecordCount(
               entityMap, (Class<? extends OrgBasedEntity>) Class.forName(fullPackage), context);
@@ -176,6 +184,7 @@ public class GenericController {
     try {
       String fullPackage = entityService.getFullPackage(entityType);
       ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+      GenericService genericService = iServiceFactory.getService(entityType);
       List<? extends OrgBasedEntity> orgBasedEntityList =
           genericService.listRecords(
               entityMap,
@@ -200,6 +209,7 @@ public class GenericController {
     try {
       String fullPackage = entityService.getFullPackage(entityType);
       ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+      GenericService genericService = iServiceFactory.getService(entityType);
       byte[] csvData =
           genericService.downLoadRecords(
               entityMap, (Class<? extends OrgBasedEntity>) Class.forName(fullPackage), context);
@@ -218,6 +228,7 @@ public class GenericController {
     try {
       String fullPackage = entityService.getFullPackage(entityType);
       ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+      GenericService genericService = iServiceFactory.getService(entityType);
       OrgBasedEntity entity =
           genericService.findById(
               id, (Class<? extends OrgBasedEntity>) Class.forName(fullPackage), context);
@@ -245,8 +256,13 @@ public class GenericController {
     }
 
     ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+    GenericService genericService = iServiceFactory.getService(entityType);
     genericService.uploaCSV(file, entityType, context);
 
     return ResponseEntity.ok("CSV uploaded and processed successfully");
+  }
+
+  public GenericController(IServiceFactory iServiceFactory) {
+    this.iServiceFactory = iServiceFactory;
   }
 }
