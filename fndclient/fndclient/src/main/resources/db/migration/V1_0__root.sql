@@ -142,6 +142,7 @@ full_package varchar(255) not null,
 profile_group_code varchar(100),
 active tinyint(1) DEFAULT '1',
 support_import tinyint(1) DEFAULT '1',
+sequence numeric(4),
 created_by varchar(255) DEFAULT NULL,
 created_time datetime(6) DEFAULT NULL,
 deleted tinyint(1) DEFAULT '0',
@@ -438,14 +439,14 @@ insert into sector_profile(id,sector,profile_code)values ('ROOT-ALL','ALL','ROOT
 insert into primary_user_role(role_description,profile_code,access_codes) values ('PRIMARY-ROOT','ROOT','extn,adm');
 
 
-insert into entity (entity_name,full_package,profile_group_code,created_by,created_time)
-values ('Customer','com.momentus.fndclient.customer.model.Customer', 'GNL','seed',now());
-insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
-('Supplier','com.momentus.fndclient.supplier.model.Supplier','GNL',1);
-insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
-('Item','com.momentus.fndclient.item.model.Item','GNL',1);
-insert into fndclient.entity(entity_name,full_package,profile_group_code,active) values
-('Purchase Order','com.momentus.fndclient.purchase.model.PurchaseOrder','GNL',1);
+insert into entity (entity_name,full_package,profile_group_code,created_by,created_time,support_import)
+values ('Customer','com.momentus.fndclient.customer.model.Customer', 'GNL','seed',now(),0);
+insert into fndclient.entity(entity_name,full_package,profile_group_code,active,support_import,sequence) values
+('Supplier','com.momentus.fndclient.supplier.model.Supplier','GNL',1,1,1);
+insert into fndclient.entity(entity_name,full_package,profile_group_code,active,support_import,sequence) values
+('Item','com.momentus.fndclient.item.model.Item','GNL',1,1,2);
+insert into fndclient.entity(entity_name,full_package,profile_group_code,active,support_import) values
+('Purchase Order','com.momentus.fndclient.purchase.model.PurchaseOrder','GNL',1,0);
 
 INSERT INTO nextup_config(id,profile_code,entity,field1,field2,field3,date_format,reset_seq_per_day,sequence_width)
 values ('PO-ROOT','ROOT','Purchase Order','nxtup_prfx','nxtup_dt','nxtup_seq','ddmmyyyy',0,3);

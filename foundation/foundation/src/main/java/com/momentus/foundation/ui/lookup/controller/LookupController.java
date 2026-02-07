@@ -51,7 +51,7 @@ public class LookupController {
   public ResponseEntity<Map<String, String>> getEntityDropDowns(Authentication authentication) {
     log.debug("getting getEntityDropDowns ");
     ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
-    Map<String, String> result = entityService.getAllEntities(context.getLocale());
+    Map<String, String> result = entityService.getImportableEntities(context.getLocale());
     return ResponseEntity.ok(result);
   }
 }

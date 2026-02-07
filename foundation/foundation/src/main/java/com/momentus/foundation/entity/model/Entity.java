@@ -38,6 +38,8 @@ public class Entity {
   @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
   Boolean supportImport = true;
 
+  @Column Integer sequence;
+
   public String getEntityName() {
     return entityName;
   }
@@ -116,5 +118,13 @@ public class Entity {
 
   public void setSupportImport(Boolean supportImport) {
     this.supportImport = supportImport;
+  }
+
+  public Integer getSequence() {
+    return sequence;
+  }
+
+  public void setSequence(Integer sequence) {
+    this.sequence = sequence;
   }
 }
