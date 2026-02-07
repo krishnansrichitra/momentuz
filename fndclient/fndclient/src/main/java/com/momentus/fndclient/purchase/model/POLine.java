@@ -12,12 +12,11 @@ import java.math.BigDecimal;
 public class POLine extends BaseEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "purchase_id", referencedColumnName = "id", nullable = true)
-  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  @JoinColumn(name = "purchase_id", nullable = true)
   PurchaseOrder purchase;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -91,4 +90,9 @@ public class POLine extends BaseEntity {
   public void setLineStatus(FiniteValue lineStatus) {
     this.lineStatus = lineStatus;
   }
+
+    @Override
+    public void setParentObject(BaseEntity base) {
+        setPurchase((PurchaseOrder) base);
+    }
 }

@@ -177,6 +177,7 @@ public class MapToEntityMapper {
                 && vs instanceof Map) {
               BaseEntity nestedObject = (BaseEntity) elementType.newInstance();
               populateFromMap((Map<String, Object>) vs, nestedObject, context);
+              nestedObject.setParentObject(target);
               retValue.add(nestedObject);
             }
           }

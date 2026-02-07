@@ -188,4 +188,8 @@ public abstract class BaseEntity {
       }
     }
   }
+
+  public void setParentObject(BaseEntity base) {
+    // do nothing
+  }
 }
