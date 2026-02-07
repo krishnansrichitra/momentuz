@@ -34,7 +34,7 @@ public class PurchaseOrder extends OrgBasedEntity {
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue status;
 
-  @OneToMany(mappedBy = "purchase")
+  @OneToMany(mappedBy = "purchase",cascade = CascadeType.ALL,orphanRemoval = true)
   @OrderBy("id Asc")
   List<POLine> poLines;
 

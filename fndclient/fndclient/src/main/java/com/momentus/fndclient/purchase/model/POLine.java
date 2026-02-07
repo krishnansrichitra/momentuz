@@ -16,7 +16,7 @@ public class POLine extends BaseEntity {
   Long id;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = true)
+  @JoinColumn(name = "purchase_id", referencedColumnName = "id", nullable = true)
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   PurchaseOrder purchase;
 

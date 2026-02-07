@@ -11,10 +11,14 @@ import com.momentus.foundation.generic.controller.GenericController;
 import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.hibernate.proxy.HibernateProxy;
 import org.slf4j.Logger;
@@ -155,6 +159,28 @@ public class MapToEntityMapper {
             }
             field.set(target, nestedObject);
           }
+        } else if (value instanceof List) {
+          List list = (List) value;
+          Type genericType = field.getGenericType();
+          Class<?> elementType = null;
+          if (genericType instanceof ParameterizedType pt) {
+            Type[] typeArgs = pt.getActualTypeArguments();
+            if (typeArgs.length == 1 && typeArgs[0] instanceof Class<?>) {
+              elementType = (Class<?>) typeArgs[0];
+              // elementType == Integer.class
+            }
+          }
+          List retValue = new ArrayList();
+          for (Object vs : list) {
+            if (elementType != null
+                && BaseEntity.class.isAssignableFrom(elementType)
+                && vs instanceof Map) {
+              BaseEntity nestedObject = (BaseEntity) elementType.newInstance();
+              populateFromMap((Map<String, Object>) vs, nestedObject, context);
+              retValue.add(nestedObject);
+            }
+          }
+          field.set(target, retValue);
         }
 
       } catch (Exception e) {

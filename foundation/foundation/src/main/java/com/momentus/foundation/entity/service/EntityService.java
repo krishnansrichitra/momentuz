@@ -3,9 +3,7 @@ package com.momentus.foundation.entity.service;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.entity.model.Entity;
 import com.momentus.foundation.entity.repository.EntityRepository;
-
 import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
