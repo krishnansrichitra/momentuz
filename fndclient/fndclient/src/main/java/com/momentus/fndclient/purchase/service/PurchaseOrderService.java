@@ -1,6 +1,9 @@
 package com.momentus.fndclient.purchase.service;
 
+import com.momentus.fndclient.purchase.model.PurchaseOrder;
 import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.model.BaseEntity;
+import com.momentus.foundation.common.service.NextUpService;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.generic.service.GenericService;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
@@ -13,12 +16,16 @@ import java.util.Map;
 @Service
 public class PurchaseOrderService extends GenericService {
 
+    @Autowired
+    NextUpService nextUpService;
 
 
     @Override
-    @Transactional
-    public TransactionResponse createOrUpdateEntity(Map<String, Object> dataMap, OrgBasedEntity entity, ApplicationContext context) {
-        return super.createOrUpdateEntity(dataMap, entity, context);
+    protected void preValidation(BaseEntity entity, ApplicationContext context) {
+        PurchaseOrder purchaseOrder = (PurchaseOrder) entity;
+        String docNo = nextUpService.getNextUpNo(context , "Purchase Order",null);
+        purchaseOrder.setDocNumber(docNo);
+        super.preValidation(entity, context);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.momentus.foundation.generic.service;
 import com.momentus.foundation.common.ApplicationConstants;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.entity.service.EntityService;
@@ -318,12 +319,18 @@ public class GenericService {
       }
     }
     mapToEntityMapper.populateFromMap(dataMap, entity, context);
+    preValidation(entity, context);
     TransactionResponse validationResponse = validate(entity, context, skipBKValidation);
     if (validationResponse.hasHardError()) {
       return validationResponse;
     }
+    preSave(entity, context);
     return saveEntity(entity, context);
   }
+
+  protected void preValidation(BaseEntity entity, ApplicationContext context) {}
+
+  protected void preSave(BaseEntity entity, ApplicationContext context) {}
 
   public TransactionResponse saveEntity(OrgBasedEntity entity, ApplicationContext context) {
     entity.setCreatedBy(context.getLoggedInUser());

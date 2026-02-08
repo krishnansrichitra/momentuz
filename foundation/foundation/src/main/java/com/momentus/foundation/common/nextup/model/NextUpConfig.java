@@ -13,30 +13,32 @@ public class NextUpConfig extends ProfileBasedEntity {
 
   @Column String entity;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "field_1", referencedColumnName = "fv_code")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue field1;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "field_2", referencedColumnName = "fv_code")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue field2;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "field_3", referencedColumnName = "fv_code")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue field3;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "field_4", referencedColumnName = "fv_code")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue field4;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "field_5", referencedColumnName = "fv_code")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue field5;
+
+  @Column String prefix;
 
   @Column String dateFormat;
 
@@ -123,4 +125,12 @@ public class NextUpConfig extends ProfileBasedEntity {
   public void setId(String id) {
     this.id = id;
   }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 }
