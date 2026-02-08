@@ -23,7 +23,7 @@ public class PurchaseOrderService extends GenericService {
     @Override
     protected void preValidation(BaseEntity entity, ApplicationContext context) {
         PurchaseOrder purchaseOrder = (PurchaseOrder) entity;
-        String docNo = nextUpService.getNextUpNo(context , "Purchase Order",null);
+        String docNo = nextUpService.getNextUpNo(context , "Purchase Order",null,"PO",null,null);
         purchaseOrder.setDocNumber(docNo);
         super.preValidation(entity, context);
     }

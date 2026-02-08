@@ -9,7 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface NextUpDataRepository extends JpaRepository<NextUpData, Long> {
 
-  List<NextUpData> findByConfig_EntityAndOrgId_Id(String entity, Long orgId);
+  List<NextUpData> findByConfig_EntityAndOrgId_IdAndComponent1AndComponent2AndComponent3(
+      String entity, Long orgId, String component1, String component2, String component3);
 
   @Modifying
   @Transactional

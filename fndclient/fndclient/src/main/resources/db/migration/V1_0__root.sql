@@ -217,6 +217,9 @@ insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_dt','Date',
 insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_prfx','Entity Prefix','nextup_comp');
 insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_BK','Parent Object Business Key','nextup_comp');
 insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_seq','Sequence','nextup_comp');
+insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_comp1','Component 1','nextup_comp');
+insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_comp2','Component 2','nextup_comp');
+insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_comp3','Component 3','nextup_comp');
 
 
 create table nextup_config(
