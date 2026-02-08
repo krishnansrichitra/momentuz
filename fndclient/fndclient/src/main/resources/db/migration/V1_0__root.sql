@@ -223,20 +223,21 @@ create table nextup_config(
  id varchar(100) primary key ,
  profile_code varchar(255),
  entity varchar(255),
- field1 varchar(100),
- field2 varchar(100),
- field3 varchar(100),
- field4 varchar(100),
- field5 varchar(100),
+ field_1 varchar(100),
+ field_2 varchar(100),
+ field_3 varchar(100),
+ field_4 varchar(100),
+ field_5 varchar(100),
  date_format varchar(100),
  reset_seq_per_day tinyint(1),
+ prefix varchar(20),
  sequence_width Numeric(3),
  foreign key (profile_code) references profile (profile_code),
- foreign key (field1) references finite_value (fv_code),
- foreign key (field2) references finite_value (fv_code),
- foreign key (field3) references finite_value (fv_code),
- foreign key (field4) references finite_value (fv_code),
- foreign key (field5) references finite_value (fv_code)
+ foreign key (field_1) references finite_value (fv_code),
+ foreign key (field_2) references finite_value (fv_code),
+ foreign key (field_3) references finite_value (fv_code),
+ foreign key (field_4) references finite_value (fv_code),
+ foreign key (field_5) references finite_value (fv_code)
 ) ;
 
 
@@ -448,8 +449,8 @@ insert into fndclient.entity(entity_name,full_package,profile_group_code,active,
 insert into fndclient.entity(entity_name,full_package,profile_group_code,active,support_import) values
 ('Purchase Order','com.momentus.fndclient.purchase.model.PurchaseOrder','GNL',1,0);
 
-INSERT INTO nextup_config(id,profile_code,entity,field1,field2,field3,date_format,reset_seq_per_day,sequence_width)
-values ('PO-ROOT','ROOT','Purchase Order','nxtup_prfx','nxtup_dt','nxtup_seq','ddmmyyyy',0,3);
+INSERT INTO nextup_config(id,profile_code,entity,field_1,field_2,field_3,date_format,reset_seq_per_day,sequence_width,prefix)
+values ('PO-ROOT','ROOT','Purchase Order','nxtup_prfx','nxtup_dt','nxtup_seq','ddMMyyyy',0,3,'PO');
 
 insert into menu_set(id,profile_code,description) values ('DFLT','ROOT','Default Menu');
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('DFLT-MSTR','Master','DFLT',null,1);

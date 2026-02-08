@@ -40,51 +40,45 @@ public class NextUpService {
       nextUpData1.setConfig(config);
       nextUpData1.setLastSeqValue(1L);
       nextUpDataRepository.save(nextUpData1);
-      return getNexUpNumber(config, 1L, entity, constant);
+      return getNexUpNumber(config, 1L, constant);
     } else {
       NextUpData nextUpData = nextUpDataList.get(0);
       Long lastValue = nextUpData.getLastSeqValue();
       nextUpDataRepository.updateNextUpCounter(nextUpData.getId(), lastValue + 1);
-      return getNexUpNumber(config, 1L, entity, constant);
+      return getNexUpNumber(config, lastValue + 1, constant);
     }
   }
 
-  private String getNexUpNumber(
-      NextUpConfig nextUpConfig, Long sequence, String prefix, String constant) {
+  private String getNexUpNumber(NextUpConfig nextUpConfig, Long sequence, String constant) {
     StringBuffer retValue = new StringBuffer();
     if (nextUpConfig.getField1() != null) {
-      retValue.append(
-          getFieldValue(nextUpConfig.getField1(), nextUpConfig, prefix, sequence, constant));
+      retValue.append(getFieldValue(nextUpConfig.getField1(), nextUpConfig, sequence, constant));
     }
     if (nextUpConfig.getField2() != null) {
-      retValue.append(
-          getFieldValue(nextUpConfig.getField2(), nextUpConfig, prefix, sequence, constant));
+      retValue.append(getFieldValue(nextUpConfig.getField2(), nextUpConfig, sequence, constant));
     }
     if (nextUpConfig.getField3() != null) {
-      retValue.append(
-          getFieldValue(nextUpConfig.getField3(), nextUpConfig, prefix, sequence, constant));
+      retValue.append(getFieldValue(nextUpConfig.getField3(), nextUpConfig, sequence, constant));
     }
     if (nextUpConfig.getField4() != null) {
-      retValue.append(
-          getFieldValue(nextUpConfig.getField4(), nextUpConfig, prefix, sequence, constant));
+      retValue.append(getFieldValue(nextUpConfig.getField4(), nextUpConfig, sequence, constant));
     }
     if (nextUpConfig.getField5() != null) {
-      retValue.append(
-          getFieldValue(nextUpConfig.getField5(), nextUpConfig, prefix, sequence, constant));
+      retValue.append(getFieldValue(nextUpConfig.getField5(), nextUpConfig, sequence, constant));
     }
 
     return retValue.toString();
   }
 
   private String getFieldValue(
-      FiniteValue finiteValue, NextUpConfig config, String prefix, Long sequence, String constant) {
+      FiniteValue finiteValue, NextUpConfig config, Long sequence, String constant) {
     if ("nxtup_dt".equalsIgnoreCase(finiteValue.getFvCode())) {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern(config.getDateFormat());
       return LocalDate.now().format(formatter);
     }
 
     if ("nxtup_prfx".equalsIgnoreCase(finiteValue.getFvCode())) {
-      return prefix;
+      return config.getPrefix();
     }
 
     if ("nxtup_seq".equalsIgnoreCase(finiteValue.getFvCode())) {
