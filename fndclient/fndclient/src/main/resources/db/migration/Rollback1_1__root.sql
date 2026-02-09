@@ -8,6 +8,7 @@ delete from list_metadata where id = 'PO';
 
 
 delete from updateview_fields where updateview_metadata_id ='PO';
+delete from updateview_buttons where updateview_metadata_id ='PO';
 delete from updateview_metadata where id ='PO';
 
 

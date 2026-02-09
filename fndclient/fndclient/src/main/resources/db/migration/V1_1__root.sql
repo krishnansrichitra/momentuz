@@ -39,3 +39,7 @@ insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PO-EDT','btn btn-warning','Edit','onEdit','PO',3);
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PO-DEL','btn btn-danger','Delete','onDelete','PO',4);
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PO-EXP','btn btn-success','Export','onExport','PO',5);
+
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PO-SAVE','btn btn-primary','save','onSave',1,'AE','PO');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PO-EDT','btn btn-info','edit','onEdit',2,'V','PO');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PO-CNCL','btn btn-secondary','cancel','onCancel',1,'AEV','PO');
