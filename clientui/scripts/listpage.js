@@ -257,6 +257,14 @@ function renderFilterFields(filterFields, containerId) {
                 control.id = field.fieldKey;
                 break;
 
+            case "date":
+                control = document.createElement("input");
+                control.type = "date";
+                control.className = "form-control";
+                control.placeholder = field.fieldLabel;
+                control.id = field.fieldKey;
+                break;
+
             case "dropdown":
                 control = document.createElement("select");
                 control.id = field.fieldKey;

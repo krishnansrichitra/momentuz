@@ -74,7 +74,16 @@ async function loadSectors()
 
 
 async function  signUpCompany() {
-    document.getElementById("btnSignup").disabled=true;
+    console.log('signing up');
+    const btn = document.getElementById("btnSignup");
+      if (btn.disabled) return;
+    console.log('btn='+btn);
+    
+
+    btn.disabled = true;
+    btn.classList.add("disabled");
+    btn.style.pointerEvents = "none";
+
     showSuccessMessage(['Please wait ! Setting up Organization']);
 
     let input = { };
@@ -121,6 +130,9 @@ async function  signUpCompany() {
         .then(response => {
             console.log('Success:', response.data);
             showSuccessMessage(response.data.Messages);
+                btn.disabled = false;
+    btn.classList.remove("disabled");
+    btn.style.pointerEvents = "auto";
         })
         .catch(error => {
         const response = error.response?.data;
@@ -133,10 +145,13 @@ async function  signUpCompany() {
         }else {
             console.log(apiErrors);
         }
+            btn.disabled = false;
+    btn.classList.remove("disabled");
+    btn.style.pointerEvents = "auto";
 
         });
 
-    document.getElementById("btnSignup").disabled=false;
+
 }
 
 function closePopup()
