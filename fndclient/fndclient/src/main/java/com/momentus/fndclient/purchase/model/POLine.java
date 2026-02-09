@@ -1,5 +1,6 @@
 package com.momentus.fndclient.purchase.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.fndclient.item.model.Item;
 import com.momentus.foundation.common.model.BaseEntity;
@@ -17,6 +18,7 @@ public class POLine extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "purchase_id", nullable = true)
+  @JsonIgnore
   PurchaseOrder purchase;
 
   @ManyToOne(fetch = FetchType.LAZY)
