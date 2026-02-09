@@ -15,3 +15,27 @@ insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values (
 insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PO-BILLNO','PO','billNo','billNo',3);
 insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PO-DATE','PO','purchaseDate','purchaseDate',4);
 insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PO-STATUS','PO','poStatus','status["fvValue"]',5);
+
+insert into updateview_metadata(id,profile_code,entity) values ('PO','ROOT','Purchase Order');
+
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-ID','id','hidden','id',null,1,'AEV','PO','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-docNumber','docNumber','text','docNumber',null,2,'AEV','PO','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-poDate','purchaseDate','date','purchaseDate',null,3,'AEV','PO','Date');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-expDate','expectedDeliveryDate','date','expectedDeliveryDate',null,4,'AEV','PO','Date');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-supplierName','supplier.supplierName','lookup','supplierName','supplier',5,'AEV','PO','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-actdelDate','actualDeliveryDate','date','actualDeliveryDate',null,6,'AEV','PO','Date');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-status','status.fvCode','dropdown','status','fv::po_status',7,'AEV','PO','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-comments','comments','text','comments',null,8,'AEV','PO','String');
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-CRTDBY','createdBy','text','createdBy',null,100,'V','PO','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-CRTDDT','createdTime','text','createdTime',null,101,'V','PO','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-LSUPBY','lastUpdatedBy','text','lastUpdatedBy',null,102,'V','PO','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-LSUPDT','lastUpdatedTime','text','lastUpdatedTime',null,103,'V','PO','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-VERSION','version','hidden','version',null,104,'AEV','PO','Numeric');
+
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PO-CRT','btn btn-primary','Create','onCreate','PO',1);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PO-VIW','btn btn-info','View','onView','PO',2);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PO-EDT','btn btn-warning','Edit','onEdit','PO',3);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PO-DEL','btn btn-danger','Delete','onDelete','PO',4);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PO-EXP','btn btn-success','Export','onExport','PO',5);
