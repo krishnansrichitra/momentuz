@@ -36,8 +36,7 @@ async function loadMetadata() {
     }
 }
 
-function getChildren(currentField, allFields)
-{
+function getChildren(currentField, allFields) {
     let childArr = allFields.filter(field => field.parent === currentField.id);
     console.log('childArr=' + childArr);
     return childArr;
@@ -59,8 +58,8 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     let row = createRow();
     let colCount = 0;
 
-    for (let field of visibleFields){
-        if (field.parent != null ) continue;
+    for (let field of visibleFields) {
+        if (field.parent != null) continue;
         if (colCount === 4) {
             form.appendChild(row);
             row = createRow();
@@ -75,34 +74,34 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             const col = document.createElement('div');
             col.className = 'col-lg-12 col-md-12 col-sm-12';
             let childFields = getChildren(field, visibleFields);
-            const control = createTable(field, childFields);
+            const control = createTable(field, childFields, mode);
             colCount = 4;
             console.log('table =' + control);
             col.appendChild(control);
             row.appendChild(col);
             continue;
-        } 
-            const col = document.createElement('div');
-            col.className = 'col-lg-3 col-md-6 col-sm-12';
-            const label = document.createElement('label');
-            label.className = 'form-label';
-            if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
-                label.textContent = field.fieldLabel + ":";
-            if (mode != 'V') {
-                const control = renderControl(field);
-                label.classList.add('form-label', 'mb-1');
-                col.appendChild(label);
-                col.appendChild(control);
-            } else {
-                const control = renderViewControl(field);
-                label.classList.add('form-label', 'mb-1');
-                control.classList.add('form-control');
-                col.appendChild(label);
-                col.appendChild(control);
-            }
-            row.appendChild(col);
-            colCount++;
-    
+        }
+        const col = document.createElement('div');
+        col.className = 'col-lg-3 col-md-6 col-sm-12';
+        const label = document.createElement('label');
+        label.className = 'form-label';
+        if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
+            label.textContent = field.fieldLabel + ":";
+        if (mode != 'V') {
+            const control = renderControl(field);
+            label.classList.add('form-label', 'mb-1');
+            col.appendChild(label);
+            col.appendChild(control);
+        } else {
+            const control = renderViewControl(field);
+            label.classList.add('form-label', 'mb-1');
+            control.classList.add('form-control');
+            col.appendChild(label);
+            col.appendChild(control);
+        }
+        row.appendChild(col);
+        colCount++;
+
     }
 
     // append last row
@@ -148,12 +147,12 @@ function renderViewControl(field) {
 
 }
 
-function createTable(field,childFields) {
+function createTable(field, childFields, mode) {
 
     let params = field.param;
     let noCols;
-    let colTitles =[];
-   let colWidths = [];
+    let colTitles = [];
+    let colWidths = [];
 
     params.split(";").forEach(part => {
         const [key, value] = part.split("=");
@@ -166,29 +165,31 @@ function createTable(field,childFields) {
             colTitles = JSON.parse(value); // clean & safe now
         }
         if (key === "colWidth") {
-        colWidths = JSON.parse(value); // percentages as strings
-    }
+            colWidths = JSON.parse(value); // percentages as strings
+        }
     });
 
 
     let table = document.createElement("table");
-    table.id=field.id;
-    table.className = "table table-bordered"; // optional bootstrap styling
-
+    table.id = field.id;
+    table.className = "table table-bordered table-striped"; // optional bootstrap styling
+    table.dataset.accessor = field.accessor;
     let thead = table.createTHead();
     let headerRow = thead.insertRow();
 
     for (let i = 0; i < noCols; i++) {
         let th = document.createElement("th");
         th.textContent = colTitles[i] ?? ""; // safe fallback
-         if (colWidths[i]) {
-        th.style.width = colWidths[i] + "%";
+        if (colWidths[i]) {
+            th.style.width = colWidths[i] + "%";
+            th.classList.add("table-primary");
         }
         headerRow.appendChild(th);
     }
     let th = document.createElement("th");
-    th.textContent =  ""; // final column
-    th.style.width =  "5%";
+    th.textContent = ""; // final column
+    th.style.width = "5%";
+    th.classList.add("table-primary");
     headerRow.appendChild(th);
 
     let tbody = table.createTBody();
@@ -196,20 +197,27 @@ function createTable(field,childFields) {
 
     for (let i = 0; i < noCols; i++) {
         let td = emptyRow.insertCell();
-        let ctrl = renderControl (childFields[i]);
-       // td.innerHTML = "&nbsp;";   // keeps row visible
-       td.appendChild(ctrl);
+        if (mode != 'V') {
+            let ctrl = renderControl(childFields[i]);
+            td.appendChild(ctrl);
+        } else {
+            let ctrl = renderViewControl(childFields[i]);
+            console.log(ctrl.innerHTML);
+            td.appendChild(ctrl);
+        }
     }
 
     let td = emptyRow.insertCell();
-    td.innerHTML = `
-  <button type="button"  class="btn btn-sm btn-outline-success me-1" title="Add" onclick="addRow('`+ field.id+`')">
+    if (mode != 'V') {
+        td.innerHTML = `
+  <button type="button"  class="btn btn-sm btn-outline-success me-1" title="Add" onclick="addRow('`+ field.id + `')">
     <i class="bi bi-plus-lg"></i>
   </button>
-  <button type="button" class="btn btn-sm btn-outline-danger" title="Remove" onclick="removeRow('`+ field.id+`',this)">
+  <button type="button" class="btn btn-sm btn-outline-danger" title="Remove" onclick="removeRow('`+ field.id + `',this)">
     <i class="bi bi-dash-lg"></i>
   </button>
 `;
+    }
 
 
     return table;
@@ -236,7 +244,7 @@ function renderControl(field) {
             inpel.placeholder = field.fieldLabel;
             inpel.dataset.typeahead = "1";
             inpel.dataset.param = field.param ?? ""; // store param
-            inpel.dataset.fieldKey = field.fieldKey; 
+            inpel.dataset.fieldKey = field.fieldKey;
 
 
             let datactrl = document.createElement("datalist");
@@ -258,7 +266,7 @@ function renderControl(field) {
             el = document.createElement('input');
             el.type = 'text';
             el.className = 'form-control';
-           
+
             if (field.dType === 'Numeric') {
                 el.inputMode = 'numeric';
                 el.pattern = '[0-9]*';
@@ -406,6 +414,61 @@ function onSave() {
 }
 
 
+/**
+ * Iterates all controls in a table row that have data-accessor,
+ * finds matching values in jsonData, and (optionally) writes them into the controls.
+ *
+ * @param {HTMLTableRowElement} rowEl - <tr> element
+ * @param {object} jsonData - source JSON to look values up from
+ * @param {boolean} setValues - if true, writes found values into controls
+ */
+function applyRowFromJson(rowEl, jsonData, setValues = true) {
+    // Iterate columns (cells)
+    for (let c = 0; c < rowEl.cells.length; c++) {
+        const cell = rowEl.cells[c];
+
+        // Find any form controls inside this cell with data-accessor
+        const controls = cell.querySelectorAll("input[data-accessor], select[data-accessor], textarea[data-accessor], span[data-accessor]");
+
+        controls.forEach(ctrl => {
+            let accessor = ctrl.dataset.accessor; // value of data-accessor="..."
+            console.log('accessor=' + accessor);
+            if (!accessor) return;
+            accessor = accessor.substring(accessor.indexOf(".") + 1);
+
+
+            // Look up value in jsonData (supports dot paths like "address.city")
+            const value = getByPath(jsonData, accessor);
+
+            //console.log(`col=${c}, accessor=${accessor}, value=`, value);
+
+            if (!setValues) return;
+            //console.log(ctrl.tagName);
+            // Apply value to control based on type
+            if (ctrl.tagName === "SPAN") {
+                console.log('span control ' + value);
+                ctrl.innerHTML = value;
+            } else if (ctrl.type === "checkbox") {
+                ctrl.checked = Boolean(value);
+            } else if (ctrl.type === "radio") {
+                ctrl.checked = String(ctrl.value) === String(value);
+            } else {
+                ctrl.value = value ?? "";
+            }
+        });
+    }
+}
+
+/**
+ * Gets nested value from object using dot-path keys.
+ * Example: getByPath(obj, "a.b.c")
+ */
+function getByPath(obj, path) {
+    if (!obj || !path) return undefined;
+    return path.split(".").reduce((acc, key) => (acc != null ? acc[key] : undefined), obj);
+}
+
+
 function traverseJson(formEl, obj, prefix = '') {
     Object.entries(obj).forEach(([key, value]) => {
         const path = prefix ? `${prefix}.${key}` : key;
@@ -413,7 +476,17 @@ function traverseJson(formEl, obj, prefix = '') {
         if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
             traverseJson(formEl, value, path);
         } else {
-            console.log(path, value);
+            if (Array.isArray(value)) {
+                console.log('can be an array' + path + " and " + value.length);
+                let tabl = formEl.querySelector(`[data-accessor="${path}"]`);
+                for (let i = 0; i < value.length; i++) {
+                    const obj = value[i];
+                    applyRowFromJson(tabl.rows[i + 1], obj);
+                    addRow(tabl.id);
+                }
+                tabl.deleteRow(tabl.rows.length - 1);
+                return;
+            }
             setValueByAccessor(formEl, path, value);
         }
     });
