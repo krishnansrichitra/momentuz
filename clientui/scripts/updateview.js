@@ -142,8 +142,8 @@ function createTable(field) {
 
     let params = field.param;
     let noCols;
-    let colTitles;
-
+    let colTitles =[];
+   let colWidths = [];
 
     params.split(";").forEach(part => {
         const [key, value] = part.split("=");
@@ -155,6 +155,9 @@ function createTable(field) {
         if (key === "colTitles") {
             colTitles = JSON.parse(value); // clean & safe now
         }
+        if (key === "colWidth") {
+        colWidths = JSON.parse(value); // percentages as strings
+    }
     });
 
 
@@ -168,10 +171,14 @@ function createTable(field) {
     for (let i = 0; i < noCols; i++) {
         let th = document.createElement("th");
         th.textContent = colTitles[i] ?? ""; // safe fallback
+         if (colWidths[i]) {
+        th.style.width = colWidths[i] + "%";
+        }
         headerRow.appendChild(th);
     }
     let th = document.createElement("th");
     th.textContent =  ""; // final column
+    th.style.width =  "5%";
     headerRow.appendChild(th);
 
     let tbody = table.createTBody();
