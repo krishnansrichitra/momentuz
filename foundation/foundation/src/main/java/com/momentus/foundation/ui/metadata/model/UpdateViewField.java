@@ -22,6 +22,8 @@ public class UpdateViewField {
 
   @Column String dataType;
 
+  @Column String parent;
+
   @ManyToOne()
   @JoinColumn(name = "updateview_metadata_id", referencedColumnName = "id", nullable = true)
   @JsonIgnore
@@ -99,5 +101,13 @@ public class UpdateViewField {
 
   public void setDataType(String dataType) {
     this.dataType = dataType;
+  }
+
+  public String getParent() {
+    return parent;
+  }
+
+  public void setParent(String parent) {
+    this.parent = parent;
   }
 }

@@ -380,11 +380,12 @@ alter table list_buttons
         accessor varchar(255),
         control varchar(255),
         field_key varchar(255),
-        param varchar(255),
+        param varchar(750),
         seq_no decimal(10,2),
         visibility varchar(20),
         updateview_metadata_id varchar(255),
         data_type varchar(50),
+        parent varchar(255),
         primary key (id)
     ) ;
 

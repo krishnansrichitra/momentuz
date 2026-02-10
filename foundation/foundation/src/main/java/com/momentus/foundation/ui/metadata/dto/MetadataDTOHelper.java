@@ -35,7 +35,8 @@ public class MetadataDTOHelper {
                   updateViewField.getParam(),
                   updateViewField.getAccessor(),
                   updateViewField.getVisibility(),
-                  updateViewField.getDataType());
+                  updateViewField.getDataType(),
+                  updateViewField.getParent());
           updateViewFieldDTOS.add(updateViewFieldDTO);
         }
       }

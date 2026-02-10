@@ -36,6 +36,13 @@ async function loadMetadata() {
     }
 }
 
+function getChildren(currentField, allFields)
+{
+    let childArr = allFields.filter(field => field.parent === currentField.id);
+    console.log('childArr=' + childArr);
+    return childArr;
+
+}
 
 async function renderUpdateViewForm(metadata, mode = 'E') {
     const form = document.getElementById('genericForm');
@@ -52,7 +59,8 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     let row = createRow();
     let colCount = 0;
 
-    visibleFields.forEach(field => {
+    for (let field of visibleFields){
+        if (field.parent != null ) continue;
         if (colCount === 4) {
             form.appendChild(row);
             row = createRow();
@@ -65,13 +73,15 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
                 row = createRow();
             }
             const col = document.createElement('div');
-            col.className = 'col-lg-12 col-md-12 col-sm-12'
-            const control = createTable(field);
+            col.className = 'col-lg-12 col-md-12 col-sm-12';
+            let childFields = getChildren(field, visibleFields);
+            const control = createTable(field, childFields);
             colCount = 4;
             console.log('table =' + control);
             col.appendChild(control);
             row.appendChild(col);
-        } else {
+            continue;
+        } 
             const col = document.createElement('div');
             col.className = 'col-lg-3 col-md-6 col-sm-12';
             const label = document.createElement('label');
@@ -92,8 +102,8 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             }
             row.appendChild(col);
             colCount++;
-        }
-    });
+    
+    }
 
     // append last row
     if (row.children.length > 0) {
@@ -138,7 +148,7 @@ function renderViewControl(field) {
 
 }
 
-function createTable(field) {
+function createTable(field,childFields) {
 
     let params = field.param;
     let noCols;
@@ -186,7 +196,9 @@ function createTable(field) {
 
     for (let i = 0; i < noCols; i++) {
         let td = emptyRow.insertCell();
-        td.innerHTML = "&nbsp;";   // keeps row visible
+        let ctrl = renderControl (childFields[i]);
+       // td.innerHTML = "&nbsp;";   // keeps row visible
+       td.appendChild(ctrl);
     }
 
     let td = emptyRow.insertCell();

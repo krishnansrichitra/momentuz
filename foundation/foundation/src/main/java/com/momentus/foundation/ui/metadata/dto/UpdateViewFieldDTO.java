@@ -18,6 +18,8 @@ public class UpdateViewFieldDTO {
 
   String dType;
 
+  String parent;
+
   public String getId() {
     return id;
   }
@@ -84,7 +86,8 @@ public class UpdateViewFieldDTO {
       String param,
       String accessor,
       String visibility,
-      String dType) {
+      String dType,
+      String parent) {
     this.id = id;
     this.fieldKey = fieldKey;
     this.fieldLabel = fieldLabel;
@@ -93,6 +96,7 @@ public class UpdateViewFieldDTO {
     this.accessor = accessor;
     this.visibility = visibility;
     this.dType = dType;
+    this.parent = parent;
   }
 
   public String getdType() {
@@ -101,5 +105,13 @@ public class UpdateViewFieldDTO {
 
   public void setdType(String dType) {
     this.dType = dType;
+  }
+
+  public String getParent() {
+    return parent;
+  }
+
+  public void setParent(String parent) {
+    this.parent = parent;
   }
 }
