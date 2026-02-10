@@ -36,6 +36,6 @@ function removeRow(tblId, btn) {
     const row = btn.closest("tr");
     const index = row.sectionRowIndex;
     if (index > 0) {
-        tabl.deleteRow(index);
+        tabl.deleteRow(index+1);
     }
 }
