@@ -234,6 +234,9 @@ function renderControl(field) {
             inpel.dataset.accessor = field.accessor;
             inpel.dataset.dtype = field.dType;
             inpel.placeholder = field.fieldLabel;
+            inpel.dataset.typeahead = "1";
+            inpel.dataset.param = field.param ?? ""; // store param
+            inpel.dataset.fieldKey = field.fieldKey; 
 
 
             let datactrl = document.createElement("datalist");
