@@ -21,6 +21,7 @@ public class MetadataDTOHelper {
         generalMessages.getMessage(mode, locale)
             + " "
             + generalMessages.getMessage(metadata.getEntity(), locale));
+    updateViewMetadataDTO.setJsFile(metadata.getJsFile());
     if (metadata != null) {
       updateViewMetadataDTO.setEntity(metadata.getEntity());
       List<UpdateViewFieldDTO> updateViewFieldDTOS = new ArrayList<>();

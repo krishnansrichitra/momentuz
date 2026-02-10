@@ -8,6 +8,8 @@ public class UpdateViewMetadataDTO {
 
   String title;
 
+  String jsFile;
+
   List<UpdateViewButtonDTO> updateViewButtons;
 
   List<UpdateViewFieldDTO> updateViewFields;
@@ -42,5 +44,13 @@ public class UpdateViewMetadataDTO {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getJsFile() {
+    return jsFile;
+  }
+
+  public void setJsFile(String jsFile) {
+    this.jsFile = jsFile;
   }
 }

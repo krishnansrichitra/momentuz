@@ -50,6 +50,7 @@ class UpdateViewMetadata {
   constructor(json) {
     this.entity = json.entity;
     this.title = json.title;
+    this.jsFile=json.jsFile;
     this.updateViewButtons = (json.updateViewButtons || [])
       .map(b => new UpdateViewButton(b))
       .sort((a, b) => a.seqNo - b.seqNo);

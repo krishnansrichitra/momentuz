@@ -14,6 +14,8 @@ public class UpdateViewMetadata extends ProfileBasedEntity {
 
   @Column String description;
 
+  @Column String jsFile;
+
   @OneToMany(mappedBy = "updateViewMetadata")
   @OrderBy("seqNo ASC")
   List<UpdateViewField> updateViewFields;
@@ -60,5 +62,13 @@ public class UpdateViewMetadata extends ProfileBasedEntity {
 
   public void setUpdateViewButtons(List<UpdateViewButton> updateViewButtons) {
     this.updateViewButtons = updateViewButtons;
+  }
+
+  public String getJsFile() {
+    return jsFile;
+  }
+
+  public void setJsFile(String jsFile) {
+    this.jsFile = jsFile;
   }
 }

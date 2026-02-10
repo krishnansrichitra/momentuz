@@ -29,7 +29,17 @@ async function loadMetadata() {
             let formControl = document.getElementById("genericForm");
             traverseJson(formControl, jsonContent);
         }
-
+        console.log(updateMetData.jsFile );
+        if (updateMetData.jsFile !== null) {
+            const fileName = updateMetData.jsFile;
+            console.log(fileName);
+            loadScript(fileName)
+                .then(() => {
+                    console.log("Script loaded");
+                    // you can safely call functions from the loaded file here
+                })
+                .catch(err => console.error(err));
+        }
 
     } catch (error) {
         console.error("Error loading metadata or list:", error);
@@ -432,7 +442,7 @@ function applyRowFromJson(rowEl, jsonData, setValues = true) {
 
         controls.forEach(ctrl => {
             let accessor = ctrl.dataset.accessor; // value of data-accessor="..."
-            console.log('accessor=' + accessor);
+           // console.log('accessor=' + accessor);
             if (!accessor) return;
             accessor = accessor.substring(accessor.indexOf(".") + 1);
 
@@ -446,7 +456,7 @@ function applyRowFromJson(rowEl, jsonData, setValues = true) {
             //console.log(ctrl.tagName);
             // Apply value to control based on type
             if (ctrl.tagName === "SPAN") {
-                console.log('span control ' + value);
+                //console.log('span control ' + value);
                 ctrl.innerHTML = value;
             } else if (ctrl.type === "checkbox") {
                 ctrl.checked = Boolean(value);
