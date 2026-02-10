@@ -27,6 +27,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-actdelDate','actualDeliveryDate','date','actualDeliveryDate',null,6,'AEV','PO','Date');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-status','status.fvCode','dropdown','status','fv::po_status',7,'AEV','PO','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-comments','comments','text','comments',null,8,'AEV','PO','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-Lines','poLines','table','poLines','cols=5;colTitles=["barcode","Item","Qty","Price","Total"]',9,'AEV','PO','String');
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-CRTDBY','createdBy','text','createdBy',null,100,'V','PO','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-CRTDDT','createdTime','text','createdTime',null,101,'V','PO','DateTime');

@@ -53,39 +53,46 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     let colCount = 0;
 
     visibleFields.forEach(field => {
-        
-
         if (colCount === 4) {
             form.appendChild(row);
             row = createRow();
             colCount = 0;
         }
-
-        const col = document.createElement('div');
-        col.className = 'col-lg-3 col-md-6 col-sm-12';
-
-        const label = document.createElement('label');
-        label.className = 'form-label';
-        if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
-             label.textContent = field.fieldLabel  +":";
-
-        if (mode != 'V') {
-            const control = renderControl(field);
-            label.classList.add('form-label', 'mb-1');
-            
-            col.appendChild(label);
+        if (field.control == 'table') {
+            console.log('creating table');
+            if (colCount != 0) {
+                form.appendChild(row);
+                row = createRow();
+            }
+            const col = document.createElement('div');
+            col.className = 'col-lg-12 col-md-12 col-sm-12'
+            const control = createTable(field);
+            colCount = 4;
+            console.log('table =' + control);
             col.appendChild(control);
+            row.appendChild(col);
         } else {
-            const control = renderViewControl(field);
-            label.classList.add('form-label', 'mb-1');
-            control.classList.add('form-control');
-            col.appendChild(label);
-            col.appendChild(control);
+            const col = document.createElement('div');
+            col.className = 'col-lg-3 col-md-6 col-sm-12';
+            const label = document.createElement('label');
+            label.className = 'form-label';
+            if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
+                label.textContent = field.fieldLabel + ":";
+            if (mode != 'V') {
+                const control = renderControl(field);
+                label.classList.add('form-label', 'mb-1');
+                col.appendChild(label);
+                col.appendChild(control);
+            } else {
+                const control = renderViewControl(field);
+                label.classList.add('form-label', 'mb-1');
+                control.classList.add('form-control');
+                col.appendChild(label);
+                col.appendChild(control);
+            }
+            row.appendChild(col);
+            colCount++;
         }
-
-
-        row.appendChild(col);
-        colCount++;
     });
 
     // append last row
@@ -124,10 +131,70 @@ function renderViewControl(field) {
     inpel.className = "fw-bold";
     inpel.id = field.id;
     inpel.name = field.fieldKey;
-    let accessor =  field.accessor.includes('.fvCode')? field.accessor.replace('.fvCode', '.fvValue'):field.accessor;
+    let accessor = field.accessor.includes('.fvCode') ? field.accessor.replace('.fvCode', '.fvValue') : field.accessor;
     inpel.dataset.accessor = accessor;
     inpel.dataset.dtype = field.dType;
     return inpel;
+
+}
+
+function createTable(field) {
+
+    let params = field.param;
+    let noCols;
+    let colTitles;
+
+
+    params.split(";").forEach(part => {
+        const [key, value] = part.split("=");
+
+        if (key === "cols") {
+            noCols = Number(value);
+        }
+
+        if (key === "colTitles") {
+            colTitles = JSON.parse(value); // clean & safe now
+        }
+    });
+
+
+    let table = document.createElement("table");
+    table.id=field.id;
+    table.className = "table table-bordered"; // optional bootstrap styling
+
+    let thead = table.createTHead();
+    let headerRow = thead.insertRow();
+
+    for (let i = 0; i < noCols; i++) {
+        let th = document.createElement("th");
+        th.textContent = colTitles[i] ?? ""; // safe fallback
+        headerRow.appendChild(th);
+    }
+    let th = document.createElement("th");
+    th.textContent =  ""; // final column
+    headerRow.appendChild(th);
+
+    let tbody = table.createTBody();
+    let emptyRow = tbody.insertRow();
+
+    for (let i = 0; i < noCols; i++) {
+        let td = emptyRow.insertCell();
+        td.innerHTML = "&nbsp;";   // keeps row visible
+    }
+
+    let td = emptyRow.insertCell();
+    td.innerHTML = `
+  <button type="button"  class="btn btn-sm btn-outline-success me-1" title="Add" onclick="addRow('`+ field.id+`')">
+    <i class="bi bi-plus-lg"></i>
+  </button>
+  <button type="button" class="btn btn-sm btn-outline-danger" title="Remove" onclick="removeRow('`+ field.id+`',this)">
+    <i class="bi bi-dash-lg"></i>
+  </button>
+`;
+
+
+    return table;
+
 
 }
 
@@ -161,9 +228,9 @@ function renderControl(field) {
             el.appendChild(datactrl);
             return el;
             break;
-  
+
         case 'blank':
-                el = document.createElement('div');
+            el = document.createElement('div');
             return el;
         case 'text':
             el = document.createElement('input');
@@ -195,6 +262,7 @@ function renderControl(field) {
             el = document.createElement('input');
             el.type = 'hidden';
             break;
+
 
         default:
             el = document.createElement('input');
@@ -328,12 +396,12 @@ function setValueByAccessor(formEl, accessor, value) {
     if (!(control instanceof HTMLInputElement) &&
         !(control instanceof HTMLSelectElement) &&
         !(control instanceof HTMLTextAreaElement)) {
-            if (normalized != '') {
-        control.textContent = normalized;
-            }else {
-                control.innerHTML = '&nbsp;&nbsp;';           // nothing shown
-       // control.className ='text-muted';
-            }
+        if (normalized != '') {
+            control.textContent = normalized;
+        } else {
+            control.innerHTML = '&nbsp;&nbsp;';           // nothing shown
+            // control.className ='text-muted';
+        }
     } else if (control.type === 'checkbox') {
         control.checked = Boolean(normalized);
     }
@@ -371,8 +439,7 @@ function normalizeValueForControl(control, value) {
 }
 
 
-function onEdit()
-{
+function onEdit() {
 
-    window.location.href = './genericaddview.html?entity=' + entity +'&mode=Edit&id=' + id;
+    window.location.href = './genericaddview.html?entity=' + entity + '&mode=Edit&id=' + id;
 }
