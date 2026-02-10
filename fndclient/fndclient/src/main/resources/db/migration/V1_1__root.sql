@@ -16,7 +16,7 @@ insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values (
 insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PO-DATE','PO','purchaseDate','purchaseDate',4);
 insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PO-STATUS','PO','poStatus','status["fvValue"]',5);
 
-insert into updateview_metadata(id,profile_code,entity,jsFile) values ('PO','ROOT','Purchase Order','./po.js');
+insert into updateview_metadata(id,profile_code,entity,js_file) values ('PO','ROOT','Purchase Order','../scripts/po.js');
 
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-ID','id','hidden','id',null,1,'AEV','PO','Numeric');
