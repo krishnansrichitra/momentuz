@@ -243,7 +243,18 @@ function renderControl(field) {
             el = document.createElement('input');
             el.type = 'text';
             el.className = 'form-control';
+           
+            if (field.dType === 'Numeric') {
+                el.inputMode = 'numeric';
+                el.pattern = '[0-9]*';
+                el.addEventListener('input', function () {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+                el.maxLength = 10;
+                el.style.width = '25ch';
+            }
             break;
+
 
         case 'password':
             el = document.createElement('input');

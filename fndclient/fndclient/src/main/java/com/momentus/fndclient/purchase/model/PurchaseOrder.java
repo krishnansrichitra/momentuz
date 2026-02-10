@@ -6,6 +6,8 @@ import com.momentus.fndclient.supplier.model.Supplier;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -39,6 +41,16 @@ public class PurchaseOrder extends OrgBasedEntity {
   List<POLine> poLines;
 
   String comments;
+
+  @Column
+  BigDecimal grossTotal ;
+
+    @Column
+  BigDecimal taxAmount ;
+
+    @Column
+  BigDecimal total;
+
 
   public String getDocNumber() {
     return docNumber;
@@ -111,4 +123,28 @@ public class PurchaseOrder extends OrgBasedEntity {
   public void setPoLines(List<POLine> poLines) {
     this.poLines = poLines;
   }
+
+    public BigDecimal getGrossTotal() {
+        return grossTotal;
+    }
+
+    public void setGrossTotal(BigDecimal grossTotal) {
+        this.grossTotal = grossTotal;
+    }
+
+    public BigDecimal getTaxAmount() {
+        return taxAmount;
+    }
+
+    public void setTaxAmount(BigDecimal taxAmount) {
+        this.taxAmount = taxAmount;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
 }

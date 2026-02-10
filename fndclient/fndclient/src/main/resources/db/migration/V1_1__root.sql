@@ -28,6 +28,9 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-status','status.fvCode','dropdown','status','fv::po_status',7,'AEV','PO','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-comments','comments','text','comments',null,8,'AEV','PO','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-Lines','poLines','table','poLines','cols=5;colTitles=["barcode","Item","Qty","Price","Total"];colWidth=["25","25","15","15","15"];',9,'AEV','PO','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-gross','grossTotal','text','grossTotal',null,10,'AEV','PO','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-taxAmount','taxAmount','text','taxAmount',null,11,'AEV','PO','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-total','total','text','total',null,12,'AEV','PO','Numeric');
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-CRTDBY','createdBy','text','createdBy',null,100,'V','PO','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-CRTDDT','createdTime','text','createdTime',null,101,'V','PO','DateTime');
