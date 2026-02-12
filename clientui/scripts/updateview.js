@@ -208,10 +208,10 @@ function createTable(field, childFields, mode) {
     for (let i = 0; i < noCols; i++) {
         let td = emptyRow.insertCell();
         if (mode != 'V') {
-            let ctrl = renderControl(childFields[i]);
+            let ctrl = renderControl(childFields[i],true);
             td.appendChild(ctrl);
         } else {
-            let ctrl = renderViewControl(childFields[i]);
+            let ctrl = renderViewControl(childFields[i],true);
             console.log(ctrl.innerHTML);
             td.appendChild(ctrl);
         }
@@ -235,7 +235,7 @@ function createTable(field, childFields, mode) {
 
 }
 
-function renderControl(field) {
+function renderControl(field, partofTable=false) {
     let el;
 
     switch (field.control) {
@@ -255,7 +255,9 @@ function renderControl(field) {
             inpel.dataset.typeahead = "1";
             inpel.dataset.param = field.param ?? ""; // store param
             inpel.dataset.fieldKey = field.fieldKey;
-
+            if (partofTable == true) {
+                inpel.dataset.subobject=true;
+            }
 
             let datactrl = document.createElement("datalist");
             datactrl.id = 'sgst' + field.fieldKey;
@@ -327,6 +329,9 @@ function renderControl(field) {
     el.dataset.accessor = field.accessor;
     el.dataset.dtype = field.dType;
     el.placeholder = field.fieldLabel;
+    if (partofTable == true) {
+        el.dataset.subobject = true;
+    }
 
 
 

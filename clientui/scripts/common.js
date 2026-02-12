@@ -86,6 +86,17 @@ function createTypeaheadHandler(urlPrefix, entity, field, input, datalist) {
   };
 }
 
+function ctrlsInTableRow(row)
+{
+    if (!row) return [];
+    return Array.from(
+        row.querySelectorAll(
+            'input, select, textarea, span[data-accessor]'
+        )
+    )
+
+
+}
 
 function buildJsonFromForm(formEl) {
     const result = {};
@@ -95,11 +106,47 @@ function buildJsonFromForm(formEl) {
     controls.forEach(control => {
         const accessor = control.dataset.accessor;
         if (!accessor) return;
+        if(control.tagName === "TABLE") {
+            let table = control;
+            console.log('inside subTable' + table.rows.length) ;
+            
+            let subObjectList =[];
+            for (let i = 0; i < table.rows.length-1; i++ ){
+                console.log(i);
+                let tablerow = table.rows[i+1];
+                let innerCtrls = ctrlsInTableRow(tablerow) ;
+                let subObject= {};
+                for ( let innerCtrl of innerCtrls){
+                  
+                    const value = getControlValue(innerCtrl);
+                    const inncerAccessor = innerCtrl.dataset.accessor;
+                    const inncerAccessorstr = inncerAccessor.substring(inncerAccessor.indexOf('.') + 1);
+                    const typedValue = applyDataType(innerCtrl, value);
+                     console.log(typedValue);
+                    setNestedValue(subObject, inncerAccessorstr, typedValue);
+                   
+                }
+                
+            subObjectList.push(subObject);
+            }
+            setNestedValue(result, accessor, subObjectList);
+            return;
+             
+              // getRows 
+              // iterate on row 
+              // getControl and apply dataType
+              //return ; 
+
+        }
+        
+        if (control.dataset.subobject !== undefined && control.dataset.subobject  === 'true'){
+                    console.log('returning' + control.id);
+
+            return;
+        }
 
         const value = getControlValue(control);
-
         //if (value === undefined || value === null) return;
-        
         const typedValue = applyDataType(control, value);
         //if (typedValue === undefined || typedValue === null) return;
 
@@ -127,7 +174,7 @@ function applyDataType(control, value) {
            // return value; // yyyy-MM-dd
 
             return  value
-                ? (value.includes('T') ? value : `${value}T00:00:00`)
+                ? value
                 : null;
 
         case 'DateTime':
