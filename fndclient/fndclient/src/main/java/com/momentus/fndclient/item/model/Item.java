@@ -6,6 +6,7 @@ import com.momentus.fndclient.supplier.model.Supplier;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "items")
@@ -38,6 +39,8 @@ public class Item extends OrgBasedEntity {
   @JoinColumn(name = "supplier_id", referencedColumnName = "id")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   Supplier supplier;
+
+  @Column BigDecimal price;
 
   public String getItemName() {
     return itemName;
@@ -85,5 +88,13 @@ public class Item extends OrgBasedEntity {
 
   public void setSupplier(Supplier supplier) {
     this.supplier = supplier;
+  }
+
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public void setPrice(BigDecimal price) {
+    this.price = price;
   }
 }

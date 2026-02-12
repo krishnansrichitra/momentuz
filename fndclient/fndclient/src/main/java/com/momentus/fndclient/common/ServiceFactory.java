@@ -9,16 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceFactory implements IServiceFactory {
 
-    @Autowired
-    GenericService genericService;
+  @Autowired GenericService genericService;
 
-    @Autowired
-    PurchaseOrderService purchaseOrderService;
+  @Autowired PurchaseOrderService purchaseOrderService;
 
-    @Override
-    public GenericService getService(String entity) {
-        if ("Purchase Order".equalsIgnoreCase(entity))
-            return purchaseOrderService ;
-        return genericService;
-    }
+  @Override
+  public GenericService getService(String entity) {
+    if ("Purchase Order".equalsIgnoreCase(entity)) return purchaseOrderService;
+    return genericService;
+  }
 }

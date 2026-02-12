@@ -11,8 +11,8 @@ async function loadMetadata() {
 
     try {
         const response = await axios.get(url);
-        let met = response.data
-        console.log("metadata response:", met);
+        let met = response.data;
+       // console.log("metadata response:", met);
         const updateMetData = new UpdateViewMetadata(met);
         if (mode == 'Add') {
             await renderUpdateViewForm(updateMetData, 'A');
@@ -248,7 +248,7 @@ function renderControl(field) {
             inpel.className = "form-control";
             inpel.dataset.lookup = field.param; // e.g. supplier
             inpel.id = field.id;
-            inpel.name = field.fieldKey;
+            inpel.name = field.id;
             inpel.dataset.accessor = field.accessor;
             inpel.dataset.dtype = field.dType;
             inpel.placeholder = field.fieldLabel;
@@ -323,7 +323,7 @@ function renderControl(field) {
 
     // common attributes
     el.id = field.id;
-    el.name = field.fieldKey;
+    el.name = field.id;
     el.dataset.accessor = field.accessor;
     el.dataset.dtype = field.dType;
     el.placeholder = field.fieldLabel;

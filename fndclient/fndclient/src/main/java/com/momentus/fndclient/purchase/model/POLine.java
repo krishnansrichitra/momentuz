@@ -93,8 +93,8 @@ public class POLine extends BaseEntity {
     this.lineStatus = lineStatus;
   }
 
-    @Override
-    public void setParentObject(BaseEntity base) {
-        setPurchase((PurchaseOrder) base);
-    }
+  @Override
+  public void setParentObject(BaseEntity base) {
+    setPurchase((PurchaseOrder) base);
+  }
 }
