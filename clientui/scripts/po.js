@@ -1,5 +1,9 @@
 
 console.log('loaded pop.js')
+
+loadGeneralEvents();
+
+function loadGeneralEvents() {
 let ctrls = document.getElementsByName("PO-Lines-barcode");
 for (let ctr of ctrls) {
     ctr.addEventListener("focusout", function (e) {
@@ -17,6 +21,7 @@ for (let ctr of ctrlitems) {
     const rowIndex = row.sectionRowIndex;
     console.log('rowIndex ='+ rowIndex);
    });
+}
 }
 
 async function getByBarcode(barcode,index)

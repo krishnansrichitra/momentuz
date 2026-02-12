@@ -2,6 +2,7 @@ package com.momentus.foundation.common.nextup.model;
 
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "nextup_data")
@@ -18,6 +19,8 @@ public class NextUpData extends OrgBasedEntity {
   @Column String component2;
 
   @Column String component3;
+
+  @Column LocalDate lastDate;
 
   public NextUpConfig getConfig() {
     return config;
@@ -57,5 +60,13 @@ public class NextUpData extends OrgBasedEntity {
 
   public void setComponent3(String component3) {
     this.component3 = component3;
+  }
+
+  public LocalDate getLastDate() {
+    return lastDate;
+  }
+
+  public void setLastDate(LocalDate lastDate) {
+    this.lastDate = lastDate;
   }
 }

@@ -2,6 +2,7 @@ package com.momentus.foundation.common.repository;
 
 import com.momentus.foundation.common.nextup.model.NextUpData;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +15,6 @@ public interface NextUpDataRepository extends JpaRepository<NextUpData, Long> {
 
   @Modifying
   @Transactional
-  @Query("update NextUpData n set n.lastSeqValue = ?2 where n.id = ?1")
-  public void updateNextUpCounter(Long id, Long newValue);
+  @Query("update NextUpData n set n.lastSeqValue = ?2 , n.lastDate= ?3 where n.id = ?1")
+  public void updateNextUpCounter(Long id, Long newValue, LocalDate date);
 }

@@ -48,12 +48,16 @@ public class NextUpService {
       nextUpData1.setComponent2(component2);
       nextUpData1.setComponent3(component3);
       nextUpData1.setLastSeqValue(1L);
+      nextUpData1.setLastDate(LocalDate.now());
       nextUpDataRepository.save(nextUpData1);
       return getNexUpNumber(config, 1L, constant, component1, component2, component3);
     } else {
       NextUpData nextUpData = nextUpDataList.get(0);
       Long lastValue = nextUpData.getLastSeqValue();
-      nextUpDataRepository.updateNextUpCounter(nextUpData.getId(), lastValue + 1);
+      if (nextUpData.getLastDate() != null && !nextUpData.getLastDate().equals(LocalDate.now())) {
+        lastValue = 0L;
+      }
+      nextUpDataRepository.updateNextUpCounter(nextUpData.getId(), lastValue + 1, LocalDate.now());
       return getNexUpNumber(config, lastValue + 1, constant, component1, component2, component3);
     }
   }

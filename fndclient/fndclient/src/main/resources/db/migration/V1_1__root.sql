@@ -21,6 +21,7 @@ insert into updateview_metadata(id,profile_code,entity,js_file) values ('PO','RO
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-ID','id','hidden','id',null,1,'AEV','PO','Numeric');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-docNumber','docNumber','text','docNumber',null,2,'AEV','PO','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-billNo','billNo','text','billNo',null,2.1,'AEV','PO','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-poDate','purchaseDate','date','purchaseDate',null,3,'AEV','PO','Date');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-expDate','expectedDeliveryDate','date','expectedDeliveryDate',null,4,'AEV','PO','Date');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-supplierName','supplier.supplierName','lookup','supplierName','supplier',5,'AEV','PO','String');

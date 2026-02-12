@@ -16,6 +16,9 @@ function bindRowEvents(tr, urlPrefix) {
             createTypeaheadHandler(urlPrefix, param, fieldKey, inpel, datactrl)
         );
     });
+
+
+
 }
 
 function addRow(tblId) {
@@ -27,6 +30,9 @@ function addRow(tblId) {
     tabl.tBodies[0].appendChild(newrow);
     newrow.querySelectorAll("input").forEach(i => i.value = "");
     bindRowEvents(newrow, urlPrefix);
+    if (typeof window.loadGeneralEvents === "function") {
+            window.loadGeneralEvents();
+    }
 
 }
 
