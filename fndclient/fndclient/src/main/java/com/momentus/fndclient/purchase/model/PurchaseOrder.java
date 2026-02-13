@@ -39,6 +39,17 @@ public class PurchaseOrder extends OrgBasedEntity {
   @OrderBy("id Asc")
   List<POLine> poLines;
 
+  @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OrderBy("id Desc")
+  List<PONotes> poNotes;
+
+  @OneToOne(
+      mappedBy = "purchase",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY)
+  POSupplierInfo poSupplierInfo;
+
   String comments;
 
   @Column BigDecimal grossTotal;

@@ -53,6 +53,66 @@ function getChildren(currentField, allFields) {
 
 }
 
+async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
+{
+    const tabset = document.createElement("ul");
+    tabset.className = "nav nav-tabs";
+    tabset.role = "tablist";
+    tabset.id = tabCtrl.id;
+   
+     const tabContent = document.createElement("div");
+    tabContent.className = "tab-content mt-3";
+
+    tabs.forEach((tab, index) => {
+
+        const tabId = "tab-" + tab.id;
+
+        /* ---------------- TAB HEADER ---------------- */
+        const li = document.createElement("li");
+        li.className = "nav-item";
+
+        const btn = document.createElement("button");
+        btn.className = "nav-link" + (index === 0 ? " active" : "");
+        btn.setAttribute("data-bs-toggle", "tab");
+        btn.setAttribute("data-bs-target", "#" + tabId);
+        btn.type = "button";
+        btn.role = "tab";
+        btn.textContent = tab.fieldLabel;
+
+        li.appendChild(btn);
+        tabset.appendChild(li);
+
+        /* ---------------- TAB BODY ---------------- */
+        const pane = document.createElement("div");
+        pane.className = "tab-pane fade" + (index === 0 ? " show active" : "");
+        pane.id = tabId;
+        pane.role = "tabpanel";
+
+        // placeholder content (you will fill dynamically later)
+       // pane.innerHTML = `<div class="p-2">Content for ${tab.fieldLabel}</div>`;
+        let childFields = getChildren(tab, visibleFields);
+        for (let field of childFields) {
+            if (field.control == 'table') {
+                console.log('creating table inside Tab');
+                const col = document.createElement('div');
+                col.className = 'col-lg-12 col-md-12 col-sm-12';
+                let childFields = getChildren(field, visibleFields);
+                const control = createTable(field, childFields, mode);
+                col.appendChild(control);
+                pane.append(col);
+                continue;
+            }
+        }
+
+        tabContent.appendChild(pane);
+    });
+
+    container.appendChild(tabset);
+    container.appendChild(tabContent);
+
+
+}
+
 async function renderUpdateViewForm(metadata, mode = 'E') {
     const form = document.getElementById('genericForm');
     form.innerHTML = '';
@@ -75,6 +135,23 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             row = createRow();
             colCount = 0;
         }
+
+        if (field.control == 'tabset'){
+            console.log('creating tabset');
+            if (colCount != 0) {
+                form.appendChild(row);
+                row = createRow();
+            }
+            const col = document.createElement('div');
+            col.className = 'col-lg-12 col-md-12 col-sm-12';
+             let childFields = getChildren(field, visibleFields);
+             drawTabsAndChildren(col,field,childFields ,visibleFields,mode);
+            colCount = 4;
+            console.log('tabset =' + col);
+            row.appendChild(col);
+            continue;
+        }
+
         if (field.control == 'table') {
             console.log('creating table');
             if (colCount != 0) {
