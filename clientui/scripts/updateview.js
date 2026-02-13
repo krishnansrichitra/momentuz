@@ -48,7 +48,7 @@ async function loadMetadata() {
 
 function getChildren(currentField, allFields) {
     let childArr = allFields.filter(field => field.parent === currentField.id);
-    console.log('childArr=' + childArr);
+    //console.log('childArr=' + JSON.stringify(childArr));
     return childArr;
 
 }
@@ -161,7 +161,7 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             const col = document.createElement('div');
             col.className = 'col-lg-12 col-md-12 col-sm-12';
             let childFields = getChildren(field, metadata.updateViewFields);
-            const control = createTable(field, metadata.updateViewFields, mode);
+            const control = createTable(field, childFields, mode);
             colCount = 4;
             console.log('table =' + control);
             col.appendChild(control);
@@ -281,29 +281,47 @@ function createTable(field, childFields, mode) {
 
     let tbody = table.createTBody();
     let emptyRow = tbody.insertRow();
+    let hiddenCtrl=[];
 
-    for (let i = 0; i < noCols; i++) {
-        let td = emptyRow.insertCell();
-        if (mode != 'V') {
-            let ctrl = renderControl(childFields[i],true);
-            td.appendChild(ctrl);
-        } else {
-            let ctrl = renderViewControl(childFields[i],true);
-            console.log(ctrl.innerHTML);
-            td.appendChild(ctrl);
+    for (let i = 0; i < childFields.length; i++) {
+        console.log(JSON.stringify(childFields[i]));
+        if (childFields[i].control !== 'hidden') {
+            let td = emptyRow.insertCell();
+            if (mode != 'V') {
+                console.log(childFields[i].id);
+                let ctrl = renderControl(childFields[i], true);
+
+                td.appendChild(ctrl);
+            } else {
+                let ctrl = renderViewControl(childFields[i], true);
+                console.log(ctrl.innerHTML);
+                td.appendChild(ctrl);
+            }
+        }else{
+            hiddenCtrl.push(childFields[i]);
         }
     }
 
+
     let td = emptyRow.insertCell();
     if (mode != 'V') {
-        td.innerHTML = `
-  <button type="button"  class="btn btn-sm btn-outline-success me-1" title="Add" onclick="addRow('`+ field.id + `')">
-    <i class="bi bi-plus-lg"></i>
-  </button>
-  <button type="button" class="btn btn-sm btn-outline-danger" title="Remove" onclick="removeRow('`+ field.id + `',this)">
-    <i class="bi bi-dash-lg"></i>
-  </button>
-`;
+        while (hiddenCtrl.length > 0) {
+            const childField = hiddenCtrl.pop();
+            if (childField) {
+                console.log('putting hiddent CTRL' + JSON.stringify(childField));
+                let ctrl = renderControl(childField, true);
+                td.appendChild(ctrl);
+            }
+        }
+
+        td.innerHTML = td.innerHTML +   `
+    <button type="button"  class="btn btn-sm btn-outline-success me-1" title="Add" onclick="addRow('`+ field.id + `')">
+        <i class="bi bi-plus-lg"></i>
+    </button>
+    <button type="button" class="btn btn-sm btn-outline-danger" title="Remove" onclick="removeRow('`+ field.id + `',this)">
+        <i class="bi bi-dash-lg"></i>
+    </button>
+    `;
     }
 
 

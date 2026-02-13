@@ -7,6 +7,7 @@ import com.momentus.foundation.common.service.NextUpService;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.generic.service.GenericService;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,15 @@ public class PurchaseOrderService extends GenericService {
 
   @Autowired NextUpService nextUpService;
 
-  @Override
+
+
+    @Override
   protected void preValidation(BaseEntity entity, ApplicationContext context) {
     PurchaseOrder purchaseOrder = (PurchaseOrder) entity;
-    String docNo = nextUpService.getNextUpNo(context, "Purchase Order", null, "PO", null, null);
-    purchaseOrder.setDocNumber(docNo);
+    if (StringUtils.isEmpty(purchaseOrder.getDocNumber())) {
+        String docNo = nextUpService.getNextUpNo(context, "Purchase Order", null, "PO", null, null);
+        purchaseOrder.setDocNumber(docNo);
+    }
     super.preValidation(entity, context);
   }
 

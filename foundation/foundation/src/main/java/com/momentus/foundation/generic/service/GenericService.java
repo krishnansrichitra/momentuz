@@ -318,6 +318,7 @@ public class GenericService {
         skipBKValidation = true;
       }
     }
+    prepopulate(entity, context);
     mapToEntityMapper.populateFromMap(dataMap, entity, context);
     preValidation(entity, context);
     TransactionResponse validationResponse = validate(entity, context, skipBKValidation);
@@ -327,6 +328,8 @@ public class GenericService {
     preSave(entity, context);
     return saveEntity(entity, context);
   }
+
+  protected void prepopulate(BaseEntity entity, ApplicationContext context) {}
 
   protected void preValidation(BaseEntity entity, ApplicationContext context) {}
 

@@ -59,6 +59,7 @@ public class GenericController {
       }
       return ResponseEntity.ok(transactionResponse.convertToMap());
     } catch (Exception ex) {
+      log.error("Error while creating obj", ex);
       String error = ex.getMessage();
       Map<String, Object> mp = new HashMap<>();
       List<MomentusError> errors = new ArrayList<>();

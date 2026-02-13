@@ -170,15 +170,30 @@ public class MapToEntityMapper {
               // elementType == Integer.class
             }
           }
-          List retValue = new ArrayList();
-          for (Object vs : list) {
+          List retValue;
+          if (field.get(target) == null) retValue = new ArrayList();
+          else retValue = (List) field.get(target);
+
+          for (int i = 0; i < list.size(); i++) {
+            Object vs = list.get(i);
+
             if (elementType != null
                 && BaseEntity.class.isAssignableFrom(elementType)
                 && vs instanceof Map) {
-              BaseEntity nestedObject = (BaseEntity) elementType.newInstance();
+              BaseEntity nestedObject;
+              if (field.get(target) == null) nestedObject = (BaseEntity) elementType.newInstance();
+              else {
+                Object targField = field.get(target);
+                if (targField instanceof List && ((List) targField).size() > i) {
+                  nestedObject = (BaseEntity) ((List) targField).get(i);
+                } else {
+                  nestedObject = (BaseEntity) elementType.newInstance();
+                }
+              }
               populateFromMap((Map<String, Object>) vs, nestedObject, context);
               nestedObject.setParentObject(target);
-              retValue.add(nestedObject);
+              if (retValue.size() < i) retValue.set(i, nestedObject);
+              else retValue.add(nestedObject);
             }
           }
           field.set(target, retValue);

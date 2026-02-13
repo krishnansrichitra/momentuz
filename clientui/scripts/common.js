@@ -140,9 +140,7 @@ function buildJsonFromForm(formEl) {
         }
         
         if (control.dataset.subobject !== undefined && control.dataset.subobject  === 'true'){
-                    console.log('returning' + control.id);
-
-            return;
+                    return;
         }
 
         const value = getControlValue(control);
