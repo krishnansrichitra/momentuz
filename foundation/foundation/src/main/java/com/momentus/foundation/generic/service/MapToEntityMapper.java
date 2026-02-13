@@ -192,7 +192,7 @@ public class MapToEntityMapper {
               }
               populateFromMap((Map<String, Object>) vs, nestedObject, context);
               nestedObject.setParentObject(target);
-              if (retValue.size() < i) retValue.set(i, nestedObject);
+              if (retValue.size() > i) retValue.set(i, nestedObject);
               else retValue.add(nestedObject);
             }
           }
