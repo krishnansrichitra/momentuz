@@ -153,4 +153,20 @@ public class PurchaseOrder extends OrgBasedEntity {
   public void setTotal(BigDecimal total) {
     this.total = total;
   }
+
+    public List<PONotes> getPoNotes() {
+        return poNotes;
+    }
+
+    public void setPoNotes(List<PONotes> poNotes) {
+        this.poNotes = poNotes;
+    }
+
+    public POSupplierInfo getPoSupplierInfo() {
+        return poSupplierInfo;
+    }
+
+    public void setPoSupplierInfo(POSupplierInfo poSupplierInfo) {
+        this.poSupplierInfo = poSupplierInfo;
+    }
 }

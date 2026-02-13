@@ -39,6 +39,12 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-Lines-price','poLines.price','text','price',null,16,'AEV','PO','Numeric','PO-Lines');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-Lines-qty','poLines.qty','text','qty',null,17,'AEV','PO','Numeric','PO-Lines');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-Lines-total','poLines.total','text','total',null,18,'AEV','PO','Numeric','PO-Lines');
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-Notes','poNotes','table','poNotes','cols=2;colTitles=["noteType","Note"];colWidth=["30","65"];',19,'AEV','PO','String','PO-tabNote');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-Notes-noteType','poNotes.noteType.fvCode','dropdown','noteType','fv::po_note_type',20,'AEV','PO','String','PO-Notes');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-Notes-note','poNotes.note','text','note',null,21,'AEV','PO','String','PO-Notes');
+
+
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-gross','grossTotal','text','grossTotal',null,50,'AEV','PO','Numeric');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-taxAmount','taxAmount','text','taxAmount',null,51,'AEV','PO','Numeric');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-total','total','text','total',null,52,'AEV','PO','Numeric');
@@ -58,3 +64,9 @@ insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PO-SAVE','btn btn-primary','save','onSave',1,'AE','PO');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PO-EDT','btn btn-info','edit','onEdit',2,'V','PO');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PO-CNCL','btn btn-secondary','cancel','onCancel',1,'AEV','PO');
+
+
+insert into finite_group(group_code,group_name) values ('po_note_type','PO Note Type');
+insert into finite_value(fv_code,fv_value,group_code) values ('po_note_type_pl_dev','Plan deviation','po_note_type');
+insert into finite_value(fv_code,fv_value,group_code) values ('po_note_type_pr_neg','Price Negotiaton','po_note_type');
+insert into finite_value(fv_code,fv_value,group_code) values ('po_note_type_tr_ag','Transportation agreement','po_note_type');
