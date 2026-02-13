@@ -56,4 +56,9 @@ public class PONotes extends BaseEntity {
   public void setNote(String note) {
     this.note = note;
   }
+
+  @Override
+  public void setParentObject(BaseEntity base) {
+    setPurchase((PurchaseOrder) base);
+  }
 }

@@ -154,19 +154,19 @@ public class PurchaseOrder extends OrgBasedEntity {
     this.total = total;
   }
 
-    public List<PONotes> getPoNotes() {
-        return poNotes;
-    }
+  public List<PONotes> getPoNotes() {
+    return poNotes;
+  }
 
-    public void setPoNotes(List<PONotes> poNotes) {
-        this.poNotes = poNotes;
-    }
+  public void setPoNotes(List<PONotes> poNotes) {
+    this.poNotes = poNotes;
+  }
 
-    public POSupplierInfo getPoSupplierInfo() {
-        return poSupplierInfo;
-    }
+  public POSupplierInfo getPoSupplierInfo() {
+    return poSupplierInfo;
+  }
 
-    public void setPoSupplierInfo(POSupplierInfo poSupplierInfo) {
-        this.poSupplierInfo = poSupplierInfo;
-    }
+  public void setPoSupplierInfo(POSupplierInfo poSupplierInfo) {
+    this.poSupplierInfo = poSupplierInfo;
+  }
 }

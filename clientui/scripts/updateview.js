@@ -144,8 +144,8 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             }
             const col = document.createElement('div');
             col.className = 'col-lg-12 col-md-12 col-sm-12';
-             let childFields = getChildren(field, visibleFields);
-             drawTabsAndChildren(col,field,childFields ,visibleFields,mode);
+             let childFields = getChildren(field, metadata.updateViewFields);
+             drawTabsAndChildren(col,field,childFields ,metadata.updateViewFields,mode);
             colCount = 4;
             console.log('tabset =' + col);
             row.appendChild(col);
@@ -160,8 +160,8 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             }
             const col = document.createElement('div');
             col.className = 'col-lg-12 col-md-12 col-sm-12';
-            let childFields = getChildren(field, visibleFields);
-            const control = createTable(field, childFields, mode);
+            let childFields = getChildren(field, metadata.updateViewFields);
+            const control = createTable(field, metadata.updateViewFields, mode);
             colCount = 4;
             console.log('table =' + control);
             col.appendChild(control);
@@ -570,14 +570,21 @@ function traverseJson(formEl, obj, prefix = '') {
         } else {
             if (Array.isArray(value)) {
                 console.log('can be an array' + path + " and " + value.length);
+                
                 let tabl = formEl.querySelector(`[data-accessor="${path}"]`);
+                if (value.length === 0 ){
+                    console.log('table lenght = ' + tabl.rows.length );
+                    return;
+                }
                 for (let i = 0; i < value.length; i++) {
                     const obj = value[i];
                     applyRowFromJson(tabl.rows[i + 1], obj);
                     addRow(tabl.id);
                 }
-                tabl.deleteRow(tabl.rows.length - 1);
-                return;
+                if (tabl.rows.length > 2) {
+                    tabl.deleteRow(tabl.rows.length - 1);
+                    return;
+                }
             }
             setValueByAccessor(formEl, path, value);
         }
