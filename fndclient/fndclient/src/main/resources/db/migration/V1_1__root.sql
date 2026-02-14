@@ -48,6 +48,10 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-Notes-id','poNotes.id','hidden','id',null,24,'AEV','PO','Numeric','PO-Notes');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-Notes-version','poNotes.version','hidden','version',null,25,'AEV','PO','Numeric','PO-Notes');
 
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-tabSupInfo-prodDate','poSupplierInfo.productionDate','date','productionDate',null,30,'AEV','PO','Date','PO-tabSupInfo');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PO-tabSupInfo-supplierComments','poSupplierInfo.supplierComments','text','supplierComments',null,31,'AEV','PO','String','PO-tabSupInfo');
+
+
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-gross','grossTotal','text','grossTotal',null,50,'AEV','PO','Numeric');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-taxAmount','taxAmount','text','taxAmount',null,51,'AEV','PO','Numeric');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PO-total','total','text','total',null,52,'AEV','PO','Numeric');

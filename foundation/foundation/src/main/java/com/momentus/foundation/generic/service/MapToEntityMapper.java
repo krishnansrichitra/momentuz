@@ -156,6 +156,9 @@ public class MapToEntityMapper {
               throw new RuntimeException(" object not found ");
             }
             field.set(target, nestedObject);
+          } else { // could be a new subobject..not a very common use cae
+            field.set(target, nestedObject);
+            nestedObject.setParentObject(target);
           }
         } else if (value instanceof List) {
           List list = (List) value;

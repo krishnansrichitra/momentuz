@@ -91,7 +91,14 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
         // placeholder content (you will fill dynamically later)
        // pane.innerHTML = `<div class="p-2">Content for ${tab.fieldLabel}</div>`;
         let childFields = getChildren(tab, visibleFields);
+        let row = createRow();
+        let colCount = 0;
         for (let field of childFields) {
+            if (colCount === 4) {
+                tabContent.appendChild(row);
+                row = createRow();
+                colCount = 0;
+            }
             if (field.control == 'table') {
                 console.log('creating table inside Tab');
                 const col = document.createElement('div');
@@ -101,10 +108,36 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
                 col.appendChild(control);
                 pane.append(col);
                 continue;
+            } else {
+
+                const col = document.createElement('div');
+                col.className = 'col-lg-3 col-md-6 col-sm-12';
+                const label = document.createElement('label');
+                label.className = 'form-label';
+                if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
+                    label.textContent = field.fieldLabel + ":";
+                if (mode != 'V') {
+                    const control = renderControl(field);
+                    label.classList.add('form-label', 'mb-1');
+                    col.appendChild(label);
+                    col.appendChild(control);
+                } else {
+                    const control = renderViewControl(field);
+                    label.classList.add('form-label', 'mb-1');
+                    control.classList.add('form-control');
+                    col.appendChild(label);
+                    col.appendChild(control);
+                }
+                row.appendChild(col);
+                colCount++;
             }
+
         }
 
         tabContent.appendChild(pane);
+        if (row.children.length > 0) {
+            tabContent.appendChild(row);
+        }
     });
 
     container.appendChild(tabset);
