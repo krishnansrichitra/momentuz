@@ -10,16 +10,14 @@ import com.momentus.foundation.finitevalue.service.FiniteValueService;
 import com.momentus.foundation.generic.controller.GenericController;
 import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
+import io.jsonwebtoken.lang.Collections;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.hibernate.proxy.HibernateProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,7 +171,7 @@ public class MapToEntityMapper {
           List retValue;
           if (field.get(target) == null) retValue = new ArrayList();
           else retValue = (List) field.get(target);
-
+          List<BaseEntity> newList = new ArrayList<>();
           for (int i = 0; i < list.size(); i++) {
             Object vs = list.get(i);
 
@@ -183,25 +181,68 @@ public class MapToEntityMapper {
               BaseEntity nestedObject;
               if (field.get(target) == null) nestedObject = (BaseEntity) elementType.newInstance();
               else {
-                Object targField = field.get(target);
-                if (targField instanceof List && ((List) targField).size() > i) {
+                // Object targField = field.get(target);
+                /*if (targField instanceof List && ((List) targField).size() > i) {
                   nestedObject = (BaseEntity) ((List) targField).get(i);
-                } else {
-                  nestedObject = (BaseEntity) elementType.newInstance();
-                }
+                } else {*/
+                nestedObject = (BaseEntity) elementType.newInstance();
+                // }
               }
               populateFromMap((Map<String, Object>) vs, nestedObject, context);
               nestedObject.setParentObject(target);
-              if (retValue.size() > i) retValue.set(i, nestedObject);
-              else retValue.add(nestedObject);
+              newList.add(nestedObject);
+              /*if (retValue.size() > i) retValue.set(i, nestedObject);
+              else retValue.add(nestedObject);*/
             }
           }
+          mergeList(retValue, newList);
           field.set(target, retValue);
         }
 
       } catch (Exception e) {
         throw new RuntimeException(
             "Failed to set field '" + fieldName + "' on " + clazz.getSimpleName(), e);
+      }
+    }
+  }
+
+  private void mergeList(List target, List source) {
+    if (Collections.isEmpty(source)) {
+      target.clear();
+      return;
+    }
+    // Copy newly added where source.pk == 0  or pk exist, but need to copy value
+    for (Object obj : source) {
+      BaseEntity entity = ((BaseEntity) obj);
+      if (entity.getPK() == null || ((Number) entity.getPK()).longValue() == 0) {
+        target.add(entity);
+      } else {
+        for (int i = 0; i < target.size(); i++) {
+          BaseEntity targetEntity = (BaseEntity) target.get(i);
+          if (targetEntity.getPK() != null && targetEntity.getPK().equals(entity.getPK())) {
+            target.set(i, entity);
+            break;
+          }
+        }
+      }
+    }
+    // Remove unwanted
+    Iterator it = target.iterator();
+    while (it.hasNext()) {
+      BaseEntity targetEntity = (BaseEntity) it.next();
+      if (targetEntity.getPK() == null || ((Number) targetEntity.getPK()).longValue() == 0)
+        continue;
+      boolean entryFound = false;
+      for (Object obj : source) {
+        BaseEntity entity = ((BaseEntity) obj);
+        if (targetEntity.getPK().equals(entity.getPK())) {
+          entryFound = true;
+          break;
+        }
+      }
+      if (entryFound == false) {
+        targetEntity.setDeleted(true);
+        targetEntity.setParentObject(null);
       }
     }
   }
