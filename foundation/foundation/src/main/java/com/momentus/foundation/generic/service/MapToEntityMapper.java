@@ -178,19 +178,12 @@ public class MapToEntityMapper {
             if (elementType != null
                 && BaseEntity.class.isAssignableFrom(elementType)
                 && vs instanceof Map) {
-              BaseEntity nestedObject;
-              if (field.get(target) == null) nestedObject = (BaseEntity) elementType.newInstance();
-              else {
-                // Object targField = field.get(target);
-                /*if (targField instanceof List && ((List) targField).size() > i) {
-                  nestedObject = (BaseEntity) ((List) targField).get(i);
-                } else {*/
-                nestedObject = (BaseEntity) elementType.newInstance();
-                // }
+              if (isNonEmptyRecord((Map) vs)) {
+                BaseEntity nestedObject = (BaseEntity) elementType.newInstance();
+                populateFromMap((Map<String, Object>) vs, nestedObject, context);
+                nestedObject.setParentObject(target);
+                newList.add(nestedObject);
               }
-              populateFromMap((Map<String, Object>) vs, nestedObject, context);
-              nestedObject.setParentObject(target);
-              newList.add(nestedObject);
               /*if (retValue.size() > i) retValue.set(i, nestedObject);
               else retValue.add(nestedObject);*/
             }
@@ -204,6 +197,21 @@ public class MapToEntityMapper {
             "Failed to set field '" + fieldName + "' on " + clazz.getSimpleName(), e);
       }
     }
+  }
+
+  private boolean isNonEmptyRecord(Map<String, Object> map) {
+    if (map == null || map.isEmpty()) return false;
+    return map.values().stream()
+        .anyMatch(
+            v -> {
+              if (v == null) return false;
+              if (v instanceof Map) {
+                if (isNonEmptyRecord((Map) v)) return true;
+              }
+              if (v instanceof String s) return !s.trim().isEmpty();
+              if (v instanceof Number n) return n.doubleValue() != 0.0;
+              return false;
+            });
   }
 
   private void mergeList(List target, List source) {
