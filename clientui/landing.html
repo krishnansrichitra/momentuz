@@ -31,6 +31,16 @@
             border: none;
         }
 
+        .dropdown-menu .dropdown-item:hover {
+             background-color: #0d6efd;  /* Bootstrap primary blue */
+            color: white;
+        }
+
+        .navbar .dropdown-menu .dropdown-toggle:hover {
+           background-color: #0d6efd;
+            color: white;
+        }
+
       /*  .dropdown-submenu .dropdown-menu { display: none; }
         .dropdown-submenu.show > .dropdown-menu { display: block; }*/
 
@@ -173,6 +183,7 @@
         let htmlDialogInstance = null;
         function loadPage(page) {
             document.getElementById("contentFrame").src = page;
+
         }
 
         function search(event) {
@@ -228,8 +239,9 @@
             return config;
         });
 
+        loadMenusFromBackend();
 
-        document.addEventListener("DOMContentLoaded", () => {
+            document.addEventListener("DOMContentLoaded", () => {
             document.addEventListener("click", function (e) {
             const toggle = e.target.closest(".dropdown-submenu > .dropdown-toggle");
             if (!toggle) return;
@@ -242,7 +254,10 @@
 
             // toggle submenu
             const submenu = toggle.nextElementSibling; // <ul class="dropdown-menu">
+            const parentMenu = toggle.closest(".dropdown-menu"); 
             submenu.classList.toggle("show");
+             parentMenu.querySelectorAll(".dropdown-submenu > .dropdown-menu.show")
+            .forEach(m => { if (m !== submenu) m.classList.remove("show"); });
             }, true);
 
             document.querySelectorAll(".dropdown").forEach(dd => {
@@ -252,8 +267,20 @@
                 });
             });
 
-         loadMenusFromBackend();
+         
         });
+
+        document.addEventListener("click", function (e) {
+  // If user clicked an actual submenu item (not a toggle), close open submenus
+        const item = e.target.closest(".dropdown-submenu .dropdown-menu .dropdown-item");
+        const isToggle = e.target.closest(".dropdown-submenu > .dropdown-toggle");
+
+    if (item && !isToggle) {
+        document.querySelectorAll(".dropdown-submenu .dropdown-menu.show")
+        .forEach(m => m.classList.remove("show"));
+    }
+        }, true); // capture phase (important)
+
     </script>
 </body>
 

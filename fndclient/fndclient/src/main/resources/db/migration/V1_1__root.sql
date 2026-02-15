@@ -3,14 +3,14 @@ insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,has_children) values
  ('DFLT-TRNS-SO','SalesOrders','adm','./general/genericList.html?entity=SalesOrders','DFLT-TRNS',2,true) on duplicate key update id = id;
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values
- ('DFLT-TRNS-SO-ECOM','Ecom','adm','./general/genericList.html?entity=SalesOrders','DFLT-TRNS',3,'DFLT-TRNS-SO') on duplicate key update id = id;
+ ('DFLT-TRNS-SO-ECOM','Ecom','adm','./general/dataImport.html','DFLT-TRNS',3,'DFLT-TRNS-SO') on duplicate key update id = id;
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values
  ('DFLT-TRNS-SO-STORE','StoreSale','adm','./general/genericList.html?entity=SalesOrders','DFLT-TRNS',4,'DFLT-TRNS-SO') on duplicate key update id = id;
 
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,has_children) values
  ('DFLT-TRNS-RO','ReturnOrders','adm','./general/genericList.html?entity=SalesOrders','DFLT-TRNS',5,true)  on duplicate key update id = id;
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values
- ('DFLT-TRNS-RO-ECOM','EcomRET','adm','./general/genericList.html?entity=SalesOrders','DFLT-TRNS',6,'DFLT-TRNS-RO')  on duplicate key update id = id;
+ ('DFLT-TRNS-RO-ECOM','EcomRET','adm','./general/dataImport.html','DFLT-TRNS',6,'DFLT-TRNS-RO')  on duplicate key update id = id;
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values
  ('DFLT-TRNS-RO-STORE','StoreSaleRET','adm','./general/genericList.html?entity=SalesOrders','DFLT-TRNS',7,'DFLT-TRNS-RO')  on duplicate key update id = id;
 

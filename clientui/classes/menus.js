@@ -66,9 +66,15 @@ function renderMenus(menuSet) {
             // Menu item
             const itemLi = document.createElement("li");
             const itemA = document.createElement("a");
-        
             itemA.textContent = item.label;
             if (item.parentItem !== null) return;
+            if (index > 0 ){
+            const dividerLi = document.createElement("li");
+            const divider = document.createElement("hr");
+            divider.className = "dropdown-divider";
+            dividerLi.appendChild(divider);
+            ul.appendChild(dividerLi);
+            }
             if (item.hasChildren !== null &&   item.hasChildren === true) {
                 itemLi.className="dropdown-submenu dropend";
                 itemA.className = "dropdown-item dropdown-toggle";
@@ -77,7 +83,16 @@ function renderMenus(menuSet) {
                 console.log(JSON.stringify(children));
                 const subul = document.createElement("ul");
                 subul.className = "dropdown-menu";
+                let subindex= 0;
                 for (let child of children) {
+                    if (subindex > 0 ){
+                    const dividerLi = document.createElement("li");
+                    const divider = document.createElement("hr");
+                    divider.className = "dropdown-divider";
+                    dividerLi.appendChild(divider);
+                    subul.appendChild(dividerLi);
+                    }
+                    subindex++;
                         const subitemLi = document.createElement("li");
                         const subitemA = document.createElement("a"); 
                         subitemA.className = "dropdown-item";
@@ -86,6 +101,7 @@ function renderMenus(menuSet) {
                         subitemA.onclick = () => loadPage(child.page);
                         subitemLi.appendChild(subitemA);
                         subul.appendChild(subitemLi);
+                        
                 }
                 itemLi.appendChild(itemA);
                 itemLi.append(subul);
@@ -101,20 +117,15 @@ function renderMenus(menuSet) {
             
 
             // Separator (except after last item)
-            if (index < group.items.length - 1) {
-                const dividerLi = document.createElement("li");
-                const divider = document.createElement("hr");
-                divider.className = "dropdown-divider";
-
-                dividerLi.appendChild(divider);
-                ul.appendChild(dividerLi);
-            }
+            
         });
 
         li.appendChild(a);
         li.appendChild(ul);
         menuContainer.appendChild(li);
     });
+
+
 }
 
 
