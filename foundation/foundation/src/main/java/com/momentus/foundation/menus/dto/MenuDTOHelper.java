@@ -29,7 +29,9 @@ public class MenuDTOHelper {
                     menuItem.getId(),
                     generalMessages.getMessage(menuItem.getMenuKey(), ls),
                     menuItem.getPage(),
-                    null);
+                    null,
+                    menuItem.getHasChildren(),
+                    menuItem.getParentItem());
             menuItemDTOList.add(menuItemDTO);
           }
         }

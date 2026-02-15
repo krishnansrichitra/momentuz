@@ -10,6 +10,10 @@ public class MenuItemDTO {
 
   String icon;
 
+  Boolean hasChildren;
+
+  String parentItem;
+
   public String getId() {
     return id;
   }
@@ -44,10 +48,29 @@ public class MenuItemDTO {
 
   public MenuItemDTO() {}
 
-  public MenuItemDTO(String id, String label, String page, String icon) {
+  public Boolean getHasChildren() {
+    return hasChildren;
+  }
+
+  public void setHasChildren(Boolean hasChildren) {
+    this.hasChildren = hasChildren;
+  }
+
+  public String getParentItem() {
+    return parentItem;
+  }
+
+  public void setParentItem(String parentItem) {
+    this.parentItem = parentItem;
+  }
+
+  public MenuItemDTO(
+      String id, String label, String page, String icon, Boolean hasChildren, String parentItem) {
     this.id = id;
     this.label = label;
     this.page = page;
     this.icon = icon;
+    this.hasChildren = hasChildren;
+    this.parentItem = parentItem;
   }
 }

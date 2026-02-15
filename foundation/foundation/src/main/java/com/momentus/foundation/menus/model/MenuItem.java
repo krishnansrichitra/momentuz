@@ -27,6 +27,12 @@ public class MenuItem {
   @Column(name = "seq_no")
   BigDecimal seqNo;
 
+  @Column(name = "has_children")
+  Boolean hasChildren;
+
+  @Column(name = "parent_item")
+  String parentItem;
+
   public String getId() {
     return id;
   }
@@ -73,5 +79,21 @@ public class MenuItem {
 
   public void setSeqNo(BigDecimal seqNo) {
     this.seqNo = seqNo;
+  }
+
+  public Boolean getHasChildren() {
+    return hasChildren;
+  }
+
+  public void setHasChildren(Boolean hasChildren) {
+    this.hasChildren = hasChildren;
+  }
+
+  public String getParentItem() {
+    return parentItem;
+  }
+
+  public void setParentItem(String parentItem) {
+    this.parentItem = parentItem;
   }
 }

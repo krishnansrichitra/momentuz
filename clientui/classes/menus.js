@@ -1,9 +1,12 @@
 class MenuItem {
-    constructor(id, label, page, icon) {
+    constructor(id, label, page, icon,hasChildren,parentItem) {
         this.id = id;
         this.label = label;
         this.page = page;   // page to load in iframe
         this.icon = icon;
+        this.hasChildren=hasChildren;
+        this.parentItem=parentItem;
+
     }
 }
 
@@ -29,6 +32,15 @@ class MenuSet {
     }
 }
 
+function getSubMenus(allMenus, parentItem)
+{
+
+  const children = allMenus.filter(item => item.parentItem === parentItem);
+  return children;
+
+
+}
+
 function renderMenus(menuSet) {
     const menuContainer = document.getElementById("menuContainer");
     menuContainer.innerHTML = "";
@@ -49,18 +61,44 @@ function renderMenus(menuSet) {
         ul.className = "dropdown-menu";
 
         group.items.forEach((item, index) => {
+            
 
             // Menu item
             const itemLi = document.createElement("li");
             const itemA = document.createElement("a");
-
-            itemA.className = "dropdown-item";
-            itemA.href = "#";
+        
             itemA.textContent = item.label;
-            itemA.onclick = () => loadPage(item.page);
+            if (item.parentItem !== null) return;
+            if (item.hasChildren !== null &&   item.hasChildren === true) {
+                itemLi.className="dropdown-submenu dropend";
+                itemA.className = "dropdown-item dropdown-toggle";
+                itemA.href = "#";
+                let children = getSubMenus(group.items,item.id);
+                console.log(JSON.stringify(children));
+                const subul = document.createElement("ul");
+                subul.className = "dropdown-menu";
+                for (let child of children) {
+                        const subitemLi = document.createElement("li");
+                        const subitemA = document.createElement("a"); 
+                        subitemA.className = "dropdown-item";
+                        subitemA.textContent=child.label;
+                        subitemA.href = "#";
+                        subitemA.onclick = () => loadPage(child.page);
+                        subitemLi.appendChild(subitemA);
+                        subul.appendChild(subitemLi);
+                }
+                itemLi.appendChild(itemA);
+                itemLi.append(subul);
 
-            itemLi.appendChild(itemA);
+            }else{
+                itemA.className = "dropdown-item";
+                itemA.href = "#";
+                itemA.onclick = () => loadPage(item.page);
+                itemLi.appendChild(itemA);
+                
+            }
             ul.appendChild(itemLi);
+            
 
             // Separator (except after last item)
             if (index < group.items.length - 1) {
@@ -92,7 +130,9 @@ function buildMenuSetFromApi(data) {
                 i.id,
                 i.label,
                 i.page,
-                i.icon
+                i.icon,
+                i.hasChildren,
+                i.parentItem
             );
             group.addItem(item);
         });
@@ -123,3 +163,5 @@ function openSettings()
 
 
 }
+
+
