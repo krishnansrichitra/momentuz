@@ -486,7 +486,7 @@ insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MN
 
 
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-ORG','Organization','adm','./general/genericList.html?entity=Supplier','IT_MNU-ADM',1);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-RLS','Roles','adm','./general/genericList.html?entity=Item','IT_MNU-ADM',2);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-RLS','Roles','adm','./general/genericaddview.html?entity=Role&mode=Edit','IT_MNU-ADM',2);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-LCT','Locations','adm','./general/genericList.html?entity=Item','IT_MNU-ADM',3);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-USRS','Users','adm','./general/dataImport.html','IT_MNU-ADM',4);
 
@@ -500,4 +500,23 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USPRF-UPD','btn btn-primary','updatePassword','onUpdate',1,'E','USPRF');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USPRF-CLS','btn btn-secondary','close','onClose',1,'E','USPRF');
+
+
+insert into entity (entity_name,full_package,profile_group_code,created_by,created_time,support_import)
+values ('Role','com.momentus.foundation.accessgroup.model.Role', 'GNL','seed',now(),0);
+
+
+insert into updateview_metadata(id,profile_code,entity,js_file) values ('RLCR','ROOT','Role','role.js');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESC','description','dropdown','selectRole','roles',1,'E','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESCBTN','','button','fetchRoles','roles',2,'E','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESCTXT','description','txt','roleName',null,3,'E','RLCR','String');
+
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('RLCR-SV','btn btn-primary','save','saveRole',1,'E','RLCR');
+
+
+
+
+
+
+
 

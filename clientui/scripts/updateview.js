@@ -368,6 +368,10 @@ function renderControl(field, partofTable=false) {
 
     switch (field.control) {
 
+        case 'button';
+
+
+
         case 'lookup':
             el = document.createElement('div');
 
