@@ -9,9 +9,7 @@ import com.momentus.foundation.ui.metadata.model.ListMetadata;
 import com.momentus.foundation.ui.metadata.model.UpdateViewMetadata;
 import com.momentus.foundation.ui.metadata.repository.ListMetadataRepository;
 import com.momentus.foundation.ui.metadata.repository.UpdateViewMetadataRepository;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -52,12 +50,22 @@ public class MetadataService {
     if (orgProfile != null) {
       List<UpdateViewMetadata> updateViewMetadatas =
           updateViewMetadataRepository.findByProfile_ProfileCodeInAndEntity(
-              Arrays.asList(orgProfile.getProfile().getProfileCode()), entity);
+              getProfileCodes(orgProfile.getProfile().getFullProfileCode()), entity);
       if (!CollectionUtils.isEmpty(updateViewMetadatas)) {
         return metadataDTOHelper.makeUpdateViewDTO(
             updateViewMetadatas.get(updateViewMetadatas.size() - 1), locale, mode);
       }
     }
     return null;
+  }
+
+  private List<String> getProfileCodes(String fullProfile) {
+    if (fullProfile == null || fullProfile.isBlank()) return Collections.emptyList();
+
+    String[] parts = fullProfile.split("-");
+    List<String> result = new ArrayList<>(Arrays.asList(parts));
+
+    Collections.reverse(result);
+    return result;
   }
 }

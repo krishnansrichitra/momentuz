@@ -490,3 +490,14 @@ insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-LCT','Locations','adm','./general/genericList.html?entity=Item','IT_MNU-ADM',3);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-USRS','Users','adm','./general/dataImport.html','IT_MNU-ADM',4);
 
+
+
+insert into updateview_metadata(id,profile_code,entity) values ('USPRF','ROOT','UserProfile');
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USPRF-CRUPWD','currentPassword','password','currentPassword',null,1,'E','USPRF','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USPRF-PWD','password','password','password',null,2,'E','USPRF','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USPRF-CNFPWD','confirmPassword','password','confirmPassword',null,3,'E','USPRF','String');
+
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USPRF-UPD','btn btn-primary','updatePassword','onUpdate',1,'E','USPRF');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USPRF-CLS','btn btn-secondary','close','onClose',1,'E','USPRF');
+
