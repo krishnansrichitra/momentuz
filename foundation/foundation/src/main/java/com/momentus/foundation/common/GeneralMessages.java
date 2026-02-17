@@ -36,12 +36,20 @@ public class GeneralMessages {
   }
 
   public String getMessage(String errorCode, Locale locale) {
-    if (errorCode == null || errorCode.trim().length() == 0) return "";
-    else return messageSource.getMessage(errorCode, null, locale);
+    try {
+      if (errorCode == null || errorCode.trim().length() == 0) return "";
+      else return messageSource.getMessage(errorCode, null, locale);
+    } catch (Exception ex) {
+      return errorCode;
+    }
   }
 
   public String getMessage(String errorCode, Object[] args, Locale locale) {
-    if (errorCode == null || errorCode.trim().length() == 0) return "";
-    else return messageSource.getMessage(errorCode, args, locale);
+    try {
+      if (errorCode == null || errorCode.trim().length() == 0) return "";
+      else return messageSource.getMessage(errorCode, args, locale);
+    } catch (Exception ex) {
+      return errorCode;
+    }
   }
 }

@@ -61,7 +61,7 @@ tasks.register('copyJar', Copy) {
     dependsOn bootJar   // or 'jar' if this is not a Spring Boot project
     from("$buildDir/libs/")
     include("*.jar")
-    into("/Users/mac/Documents/apps/momentusapps/fndclient/fndclient/lib")   // <-- your desired folder
+    into("/Users/mac/Documents/apps/momentusapps/momentusproj/projmanagement/lib")   // <-- your desired folder
 }
 
 

@@ -16,6 +16,9 @@ public class PrimaryUserRole {
   @Column(columnDefinition = "BLOB")
   String accessCodes;
 
+  @Column(name = "is_primary")
+  Boolean isPrimary;
+
   public String getRoleDescription() {
     return roleDescription;
   }
@@ -38,5 +41,13 @@ public class PrimaryUserRole {
 
   public void setAccessCodes(String accessCodes) {
     this.accessCodes = accessCodes;
+  }
+
+  public Boolean getPrimary() {
+    return isPrimary;
+  }
+
+  public void setPrimary(Boolean primary) {
+    isPrimary = primary;
   }
 }

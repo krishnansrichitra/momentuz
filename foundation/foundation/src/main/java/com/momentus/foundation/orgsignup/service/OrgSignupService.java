@@ -172,17 +172,20 @@ public class OrgSignupService {
         List<PrimaryUserRole> primaryUserRoles =
             primaryUserRoleRepository.findByProfileProfileCode(profile.getProfileCode());
         if (!CollectionUtils.isEmpty(primaryUserRoles)) {
-          PrimaryUserRole primaryUserRole = primaryUserRoles.get(0);
-          Role role = new Role();
-          role.setDescription(primaryUserRole.getRoleDescription());
-          role.setAccessCodes(primaryUserRole.getAccessCodes());
-          role.setOrgId(organization);
-          genericService.saveEntity(role, context);
-          role = (Role) genericService.findByBusinessKey(role.getBK(), Role.class, context);
-          userRoles.setUser(user);
-          userRoles.setRole(role);
-          userRoles.setOrgId(organization);
-          genericService.saveEntity(userRoles, context);
+          for (PrimaryUserRole primaryUserRole : primaryUserRoles) {
+            Role role = new Role();
+            role.setDescription(primaryUserRole.getRoleDescription());
+            role.setAccessCodes(primaryUserRole.getAccessCodes());
+            role.setOrgId(organization);
+            genericService.saveEntity(role, context);
+            if (primaryUserRole.getPrimary()) {
+              role = (Role) genericService.findByBusinessKey(role.getBK(), Role.class, context);
+              userRoles.setUser(user);
+              userRoles.setRole(role);
+              userRoles.setOrgId(organization);
+              genericService.saveEntity(userRoles, context);
+            }
+          }
         }
       }
       log.debug(
