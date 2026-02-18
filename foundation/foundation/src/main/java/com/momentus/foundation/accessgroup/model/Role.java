@@ -13,7 +13,9 @@ public class Role extends OrgBasedEntity {
 
   @Column
   @EntityProperties(isBK = true)
-  String description;
+  String title;
+
+  @Column String description;
 
   @Column(columnDefinition = "BLOB")
   String accessCodes;
@@ -34,16 +36,24 @@ public class Role extends OrgBasedEntity {
     this.accessCodes = accessCodes;
   }
 
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
   @Override
   @JsonIgnore
   public Map<String, Object> getBK() {
     Map<String, Object> bkMap = new LinkedHashMap<>();
-    bkMap.put("description", this.description);
+    bkMap.put("title", this.title);
     return bkMap;
   }
 
   @Override
   public String getBKField() {
-    return "description";
+    return "title";
   }
 }

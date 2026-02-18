@@ -174,6 +174,7 @@ public class OrgSignupService {
         if (!CollectionUtils.isEmpty(primaryUserRoles)) {
           for (PrimaryUserRole primaryUserRole : primaryUserRoles) {
             Role role = new Role();
+            role.setTitle(primaryUserRole.getTitle());
             role.setDescription(primaryUserRole.getRoleDescription());
             role.setAccessCodes(primaryUserRole.getAccessCodes());
             role.setOrgId(organization);

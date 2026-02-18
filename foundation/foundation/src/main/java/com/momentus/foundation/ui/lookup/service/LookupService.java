@@ -1,5 +1,6 @@
 package com.momentus.foundation.ui.lookup.service;
 
+import com.momentus.foundation.accessgroup.model.Role;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.entity.service.EntityService;
@@ -8,6 +9,7 @@ import com.momentus.foundation.finitevalue.service.FiniteValueService;
 import com.momentus.foundation.generic.service.GenericService;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,23 @@ public class LookupService {
       }
     }
     return retValues;
+  }
+
+  public Map<Long, String> getRoles(ApplicationContext context) {
+    List<Role> records =
+        (List<Role>)
+            genericService.listRecords(
+                new HashMap<String, Object>(),
+                (Class<? extends OrgBasedEntity>) Role.class,
+                context,
+                0,
+                999,
+                true);
+    if (!CollectionUtils.isEmpty(records)) {
+      return records.stream().collect(Collectors.toMap(Role::getId, Role::getTitle));
+    } else {
+      return new HashMap<>();
+    }
   }
 
   public List<String> getTypeAheadValues(

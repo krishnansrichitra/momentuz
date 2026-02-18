@@ -143,6 +143,7 @@ CREATE TABLE roles (
   id bigint   PRIMARY KEY  AUTO_INCREMENT,
   org_id bigint NOT NULL,
   access_codes blob,
+  title varchar(255) DEFAULT NULL,
   description varchar(255) DEFAULT NULL,
   created_by varchar(255) DEFAULT NULL,
   created_time datetime(6) DEFAULT NULL,
@@ -153,7 +154,7 @@ CREATE TABLE roles (
   foreign key(org_id) references organization(id)
 );
 
-insert into roles (id,org_id,access_codes,description) values (1,1,'ADM-ADM','Admin');
+insert into roles (id,org_id,access_codes,description,title) values (1,1,'ADM-ADM','Admin','Admin');
 
 CREATE TABLE user_roles (
   id bigint PRIMARY KEY  AUTO_INCREMENT ,
@@ -188,6 +189,7 @@ last_updated_by varchar(255) DEFAULT NULL,
 
 create table entity (
 entity_name varchar(100) PRIMARY KEY,
+entity_display varchar(100),
 full_package varchar(255) not null,
 profile_group_code varchar(100),
 active tinyint(1) DEFAULT '1',
@@ -454,7 +456,8 @@ foreign key (profile_code) references profile (profile_code)
 );
 
 create table primary_user_role (
-role_description  varchar(255) primary key,
+title varchar(255) primary key,
+role_description  varchar(255) ,
 profile_code varchar(255) ,
 access_codes blob,
 is_primary tinyint(1),
@@ -470,9 +473,9 @@ insert into profile(profile_code,profile_description,full_profile_code,parent_pr
 
 
 insert into sector_profile(id,sector,profile_code)values ('IT-IT','IT','IT');
-insert into primary_user_role(role_description,profile_code,access_codes,is_primary) values ('Administrator System','IT','ADM-ADM,ASMT-RQST,ASMT-AUD,ASMT-RSLV,ASMT-ADM,LTMMT-ADM,LTMMT-RQLV,LTMMT-APLV,PRJ-ADM,PRJ-LD,PRJ-TM,KNCT-ADM,KNCT-LD,ORCT-ADM,ORCT-RCV',true);
-insert into primary_user_role(role_description,profile_code,access_codes,is_primary) values ('Project Lead','IT','ASMT-RQST,ASMT-AUD,ASMT-RSLV,ASMT-ADM,LTMMT-ADM,LTMMT-RQLV,LTMMT-APLV,PRJ-ADM,PRJ-LD,PRJ-TM,KNCT-ADM,KNCT-LD,ORCT-ADM,ORCT-RCV',false);
-insert into primary_user_role(role_description,profile_code,access_codes,is_primary) values ('Project Member','IT','ASMT-RQST,LTMMT-RQLV,PRJ-TM,KNCT-LD,ORCT-RCV',false);
+insert into primary_user_role(title,role_description,profile_code,access_codes,is_primary) values ('Administrator System','Rights include to do any operation','IT','ADM-ADM,ASMT-RQST,ASMT-AUD,ASMT-RSLV,ASMT-ADM,LTMMT-ADM,LTMMT-RQLV,LTMMT-APLV,PRJ-ADM,PRJ-LD,PRJ-TM,KNCT-ADM,KNCT-LD,ORCT-ADM,ORCT-RCV',true);
+insert into primary_user_role(title,role_description,profile_code,access_codes,is_primary) values ('Project Lead','Rights include to Manage Project and workforce','IT','ASMT-RQST,ASMT-AUD,ASMT-RSLV,ASMT-ADM,LTMMT-ADM,LTMMT-RQLV,LTMMT-APLV,PRJ-ADM,PRJ-LD,PRJ-TM,KNCT-ADM,KNCT-LD,ORCT-ADM,ORCT-RCV',false);
+insert into primary_user_role(title,role_description,profile_code,access_codes,is_primary) values ('Project Member','Rights include basic workflows to create and execute work items and raise tickets','IT','ASMT-RQST,LTMMT-RQLV,PRJ-TM,KNCT-LD,ORCT-RCV',false);
 
 
 
@@ -489,7 +492,6 @@ insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-RLS','Roles','adm','./general/genericaddview.html?entity=Role&mode=Edit','IT_MNU-ADM',2);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-LCT','Locations','adm','./general/genericList.html?entity=Item','IT_MNU-ADM',3);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-USRS','Users','adm','./general/dataImport.html','IT_MNU-ADM',4);
-
 
 
 insert into updateview_metadata(id,profile_code,entity) values ('USPRF','ROOT','UserProfile');

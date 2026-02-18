@@ -38,7 +38,7 @@ public class EntityService {
     List<Entity> entityList = entityRepository.findImportableEnitites();
     for (Entity entity : entityList) {
       result.put(
-          entity.getEntityName(), generalMessages.getMessage(entity.getEntityName(), locale));
+          entity.getEntityName(), generalMessages.getMessage(entity.getEntityDisplay(), locale));
     }
     return result;
   }

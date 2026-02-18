@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 @Table(name = "primary_user_role")
 public class PrimaryUserRole {
 
-  @Id String roleDescription;
+  @Id String title;
+
+  @Column String roleDescription;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "profile_code", referencedColumnName = "profileCode")
@@ -49,5 +51,13 @@ public class PrimaryUserRole {
 
   public void setPrimary(Boolean primary) {
     isPrimary = primary;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 }

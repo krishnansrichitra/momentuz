@@ -10,6 +10,8 @@ public class Entity {
 
   @Id String entityName;
 
+  @Column String entityDisplay;
+
   @Column(name = "full_package", nullable = true)
   String fullPackage;
 
@@ -126,5 +128,13 @@ public class Entity {
 
   public void setSequence(Integer sequence) {
     this.sequence = sequence;
+  }
+
+  public String getEntityDisplay() {
+    return entityDisplay;
+  }
+
+  public void setEntityDisplay(String entityDisplay) {
+    this.entityDisplay = entityDisplay;
   }
 }

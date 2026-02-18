@@ -21,7 +21,8 @@ async function loadMetadata() {
             await renderUpdateViewForm(updateMetData, 'E');
             let jsonContent = await fetchDataByEntityAndId(entity, id);
             let formControl = document.getElementById("genericForm");
-            traverseJson(formControl, jsonContent);
+            if(id!==null)
+                traverseJson(formControl, jsonContent);
         } else if (mode == 'View') {
 
             await renderUpdateViewForm(updateMetData, 'V');
@@ -519,13 +520,15 @@ async function populateSelectOptions(select, param) {
     empty.value = '';
     empty.textContent = 'Select';
     select.appendChild(empty);
+    if (items !== null) {
 
-    Object.entries(items).forEach(([key, label]) => {
-        const opt = document.createElement('option');
-        opt.value = key;
-        opt.textContent = label;
-        select.appendChild(opt);
-    });
+        Object.entries(items).forEach(([key, label]) => {
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = label;
+            select.appendChild(opt);
+        });
+    }
 }
 
 
