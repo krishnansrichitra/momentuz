@@ -48,6 +48,9 @@ server:
 
 # JWT & Security settings (app-specific)
 app:
+  general:
+    erroronmissinglabel:  true
+
   security:
     jwt:
       secret: ThisismySecretKeywhichshouldbemorethanenoughHarakiri1961   # override with env var JWT_SECRET in prod

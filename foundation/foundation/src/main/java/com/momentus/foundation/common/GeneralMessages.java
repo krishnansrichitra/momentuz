@@ -1,6 +1,8 @@
 package com.momentus.foundation.common;
 
+import com.momentus.foundation.common.utils.GeneralConfiguration;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +33,11 @@ public class GeneralMessages {
 
   private final MessageSource messageSource;
 
-  public GeneralMessages(MessageSource messageSource) {
+  private final GeneralConfiguration generalConfiguration;
+
+  public GeneralMessages(MessageSource messageSource, GeneralConfiguration generalConfiguration) {
     this.messageSource = messageSource;
+    this.generalConfiguration = generalConfiguration;
   }
 
   public String getMessage(String errorCode, Locale locale) {
@@ -40,7 +45,10 @@ public class GeneralMessages {
       if (errorCode == null || errorCode.trim().length() == 0) return "";
       else return messageSource.getMessage(errorCode, null, locale);
     } catch (Exception ex) {
-      return errorCode;
+      if (generalConfiguration.getErroronmissinglabel() == false) return errorCode;
+      else
+        throw new MissingResourceException(
+            "Resource Missing", GeneralMessages.class.getName(), errorCode);
     }
   }
 
@@ -49,7 +57,10 @@ public class GeneralMessages {
       if (errorCode == null || errorCode.trim().length() == 0) return "";
       else return messageSource.getMessage(errorCode, args, locale);
     } catch (Exception ex) {
-      return errorCode;
+      if (generalConfiguration.getErroronmissinglabel() == false) return errorCode;
+      else
+        throw new MissingResourceException(
+            "Resource Missing", GeneralMessages.class.getName(), errorCode);
     }
   }
 }
