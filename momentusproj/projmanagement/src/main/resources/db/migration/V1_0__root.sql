@@ -502,20 +502,6 @@ insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visib
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USPRF-CLS','btn btn-secondary','close','onClose',1,'E','USPRF');
 
 
-insert into entity (entity_name,full_package,profile_group_code,created_by,created_time,support_import)
-values ('Role','com.momentus.foundation.accessgroup.model.Role', 'GNL','seed',now(),0);
-
-
-insert into updateview_metadata(id,profile_code,entity,js_file) values ('RLCR','ROOT','Role','role.js');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESC','description','dropdown','selectRole','roles',1,'E','RLCR','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESCBTN','','button','fetchRoles','roles',2,'E','RLCR','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESCTXT','description','txt','roleName',null,3,'E','RLCR','String');
-
-insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('RLCR-SV','btn btn-primary','save','saveRole',1,'E','RLCR');
-
-
-
-
 
 
 

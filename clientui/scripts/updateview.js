@@ -119,13 +119,25 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
                 if (mode != 'V') {
                     const control = renderControl(field);
                     label.classList.add('form-label', 'mb-1');
-                    col.appendChild(label);
+                    if(field.control !== 'button'){
+                      col.appendChild(label);
+                    }else {
+                        const spacer = document.createElement("div");
+                        spacer.className = "field-spacer";
+                        col.appendChild(spacer);
+                    }
                     col.appendChild(control);
                 } else {
                     const control = renderViewControl(field);
                     label.classList.add('form-label', 'mb-1');
                     control.classList.add('form-control');
-                    col.appendChild(label);
+                    if(field.control !== 'button'){
+                      col.appendChild(label);
+                    }else {
+                        const spacer = document.createElement("div");
+                        spacer.className = "field-spacer";
+                        col.appendChild(spacer);
+                    }
                     col.appendChild(control);
                 }
                 row.appendChild(col);
@@ -210,13 +222,26 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
         if (mode != 'V') {
             const control = renderControl(field);
             label.classList.add('form-label', 'mb-1');
-            col.appendChild(label);
+            if(field.control !== 'button'){
+                      col.appendChild(label);
+            }else {
+                const spacer = document.createElement("div");
+                spacer.className = "field-spacer";
+                col.appendChild(spacer);
+            }
+
             col.appendChild(control);
         } else {
             const control = renderViewControl(field);
             label.classList.add('form-label', 'mb-1');
             control.classList.add('form-control');
-            col.appendChild(label);
+            if(field.control !== 'button'){
+                      col.appendChild(label);
+            }else {
+                const spacer = document.createElement("div");
+                spacer.className = "field-spacer";
+                col.appendChild(spacer);
+            }
             col.appendChild(control);
         }
         row.appendChild(col);
@@ -366,9 +391,22 @@ function createTable(field, childFields, mode) {
 function renderControl(field, partofTable=false) {
     let el;
 
+    console.log(field.control);
+    console.log(field.fieldLabel);
     switch (field.control) {
+       
 
-        case 'button';
+        case 'button':
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className ='btn btn-info';
+            btn.textContent = field.fieldLabel;
+            btn.addEventListener('click', () => {
+                window[field.param]?.();
+            });
+            return btn;
+
+
 
 
 
