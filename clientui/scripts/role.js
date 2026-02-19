@@ -97,3 +97,36 @@ async function loadAccessCodes() {
 }
 
 
+async function saveRole() {
+ let formControl = document.getElementById("genericForm");
+ let payload= buildJsonFromForm(formControl);
+ console.log(JSON.stringify(payload, null, 2));
+    console.log('urlPrefix=' + urlPrefix);
+
+    axios.post(
+        urlPrefix + `api/role/create`,
+        payload,
+        {
+        
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+        .then(response => {
+            console.log('Success:', response.data);
+           // window.location.href = './genericList.html?entity=' + entity;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const response = error.response?.data;
+            const apiErrors = new ApiErrorResponse(response);
+            if (apiErrors.hasErrors()) {
+                const messages = apiErrors.getMessages();
+                showErrors(messages);
+            }
+
+        });
+
+    
+}

@@ -302,3 +302,43 @@ function loadScript(src) {
         document.head.appendChild(script);
     });
 }
+
+
+function clearAccessorControls() {
+    let formEl =document.getElementById("genericForm");
+
+    const controls = formEl.querySelectorAll('[data-accessor]');
+
+    controls.forEach(ctrl => {
+
+        // INPUTS
+        if (ctrl instanceof HTMLInputElement) {
+
+            if (ctrl.type === 'checkbox' || ctrl.type === 'radio') {
+                ctrl.checked = false;
+            } else {
+                ctrl.value = '';
+            }
+        }
+
+        // TEXTAREA
+        else if (ctrl instanceof HTMLTextAreaElement) {
+            ctrl.value = '';
+        }
+
+        // SELECT
+        else if (ctrl instanceof HTMLSelectElement) {
+            ctrl.selectedIndex = -1;   // unselect
+        }
+
+        // UL (your multiselect checkboxes)
+        else if (ctrl instanceof HTMLUListElement) {
+            ctrl.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        }
+
+        // OTHER DISPLAY ELEMENTS
+        else {
+            ctrl.textContent = '';
+        }
+    });
+}
