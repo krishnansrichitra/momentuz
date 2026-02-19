@@ -8,6 +8,8 @@ import com.momentus.foundation.finitevalue.model.FiniteValue;
 import com.momentus.foundation.finitevalue.service.FiniteValueService;
 import com.momentus.foundation.generic.service.GenericService;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
+import com.momentus.foundation.product.model.ModuleAccessCodes;
+import com.momentus.foundation.product.repository.ModuleAccessCodeRepository;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -30,6 +32,8 @@ public class LookupService {
 
   @Autowired EntityService entityService;
 
+  @Autowired ModuleAccessCodeRepository moduleAccessCodeRepository;
+
   @Cacheable("finiteValues")
   public Map<String, String> getFValuesforDropDown(String groupCode, Locale locale) {
     Map<String, String> retValues = new LinkedHashMap<>();
@@ -42,6 +46,19 @@ public class LookupService {
       }
     }
     return retValues;
+  }
+
+  public Map<String, String> getAccessCodes() {
+
+    List<ModuleAccessCodes> records = moduleAccessCodeRepository.findAll();
+    if (!CollectionUtils.isEmpty(records)) {
+      return records.stream()
+          .collect(
+              Collectors.toMap(
+                  ModuleAccessCodes::getAccessCode, ModuleAccessCodes::getDescription));
+    } else {
+      return new HashMap<>();
+    }
   }
 
   public Map<Long, String> getRoles(ApplicationContext context) {

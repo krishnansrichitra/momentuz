@@ -474,6 +474,20 @@ function renderControl(field, partofTable=false) {
             el.className = 'form-control';
             break;
 
+       case 'msdropdown':
+           el = document.createElement('div');
+           el.className='dropdown';
+           el.style="position: static; display: block;";
+           let innerul = document.createElement('ul')
+           innerul.id= field.id;
+           innerul.className='dropdown-menu w-100 p-2 show';
+           innerul.style=field.style
+           innerul.dataset.accessor = field.accessor;
+           innerul.dataset.dtype = field.dType;
+           el.appendChild(innerul);
+           console.log('adding sub iuio' +  innerul.id);
+           return el;
+         
         case 'dropdown':
             el = document.createElement('select');
             el.className = 'form-select';

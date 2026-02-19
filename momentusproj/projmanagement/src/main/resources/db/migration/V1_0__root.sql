@@ -413,6 +413,8 @@ alter table list_buttons
         updateview_metadata_id varchar(255),
         data_type varchar(50),
         parent varchar(255),
+        param1 varchar(750),
+        style varchar(255),
         primary key (id)
     ) ;
 

@@ -86,6 +86,8 @@ class UpdateViewField {
     this.visibility = json.visibility;
     this.dType=json.dType;
     this.parent=json.parent;
+    this.param1=json.param1;
+    this.style=json.style;
   }
 
   isVisible(mode) {
