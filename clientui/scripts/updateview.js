@@ -402,6 +402,7 @@ function renderControl(field, partofTable=false) {
             btn.type = 'button';
             btn.className ='btn btn-info';
             btn.textContent = field.fieldLabel;
+            console.log(field.param);
             btn.addEventListener('click', () => {
                 window[field.param]?.();
             });
@@ -710,7 +711,9 @@ function setValueByAccessor(formEl, accessor, value) {
     const normalized = normalizeValueForControl(control, value);
     if (!(control instanceof HTMLInputElement) &&
         !(control instanceof HTMLSelectElement) &&
-        !(control instanceof HTMLTextAreaElement)) {
+        !(control instanceof HTMLTextAreaElement) &&
+        !(control instanceof HTMLUListElement)) {
+
         if (normalized != '') {
             control.textContent = normalized;
         } else {
@@ -722,12 +725,31 @@ function setValueByAccessor(formEl, accessor, value) {
     }
     else if (control.tagName === 'SELECT') {
         control.value = value;
-    }
-    else {
+    } else if (control.tagName === 'UL') {
+        console.log(normalized);
+        applyMultiSelectFromSemicolon(control, normalized);
+
+    } else {
         control.value = normalized;
     }
 }
 
+
+
+function applyMultiSelectFromSemicolon(ulEl, semicolonValue) {
+  // Build a Set of selected values (fast lookup)
+  const selected = new Set(
+    (semicolonValue || "")
+      .split(",")
+      .map(s => s.trim())
+      .filter(s => s.length > 0)
+  );
+  console.log(selected);
+  // Iterate checkboxes under the UL
+  ulEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.checked = selected.has(cb.value);
+  });
+}
 
 function normalizeValueForControl(control, value) {
     if (value == null) return '';

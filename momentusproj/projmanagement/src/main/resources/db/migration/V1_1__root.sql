@@ -3,8 +3,8 @@ values ('Role','Role','com.momentus.foundation.accessgroup.model.Role', 'GNL','s
 
 
 insert into updateview_metadata(id,profile_code,entity,js_file) values ('RLCR','ROOT','Role','../scripts/role.js');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESC','title','dropdown','Select Role','roles',1,'E','RLCR','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-FETBTN','','button','Fetch Roles',null,2,'EV','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESC','','dropdown','Select Role','roles',1,'E','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-FETBTN','','button','Fetch','fetchDetails',2,'EV','RLCR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-BLN1','','blank',null,null,3,'EV','RLCR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-BLN2','','blank',null,null,4,'EV','RLCR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESCTIL','title','txt','Role Title',null,5,'E','RLCR','String');

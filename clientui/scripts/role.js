@@ -3,6 +3,29 @@ console.log('loaded pop.js')
 loadRoles();
 loadAccessCodes();
 
+
+async function fetchDetails() {
+
+   let id=  document.getElementById("RLCR-DESC").value;
+    const url =
+    urlPrefix + "api/generic/getById?entityType=" + encodeURIComponent('Role') + "&id=" + id ;
+    try {
+    const response = await axios.get(url);
+    const jsonContent = response.data;
+    console.log(jsonContent);
+    let formControl = document.getElementById("genericForm");
+    if(id!==null)
+                traverseJson(formControl, jsonContent);
+    //return data;
+
+
+
+    }catch (error) {
+    console.error("Error loading dropdown:", error);
+  }
+    
+}
+
 async function loadRoles() {
 
     const url =
