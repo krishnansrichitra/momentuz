@@ -33,7 +33,7 @@ public class MetadataService {
     if (orgProfile != null) {
       List<ListMetadata> listMetadataList =
           listMetadataRepository.findByProfile_ProfileCodeInAndEntity(
-              Arrays.asList(orgProfile.getProfile().getProfileCode()), entity);
+              getProfileCodes(orgProfile.getProfile().getFullProfileCode()), entity);
       if (!CollectionUtils.isEmpty(listMetadataList)) {
         return metadataDTOHelper.makeListMetadataDTO(
             listMetadataList.get(listMetadataList.size() - 1), locale);

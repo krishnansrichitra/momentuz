@@ -490,10 +490,11 @@ insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MN
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-RPT','Reports & Analytics', 'IT_MNU','PRJ-ADM',6);
 
 
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-ORG','Organization','adm','./general/genericList.html?entity=Supplier','IT_MNU-ADM',1);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-RLS','Roles','adm','./general/genericaddview.html?entity=Role&mode=Edit','IT_MNU-ADM',2);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-LCT','Locations','adm','./general/genericList.html?entity=Item','IT_MNU-ADM',3);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-USRS','Users','adm','./general/dataImport.html','IT_MNU-ADM',4);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-RLS','Roles','adm','./general/genericaddview.html?entity=Role&mode=Edit','IT_MNU-ADM',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-LCT','Divisions','adm','./general/genericList.html?entity=Division','IT_MNU-ADM',2);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-USRS','Users','adm','./general/dataImport.html','IT_MNU-ADM',3);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-DTIMP','Data Import','adm','./general/dataImport.html','IT_MNU-ADM',4);
+
 
 
 insert into updateview_metadata(id,profile_code,entity) values ('USPRF','ROOT','UserProfile');
