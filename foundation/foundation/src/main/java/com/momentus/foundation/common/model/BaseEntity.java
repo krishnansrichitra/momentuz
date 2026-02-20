@@ -125,13 +125,28 @@ public abstract class BaseEntity {
 
   @JsonIgnore
   public String getBKField() {
-    Map<String, Object> result = new HashMap<>();
     Class<?> clazz = this.getClass();
     for (Field field : clazz.getDeclaredFields()) {
       EntityProperties annotation = field.getAnnotation(EntityProperties.class);
       if (annotation != null && annotation.isBK()) {
         return field.getName();
       }
+    }
+    return null;
+  }
+
+  @JsonIgnore
+  public Object getBKValue() {
+    try {
+      Class<?> clazz = this.getClass();
+      for (Field field : clazz.getDeclaredFields()) {
+        EntityProperties annotation = field.getAnnotation(EntityProperties.class);
+        if (annotation != null && annotation.isBK()) {
+          return field.get(this);
+        }
+      }
+    } catch (Exception ex) {
+      return null;
     }
     return null;
   }

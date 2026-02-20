@@ -42,13 +42,21 @@ async function fetchLookupData(lookupKey) {
     }else if(lookupKey.startsWith('fv::')) {
       const fvGroup=lookupKey.substring(4);
       const url =
-    urlPrefix + "api/lookup/fvdropdowns?fvGroup=" + encodeURIComponent(fvGroup);
+       urlPrefix + "api/lookup/fvdropdowns?fvGroup=" + encodeURIComponent(fvGroup);
      const response = await axios.get(url);
       const data = response.data;
     
         return data;
          console.log(data);
 
+
+    }else {
+      const url =
+       urlPrefix + "api/lookup/getObjectValues?entity=" + encodeURIComponent(lookupKey);
+     const response = await axios.get(url);
+      const data = response.data;
+    
+        return data;
 
     }
 

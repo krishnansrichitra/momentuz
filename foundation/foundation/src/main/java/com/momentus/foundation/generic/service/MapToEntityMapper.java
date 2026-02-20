@@ -149,13 +149,17 @@ public class MapToEntityMapper {
             field.set(target, nestedObject);
 
           } else if (nestedObject.getPK() == null
-              && nestedObject.getBK() != null
+              && !StringUtils.isEmpty(nestedObject.getBKValue())
               && OrgBasedEntity.class.isAssignableFrom(nestedObject.getClass())) {
             nestedObject = loadFullObjectByBK((OrgBasedEntity) nestedObject, context);
             if (nestedObject == null) {
               throw new RuntimeException(" object not found ");
             }
             field.set(target, nestedObject);
+          } else if (nestedObject.getPK() == null
+              && StringUtils.isEmpty(nestedObject.getBKValue())) {
+            field.set(target, null);
+            // nestedObject.setParentObject(target);
           } else { // could be a new subobject..not a very common use cae
             field.set(target, nestedObject);
             nestedObject.setParentObject(target);

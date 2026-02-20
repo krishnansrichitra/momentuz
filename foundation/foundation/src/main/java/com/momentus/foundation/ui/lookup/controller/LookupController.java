@@ -55,6 +55,15 @@ public class LookupController {
     return ResponseEntity.ok(result);
   }
 
+  @GetMapping("getObjectValues")
+  public ResponseEntity<Map<Long, Object>> getObjectValues(
+      Authentication authentication, String entity) {
+    log.debug("getting getObjectValues ");
+    ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+    Map<Long, Object> result = lookupService.getDropDownValues(context, entity);
+    return ResponseEntity.ok(result);
+  }
+
   @GetMapping("getRolesDropDown")
   public ResponseEntity<Map<Long, String>> getRolesDropDown(Authentication authentication) {
     log.debug("getting getRolesDropDown ");

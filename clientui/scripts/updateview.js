@@ -64,7 +64,7 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
      const tabContent = document.createElement("div");
     tabContent.className = "tab-content mt-3";
 
-    tabs.forEach((tab, index) => {
+     tabs.forEach(async (tab, index) => {
 
         const tabId = "tab-" + tab.id;
 
@@ -118,7 +118,7 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
                 if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
                     label.textContent = field.fieldLabel + ":";
                 if (mode != 'V') {
-                    const control = renderControl(field);
+                    const control = await renderControl(field);
                     label.classList.add('form-label', 'mb-1');
                     if(field.control !== 'button'){
                       col.appendChild(label);
@@ -129,7 +129,7 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
                     }
                     col.appendChild(control);
                 } else {
-                    const control = renderViewControl(field);
+                    const control = await renderViewControl(field);
                     label.classList.add('form-label', 'mb-1');
                     control.classList.add('form-control');
                     if(field.control !== 'button'){
@@ -221,7 +221,7 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
         if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
             label.textContent = field.fieldLabel + ":";
         if (mode != 'V') {
-            const control = renderControl(field);
+            const control =await  renderControl(field);
             label.classList.add('form-label', 'mb-1');
             if(field.control !== 'button'){
                       col.appendChild(label);
@@ -256,8 +256,8 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     }
 
     // hidden fields
-    hiddenFields.forEach(field => {
-        form.appendChild(renderControl(field));
+    hiddenFields.forEach(async field => {
+        form.appendChild(await renderControl(field));
     });
 
     let hr1 = document.createElement('hr');
@@ -293,7 +293,7 @@ function renderViewControl(field) {
 
 }
 
-function createTable(field, childFields, mode) {
+async function createTable(field, childFields, mode) {
 
     let params = field.param;
     let noCols;
@@ -348,11 +348,11 @@ function createTable(field, childFields, mode) {
             let td = emptyRow.insertCell();
             if (mode != 'V') {
                 console.log(childFields[i].id);
-                let ctrl = renderControl(childFields[i], true);
+                let ctrl =await renderControl(childFields[i], true);
 
                 td.appendChild(ctrl);
             } else {
-                let ctrl = renderViewControl(childFields[i], true);
+                let ctrl = await renderViewControl(childFields[i], true);
                 console.log(ctrl.innerHTML);
                 td.appendChild(ctrl);
             }
@@ -368,7 +368,7 @@ function createTable(field, childFields, mode) {
             const childField = hiddenCtrl.pop();
             if (childField) {
                 console.log('putting hiddent CTRL' + JSON.stringify(childField));
-                let ctrl = renderControl(childField, true);
+                let ctrl = await renderControl(childField, true);
                 td.appendChild(ctrl);
             }
         }
@@ -389,7 +389,7 @@ function createTable(field, childFields, mode) {
 
 }
 
-function renderControl(field, partofTable=false) {
+async function renderControl(field, partofTable=false) {
     let el;
 
     console.log(field.control);
@@ -494,7 +494,7 @@ function renderControl(field, partofTable=false) {
             el.className = 'form-select';
 
             // async lookup
-            populateSelectOptions(el, field.param);
+            await populateSelectOptions(el, field.param);
             break;
 
         case 'hidden':
@@ -544,6 +544,8 @@ async function populateSelectOptions(select, param) {
             select.appendChild(opt);
         });
     }
+
+    console.log('Added options');
 }
 
 
@@ -724,6 +726,7 @@ function setValueByAccessor(formEl, accessor, value) {
         control.checked = Boolean(normalized);
     }
     else if (control.tagName === 'SELECT') {
+        console.log(control.options.length);
         control.value = value;
     } else if (control.tagName === 'UL') {
         console.log(normalized);

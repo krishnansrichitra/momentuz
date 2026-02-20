@@ -1,22 +1,22 @@
 package com.momentus.foundation.organization.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.Address;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "divisions")
 public class Division extends OrgBasedEntity {
 
   @Column(nullable = false)
-  @EntityProperties(isBK = true)
+  @EntityProperties(isUnique = true)
   String divisionCode;
 
   @Column
-  @EntityProperties(isUnique = true)
+  @EntityProperties(isBK = true)
   String title;
 
   @Embedded Address address;
@@ -28,6 +28,11 @@ public class Division extends OrgBasedEntity {
   @Column String secondaryContactName;
 
   @Column String secondaryContactPhone;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "parent_division_id") // nullable = true if root divisions exist
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  private Division parentDivision;
 
   public String getDivisionCode() {
     return divisionCode;
@@ -83,5 +88,35 @@ public class Division extends OrgBasedEntity {
 
   public void setSecondaryContactPhone(String secondaryContactPhone) {
     this.secondaryContactPhone = secondaryContactPhone;
+  }
+
+  public Division getParentDivision() {
+    return parentDivision;
+  }
+
+  public void setParentDivision(Division parentDivision) {
+    this.parentDivision = parentDivision;
+  }
+
+  @Override
+  public Object getPK() {
+    return id;
+  }
+
+  @Override
+  public void setBK(Object object) {
+    setTitle(String.valueOf(object));
+  }
+
+  @Override
+  public Object getBKValue() {
+    return title;
+  }
+
+  @Override
+  public Map<String, Object> getBK() {
+    Map<String, Object> result = new HashMap<>();
+    result.put("title", title);
+    return result;
   }
 }

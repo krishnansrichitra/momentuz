@@ -78,6 +78,32 @@ public class LookupService {
     }
   }
 
+  public Map<Long, Object> getDropDownValues(ApplicationContext context, String entityType) {
+
+    String fullPackage = entityService.getFullPackage(entityType);
+    try {
+      Class<OrgBasedEntity> entityClass = (Class<OrgBasedEntity>) Class.forName(fullPackage);
+      List<OrgBasedEntity> records =
+          (List<OrgBasedEntity>)
+              genericService.listRecords(
+                  new HashMap<String, Object>(),
+                  (Class<? extends OrgBasedEntity>) entityClass,
+                  context,
+                  0,
+                  999,
+                  true);
+      if (!CollectionUtils.isEmpty(records)) {
+        return records.stream()
+            .collect(Collectors.toMap(OrgBasedEntity::getId, OrgBasedEntity::getBKValue));
+      } else {
+        return new HashMap<>();
+      }
+    } catch (Exception e) {
+      log.error("Error while looking up  " + entityType, e);
+      throw new RuntimeException(e);
+    }
+  }
+
   public List<String> getTypeAheadValues(
       ApplicationContext context, String entity, String field, String value) {
     try {
