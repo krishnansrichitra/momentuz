@@ -1,7 +1,9 @@
 package com.momentus.foundation.accessgroup.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.foundation.common.model.BaseEntity;
+import com.momentus.foundation.organization.model.Division;
 import com.momentus.foundation.organization.model.Organization;
 import jakarta.persistence.*;
 import java.util.List;
@@ -40,6 +42,11 @@ public class User extends BaseEntity {
 
   @Column(nullable = true)
   Boolean orgOwner = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "division_id") // nullable = true if root divisions exist
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Division division;
 
   /**
    * Simple roles storage for this example: comma separated (e.g. "ROLE_USER,ROLE_ADMIN") In prod,
@@ -134,4 +141,13 @@ public class User extends BaseEntity {
   public void setOrgOwner(Boolean orgOwner) {
     this.orgOwner = orgOwner;
   }
+
+
+    public Division getDivision() {
+        return division;
+    }
+
+    public void setDivision(Division division) {
+        this.division = division;
+    }
 }

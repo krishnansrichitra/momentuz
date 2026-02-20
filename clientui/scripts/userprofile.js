@@ -30,18 +30,18 @@ async function renderPasswordUpdateForm(metadata, mode = 'E') {
         .filter(f => f.isVisible(mode) && !f.isHidden());
     let row = createRow();
     let colCount = 0;
-    visibleFields.forEach(field => {
+    await visibleFields.forEach(async field => {
         row = createRow();
         colCount = 0;
         const col = document.createElement('div');
-        col.className = 'col-lg-3 col-md-6 col-sm-12';
+        col.className = 'col-lg-9 col-md-9 col-sm-12';
 
         const label = document.createElement('label');
         label.className = 'form-label';
         label.textContent = field.fieldLabel + ":";
         let ctrDiv = document.createElement("div");
         ctrDiv.className="input-group";
-        const control = renderControl(field);
+        const control = await renderControl(field);
         label.classList.add('form-label', 'mb-1');
         let spanCtrl = document.createElement('span');
         spanCtrl.className = 'input-group-text';
