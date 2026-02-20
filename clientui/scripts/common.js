@@ -137,6 +137,11 @@ function buildJsonFromForm(formEl) {
               // getControl and apply dataType
               //return ; 
 
+        }else if (control.tagName === "UL") {
+            let typedValue =  getCheckedValuesAsCSV(control);
+            setNestedValue(result, accessor, typedValue);
+            return;
+    
         }
         
         if (control.dataset.subobject !== undefined && control.dataset.subobject  === 'true'){
@@ -155,6 +160,14 @@ function buildJsonFromForm(formEl) {
     return result;
 }
 
+
+function getCheckedValuesAsCSV(ulEl) {
+    return Array.from(
+        ulEl.querySelectorAll('input[type="checkbox"]:checked')
+    )
+    .map(cb => cb.value)
+    .join(',');
+}
 function applyDataType(control, value) {
     const dtype = control.dataset.dtype;
 
@@ -238,7 +251,7 @@ function showSuccessMessage(messages) {
 
     spanMessage.innerHTML = `
         <ul class="mb-0 ps-3">
-            ${messages.map(m => `<li>${m}</li>`).join('')}
+            ${messages.map(m => `<li style='color:blue'> ${m}</li>`).join('')}
         </ul>
     `;
     container.style.display = 'block';
@@ -251,7 +264,7 @@ function showErrors(messages) {
 
     span.innerHTML = `
         <ul class="ps-3 mb-0">
-            ${messages.map(m => `<li>${m}</li>`).join('')}
+            ${messages.map(m => `<li style='color:red' >${m}</li>`).join('')}
         </ul>
     `;
     container.style.display = 'block';

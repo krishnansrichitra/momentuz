@@ -115,6 +115,7 @@ async function saveRole() {
     )
         .then(response => {
             console.log('Success:', response.data);
+            showSuccessMessage(response.data.Messages);
            // window.location.href = './genericList.html?entity=' + entity;
         })
         .catch(error => {
