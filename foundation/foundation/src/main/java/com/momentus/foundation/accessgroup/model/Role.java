@@ -56,4 +56,9 @@ public class Role extends OrgBasedEntity {
   public String getBKField() {
     return "title";
   }
+
+  @Override
+  public Object getBKValue() {
+    return title;
+  }
 }
