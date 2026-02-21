@@ -47,8 +47,8 @@ async function loadMetadata() {
     }
 }
 
-function getChildren(currentField, allFields) {
-    let childArr = allFields.filter(field => field.parent === currentField.id);
+function getChildren(currentField, allFields,mode) {
+    let childArr = allFields.filter(field => field.parent === currentField.id  && field.isVisible(mode)  );
     //console.log('childArr=' + JSON.stringify(childArr));
     return childArr;
 
@@ -91,7 +91,7 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
 
         // placeholder content (you will fill dynamically later)
        // pane.innerHTML = `<div class="p-2">Content for ${tab.fieldLabel}</div>`;
-        let childFields = getChildren(tab, visibleFields);
+        let childFields = getChildren(tab, visibleFields,mode);
         let row = createRow();
         let colCount = 0;
         for (let field of childFields) {
@@ -104,8 +104,9 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
                 console.log('creating table inside Tab');
                 const col = document.createElement('div');
                 col.className = 'col-lg-12 col-md-12 col-sm-12';
-                let childFields = getChildren(field, visibleFields);
-                const control = createTable(field, childFields, mode);
+                let childFields = getChildren(field, visibleFields,mode);
+                const control = await createTable(field, childFields, mode);
+              //  console.log(typeof(control));
                 col.appendChild(control);
                 pane.append(col);
                 continue;
@@ -190,7 +191,7 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             }
             const col = document.createElement('div');
             col.className = 'col-lg-12 col-md-12 col-sm-12';
-             let childFields = getChildren(field, metadata.updateViewFields);
+             let childFields = getChildren(field, metadata.updateViewFields,mode);
              drawTabsAndChildren(col,field,childFields ,metadata.updateViewFields,mode);
             colCount = 4;
             console.log('tabset =' + col);
@@ -206,7 +207,7 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             }
             const col = document.createElement('div');
             col.className = 'col-lg-12 col-md-12 col-sm-12';
-            let childFields = getChildren(field, metadata.updateViewFields);
+            let childFields = getChildren(field, metadata.updateViewFields,mode);
             const control = createTable(field, childFields, mode);
             colCount = 4;
             console.log('table =' + control);
@@ -315,10 +316,9 @@ async function createTable(field, childFields, mode) {
         }
     });
 
-
     let table = document.createElement("table");
     table.id = field.id;
-    table.className = "table table-bordered table-striped"; // optional bootstrap styling
+    table.className = "table table-bordered table-striped custom-table"; // optional bootstrap styling
     table.dataset.accessor = field.accessor;
     let thead = table.createTHead();
     let headerRow = thead.insertRow();
@@ -346,10 +346,9 @@ async function createTable(field, childFields, mode) {
         console.log(JSON.stringify(childFields[i]));
         if (childFields[i].control !== 'hidden') {
             let td = emptyRow.insertCell();
+            console.log(mode);
             if (mode != 'V') {
-                console.log(childFields[i].id);
                 let ctrl =await renderControl(childFields[i], true);
-
                 td.appendChild(ctrl);
             } else {
                 let ctrl = await renderViewControl(childFields[i], true);
@@ -392,8 +391,6 @@ async function createTable(field, childFields, mode) {
 async function renderControl(field, partofTable=false) {
     let el;
 
-    console.log(field.control);
-    console.log(field.fieldLabel);
     switch (field.control) {
        
 

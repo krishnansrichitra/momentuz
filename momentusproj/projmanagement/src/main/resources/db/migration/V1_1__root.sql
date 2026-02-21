@@ -35,8 +35,15 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-FNAME','firstName','text','First Name',null,2,'AEV','USR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-LNAME','lastName','text','Last Name',null,3,'AEV','USR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-PHN','phone','text','Phone',null,4,'AEV','USR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-PRNTDIVID','division.id','dropdown','Division','Division',5.1,'AE','USR','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-PRNTDIVTT','division.title','text','Division',null,5.2,'V','USR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-tabset','','tabset','',null,7,'AEV','USR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-TBAC','','tab','Access',null,8,'AEV','USR','List','USR-tabset');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('USR-RLS','userRoles','msdropdown','Roles','Roles',9,'AEV','USR','String','USR-TBAC','position: static; display: block; max-height: 250px; min-width: 600px; overflow-y: auto;');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-ACCLIN','userRoles','table','Roles','cols=1;colTitles=["Role"];colWidth=["25"];',9,'AEV','USR','String','USR-TBAC');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-ACCLIN-RL','userRoles.role.id','dropdown','Role','Role',10,'AE','USR','Numeric','USR-ACCLIN');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-ACCLIN-RLTX','userRoles.role.title','text','Role','Role',11,'V','USR','String','USR-ACCLIN');
+
+
 
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-CRTDBY','createdBy','hidden','Created By',null,100,'V','USR','String');
@@ -50,7 +57,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 
 
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-SAVE','btn btn-primary','Save','onUserSave',1,'AE','USR');
-insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-EDT','btn btn-info','Edit','onUserEdit',2,'V','USR');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-EDT','btn btn-info','Edit','onEditMode',2,'V','USR');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-CNCL','btn btn-secondary','Cancel','onCancel',3,'AEV','USR');
 
 insert into list_metadata(id,profile_code,entity) values('DIVS','ROOT','Division');

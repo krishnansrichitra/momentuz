@@ -68,12 +68,13 @@ public class UserDTOHelper {
               user.getDivision().getDivisionCode());
 
     List<UserRoleDTO> userRolesList = new ArrayList<>();
-    if (CollectionUtils.isEmpty(user.getUserRoles())) {
+    if (!CollectionUtils.isEmpty(user.getUserRoles())) {
       for (UserRoles userRoles : user.getUserRoles()) {
         UserRoleDTO userRoleDTO =
             new UserRoleDTO(
                 user.getUserId(),
                 new RoleDTO(userRoles.getRole().getId(), userRoles.getRole().getTitle()));
+        userRolesList.add(userRoleDTO);
       }
     }
 

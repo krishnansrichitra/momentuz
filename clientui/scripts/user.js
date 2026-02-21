@@ -16,6 +16,7 @@ async function loadUserMetadata() {
 
             await renderUpdateViewForm(updateMetData, 'E');
             let jsonContent = await fetchUserDataById( id);
+             console.log(jsonContent);
             let formControl = document.getElementById("genericForm");
             if(id!==null)
                 traverseJson(formControl, jsonContent);
@@ -26,7 +27,6 @@ async function loadUserMetadata() {
             let formControl = document.getElementById("genericForm");
             traverseJson(formControl, jsonContent);
         }
-        console.log(updateMetData.jsFile );
         if (updateMetData.jsFile !== null) {
             const fileName = updateMetData.jsFile;
             console.log(fileName);

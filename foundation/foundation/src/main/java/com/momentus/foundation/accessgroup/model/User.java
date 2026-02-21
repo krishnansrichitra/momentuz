@@ -1,6 +1,5 @@
 package com.momentus.foundation.accessgroup.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.organization.model.Division;
@@ -30,8 +29,11 @@ public class User extends BaseEntity {
   @Column(nullable = false)
   private String email;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-  @JsonIgnore
+  @OneToMany(
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      mappedBy = "user")
   List<UserRoles> userRoles;
 
   @Column(nullable = false)
