@@ -72,8 +72,10 @@ public class UserDTOHelper {
       for (UserRoles userRoles : user.getUserRoles()) {
         UserRoleDTO userRoleDTO =
             new UserRoleDTO(
+                userRoles.getId(),
                 user.getUserId(),
-                new RoleDTO(userRoles.getRole().getId(), userRoles.getRole().getTitle()));
+                new RoleDTO(userRoles.getRole().getId(), userRoles.getRole().getTitle()),
+                userRoles.getVersion());
         userRolesList.add(userRoleDTO);
       }
     }

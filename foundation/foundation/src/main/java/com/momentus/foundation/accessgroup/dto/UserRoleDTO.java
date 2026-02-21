@@ -2,9 +2,13 @@ package com.momentus.foundation.accessgroup.dto;
 
 public class UserRoleDTO {
 
+  Long id;
+
   String userId;
 
   RoleDTO role;
+
+  Long version;
 
   public String getUserId() {
     return userId;
@@ -24,8 +28,26 @@ public class UserRoleDTO {
 
   public UserRoleDTO() {}
 
-  public UserRoleDTO(String userId, RoleDTO role) {
+  public UserRoleDTO(Long id, String userId, RoleDTO role, Long version) {
+    this.id = id;
     this.userId = userId;
     this.role = role;
+    this.version = version;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Long getVersion() {
+    return version;
+  }
+
+  public void setVersion(Long version) {
+    this.version = version;
   }
 }

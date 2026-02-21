@@ -38,10 +38,13 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-PRNTDIVID','division.id','dropdown','Division','Division',5.1,'AE','USR','Numeric');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-PRNTDIVTT','division.title','text','Division',null,5.2,'V','USR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-tabset','','tabset','',null,7,'AEV','USR','String');
+
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-TBAC','','tab','Access',null,8,'AEV','USR','List','USR-tabset');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-ACCLIN','userRoles','table','Roles','cols=1;colTitles=["Role"];colWidth=["25"];',9,'AEV','USR','String','USR-TBAC');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-ACCLIN-RL','userRoles.role.id','dropdown','Role','Role',10,'AE','USR','Numeric','USR-ACCLIN');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-ACCLIN-RLTX','userRoles.role.title','text','Role','Role',11,'V','USR','String','USR-ACCLIN');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-ACCLIN-ID','userRoles.id','hidden','Id',null,12,'AEV','USR','Numeric','USR-ACCLIN');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('USR-ACCLIN-version','userRoles.version','hidden','Version',null,13,'AEV','USR','Numeric','USR-ACCLIN');
 
 
 
