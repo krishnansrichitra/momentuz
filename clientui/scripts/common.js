@@ -303,6 +303,7 @@ async function fetchDataByEntityAndId(entity, id)
     urlPrefix + "api/generic/getById?entityType=" + encodeURIComponent(entity) + "&id=" + id ;
     try {
     const response = await axios.get(url);
+    console.log(response);
     const data = response.data;
     return data;
     }catch (error) {

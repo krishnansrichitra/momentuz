@@ -154,6 +154,18 @@ async function loadMetadata() {
 
         const fullData = await loadData(0);   // ✅ works
         console.log("fullData =", fullData);
+
+        if (listMetadata.jsFile !== null) {
+            const fileName = listMetadata.jsFile;
+            console.log(fileName);
+            loadScript(fileName)
+                .then(() => {
+                    console.log("Script loaded");
+                    // you can safely call functions from the loaded file here
+                })
+                .catch(err => console.error(err));
+        }
+
         listColumns = listMetadata.listColumns;
         renderListTitles(
             listColumns,
@@ -176,8 +188,10 @@ function renderButtons(listButtons, containerId) {
     listButtons.forEach(lButton => {
         let btn = document.createElement("button");
         btn.className = lButton.buttonClass;
-        btn.addEventListener(
-            "click", window[lButton.jsMethod]);
+        console.log(lButton.jsMethod);
+        btn.addEventListener('click', () => {
+                window[lButton.jsMethod]?.();
+            });
         btn.innerHTML = lButton.innerText
         container.appendChild(btn);
     });
@@ -208,9 +222,13 @@ function renderListTitles(listColumns, containerId, fullData) {
     fullData.forEach(rowData => {
         const trowContent = document.createElement("tr");
         let innerrow = '';
-        if (rowData['deleted'] == false)
-            innerrow += '<td width="5%"><input type="checkbox" class="row-check"  id="chkId" data-id="' + rowData['id'] + '" class="form-check-input"></td>';
-        else
+        if (rowData['deleted'] == false){
+            let pk =   rowData['id'];
+            if ((pk === undefined || pk === null || pk === '' ) && rowData['userId'] !== '' ){
+                    pk = rowData['userId'];
+            }
+            innerrow += '<td width="5%"><input type="checkbox" class="row-check"  id="chkId" data-id="' + pk + '" class="form-check-input"></td>';
+        }else
             innerrow += '<td width="5%"><i class="bi bi-slash-circle text-danger"></i></td>';
         listColumns.forEach(field => {
             const value = getValueByAccessor(rowData, field.accessor);
@@ -460,7 +478,7 @@ function onCreate() {
 
 }
 function onView() {
-    console.log("Edit clicked");
+    
 
     const selectedIds = [...document.querySelectorAll('.row-check:checked')]
         .map(cb => Number(cb.dataset.id));
@@ -479,7 +497,7 @@ function onView() {
 
 
 function onEdit() {
-    console.log("Edit clicked");
+
 
     const selectedIds = [...document.querySelectorAll('.row-check:checked')]
         .map(cb => Number(cb.dataset.id));

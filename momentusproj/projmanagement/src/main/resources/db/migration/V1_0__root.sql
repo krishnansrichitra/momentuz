@@ -332,6 +332,7 @@ create table list_metadata (
         profile_code varchar(255),
         description varchar(255),
         entity varchar(255),
+        js_file varchar(255),
         primary key (id)
     ) ;
 

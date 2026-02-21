@@ -1,6 +1,7 @@
 class ListMetadata {
-  constructor({ entity, filterFields = [], listColumns = [], listButtons=[] } = {}) {
+  constructor({ entity, filterFields = [], jsFile,listColumns = [], listButtons=[] } = {}) {
     this.entity = entity;
+    this.jsFile=jsFile;
     this.filterFields = filterFields.map(f => new FilterField(f));
     this.listColumns = listColumns.map(c => new ListColumn(c));
     this.listButtons = listButtons.map(b => new ListButton(b) );

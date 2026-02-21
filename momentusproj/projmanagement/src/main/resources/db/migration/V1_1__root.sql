@@ -9,7 +9,7 @@ insert into entity (entity_name,entity_display,full_package,profile_group_code,c
 values ('User','User','com.momentus.foundation.accessgroup.model.User', 'GNL','seed',now(),0);
 
 
-insert into list_metadata(id,profile_code,entity) values('USR','ROOT','User');
+insert into list_metadata(id,profile_code,entity,js_file) values('USR','ROOT','User','../scripts/user.js');
 insert into updateview_metadata(id,profile_code,entity,js_file) values ('USR','ROOT','User','../scripts/user.js');
 
 insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('USR-USID','USR','Email','text','userId',1);
@@ -24,10 +24,10 @@ insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values (
 insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('USR-DIV','USR','Division','division.title',5);
 
 
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('USR-CRT','btn btn-primary','Create','onCreate','USR',1);
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('USR-VIEW','btn btn-info','View','onView','USR',2);
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('USR-EDT','btn btn-warning','Edit','onEdit','USR',3);
-insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('USR-DEL','btn btn-danger','Delete','onDelete','USR',4);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('USR-CRT','btn btn-primary','Create','onUserCreate','USR',1);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('USR-VIEW','btn btn-info','View','onUserView','USR',2);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('USR-EDT','btn btn-warning','Edit','onUserEdit','USR',3);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('USR-DEL','btn btn-danger','Delete','onUserDelete','USR',4);
 insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('USR-EXP','btn btn-success','Export','onExport','USR',5);
 
 
@@ -39,18 +39,18 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('USR-RLS','userRoles','msdropdown','Roles','Roles',9,'AEV','USR','String','USR-TBAC','position: static; display: block; max-height: 250px; min-width: 600px; overflow-y: auto;');
 
 
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-CRTDBY','createdBy','text','Created By',null,100,'V','USR','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-CRTDDT','createdTime','text','Created Time',null,101,'V','USR','DateTime');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-LSUPBY','lastUpdatedBy','text','Last Updated By',null,102,'V','USR','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-LSUPDT','lastUpdatedTime','text','Last Updated Time',null,103,'V','USR','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-CRTDBY','createdBy','hidden','Created By',null,100,'V','USR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-CRTDDT','createdTime','hidden','Created Time',null,101,'V','USR','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-LSUPBY','lastUpdatedBy','hidden','Last Updated By',null,102,'V','USR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-LSUPDT','lastUpdatedTime','hidden','Last Updated Time',null,103,'V','USR','DateTime');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USR-VERSION','version','hidden','Version',null,104,'AEV','USR','Numeric');
 
 
 
 
 
-insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-SAVE','btn btn-primary','Save','onSave',1,'AE','USR');
-insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-EDT','btn btn-info','Edit','onEdit',2,'V','USR');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-SAVE','btn btn-primary','Save','onUserSave',1,'AE','USR');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-EDT','btn btn-info','Edit','onUserEdit',2,'V','USR');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-CNCL','btn btn-secondary','Cancel','onCancel',3,'AEV','USR');
 
 insert into list_metadata(id,profile_code,entity) values('DIVS','ROOT','Division');

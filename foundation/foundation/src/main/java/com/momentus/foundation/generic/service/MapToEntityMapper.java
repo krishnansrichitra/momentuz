@@ -100,6 +100,25 @@ public class MapToEntityMapper {
     return entity;
   }
 
+  public BaseEntity loadObjectFromDB(BaseEntity source, ApplicationContext context) {
+    if (source.getPK() != null && source.getVersion() == null) {
+      source = loadFullObject(source);
+      if (source == null) {
+        throw new RuntimeException(" object not found ");
+      }
+      return source;
+    } else if (source.getPK() == null
+        && !StringUtils.isEmpty(source.getBKValue())
+        && OrgBasedEntity.class.isAssignableFrom(source.getClass())) {
+      source = loadFullObjectByBK((OrgBasedEntity) source, context);
+      if (source == null) {
+        throw new RuntimeException(" object not found ");
+      }
+      return source;
+    }
+    return null;
+  }
+
   public void populateFromMap(
       Map<String, Object> source, BaseEntity target, ApplicationContext context) {
     if (source == null || target == null) return;

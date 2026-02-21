@@ -30,6 +30,8 @@ public class ListMetadata extends ProfileBasedEntity {
 
   @Column String entity;
 
+  @Column String jsFile;
+
   public String getDescription() {
     return description;
   }
@@ -82,5 +84,13 @@ public class ListMetadata extends ProfileBasedEntity {
   @JsonIgnore
   public Object getPK() {
     return id;
+  }
+
+  public String getJsFile() {
+    return jsFile;
+  }
+
+  public void setJsFile(String jsFile) {
+    this.jsFile = jsFile;
   }
 }

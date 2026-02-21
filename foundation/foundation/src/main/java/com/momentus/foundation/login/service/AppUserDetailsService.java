@@ -1,10 +1,12 @@
 package com.momentus.foundation.login.service;
 
 import com.momentus.corefw.auth.PasswordGenerator;
+import com.momentus.foundation.accessgroup.dto.UserDTO;
 import com.momentus.foundation.accessgroup.model.Role;
 import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.accessgroup.model.UserRoles;
 import com.momentus.foundation.accessgroup.repository.UserRepository;
+import com.momentus.foundation.accessgroup.service.UserDTOHelper;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.MomentusError;
@@ -41,6 +43,8 @@ public class AppUserDetailsService implements UserDetailsService {
   private static final Logger log = LoggerFactory.getLogger(AppUserDetailsService.class);
 
   @Autowired GeneralMessages generalMessages;
+
+  @Autowired UserDTOHelper userDTOHelper;
 
   public AppUserDetailsService(PasswordEncoder passwordEncoder, EmailProperties emailProperties) {
     this.passwordEncoder = passwordEncoder;
@@ -95,15 +99,35 @@ public class AppUserDetailsService implements UserDetailsService {
     return result;
   }
 
+  public UserDTO getUserFromId(String userId, ApplicationContext context) {
+    User user = users.findByUserId(userId).orElse(null);
+    if (user != null && user.getOrgId().getId() == context.getOrganization().getId()) {
+      UserDTO userDTO = userDTOHelper.makeDTOFromUser(user, context);
+      return userDTO;
+    } else {
+      return null;
+    }
+  }
+
   public TransactionResponse createUser(Map<String, Object> userMap, ApplicationContext context) {
     User user = new User();
+    String userId = (String) userMap.get("userId");
+    User existingUser = users.findByUserId(userId).orElse(null);
+    if (existingUser == null) {
+      mapToEntityMapper.populateFromMap(userMap, user, context);
+      user.setEmail(user.getUserId());
+      user.setPassword(makePasswordForPrimaryUser(user.getEmail()));
+      user.setOrgId(context.getOrganization());
+      user.setCreatedBy(context.getLoggedInUser());
+      user.setCreatedTime(LocalDateTime.now());
+      users.save(user);
+    } else {
+      mapToEntityMapper.populateFromMap(userMap, existingUser, context);
+      existingUser.setLastUpdatedBy(context.getLoggedInUser());
+      existingUser.setLastUpdatedTime(LocalDateTime.now());
+      users.save(existingUser);
+    }
 
-    mapToEntityMapper.populateFromMap(userMap, user, context);
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-    //   user.setOrgId(context.getOrganization());
-    user.setCreatedBy(context.getLoggedInUser());
-    user.setCreatedTime(LocalDateTime.now());
-    users.save(user);
     return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
   }
 

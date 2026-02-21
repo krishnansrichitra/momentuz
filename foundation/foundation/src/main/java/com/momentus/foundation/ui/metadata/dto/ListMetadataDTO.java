@@ -13,6 +13,8 @@ public class ListMetadataDTO {
 
   List<ListButtonDTO> listButtons = new ArrayList();
 
+  String jsFile;
+
   public String getEntity() {
     return entity;
   }
@@ -46,6 +48,14 @@ public class ListMetadataDTO {
   }
 
   public ListMetadataDTO() {}
+
+  public String getJsFile() {
+    return jsFile;
+  }
+
+  public void setJsFile(String jsFile) {
+    this.jsFile = jsFile;
+  }
 
   public ListMetadataDTO(
       String entity, List<FilterFieldDTO> filterFields, List<ListColumnDTO> listColumns) {

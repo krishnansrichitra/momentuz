@@ -675,7 +675,7 @@ function getByPath(obj, path) {
 
 
 function traverseJson(formEl, obj, prefix = '') {
-    Object.entries(obj).forEach(([key, value]) => {
+    Object.entries(obj || {}).forEach(([key, value]) => {
         const path = prefix ? `${prefix}.${key}` : key;
 
         if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
@@ -685,8 +685,8 @@ function traverseJson(formEl, obj, prefix = '') {
                 console.log('can be an array' + path + " and " + value.length);
                 
                 let tabl = formEl.querySelector(`[data-accessor="${path}"]`);
-                if (value.length === 0 ){
-                    console.log('table lenght = ' + tabl.rows.length );
+                if (value.length === 0 || tabl == null){
+                   // console.log('table lenght = ' + tabl.rows.length );
                     return;
                 }
                 for (let i = 0; i < value.length; i++) {

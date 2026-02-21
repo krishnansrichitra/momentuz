@@ -67,6 +67,7 @@ public class MetadataDTOHelper {
     ListMetadataDTO listMetadataDTO = new ListMetadataDTO();
     if (listMetadata != null) {
       listMetadataDTO.setEntity(listMetadata.getEntity());
+      listMetadataDTO.setJsFile(listMetadata.getJsFile());
       if (!CollectionUtils.isEmpty(listMetadata.getListColumns())) {
         List<ListColumnDTO> listColumnDTOS = new ArrayList<>();
         for (ListColumn listColumn : listMetadata.getListColumns()) {

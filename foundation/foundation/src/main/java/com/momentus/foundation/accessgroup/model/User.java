@@ -43,10 +43,10 @@ public class User extends BaseEntity {
   @Column(nullable = true)
   Boolean orgOwner = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "division_id") // nullable = true if root divisions exist
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Division division;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "division_id") // nullable = true if root divisions exist
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  private Division division;
 
   /**
    * Simple roles storage for this example: comma separated (e.g. "ROLE_USER,ROLE_ADMIN") In prod,
@@ -142,12 +142,11 @@ public class User extends BaseEntity {
     this.orgOwner = orgOwner;
   }
 
+  public Division getDivision() {
+    return division;
+  }
 
-    public Division getDivision() {
-        return division;
-    }
-
-    public void setDivision(Division division) {
-        this.division = division;
-    }
+  public void setDivision(Division division) {
+    this.division = division;
+  }
 }

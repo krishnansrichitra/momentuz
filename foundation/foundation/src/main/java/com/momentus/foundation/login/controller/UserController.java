@@ -1,5 +1,6 @@
 package com.momentus.foundation.login.controller;
 
+import com.momentus.foundation.accessgroup.dto.UserDTO;
 import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
@@ -30,6 +31,30 @@ public class UserController {
   @Autowired GeneralMessages generalMessages;
 
   private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
+  @GetMapping("/getByUserId")
+  public ResponseEntity<UserDTO> getUserById(
+      @RequestParam String userId, Authentication authentication) {
+
+    ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
+    try {
+      UserDTO entity = appUserDetailsService.getUserFromId(userId, context);
+      log.info("retreiving User ");
+      return ResponseEntity.ok(entity);
+    } catch (Exception ex) {
+      Map<String, Object> mp = new HashMap<>();
+      List<MomentusError> errors = new ArrayList<>();
+      MomentusError momentusError =
+          new MomentusError(
+              GeneralMessages.UNIDIENTIFABLE_ERROR,
+              generalMessages.getMessage(
+                  GeneralMessages.UNIDIENTIFABLE_ERROR, context.getLocale()));
+      errors.add(momentusError);
+      mp.put("errors", errors);
+      throw new RuntimeException();
+      // return ResponseEntity.badRequest().body(null);
+    }
+  }
 
   @PostMapping("/create")
   public ResponseEntity<Map<String, Object>> createEntity(
