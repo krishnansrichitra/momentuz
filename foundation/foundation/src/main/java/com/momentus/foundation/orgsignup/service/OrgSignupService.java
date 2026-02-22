@@ -162,7 +162,7 @@ public class OrgSignupService {
       user.setPassword(
           appUserDetailsService.makePasswordForPrimaryUser(orgSignupDTO.getPrimaryUserEmail()));
       user.setUserId(orgSignupDTO.getPrimaryUserEmail());
-      userRepository.save(user);
+
       context.setOrganization(organization);
       context.setLocale(Locale.US);
       context.setLoggedInUser(user.getUserId());
@@ -183,9 +183,12 @@ public class OrgSignupService {
               role = (Role) genericService.findByBusinessKey(role.getBK(), Role.class, context);
               userRoles.setUser(user);
               userRoles.setRole(role);
-              userRoles.setOrgId(organization);
-              genericService.saveEntity(userRoles, context);
+              List<UserRoles> userRolesList = new ArrayList<>();
+              userRolesList.add(userRoles);
+              user.setUserRoles(userRolesList);
             }
+
+            userRepository.save(user);
           }
         }
       }

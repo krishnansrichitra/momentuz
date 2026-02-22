@@ -19,4 +19,14 @@ public class ProfileBasedEntity extends BaseEntity {
   public void setProfile(Profile profile) {
     this.profile = profile;
   }
+
+  @Column Integer profileLevel;
+
+  public Integer getProfileLevel() {
+    return profileLevel;
+  }
+
+  public void setProfileLevel(Integer profileLevel) {
+    this.profileLevel = profileLevel;
+  }
 }

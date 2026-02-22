@@ -9,8 +9,8 @@ insert into entity (entity_name,entity_display,full_package,profile_group_code,c
 values ('User','User','com.momentus.foundation.accessgroup.model.User', 'GNL','seed',now(),0);
 
 
-insert into list_metadata(id,profile_code,entity,js_file) values('USR','ROOT','User','../scripts/user.js');
-insert into updateview_metadata(id,profile_code,entity,js_file) values ('USR','ROOT','User','../scripts/user.js');
+insert into list_metadata(id,profile_code,entity,js_file,profile_level) values('USR','ROOT','User','../scripts/user.js',1);
+insert into updateview_metadata(id,profile_code,entity,js_file,profile_level) values ('USR','ROOT','User','../scripts/user.js',1);
 
 insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('USR-USID','USR','Email','text','userId',1);
 insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('USR-FNAME','USR','First Name','text','firstName',2);
@@ -63,8 +63,8 @@ insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visib
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-EDT','btn btn-info','Edit','onEditMode',2,'V','USR');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USR-CNCL','btn btn-secondary','Cancel','onCancel',3,'AEV','USR');
 
-insert into list_metadata(id,profile_code,entity) values('DIVS','ROOT','Division');
-insert into updateview_metadata(id,profile_code,entity) values ('DIVS','ROOT','Division');
+insert into list_metadata(id,profile_code,entity,profile_level) values('DIVS','ROOT','Division',1);
+insert into updateview_metadata(id,profile_code,entity,profile_level) values ('DIVS','ROOT','Division',1);
 
 insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('DIVS-NAME','DIVS','Division Code','text','divisionCode',1);
 insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('DIVS-PHONE','DIVS','Phone Number','text','address["phoneNumber"]',2);

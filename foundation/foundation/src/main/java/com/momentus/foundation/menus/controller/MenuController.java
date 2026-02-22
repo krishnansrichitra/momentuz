@@ -4,7 +4,9 @@ import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.context.ApplicationContextHelper;
 import com.momentus.foundation.menus.dto.MenuDTOHelper;
 import com.momentus.foundation.menus.dto.MenuSetDTO;
+import com.momentus.foundation.menus.model.MenuSet;
 import com.momentus.foundation.menus.service.MenuService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,7 +27,8 @@ public class MenuController {
   @GetMapping("/getMenus")
   public ResponseEntity<MenuSetDTO> getMenus(Authentication authentication) {
     ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
-    MenuSetDTO set = menuService.getMenuSet(context.getOrganization().getId(), context.getLocale());
+    List<MenuSet> menuSetList = menuService.getMenuSetList(context.getOrganization().getId());
+    MenuSetDTO set = menuService.getMenuSet(menuSetList, context);
     return ResponseEntity.ok(set);
   }
 }

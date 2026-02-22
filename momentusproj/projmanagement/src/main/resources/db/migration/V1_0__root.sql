@@ -159,8 +159,7 @@ insert into roles (id,org_id,access_codes,description,title) values (1,1,'ADM-AD
 CREATE TABLE user_roles (
   id bigint PRIMARY KEY  AUTO_INCREMENT ,
   role_id bigint NOT NULL,
-  org_id bigint NOT NULL,
-  user_id varchar(255) NOT NULL,
+  user_id varchar(255) ,
   created_by varchar(255) DEFAULT NULL,
   created_time datetime(6) DEFAULT NULL,
   deleted tinyint(1) DEFAULT '0',
@@ -168,11 +167,10 @@ CREATE TABLE user_roles (
   last_updated_time datetime(6) DEFAULT NULL,
    version bigint DEFAULT 0,
   foreign key (role_id) references roles (id),
-  foreign key (user_id) references users(user_id),
-  foreign key(org_id) references organization(id)
+  foreign key (user_id) references users(user_id)
 );
 
-insert into user_roles(id,org_id,role_id,user_id) values (1,1,1,'admin@momentuz.com');
+insert into user_roles(id,role_id,user_id) values (1,1,'admin@momentuz.com');
 
 create table profile_group(
 profile_group_code varchar(100) primary key,
@@ -262,6 +260,7 @@ create table nextup_config(
  reset_seq_per_day tinyint(1),
  prefix varchar(20),
  sequence_width Numeric(3),
+ profile_level numeric(4),
  foreign key (profile_code) references profile (profile_code),
  foreign key (field_1) references finite_value (fv_code),
  foreign key (field_2) references finite_value (fv_code),
@@ -298,6 +297,7 @@ create table nextup_config(
         version bigint,
         profile_code varchar(255),
         description varchar(255),
+        profile_level numeric(4),
         primary key (id)
     ) ;
 
@@ -333,6 +333,7 @@ create table list_metadata (
         description varchar(255),
         entity varchar(255),
         js_file varchar(255),
+        profile_level numeric(4),
         primary key (id)
     ) ;
 
@@ -432,6 +433,7 @@ alter table list_buttons
         description varchar(255),
         entity varchar(255),
         js_file varchar(255),
+        profile_level numeric(4),
         primary key (id)
     ) ;
 
@@ -482,7 +484,7 @@ insert into primary_user_role(title,role_description,profile_code,access_codes,i
 
 
 
-insert into menu_set(id,profile_code,description) values ('IT_MNU','IT','IT Menu');
+insert into menu_set(id,profile_code,description,profile_level) values ('IT_MNU','IT','IT Menu',1);
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-ADM','Administration','IT_MNU','ADM-ADM',1);
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-TRNS','Asset Management','IT_MNU','ASMT-RQST',2);
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-RPTS','Projects', 'IT_MNU','PRJ-TM',3);
@@ -498,7 +500,7 @@ insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values
 
 
 
-insert into updateview_metadata(id,profile_code,entity) values ('USPRF','ROOT','UserProfile');
+insert into updateview_metadata(id,profile_code,entity,profile_level) values ('USPRF','ROOT','UserProfile',1);
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USPRF-CRUPWD','currentPassword','password','Current Password',null,1,'E','USPRF','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('USPRF-PWD','password','password','Password',null,2,'E','USPRF','String');

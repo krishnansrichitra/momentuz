@@ -28,7 +28,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
@@ -121,21 +120,11 @@ public class AppUserDetailsService implements UserDetailsService {
       user.setOrgId(context.getOrganization());
       user.setCreatedBy(context.getLoggedInUser());
       user.setCreatedTime(LocalDateTime.now());
-      if (!CollectionUtils.isEmpty(user.getUserRoles())) {
-        for (UserRoles userRoles : user.getUserRoles()) {
-          userRoles.setOrgId(context.getOrganization());
-        }
-      }
       users.save(user);
     } else {
       mapToEntityMapper.populateFromMap(userMap, existingUser, context);
       existingUser.setLastUpdatedBy(context.getLoggedInUser());
       existingUser.setLastUpdatedTime(LocalDateTime.now());
-      if (!CollectionUtils.isEmpty(existingUser.getUserRoles())) {
-        for (UserRoles userRoles : existingUser.getUserRoles()) {
-          userRoles.setOrgId(context.getOrganization());
-        }
-      }
       users.save(existingUser);
     }
 
