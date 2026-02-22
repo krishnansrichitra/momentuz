@@ -142,6 +142,16 @@ function onUserSave() {
     const payload = buildJsonFromForm(form);
 
     console.log(JSON.stringify(payload, null, 2));
+
+    const btn = document.getElementById("USR-SAVE");
+      if (btn.disabled) return;
+    
+    btn.disabled = true;
+    btn.classList.add("disabled");
+    btn.style.pointerEvents = "none";
+
+    showSuccessMessage(['Please wait ! Updating User']);
+
     console.log('urlPrefix=' + urlPrefix);
 
     axios.post(
@@ -166,6 +176,9 @@ function onUserSave() {
                 const messages = apiErrors.getMessages();
                 showErrors(messages);
             }
+              btn.disabled = false;
+            btn.classList.remove("disabled");
+            btn.style.pointerEvents = "auto";
 
         });
 

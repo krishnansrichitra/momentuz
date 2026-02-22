@@ -64,7 +64,7 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
      const tabContent = document.createElement("div");
     tabContent.className = "tab-content mt-3";
 
-     tabs.forEach(async (tab, index) => {
+     for (const [index, tab] of tabs.entries()) {
 
         const tabId = "tab-" + tab.id;
 
@@ -152,7 +152,7 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
         if (row.children.length > 0) {
             tabContent.appendChild(row);
         }
-    });
+    }
 
     container.appendChild(tabset);
     container.appendChild(tabContent);
@@ -192,7 +192,7 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             const col = document.createElement('div');
             col.className = 'col-lg-12 col-md-12 col-sm-12';
              let childFields = getChildren(field, metadata.updateViewFields,mode);
-             drawTabsAndChildren(col,field,childFields ,metadata.updateViewFields,mode);
+             await drawTabsAndChildren(col,field,childFields ,metadata.updateViewFields,mode);
             colCount = 4;
             console.log('tabset =' + col);
             row.appendChild(col);
@@ -208,7 +208,7 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             const col = document.createElement('div');
             col.className = 'col-lg-12 col-md-12 col-sm-12';
             let childFields = getChildren(field, metadata.updateViewFields,mode);
-            const control = createTable(field, childFields, mode);
+            const control = await createTable(field, childFields, mode);
             colCount = 4;
             console.log('table =' + control);
             col.appendChild(control);
@@ -257,7 +257,7 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     }
 
     // hidden fields
-    hiddenFields.forEach(async field => {
+   await  hiddenFields.forEach(async field => {
         form.appendChild(await renderControl(field));
     });
 
@@ -318,8 +318,21 @@ async function createTable(field, childFields, mode) {
 
     let table = document.createElement("table");
     table.id = field.id;
-    table.className = "table table-bordered table-striped custom-table"; // optional bootstrap styling
+    table.className = "table table-bordered table-striped table-compact"; // optional bootstrap styling 
+    table.style =field.style;
     table.dataset.accessor = field.accessor;
+    
+    const colgroup = document.createElement("colgroup");
+    for (let i = 0; i < noCols; i++) {
+        const col = document.createElement("col");
+        col.style.width =colWidths[i] + "%";
+        colgroup.append(col);
+    }
+      const col = document.createElement("col");
+       col.style.width = "5%";  
+       colgroup.append(col);
+      table.appendChild(colgroup);
+
     let thead = table.createTHead();
     let headerRow = thead.insertRow();
 
@@ -343,7 +356,6 @@ async function createTable(field, childFields, mode) {
     let hiddenCtrl=[];
 
     for (let i = 0; i < childFields.length; i++) {
-        console.log(JSON.stringify(childFields[i]));
         if (childFields[i].control !== 'hidden') {
             let td = emptyRow.insertCell();
             console.log(mode);
@@ -352,7 +364,6 @@ async function createTable(field, childFields, mode) {
                 td.appendChild(ctrl);
             } else {
                 let ctrl = await renderViewControl(childFields[i], true);
-                console.log(ctrl.innerHTML);
                 td.appendChild(ctrl);
             }
         }else{
@@ -366,7 +377,6 @@ async function createTable(field, childFields, mode) {
         while (hiddenCtrl.length > 0) {
             const childField = hiddenCtrl.pop();
             if (childField) {
-                console.log('putting hiddent CTRL' + JSON.stringify(childField));
                 let ctrl = await renderControl(childField, true);
                 td.appendChild(ctrl);
             }
@@ -397,6 +407,7 @@ async function renderControl(field, partofTable=false) {
         case 'button':
             const btn = document.createElement('button');
             btn.type = 'button';
+            btn.id =field.id;
             btn.className ='btn btn-info';
             btn.textContent = field.fieldLabel;
             console.log(field.param);
@@ -541,6 +552,7 @@ async function populateSelectOptions(select, param) {
             select.appendChild(opt);
         });
     }
+   console.trace();
 
     console.log('Added options');
 }
@@ -558,6 +570,7 @@ function renderButtons(metadata, mode) {
 
             const btn = document.createElement('button');
             btn.type = 'button';
+            btn.id=btnMeta.id;
             btn.className = btnMeta.buttonClass;
             btn.textContent = btnMeta.innerText;
 
@@ -641,7 +654,7 @@ function applyRowFromJson(rowEl, jsonData, setValues = true) {
 
             // Look up value in jsonData (supports dot paths like "address.city")
             const value = getByPath(jsonData, accessor);
-
+             
             //console.log(`col=${c}, accessor=${accessor}, value=`, value);
 
             if (!setValues) return;
@@ -655,6 +668,8 @@ function applyRowFromJson(rowEl, jsonData, setValues = true) {
             } else if (ctrl.type === "radio") {
                 ctrl.checked = String(ctrl.value) === String(value);
             } else {
+               console.log('value=' + value);
+
                 ctrl.value = value ?? "";
             }
         });
@@ -672,13 +687,14 @@ function getByPath(obj, path) {
 
 
 function traverseJson(formEl, obj, prefix = '') {
-    Object.entries(obj || {}).forEach(([key, value]) => {
+     for (const [key, value] of Object.entries(obj || {}))  {
         const path = prefix ? `${prefix}.${key}` : key;
 
         if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
             traverseJson(formEl, value, path);
         } else {
             if (Array.isArray(value)) {
+                console.trace();
                 console.log('can be an array' + path + " and " + value.length);
                 
                 let tabl = formEl.querySelector(`[data-accessor="${path}"]`);
@@ -698,7 +714,7 @@ function traverseJson(formEl, obj, prefix = '') {
             }
             setValueByAccessor(formEl, path, value);
         }
-    });
+    }
 }
 
 
