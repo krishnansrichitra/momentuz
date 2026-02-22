@@ -1,6 +1,7 @@
 package com.momentus.foundation.menus.service;
 
 import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.login.service.AppUserDetailsService;
 import com.momentus.foundation.menus.dto.MenuDTOHelper;
 import com.momentus.foundation.menus.dto.MenuSetDTO;
 import com.momentus.foundation.menus.model.MenuSet;
@@ -21,6 +22,8 @@ public class MenuService {
   @Autowired OrgProfileService orgProfileService;
 
   @Autowired MenuDTOHelper menuDTOHelper;
+
+  @Autowired AppUserDetailsService appUserDetailsService;
 
   private List<String> getProfileCodes(String fullProfile) {
     if (fullProfile == null || fullProfile.isBlank()) return Collections.emptyList();
@@ -43,8 +46,11 @@ public class MenuService {
 
   public MenuSetDTO getMenuSet(List<MenuSet> menuSetList, ApplicationContext context) {
     if (!CollectionUtils.isEmpty(menuSetList)) {
+      Set<String> accessCodes =
+          appUserDetailsService.getAccessCodesForUser(context.getLoggedInUser());
       MenuSetDTO menuSetDTO =
-          menuDTOHelper.makeDTO(menuSetList.get(menuSetList.size() - 1), context.getLocale());
+          menuDTOHelper.makeDTO(
+              menuSetList.get(menuSetList.size() - 1), context.getLocale(), accessCodes);
 
       return menuSetDTO;
     }

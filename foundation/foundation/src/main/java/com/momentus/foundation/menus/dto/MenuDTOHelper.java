@@ -7,6 +7,7 @@ import com.momentus.foundation.menus.model.MenuSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -16,7 +17,7 @@ public class MenuDTOHelper {
 
   @Autowired GeneralMessages generalMessages;
 
-  public MenuSetDTO makeDTO(MenuSet menuSet, Locale ls) {
+  public MenuSetDTO makeDTO(MenuSet menuSet, Locale ls, Set<String> accessCodes) {
     MenuSetDTO menuSetDTO = null;
     if (menuSet != null && !CollectionUtils.isEmpty(menuSet.getMenuGroupList())) {
       List<MenuGroupDTO> menuGroupDTOList = new ArrayList<>();
@@ -24,15 +25,17 @@ public class MenuDTOHelper {
         List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
         if (menuGroup != null && !CollectionUtils.isEmpty(menuGroup.getMenuItemList())) {
           for (MenuItem menuItem : menuGroup.getMenuItemList()) {
-            MenuItemDTO menuItemDTO =
-                new MenuItemDTO(
-                    menuItem.getId(),
-                    generalMessages.getMessage(menuItem.getMenuKey(), ls),
-                    menuItem.getPage(),
-                    null,
-                    menuItem.getHasChildren(),
-                    menuItem.getParentItem());
-            menuItemDTOList.add(menuItemDTO);
+            if (accessCodes.contains(menuItem.getAccessCode())) {
+              MenuItemDTO menuItemDTO =
+                  new MenuItemDTO(
+                      menuItem.getId(),
+                      generalMessages.getMessage(menuItem.getMenuKey(), ls),
+                      menuItem.getPage(),
+                      null,
+                      menuItem.getHasChildren(),
+                      menuItem.getParentItem());
+              menuItemDTOList.add(menuItemDTO);
+            }
           }
         }
         MenuGroupDTO menuGroupDTO =

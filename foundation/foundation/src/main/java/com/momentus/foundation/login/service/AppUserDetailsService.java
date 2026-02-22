@@ -28,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
@@ -176,6 +177,25 @@ public class AppUserDetailsService implements UserDetailsService {
         generalMessages.getMessage(
             GeneralMessages.PASSWORD_UPDATED_SUCCESFULLY, context.getLocale()));
     return response;
+  }
+
+  public Set<String> getAccessCodesForUser(String userId) {
+    Set<String> accessCodeSet = new LinkedHashSet<>();
+    User user = users.findByUserId(userId).orElse(null);
+    if (user != null && !CollectionUtils.isEmpty(user.getUserRoles())) {
+      for (UserRoles userRoles : user.getUserRoles()) {
+        String accessCodes = userRoles.getRole().getAccessCodes();
+        Set<String> roleCodes =
+            Arrays.stream(accessCodes.split(","))
+                .map(String::trim) // remove spaces
+                .filter(s -> !s.isEmpty()) // ignore empty values
+                .collect(Collectors.toSet());
+        for (String cd : roleCodes) {
+          accessCodeSet.add(cd);
+        }
+      }
+    }
+    return accessCodeSet;
   }
 
   @Transactional
