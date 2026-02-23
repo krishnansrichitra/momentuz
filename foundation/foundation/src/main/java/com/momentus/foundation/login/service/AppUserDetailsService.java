@@ -8,6 +8,7 @@ import com.momentus.foundation.accessgroup.model.UserRoles;
 import com.momentus.foundation.accessgroup.repository.UserRepository;
 import com.momentus.foundation.accessgroup.service.UserDTOHelper;
 import com.momentus.foundation.common.GeneralMessages;
+import com.momentus.foundation.common.Utils;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
@@ -185,11 +186,7 @@ public class AppUserDetailsService implements UserDetailsService {
     if (user != null && !CollectionUtils.isEmpty(user.getUserRoles())) {
       for (UserRoles userRoles : user.getUserRoles()) {
         String accessCodes = userRoles.getRole().getAccessCodes();
-        Set<String> roleCodes =
-            Arrays.stream(accessCodes.split(","))
-                .map(String::trim) // remove spaces
-                .filter(s -> !s.isEmpty()) // ignore empty values
-                .collect(Collectors.toSet());
+        Set<String> roleCodes = Utils.splitCSV(accessCodes);
         for (String cd : roleCodes) {
           accessCodeSet.add(cd);
         }

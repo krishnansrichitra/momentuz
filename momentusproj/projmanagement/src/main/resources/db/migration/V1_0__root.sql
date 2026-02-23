@@ -33,6 +33,7 @@ insert into app_modules(id,app_code,module_code) values (5,'PRJMGMT','PRJ') on d
 --         foreign key (sector_code)  references sector(code)
 
 insert into module_access_codes (access_code,description,module_code) values ('ADM-ADM','Administration access to manage users , roles and company','ADM') on duplicate key update access_code = access_code;
+insert into module_access_codes (access_code,description,module_code) values ('ADM-MST','Administration access import master data','ADM') on duplicate key update access_code = access_code;
 
 insert into module_access_codes (access_code,description,module_code) values ('ASMT-ADM','Create and Manage assets','ASMT') on duplicate key update access_code = access_code;
 insert into module_access_codes (access_code,description,module_code) values ('ASMT-RQST','Request and raise support tickets','ASMT') on duplicate key update access_code = access_code;
@@ -478,26 +479,25 @@ insert into profile(profile_code,profile_description,full_profile_code,parent_pr
 
 
 insert into sector_profile(id,sector,profile_code)values ('IT-IT','IT','IT');
-insert into primary_user_role(title,role_description,profile_code,access_codes,is_primary) values ('Administrator System','Rights include to do any operation','IT','ADM-ADM,ASMT-RQST,ASMT-AUD,ASMT-RSLV,ASMT-ADM,LTMMT-ADM,LTMMT-RQLV,LTMMT-APLV,PRJ-ADM,PRJ-LD,PRJ-TM,KNCT-ADM,KNCT-LD,ORCT-ADM,ORCT-RCV',true);
+insert into primary_user_role(title,role_description,profile_code,access_codes,is_primary) values ('Administrator System','Rights include to do any operation','IT','ADM-ADM,ADM-MST,ASMT-RQST,ASMT-AUD,ASMT-RSLV,ASMT-ADM,LTMMT-ADM,LTMMT-RQLV,LTMMT-APLV,PRJ-ADM,PRJ-LD,PRJ-TM,KNCT-ADM,KNCT-LD,ORCT-ADM,ORCT-RCV',true);
 insert into primary_user_role(title,role_description,profile_code,access_codes,is_primary) values ('Project Lead','Rights include to Manage Project and workforce','IT','ASMT-RQST,ASMT-AUD,ASMT-RSLV,ASMT-ADM,LTMMT-ADM,LTMMT-RQLV,LTMMT-APLV,PRJ-ADM,PRJ-LD,PRJ-TM,KNCT-ADM,KNCT-LD,ORCT-ADM,ORCT-RCV',false);
 insert into primary_user_role(title,role_description,profile_code,access_codes,is_primary) values ('Project Member','Rights include basic workflows to create and execute work items and raise tickets','IT','ASMT-RQST,LTMMT-RQLV,PRJ-TM,KNCT-LD,ORCT-RCV',false);
 
 
 
 insert into menu_set(id,profile_code,description,profile_level) values ('IT_MNU','IT','IT Menu',1);
-insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-ADM','Administration','IT_MNU','ADM-ADM',1);
-insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-TRNS','Asset Management','IT_MNU','ASMT-RQST',2);
+insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-ADM','Administration','IT_MNU','ADM-ADM,ADM-MST',1);
+insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-TRNS','Asset Management','IT_MNU','ASMT-RQST,ASMT-AUD',2);
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-RPTS','Projects', 'IT_MNU','PRJ-TM',3);
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-LVTM','Leave Time', 'IT_MNU','LTMMT-RQLV',4);
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-KCT','Knowledge Centre', 'IT_MNU','KNCT-LDV',5);
 insert into menu_group(id,menu_key,menu_set_id,access_code,seq_no) values('IT_MNU-RPT','Reports & Analytics', 'IT_MNU','PRJ-ADM',6);
 
 
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-RLS','Roles','adm','./general/genericaddview.html?entity=Role&mode=Edit','IT_MNU-ADM',1);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-LCT','Divisions','adm','./general/genericList.html?entity=Division','IT_MNU-ADM',2);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-USRS','Users','adm','./general/genericList.html?entity=User','IT_MNU-ADM',3);
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-DTIMP','Data Import','adm','./general/dataImport.html','IT_MNU-ADM',4);
-
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-RLS','Roles','ADM-ADM','./general/genericaddview.html?entity=Role&mode=Edit','IT_MNU-ADM',1);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-LCT','Divisions','ADM-ADM','./general/genericList.html?entity=Division','IT_MNU-ADM',2);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-USRS','Users','ADM-ADM','./general/genericList.html?entity=User','IT_MNU-ADM',3);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-DTIMP','Data Import','ADM-MST','./general/dataImport.html','IT_MNU-ADM',4);
 
 
 insert into updateview_metadata(id,profile_code,entity,profile_level) values ('USPRF','ROOT','UserProfile',1);
