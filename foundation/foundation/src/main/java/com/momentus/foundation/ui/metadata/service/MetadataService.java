@@ -32,7 +32,7 @@ public class MetadataService {
     OrgProfile orgProfile = orgProfileService.getProfileForGroup("GNL", orgId);
     if (orgProfile != null) {
       List<ListMetadata> listMetadataList =
-          listMetadataRepository.findByProfile_ProfileCodeInAndEntity(
+          listMetadataRepository.findByProfile_ProfileCodeInAndEntityOrderByProfileLevelDesc(
               getProfileCodes(orgProfile.getProfile().getFullProfileCode()), entity);
       if (!CollectionUtils.isEmpty(listMetadataList)) {
         return metadataDTOHelper.makeListMetadataDTO(
@@ -49,7 +49,7 @@ public class MetadataService {
     OrgProfile orgProfile = orgProfileService.getProfileForGroup("GNL", orgId);
     if (orgProfile != null) {
       List<UpdateViewMetadata> updateViewMetadatas =
-          updateViewMetadataRepository.findByProfile_ProfileCodeInAndEntity(
+          updateViewMetadataRepository.findByProfile_ProfileCodeInAndEntityOrderByProfileLevelDesc(
               getProfileCodes(orgProfile.getProfile().getFullProfileCode()), entity);
       if (!CollectionUtils.isEmpty(updateViewMetadatas)) {
         return metadataDTOHelper.makeUpdateViewDTO(

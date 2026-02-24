@@ -222,6 +222,9 @@ last_updated_by varchar(255) DEFAULT NULL,
  foreign key (profile_group_code) references profile_group(profile_group_code)
 );
 
+insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
+insert into profile(profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values ('ROOT','Base Profile','ROOT','GNL','seed',now());
+insert into profile(profile_code,profile_description,full_profile_code,parent_profile_code,profile_group_code,created_by,created_time) values ('IT','IT Profile','ROOT-IT','ROOT','GNL','seed',now());
 
 
 
@@ -234,18 +237,21 @@ create table finite_value(
 fv_code varchar(100) primary key,
 fv_value varchar(255),
 group_code varchar(100),
+profile_code varchar(255),
+seq_no decimal(10,3),
+foreign key (profile_code) references profile (profile_code),
 foreign key  (group_code) references finite_group(group_code)
 );
 
 
 insert into finite_group(group_code,group_name) values ('nextup_comp','Nextup Components');
-insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_dt','Date','nextup_comp');
-insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_prfx','Entity Prefix','nextup_comp');
-insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_BK','Parent Object Business Key','nextup_comp');
-insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_seq','Sequence','nextup_comp');
-insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_comp1','Component 1','nextup_comp');
-insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_comp2','Component 2','nextup_comp');
-insert into finite_value(fv_code,fv_value,group_code) values ('nxtup_comp3','Component 3','nextup_comp');
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('nxtup_dt','Date','nextup_comp','ROOT',10);
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('nxtup_prfx','Entity Prefix','nextup_comp','ROOT',11);
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('nxtup_BK','Parent Object Business Key','nextup_comp','ROOT',12);
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('nxtup_seq','Sequence','nextup_comp','ROOT',13);
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('nxtup_comp1','Component 1','nextup_comp','ROOT',14);
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('nxtup_comp2','Component 2','nextup_comp','ROOT',15);
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('nxtup_comp3','Component 3','nextup_comp','ROOT',16);
 
 
 create table nextup_config(
@@ -473,9 +479,6 @@ foreign key (profile_code) references profile (profile_code)
 
 
 
-insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
-insert into profile(profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values ('ROOT','Base Profile','ROOT','GNL','seed',now());
-insert into profile(profile_code,profile_description,full_profile_code,parent_profile_code,profile_group_code,created_by,created_time) values ('IT','IT Profile','ROOT-IT','ROOT','GNL','seed',now());
 
 
 insert into sector_profile(id,sector,profile_code)values ('IT-IT','IT','IT');

@@ -1,11 +1,28 @@
 package com.momentus.foundation.finitevalue.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.momentus.foundation.profile.model.Profile;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "finite_value")
 public class FiniteValue {
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "profile_code", referencedColumnName = "profileCode")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  Profile profile;
+
+  public Profile getProfile() {
+    return profile;
+  }
+
+  public void setProfile(Profile profile) {
+    this.profile = profile;
+  }
+
+  @Column BigDecimal seqNo;
 
   @Id
   @Column(name = "fv_code")
@@ -48,4 +65,12 @@ public class FiniteValue {
   }
 
   public FiniteValue() {}
+
+  public BigDecimal getSeqNo() {
+    return seqNo;
+  }
+
+  public void setSeqNo(BigDecimal seqNo) {
+    this.seqNo = seqNo;
+  }
 }

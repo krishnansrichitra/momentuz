@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ListMetadataRepository extends JpaRepository<ListMetadata, String> {
 
-  List<ListMetadata> findByProfile_ProfileCodeInAndEntity(
+  List<ListMetadata> findByProfile_ProfileCodeInAndEntityOrderByProfileLevelDesc(
       Collection<String> profileCodes, String entity);
 }

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UpdateViewMetadataRepository extends JpaRepository<UpdateViewMetadata, String> {
 
-  List<UpdateViewMetadata> findByProfile_ProfileCodeInAndEntity(
+  List<UpdateViewMetadata> findByProfile_ProfileCodeInAndEntityOrderByProfileLevelDesc(
       Collection<String> profileCodes, String entity);
 }

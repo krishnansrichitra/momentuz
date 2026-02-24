@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FiniteValueRepository extends JpaRepository<FiniteValue, String> {
 
-  List<FiniteValue> findByFiniteGroup_GroupCode(String groupCode);
+  List<FiniteValue> findByFiniteGroup_GroupCodeOrderBySeqNoAsc(String groupCode);
 }
