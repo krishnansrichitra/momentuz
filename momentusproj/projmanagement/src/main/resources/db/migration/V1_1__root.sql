@@ -8,7 +8,59 @@ values ('Division','Division','com.momentus.foundation.organization.model.Divisi
 insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
 values ('User','User','com.momentus.foundation.accessgroup.model.User', 'GNL','seed',now(),0);
 
+-- Start Purchase  --
+insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
+values ('Project','Project','com.momentus.projmanagement.project.model.Project', 'GNL','seed',now(),1);
 
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-RPTS-PRJ','Projects','PRJ-ADM','./general/genericList.html?entity=Project','IT_MNU-RPTS',5);
+
+
+
+insert into list_metadata(id,profile_code,entity,profile_level) values('PRJT','ROOT','Project',1);
+insert into updateview_metadata(id,profile_code,entity,profile_level) values ('PRJT','ROOT','Project',1);
+
+insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('PRJT-FCD','PRJT','Code','text','projectCode',1);
+insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('PRJT-FTIE','PRJT','Title','text','projectTitle',2);
+insert into filter_field(id,list_metadata_id,field_key,control,accessor,seq_no) values('PRJT-PROWN','PRJT','Primary Owner','lookup','projectPrimaryOwner["userId"]',3);
+insert into filter_field(id,list_metadata_id,field_key,control,param,accessor,seq_no) values('PRJT-STATFL','PRJT','Status','dropdown','fv::proj_status','status["fvCode"]',3);
+
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PRJT-CD','PRJT','Code','projectCode',1);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PRJT-NAME','PRJT','Title','projectTitle',2);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PRJT-PHONE','PRJT','Primary Owner','projectPrimaryOwner["userId"]',3);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PRJT-CITY','PRJT','Status','status["fvValue"]',4);
+insert into list_columns(id,list_metadata_id,field_key,accessor,seq_no) values ('PRJT-CMCDT','PRJT','Commence Date','commenceDate',5);
+
+
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PRJT-CRT','btn btn-primary','Create','onCreate','PRJT',1);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PRJT-VIEW','btn btn-info','View','onView','PRJT',2);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PRJT-EDT','btn btn-warning','Edit','onEdit','PRJT',3);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PRJT-DEL','btn btn-danger','Delete','onDelete','PRJT',4);
+insert into  list_buttons(id,button_class,inner_text,js_method,list_metadata_id,seq_no) values('PRJT-EXP','btn btn-success','Export','onExport','PRJT',5);
+
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-ID','id','hidden','Id',null,1,'AEV','PRJT','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CODE','projectCode','text','Project Code',null,2,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-TITLE','projectTitle','text','Project Title',null,3,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-PRMUSR','projectPrimaryOwner.userId','lookup','Primary Owner','User',5,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-SECUSR','projectSecondaryOwner.userId','lookup','Secondary Owner','User',6,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-STATS','status.fvCode','dropdown','Status','fv::proj_status',7,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CMNDate','commenceDate','date','Commence Date',null,8,'AEV','PRJT','Date');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-TRGNDDate','targetEndDate','date','Target End Date',null,9,'AEV','PRJT','Date');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-ACTNDate','actualEndDate','date','Actual End Date',null,10,'AEV','PRJT','Date');
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CRTDBY','createdBy','text','Created By',null,100,'V','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CRTDDT','createdTime','text','Created Time',null,101,'V','PRJT','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-LSUPBY','lastUpdatedBy','text','Last Updated By',null,102,'V','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-LSUPDT','lastUpdatedTime','text','Last Updated Time',null,103,'V','PRJT','DateTime');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-VERSION','version','hidden','Version',null,104,'AEV','PRJT','Numeric');
+
+
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PRJT-SAVE','btn btn-primary','Save','onSave',1,'AE','PRJT');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PRJT-EDT','btn btn-info','Edit','onEdit',2,'V','PRJT');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PRJT-CNCL','btn btn-secondary','Cancel','onCancel',3,'AEV','PRJT');
+
+
+-- End Purchase  --
 -- Starting Client  --
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-ADM-CLNT','Clients','ADM-MST','./general/genericList.html?entity=Client','IT_MNU-ADM',5);
 insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)

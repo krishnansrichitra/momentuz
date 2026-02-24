@@ -30,13 +30,13 @@ public class Project extends OrgBasedEntity {
     String projectTitle;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_primary_owner", referencedColumnName = "user_id", nullable = true)
+    @JoinColumn(name = "project_primary_owner", referencedColumnName = "userId", nullable = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     User projectPrimaryOwner;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_primary_owner", referencedColumnName = "user_id", nullable = true)
+    @JoinColumn(name = "project_secondary_owner", referencedColumnName = "userId", nullable = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     User projectSecondaryOwner;
 
