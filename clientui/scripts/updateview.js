@@ -469,7 +469,21 @@ async function renderControl(field, partofTable=false) {
                 el.style.width = '25ch';
             }
             break;
+      case 'textarea' :
+            let rows = 3;   
+            let cols = 30;
 
+            field.param.split(";").forEach(part => {
+                const [k, v] = part.split("=");
+                if (k === "rows") rows = Number(v);
+                if (k === "cols") cols = Number(v);
+            });
+            el = document.createElement("textarea");
+            el.className = "form-control"; // bootstrap styling (optional)
+            el.rows = rows;
+            el.cols = cols;
+            break;
+          
 
         case 'password':
             el = document.createElement('input');
@@ -530,31 +544,6 @@ async function renderControl(field, partofTable=false) {
 
 
     return el;
-}
-
-
-
-
-
-async function populateSelectOptions(select, param) {
-    const items = await fetchLookupData(param);
-
-    const empty = document.createElement('option');
-    empty.value = '';
-    empty.textContent = 'Select';
-    select.appendChild(empty);
-    if (items !== null) {
-
-        Object.entries(items).forEach(([key, label]) => {
-            const opt = document.createElement('option');
-            opt.value = key;
-            opt.textContent = label;
-            select.appendChild(opt);
-        });
-    }
-   console.trace();
-
-    console.log('Added options');
 }
 
 

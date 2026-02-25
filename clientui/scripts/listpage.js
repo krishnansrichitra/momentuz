@@ -294,6 +294,10 @@ function renderFilterFields(filterFields, containerId) {
                 if (field.param.startsWith("fv::")) {
                     let fvGroup = field.param.substring(4);
                     loadFvDropdown(urlPrefix, control.id, fvGroup);
+                }else{
+
+                    populateSelectOptions(control, field.param);
+                    break;
                 }
 
 
