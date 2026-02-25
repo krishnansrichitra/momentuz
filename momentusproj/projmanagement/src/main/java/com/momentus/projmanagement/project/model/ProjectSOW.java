@@ -24,9 +24,9 @@ public class ProjectSOW extends BaseEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "note_type", referencedColumnName = "fv_code")
+    @JoinColumn(name = "sow_type", referencedColumnName = "fv_code")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    FiniteValue noteType;
+    FiniteValue  sowType;
 
     @Column
     Blob sowDetails ;
@@ -47,12 +47,12 @@ public class ProjectSOW extends BaseEntity {
         this.project = project;
     }
 
-    public FiniteValue getNoteType() {
-        return noteType;
+    public FiniteValue getSowType() {
+        return sowType;
     }
 
-    public void setNoteType(FiniteValue noteType) {
-        this.noteType = noteType;
+    public void setSowType(FiniteValue sowType) {
+        this.sowType = sowType;
     }
 
     public Blob getSowDetails() {

@@ -93,11 +93,13 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
        // pane.innerHTML = `<div class="p-2">Content for ${tab.fieldLabel}</div>`;
         let childFields = getChildren(tab, visibleFields,mode);
         let row = createRow();
+        pane.appendChild(row);
         let colCount = 0;
         for (let field of childFields) {
             if (colCount === 4) {
-                tabContent.appendChild(row);
+                tabContent.appendChild(pane);
                 row = createRow();
+                 pane.appendChild(row);
                 colCount = 0;
             }
             if (field.control == 'table') {
@@ -141,17 +143,18 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
                         col.appendChild(spacer);
                     }
                     col.appendChild(control);
+                    
                 }
                 row.appendChild(col);
                 colCount++;
             }
+           
 
         }
-
         tabContent.appendChild(pane);
-        if (row.children.length > 0) {
+      /*  if (row.children.length > 0) {
             tabContent.appendChild(row);
-        }
+        }*/
     }
 
     container.appendChild(tabset);
@@ -733,6 +736,10 @@ function setValueByAccessor(formEl, accessor, value) {
     } else if (control.tagName === 'UL') {
         console.log(normalized);
         applyMultiSelectFromSemicolon(control, normalized);
+
+    } else if (control.tagName === 'TEXTAREA') {
+        console.log(normalized);
+        control.innerHTML =normalized
 
     } else {
         control.value = normalized;

@@ -14,6 +14,7 @@ import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.common.utils.EmailProperties;
 import com.momentus.foundation.common.utils.EmailSender;
+import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.generic.service.MapToEntityMapper;
 import com.momentus.foundation.login.model.MomLoggedInUser;
 import jakarta.transaction.Transactional;
@@ -47,6 +48,8 @@ public class AppUserDetailsService implements UserDetailsService {
   @Autowired GeneralMessages generalMessages;
 
   @Autowired UserDTOHelper userDTOHelper;
+
+  @Autowired GenericDAO genericDAO;
 
   public AppUserDetailsService(PasswordEncoder passwordEncoder, EmailProperties emailProperties) {
     this.passwordEncoder = passwordEncoder;
@@ -233,5 +236,17 @@ public class AppUserDetailsService implements UserDetailsService {
     System.out.println("password = " + randomPassword);
     emailPassword(email, randomPassword);
     return passwordEncoder.encode(randomPassword);
+  }
+
+  public List<String> listFields(
+      Map<String, Object> filter,
+      ApplicationContext context,
+      String field,
+      int offset,
+      int limit,
+      boolean excludedDeleted) {
+    filter.put("orgId.id", context.getOrganization().getId());
+    if (excludedDeleted) filter.put("deleted", false);
+    return genericDAO.listFieldByFilter(filter, User.class, field, String.class, offset, limit);
   }
 }

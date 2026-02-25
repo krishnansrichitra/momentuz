@@ -224,6 +224,11 @@ function getControlValue(control) {
         }
         return control.value;
     }
+    if( tag === 'textarea')
+    {
+        console.log(control.value);
+        console.log(control.innerHTML);
+    }
 
     if (tag === 'select' || tag === 'textarea') {
         return control.value;

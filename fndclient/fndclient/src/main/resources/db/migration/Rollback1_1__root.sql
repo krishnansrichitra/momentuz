@@ -11,7 +11,5 @@ delete from updateview_fields where updateview_metadata_id ='PO';
 delete from updateview_buttons where updateview_metadata_id ='PO';
 delete from updateview_metadata where id ='PO';
 
-delete from finite_value where group_code  ='po_note_type';
-delete from finite_group where group_code  ='po_note_type';
 
 delete from flyway_schema_history where version=1.1 and installed_rank=2;

@@ -1,6 +1,8 @@
 package com.momentus.foundation.ui.lookup.service;
 
 import com.momentus.foundation.accessgroup.model.Role;
+import com.momentus.foundation.accessgroup.model.User;
+import com.momentus.foundation.accessgroup.repository.UserRepository;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.entity.service.EntityService;
@@ -33,6 +35,8 @@ public class LookupService {
   @Autowired EntityService entityService;
 
   @Autowired ModuleAccessCodeRepository moduleAccessCodeRepository;
+
+  @Autowired UserRepository userRepository;
 
   @Cacheable("finiteValues")
   public Map<String, String> getFValuesforDropDown(String groupCode, Locale locale) {
@@ -104,9 +108,24 @@ public class LookupService {
     }
   }
 
+  public List<String> getTypeAheadUsers(ApplicationContext context, String value) {
+    List<String> retValues = new ArrayList<>();
+    List<User> users = userRepository.searchUsers(value, context.getOrganization().getId());
+    if (!CollectionUtils.isEmpty(users)) {
+      for (User user : users) {
+        retValues.add(user.getUserId());
+      }
+    }
+    return retValues;
+  }
+
   public List<String> getTypeAheadValues(
       ApplicationContext context, String entity, String field, String value) {
     try {
+
+      if ("User".equalsIgnoreCase(entity)) {
+        return getTypeAheadUsers(context, value);
+      }
       Map<String, Object> filter = new HashMap<>();
       filter.put(field, value);
       String entityClass = entityService.getFullPackage(entity);
