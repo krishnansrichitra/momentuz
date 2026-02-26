@@ -8,9 +8,34 @@ values ('Division','Division','com.momentus.foundation.organization.model.Divisi
 insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
 values ('User','User','com.momentus.foundation.accessgroup.model.User', 'GNL','seed',now(),0);
 
--- Start Purchase  --
 insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
 values ('Project','Project','com.momentus.projmanagement.project.model.Project', 'GNL','seed',now(),1);
+
+
+insert into finite_group(group_code,group_name) values ('proj_status','Project Status') on duplicate key update group_name = group_name;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('proj_status_rdy','Ready To Start','proj_status','ROOT',1)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('proj_status_in_pg','In Progress','proj_status','ROOT',2) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('proj_status_on_hld','On Hold','proj_status','ROOT',3) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('proj_status_cmplt','Completed','proj_status','ROOT',4) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('proj_status_cncl','Cancelled','proj_status','ROOT',5) on duplicate key update fv_code = fv_code;
+
+insert into finite_group(group_code,group_name) values ('sow_type','SOW Type') on duplicate key update group_name = group_name;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_pgm','Program Management','sow_type','IT',1)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_dev','Development','sow_type','IT',2)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_test','Testing','sow_type','IT',3)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_aut','Automation','sow_type','IT',4)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_mnpsply','Manpower Supply','sow_type','IT',5)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_others','Others','sow_type','IT',6)  on duplicate key update fv_code = fv_code;
+
+insert into finite_group(group_code,group_name) values ('mlst','Milestone') on duplicate key update group_name = group_name;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('mlst_schd','Scheduled','mlst','ROOT',1)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('mlst_achtme','Achieved on time','mlst','ROOT',2)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('mlst_resch','Reschedluded','mlst','ROOT',3)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('mlst_dlyd','Delayed','mlst','ROOT',4)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('mlst_dlydcom','Completed after delay','mlst','ROOT',5)  on duplicate key update fv_code = fv_code;
+
+-- Start Purchase  --
+
 
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-RPTS-PRJ','Projects','PRJ-ADM','./general/genericList.html?entity=Project','IT_MNU-RPTS',5);
 
@@ -51,19 +76,29 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-TRGNDDate','targetEndDate','date','Target End Date',null,9,'AEV','PRJT','Date');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-ACTNDate','actualEndDate','date','Actual End Date',null,10,'AEV','PRJT','Date');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-tabset','','tabset','',null,12,'AEV','PRJT','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow','','tabset','SOW',null,13,'AEV','PRJT','List','PRJT-tabset');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles','','tabset','Milestones',null,14,'AEV','PRJT','List','PRJT-tabset');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabSupInfo','','tabset','Summary',null,15,'AEV','PRJT','Set','PRJT-tabset');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow','','tabset','SOW',null,14,'AEV','PRJT','List','PRJT-tabset');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles','','tabset','Milestones',null,15,'AEV','PRJT','List','PRJT-tabset');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabSupInfo','','tabset','Summary',null,13,'AEV','PRJT','Set','PRJT-tabset');
 
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('PRJT-tabsow-tab','projectSOWs','table','SOW','cols=2;colTitles=["SOW Type","SOW Details"];colWidth=["15","35"];',16,'AEV','PRJT','String','PRJT-tabsow','width:55%;');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sowtype','projectSOWs.sowType.fvCode','dropdown','','fv::sow_type',17,'AEV','PRJT','String','PRJT-tabsow-tab');
--- insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sowtypdesc','projectSOWs.sowType.fvValue','text','','fv::sow_type',17.1,'V','PRJT','String','PRJT-tabsow-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-SMMRY','projectSummary','textarea','Project Summary','rows=5;cols=100;',16,'AEV','PRJT','String','PRJT-tabSupInfo');
 
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sodet','projectSOWs.sowDetails','textArea','','rows=3;cols=70;',18,'AEV','PRJT','String','PRJT-tabsow-tab');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-id','projectSOWs.id','hidden','',null,19,'AEV','PRJT','Numeric','PRJT-tabsow-tab');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-version','projectSOWs.version','hidden','',null,20,'AEV','PRJT','Numeric','PRJT-tabsow-tab');
 
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-SMMRY','projectSummary','textarea','Project Summary','rows=5;cols=100;',21,'AEV','PRJT','String','PRJT-tabSupInfo');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('PRJT-tabsow-tab','projectSOWs','table','SOW','cols=2;colTitles=["SOW Type","SOW Details"];colWidth=["15","35"];',17,'AEV','PRJT','String','PRJT-tabsow','width:55%;');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sowtype','projectSOWs.sowType.fvCode','dropdown','','fv::sow_type',18,'AEV','PRJT','String','PRJT-tabsow-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sodet','projectSOWs.sowDetails','textArea','','rows=3;cols=70;',19,'AEV','PRJT','String','PRJT-tabsow-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-id','projectSOWs.id','hidden','',null,20,'AEV','PRJT','Numeric','PRJT-tabsow-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-version','projectSOWs.version','hidden','',null,21,'AEV','PRJT','Numeric','PRJT-tabsow-tab');
+
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab','projectMilestones','table','Milestones','cols=5;colTitles=["Milestone","Target Completion Date","Status","Actual Completion Date","Completed"];colWidth=["35","15","15","15","15"];',22,'AEV','PRJT','String','PRJT-tabmiles');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-det','projectMilestones.milestoneDetails','textArea','','rows=3;cols=70;',23,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-exdt','projectMilestones.expectedCompletionDate','date','',null,24,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-status','projectMilestones.milestoneStatus.fvValue','label','',null,25,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-actdt','projectMilestones.actualCompletionDate','date','',null,26,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-comptd','projectMilestones.completed','checkbox','',null,27,'AEV','PRJT','String','PRJT-tabmiles-tab');
+
+
+
 
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CRTDBY','createdBy','text','Created By',null,100,'V','PRJT','String');
@@ -78,20 +113,7 @@ insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visib
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('PRJT-CNCL','btn btn-secondary','Cancel','onCancel',3,'AEV','PRJT');
 
 
-insert into finite_group(group_code,group_name) values ('proj_status','Project Status') on duplicate key update group_name = group_name;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('proj_status_rdy','Ready To Start','proj_status','ROOT',1)  on duplicate key update fv_code = fv_code;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('proj_status_in_pg','In Progress','proj_status','ROOT',2) on duplicate key update fv_code = fv_code;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('proj_status_on_hld','On Hold','proj_status','ROOT',3) on duplicate key update fv_code = fv_code;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('proj_status_cmplt','Completed','proj_status','ROOT',4) on duplicate key update fv_code = fv_code;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('proj_status_cncl','Cancelled','proj_status','ROOT',5) on duplicate key update fv_code = fv_code;
 
-insert into finite_group(group_code,group_name) values ('sow_type','SOW Type') on duplicate key update group_name = group_name;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_pgm','Program Management','sow_type','IT',1)  on duplicate key update fv_code = fv_code;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_dev','Development','sow_type','IT',2)  on duplicate key update fv_code = fv_code;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_test','Testing','sow_type','IT',3)  on duplicate key update fv_code = fv_code;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_aut','Automation','sow_type','IT',4)  on duplicate key update fv_code = fv_code;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_mnpsply','Manpower Supply','sow_type','IT',5)  on duplicate key update fv_code = fv_code;
-insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sow_type_others','Others','sow_type','IT',6)  on duplicate key update fv_code = fv_code;
 
 
 

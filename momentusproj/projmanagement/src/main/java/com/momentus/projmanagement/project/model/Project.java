@@ -63,6 +63,10 @@ public class Project extends OrgBasedEntity {
     List<ProjectSOW> projectSOWs;
 
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("id Asc")
+    List<ProjectMilestone> projectMilestones;
+
     public Client getClient() {
         return client;
     }
@@ -169,5 +173,13 @@ public class Project extends OrgBasedEntity {
     @Override
     public Map<String, Object> getBK() {
         return super.getBK();
+    }
+
+    public List<ProjectMilestone> getProjectMilestones() {
+        return projectMilestones;
+    }
+
+    public void setProjectMilestones(List<ProjectMilestone> projectMilestones) {
+        this.projectMilestones = projectMilestones;
     }
 }
