@@ -16,14 +16,12 @@ public class PurchaseOrderService extends GenericService {
 
   @Autowired NextUpService nextUpService;
 
-
-
-    @Override
+  @Override
   protected void preValidation(BaseEntity entity, ApplicationContext context) {
     PurchaseOrder purchaseOrder = (PurchaseOrder) entity;
     if (StringUtils.isEmpty(purchaseOrder.getDocNumber())) {
-        String docNo = nextUpService.getNextUpNo(context, "Purchase Order", null, "PO", null, null);
-        purchaseOrder.setDocNumber(docNo);
+      String docNo = nextUpService.getNextUpNo(context, "Purchase Order", null, "PO", null, null);
+      purchaseOrder.setDocNumber(docNo);
     }
     super.preValidation(entity, context);
   }

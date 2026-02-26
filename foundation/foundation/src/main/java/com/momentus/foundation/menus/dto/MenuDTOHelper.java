@@ -12,6 +12,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @Service
 public class MenuDTOHelper {
@@ -23,8 +24,9 @@ public class MenuDTOHelper {
     if (menuSet != null && !CollectionUtils.isEmpty(menuSet.getMenuGroupList())) {
       List<MenuGroupDTO> menuGroupDTOList = new ArrayList<>();
       for (MenuGroup menuGroup : menuSet.getMenuGroupList()) {
+        Boolean hasAllAccess = !StringUtils.hasLength(menuGroup.getAccessCode());
         Set<String> permissibleCodes = Utils.splitCSV(menuGroup.getAccessCode());
-        if (Utils.hasCommonEntry(accessCodes, permissibleCodes)) {
+        if (hasAllAccess || Utils.hasCommonEntry(accessCodes, permissibleCodes)) {
           List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
           if (menuGroup != null && !CollectionUtils.isEmpty(menuGroup.getMenuItemList())) {
             for (MenuItem menuItem : menuGroup.getMenuItemList()) {

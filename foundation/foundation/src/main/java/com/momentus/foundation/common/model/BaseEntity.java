@@ -142,6 +142,7 @@ public abstract class BaseEntity {
       for (Field field : clazz.getDeclaredFields()) {
         EntityProperties annotation = field.getAnnotation(EntityProperties.class);
         if (annotation != null && annotation.isBK()) {
+          field.setAccessible(true);
           return field.get(this);
         }
       }

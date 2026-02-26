@@ -62,8 +62,8 @@ public class PONotes extends BaseEntity {
     setPurchase((PurchaseOrder) base);
   }
 
-    @Override
-    public Object getPK() {
-        return   id;
-    }
+  @Override
+  public Object getPK() {
+    return id;
+  }
 }

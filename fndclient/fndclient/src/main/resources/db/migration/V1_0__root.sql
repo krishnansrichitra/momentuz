@@ -66,6 +66,7 @@ insert into sector(code, name ) VALUES ('ALL','ALL');
 insert into organization(id,org_code,organization_name,address1,email,phone) values (1,'momentuz','Momentuz Pvt Ltd','Bhive ','admin@momentuz.com','988497723');
 
 
+
 CREATE TABLE users(
   user_id varchar(255) PRIMARY KEY,
   org_id bigint NOT NULL,
@@ -85,14 +86,14 @@ CREATE TABLE users(
   foreign key(org_id) references organization(id)
 
 );
-
 insert into users (user_id,org_id,email,first_name,last_name,password,phone,org_owner,system_created) values
- ('admin@momentuz.com',1,'admin@momentuz.com','Admin','Momentus','$2a$10$0w.63IKihn65p1s1hZS12Omx7KmjVB/Xp3nUJMMdN3urxqJAHB0cO','908889',true,true);
+ ('admin@momentuz.com',1,'admin@momentuz.com','Admin','Momentus','$2a$04$bKqtQw1pECimXJtGnZ7l9uwajLLHBHGWf5HuKXHwxbP0lJ05ZaqWe','908889',true,true);
 
 CREATE TABLE roles (
   id bigint   PRIMARY KEY  AUTO_INCREMENT,
   org_id bigint NOT NULL,
   access_codes blob,
+  title varchar(255) DEFAULT NULL,
   description varchar(255) DEFAULT NULL,
   created_by varchar(255) DEFAULT NULL,
   created_time datetime(6) DEFAULT NULL,
@@ -103,13 +104,12 @@ CREATE TABLE roles (
   foreign key(org_id) references organization(id)
 );
 
-insert into roles (id,org_id,access_codes,description) values (1,1,'adm','Admin');
+insert into roles (id,org_id,access_codes,description,title) values (1,1,'ADM-ADM','Admin','Admin');
 
 CREATE TABLE user_roles (
   id bigint PRIMARY KEY  AUTO_INCREMENT ,
   role_id bigint NOT NULL,
-  org_id bigint NOT NULL,
-  user_id varchar(255) NOT NULL,
+  user_id varchar(255) ,
   created_by varchar(255) DEFAULT NULL,
   created_time datetime(6) DEFAULT NULL,
   deleted tinyint(1) DEFAULT '0',
@@ -117,11 +117,10 @@ CREATE TABLE user_roles (
   last_updated_time datetime(6) DEFAULT NULL,
    version bigint DEFAULT 0,
   foreign key (role_id) references roles (id),
-  foreign key (user_id) references users(user_id),
-  foreign key(org_id) references organization(id)
+  foreign key (user_id) references users(user_id)
 );
 
-insert into user_roles(id,org_id,role_id,user_id) values (1,1,1,'admin@momentuz.com');
+insert into user_roles(id,role_id,user_id) values (1,1,'admin@momentuz.com');
 
 create table profile_group(
 profile_group_code varchar(100) primary key,
@@ -138,6 +137,7 @@ last_updated_by varchar(255) DEFAULT NULL,
 
 create table entity (
 entity_name varchar(100) PRIMARY KEY,
+entity_display varchar(100),
 full_package varchar(255) not null,
 profile_group_code varchar(100),
 active tinyint(1) DEFAULT '1',
@@ -183,8 +183,13 @@ create table finite_value(
 fv_code varchar(100) primary key,
 fv_value varchar(255),
 group_code varchar(100),
+profile_code varchar(255),
+seq_no decimal(10,3),
+foreign key (profile_code) references profile (profile_code),
 foreign key  (group_code) references finite_group(group_code)
 );
+
+
 
 insert into finite_group(group_code,group_name) values ('uom_type','UOM Type');
 insert into finite_value(fv_code,fv_value,group_code) values ('UOM_WGHT','WEIGHT','uom_type');
@@ -243,8 +248,7 @@ create table nextup_config(
  foreign key (field_5) references finite_value (fv_code)
 ) ;
 
-
-    create table menu_group (
+   create table menu_group (
         id varchar(100) not null,
         menu_key varchar(255),
         menu_set_id varchar(100) ,
@@ -258,6 +262,8 @@ create table nextup_config(
         access_code varchar(255),
         page varchar(255),
         menu_group_id varchar(100) ,
+        has_children tinyint(1),
+        parent_item varchar(100),
         seq_no NUMERIC(10,2),
         primary key (id)
     ) ;
@@ -271,6 +277,7 @@ create table nextup_config(
         version bigint,
         profile_code varchar(255),
         description varchar(255),
+        profile_level numeric(4),
         primary key (id)
     ) ;
 
@@ -305,6 +312,8 @@ create table list_metadata (
         profile_code varchar(255),
         description varchar(255),
         entity varchar(255),
+        js_file varchar(255),
+        profile_level numeric(4),
         primary key (id)
     ) ;
 
@@ -386,6 +395,8 @@ alter table list_buttons
         updateview_metadata_id varchar(255),
         data_type varchar(50),
         parent varchar(255),
+        param1 varchar(750),
+        style varchar(255),
         primary key (id)
     ) ;
 
@@ -402,6 +413,7 @@ alter table list_buttons
         description varchar(255),
         entity varchar(255),
         js_file varchar(255),
+        profile_level numeric(4),
         primary key (id)
     ) ;
 
@@ -429,20 +441,20 @@ foreign key (profile_code) references profile (profile_code)
 );
 
 create table primary_user_role (
-role_description  varchar(255) primary key,
+title varchar(255) primary key,
+role_description  varchar(255) ,
 profile_code varchar(255) ,
 access_codes blob,
+is_primary tinyint(1),
 foreign key (profile_code) references profile (profile_code)
 );
-
-
 
 
 insert into profile_group(profile_group_code,profile_group_description,created_by,created_time) values ('GNL','General','seed',now());
 insert into profile(profile_code,profile_description,full_profile_code,profile_group_code,created_by,created_time) values ('ROOT','Base Profile','ROOT','GNL','seed',now());
 
 insert into sector_profile(id,sector,profile_code)values ('ROOT-ALL','ALL','ROOT');
-insert into primary_user_role(role_description,profile_code,access_codes) values ('PRIMARY-ROOT','ROOT','extn,adm');
+insert into primary_user_role(title,role_description,profile_code,access_codes,is_primary) values ('def-admin','PRIMARY-ROOT','ROOT','extn,adm',true);
 
 
 insert into entity (entity_name,full_package,profile_group_code,created_by,created_time,support_import)

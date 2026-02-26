@@ -98,10 +98,8 @@ public class POLine extends BaseEntity {
     setPurchase((PurchaseOrder) base);
   }
 
-    @Override
-    public Object getPK() {
-        return   id;
-    }
-
-
+  @Override
+  public Object getPK() {
+    return id;
+  }
 }

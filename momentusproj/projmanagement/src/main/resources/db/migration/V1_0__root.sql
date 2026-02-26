@@ -291,6 +291,8 @@ create table nextup_config(
         access_code varchar(255),
         page varchar(255),
         menu_group_id varchar(100) ,
+        has_children tinyint(1),
+         parent_item varchar(100),
         seq_no NUMERIC(10,2),
         primary key (id)
     ) ;

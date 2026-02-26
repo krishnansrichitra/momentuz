@@ -54,8 +54,8 @@ public class POSupplierInfo extends BaseEntity {
     this.supplierComments = supplierComments;
   }
 
-    @Override
-    public void setParentObject(BaseEntity base) {
-        setPurchase((PurchaseOrder) base);
-    }
+  @Override
+  public void setParentObject(BaseEntity base) {
+    setPurchase((PurchaseOrder) base);
+  }
 }

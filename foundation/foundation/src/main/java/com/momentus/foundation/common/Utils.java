@@ -1,8 +1,10 @@
 package com.momentus.foundation.common;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.springframework.util.StringUtils;
 
 public class Utils {
 
@@ -12,6 +14,7 @@ public class Utils {
   }
 
   public static Set<String> splitCSV(String csvValue) {
+    if (!StringUtils.hasLength(csvValue)) return new HashSet<>();
     Set<String> csvSet =
         Arrays.stream(csvValue.split(","))
             .map(String::trim) // remove spaces

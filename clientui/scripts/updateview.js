@@ -28,6 +28,7 @@ async function loadMetadata() {
             await renderUpdateViewForm(updateMetData, 'V');
             let jsonContent = await fetchDataByEntityAndId(entity, id);
             let formControl = document.getElementById("genericForm");
+            console.log(jsonContent);
             traverseJson(formControl, jsonContent);
         }
         console.log(updateMetData.jsFile );
@@ -323,7 +324,7 @@ async function createTable(field, childFields, mode) {
 
     let table = document.createElement("table");
     table.id = field.id;
-    table.style ='width: 55%;';
+    table.style =field.style;
     console.log(field.style);
     table.dataset.accessor = field.accessor;
     
@@ -700,7 +701,7 @@ function traverseJson(formEl, obj, prefix = '') {
                 let tabl = formEl.querySelector(`[data-accessor="${path}"]`);
                 if (value.length === 0 || tabl == null){
                    // console.log('table lenght = ' + tabl.rows.length );
-                    return;
+                    continue;
                 }
                 for (let i = 0; i < value.length; i++) {
                     const obj = value[i];
@@ -709,7 +710,7 @@ function traverseJson(formEl, obj, prefix = '') {
                 }
                 if (tabl.rows.length > 2) {
                     tabl.deleteRow(tabl.rows.length - 1);
-                    return;
+                    continue;
                 }
             }
             setValueByAccessor(formEl, path, value);

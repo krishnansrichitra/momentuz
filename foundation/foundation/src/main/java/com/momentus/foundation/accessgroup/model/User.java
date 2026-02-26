@@ -1,6 +1,7 @@
 package com.momentus.foundation.accessgroup.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.organization.model.Division;
 import com.momentus.foundation.organization.model.Organization;
@@ -24,6 +25,7 @@ public class User extends BaseEntity {
   private String lastName;
 
   @Column(nullable = false)
+  @EntityProperties(isMandatory = true, isUnique = true)
   private String phone;
 
   @Column(nullable = false)
