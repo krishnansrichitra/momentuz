@@ -303,6 +303,7 @@ async function createTable(field, childFields, mode) {
     let noCols;
     let colTitles = [];
     let colWidths = [];
+    let totalColWidth= 0;
 
     params.split(";").forEach(part => {
         const [key, value] = part.split("=");
@@ -316,21 +317,28 @@ async function createTable(field, childFields, mode) {
         }
         if (key === "colWidth") {
             colWidths = JSON.parse(value); // percentages as strings
+    
         }
     });
 
     let table = document.createElement("table");
     table.id = field.id;
-    table.className = "table table-bordered table-striped table-compact"; // optional bootstrap styling 
     table.style =field.style;
     table.dataset.accessor = field.accessor;
     
     const colgroup = document.createElement("colgroup");
     for (let i = 0; i < noCols; i++) {
         const col = document.createElement("col");
+        totalColWidth+=Number(colWidths[i]);
         col.style.width =colWidths[i] + "%";
         colgroup.append(col);
     }
+      console.log(totalColWidth);
+       if (totalColWidth < 75 )
+           table.className = "table table-bordered table-striped table-compact "; // optional bootstrap styling   use  table-compact if col width has to be less
+        else
+            table.className = "table table-bordered table-striped ";
+
       const col = document.createElement("col");
        col.style.width = "5%";  
        colgroup.append(col);
