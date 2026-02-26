@@ -27,6 +27,7 @@ public class Project extends OrgBasedEntity {
     String projectCode ;
 
     @Column
+            @EntityProperties(isBK = true)
     String projectTitle;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -54,8 +55,8 @@ public class Project extends OrgBasedEntity {
     @Column
     LocalDate actualEndDate;
 
-    @Column
-    Blob projectSummary;
+    @Column(name = "project_summary", length = 755)
+    String projectSummary;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id Asc")
@@ -134,11 +135,11 @@ public class Project extends OrgBasedEntity {
         this.actualEndDate = actualEndDate;
     }
 
-    public Blob getProjectSummary() {
+    public String getProjectSummary() {
         return projectSummary;
     }
 
-    public void setProjectSummary(Blob projectSummary) {
+    public void setProjectSummary(String projectSummary) {
         this.projectSummary = projectSummary;
     }
 

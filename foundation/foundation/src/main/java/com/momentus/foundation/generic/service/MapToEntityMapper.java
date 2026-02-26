@@ -15,9 +15,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import javax.sql.rowset.serial.SerialBlob;
 import org.hibernate.proxy.HibernateProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -301,7 +304,8 @@ public class MapToEntityMapper {
         || type.equals(Integer.class)
         || type.equals(BigDecimal.class)
         || type.equals(LocalDate.class)
-        || type.equals(LocalDateTime.class);
+        || type.equals(LocalDateTime.class)
+        || type.equals(Blob.class);
   }
 
   private static Object convertValue(Object value, Class<?> targetType) {
@@ -309,6 +313,18 @@ public class MapToEntityMapper {
 
     if (targetType.equals(String.class)) {
       return value.toString();
+    }
+    if (targetType.equals(Blob.class)) {
+      try {
+        if (!StringUtils.isEmpty(value)) {
+          String txt = (String) value;
+          return new SerialBlob(txt.getBytes(StandardCharsets.UTF_8));
+        } else {
+          return null;
+        }
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
     }
     if (targetType.equals(Long.class)) {
       return value instanceof Number

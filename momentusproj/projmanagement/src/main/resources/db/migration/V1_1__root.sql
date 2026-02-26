@@ -43,7 +43,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CODE','projectCode','text','Project Code',null,2,'AEV','PRJT','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-TITLE','projectTitle','text','Project Title',null,3,'AEV','PRJT','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CLNIT','client.id','dropdown','Client','Client',4,'AE','PRJT','Numeric');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CLNDESC','client.title','dropdown','Client','Client',4.1,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CLNDESC','client.title','text','Client','Client',4.1,'V','PRJT','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-PRMUSR','projectPrimaryOwner.userId','lookup','Primary Owner','User',5,'AEV','PRJT','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-SECUSR','projectSecondaryOwner.userId','lookup','Secondary Owner','User',6,'AEV','PRJT','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-STATS','status.fvCode','dropdown','Status','fv::proj_status',7,'AEV','PRJT','String');
@@ -57,6 +57,8 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab','projectSOWs','table','SOW','cols=2;colTitles=["SOW Type","SOW Details"];colWidth=["30","65"];',16,'AEV','PRJT','String','PRJT-tabsow');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sowtype','projectSOWs.sowType.fvCode','dropdown','','fv::sow_type',17,'AEV','PRJT','String','PRJT-tabsow-tab');
+-- insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sowtypdesc','projectSOWs.sowType.fvValue','text','','fv::sow_type',17.1,'V','PRJT','String','PRJT-tabsow-tab');
+
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sodet','projectSOWs.sowDetails','textArea','','rows=3;cols=70;',18,'AEV','PRJT','String','PRJT-tabsow-tab');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-id','projectSOWs.id','hidden','',null,19,'AEV','PRJT','Numeric','PRJT-tabsow-tab');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-version','projectSOWs.version','hidden','',null,20,'AEV','PRJT','Numeric','PRJT-tabsow-tab');

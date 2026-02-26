@@ -28,8 +28,8 @@ public class ProjectSOW extends BaseEntity {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     FiniteValue  sowType;
 
-    @Column
-    Blob sowDetails ;
+    @Column(name = "sow_details", length = 755)
+    String sowDetails ;
 
     public Long getId() {
         return id;
@@ -55,16 +55,21 @@ public class ProjectSOW extends BaseEntity {
         this.sowType = sowType;
     }
 
-    public Blob getSowDetails() {
+    public String getSowDetails() {
         return sowDetails;
     }
 
-    public void setSowDetails(Blob sowDetails) {
+    public void setSowDetails(String sowDetails) {
         this.sowDetails = sowDetails;
     }
 
     @Override
     public void setParentObject(BaseEntity base) {
         setProject((Project)base);
+    }
+
+    @Override
+    public Object getPK() {
+        return id;
     }
 }

@@ -686,7 +686,6 @@ function traverseJson(formEl, obj, prefix = '') {
             traverseJson(formEl, value, path);
         } else {
             if (Array.isArray(value)) {
-                console.trace();
                 console.log('can be an array' + path + " and " + value.length);
                 
                 let tabl = formEl.querySelector(`[data-accessor="${path}"]`);
@@ -732,6 +731,7 @@ function setValueByAccessor(formEl, accessor, value) {
     }
     else if (control.tagName === 'SELECT') {
         console.log(control.options.length);
+        console.log(value);
         control.value = value;
     } else if (control.tagName === 'UL') {
         console.log(normalized);
