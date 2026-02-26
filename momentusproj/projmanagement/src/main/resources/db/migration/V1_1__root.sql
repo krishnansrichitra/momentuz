@@ -55,7 +55,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles','','tabset','Milestones',null,14,'AEV','PRJT','List','PRJT-tabset');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabSupInfo','','tabset','Summary',null,15,'AEV','PRJT','Set','PRJT-tabset');
 
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab','projectSOWs','table','SOW','cols=2;colTitles=["SOW Type","SOW Details"];colWidth=["30","65"];',16,'AEV','PRJT','String','PRJT-tabsow');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('PRJT-tabsow-tab','projectSOWs','table','SOW','cols=2;colTitles=["SOW Type","SOW Details"];colWidth=["15","35"];',16,'AEV','PRJT','String','PRJT-tabsow','width:55%;');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sowtype','projectSOWs.sowType.fvCode','dropdown','','fv::sow_type',17,'AEV','PRJT','String','PRJT-tabsow-tab');
 -- insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sowtypdesc','projectSOWs.sowType.fvValue','text','','fv::sow_type',17.1,'V','PRJT','String','PRJT-tabsow-tab');
 

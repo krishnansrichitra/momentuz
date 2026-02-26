@@ -323,7 +323,8 @@ async function createTable(field, childFields, mode) {
 
     let table = document.createElement("table");
     table.id = field.id;
-    table.style =field.style;
+    table.style ='width: 55%;';
+    console.log(field.style);
     table.dataset.accessor = field.accessor;
     
     const colgroup = document.createElement("colgroup");
