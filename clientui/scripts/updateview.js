@@ -463,6 +463,17 @@ async function renderControl(field, partofTable=false) {
             el.appendChild(datactrl);
             return el;
             break;
+       
+        case 'span':
+            el = document.createElement('span');
+            el.style = field.style;
+            break;
+
+        case 'checkbox' :
+            el = document.createElement('input');
+            el.type='checkbox';
+            el.className = "form-check-input";
+            break;
 
         case 'blank':
             el = document.createElement('div');
@@ -656,7 +667,7 @@ function applyRowFromJson(rowEl, jsonData, setValues = true) {
 
             // Look up value in jsonData (supports dot paths like "address.city")
             const value = getByPath(jsonData, accessor);
-             
+            console.log(accessor + ':' + value);
             //console.log(`col=${c}, accessor=${accessor}, value=`, value);
 
             if (!setValues) return;
@@ -683,8 +694,8 @@ function applyRowFromJson(rowEl, jsonData, setValues = true) {
  * Example: getByPath(obj, "a.b.c")
  */
 function getByPath(obj, path) {
-    if (!obj || !path) return undefined;
-    return path.split(".").reduce((acc, key) => (acc != null ? acc[key] : undefined), obj);
+    if (!obj || !path) return '';
+    return path.split(".").reduce((acc, key) => (acc != null ? acc[key] : ''), obj);
 }
 
 
@@ -738,6 +749,8 @@ function setValueByAccessor(formEl, accessor, value) {
         }
     } else if (control.type === 'checkbox') {
         control.checked = Boolean(normalized);
+    }else if (control.type === 'span') {
+        control.innerHTML = normalized;
     }
     else if (control.tagName === 'SELECT') {
         console.log(control.options.length);
@@ -748,7 +761,6 @@ function setValueByAccessor(formEl, accessor, value) {
         applyMultiSelectFromSemicolon(control, normalized);
 
     } else if (control.tagName === 'TEXTAREA') {
-        console.log(normalized);
         control.innerHTML =normalized
 
     } else {

@@ -83,20 +83,22 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-SMMRY','projectSummary','textarea','Project Summary','rows=5;cols=100;',16,'AEV','PRJT','String','PRJT-tabSupInfo');
 
 
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('PRJT-tabsow-tab','projectSOWs','table','SOW','cols=2;colTitles=["SOW Type","SOW Details"];colWidth=["15","35"];',17,'AEV','PRJT','String','PRJT-tabsow','width:55%;');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('PRJT-tabsow-tab','projectSOWs','table','SOW','cols=2;colTitles=["SOW Type","SOW Details"];colWidth=["20","50"];',17,'AEV','PRJT','String','PRJT-tabsow','width:75%;');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sowtype','projectSOWs.sowType.fvCode','dropdown','','fv::sow_type',18,'AEV','PRJT','String','PRJT-tabsow-tab');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-sodet','projectSOWs.sowDetails','textArea','','rows=3;cols=70;',19,'AEV','PRJT','String','PRJT-tabsow-tab');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-id','projectSOWs.id','hidden','',null,20,'AEV','PRJT','Numeric','PRJT-tabsow-tab');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabsow-tab-version','projectSOWs.version','hidden','',null,21,'AEV','PRJT','Numeric','PRJT-tabsow-tab');
 
 
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab','projectMilestones','table','Milestones','cols=5;colTitles=["Milestone","Target Completion Date","Status","Actual Completion Date","Completed"];colWidth=["35","15","15","15","15"];',22,'AEV','PRJT','String','PRJT-tabmiles');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-det','projectMilestones.milestoneDetails','textArea','','rows=3;cols=70;',23,'AEV','PRJT','String','PRJT-tabmiles-tab');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-exdt','projectMilestones.expectedCompletionDate','date','',null,24,'AEV','PRJT','String','PRJT-tabmiles-tab');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-status','projectMilestones.milestoneStatus.fvValue','label','',null,25,'AEV','PRJT','String','PRJT-tabmiles-tab');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-actdt','projectMilestones.actualCompletionDate','date','',null,26,'AEV','PRJT','String','PRJT-tabmiles-tab');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-comptd','projectMilestones.completed','checkbox','',null,27,'AEV','PRJT','String','PRJT-tabmiles-tab');
-
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab','projectMilestones','table','Milestones','cols=6;colTitles=["Milestone","Details","Target Completion Date","Status","Actual Completion Date","Completed"];colWidth=["20","35","10","10","10","10"];',22,'AEV','PRJT','String','PRJT-tabmiles');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-tit','projectMilestones.milestoneTitle','text','',null,23,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-det','projectMilestones.milestoneDetails','textArea','','rows=3;cols=70;',24,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-exdt','projectMilestones.expectedCompletionDate','date','',null,25,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-status','projectMilestones.milestoneStatus.fvValue','span','',null,26,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-actdt','projectMilestones.actualCompletionDate','date','',null,27,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-comptd','projectMilestones.completed','checkbox','',null,28,'AEV','PRJT','String','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-id','projectMilestones.id','hidden','',null,29,'AEV','PRJT','Numeric','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-version','projectMilestones.version','hidden','',null,29,'30','PRJT','Numeric','PRJT-tabmiles-tab');
 
 
 

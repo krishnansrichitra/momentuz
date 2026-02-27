@@ -28,6 +28,8 @@ public class ProjectMilestone extends BaseEntity {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     FiniteValue milestoneStatus;
 
+    @Column
+    String milestoneTitle;
 
     @Column( name ="milestone_details", length = 755)
     String milestoneDetails;
@@ -105,5 +107,13 @@ public class ProjectMilestone extends BaseEntity {
     @Override
     public Object getPK() {
         return id;
+    }
+
+    public String getMilestoneTitle() {
+        return milestoneTitle;
+    }
+
+    public void setMilestoneTitle(String milestoneTitle) {
+        this.milestoneTitle = milestoneTitle;
     }
 }
