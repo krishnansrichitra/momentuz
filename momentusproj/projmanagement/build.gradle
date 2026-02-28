@@ -50,3 +50,22 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+spotless {
+    java {
+        googleJavaFormat()          // Java formatter
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+
+        // Optional: only format changed files
+        // ratchetFrom 'origin/main'
+    }
+
+    // Optional: format other files too
+    format 'misc', {
+        target '**/*.gradle', '**/*.md', '**/*.yml', '**/*.yaml', '**/*.sql'
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}

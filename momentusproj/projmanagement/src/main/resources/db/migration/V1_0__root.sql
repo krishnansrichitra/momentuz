@@ -513,9 +513,3 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USPRF-UPD','btn btn-primary','Update Password','onUpdate',1,'E','USPRF');
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('USPRF-CLS','btn btn-secondary','Close','onClose',1,'E','USPRF');
-
-
-
-
-
-

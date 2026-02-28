@@ -5,115 +5,108 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.foundation.common.model.BaseEntity;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "project_milestones")
 public class ProjectMilestone extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
 
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "project_id", nullable = true)
+  @JsonIgnore
+  Project project;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id", nullable = true)
-    @JsonIgnore
-    Project project;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "milestone_status", referencedColumnName = "fv_code")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  FiniteValue milestoneStatus;
 
+  @Column String milestoneTitle;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "milestone_status", referencedColumnName = "fv_code")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    FiniteValue milestoneStatus;
+  @Column(name = "milestone_details", length = 755)
+  String milestoneDetails;
 
-    @Column
-    String milestoneTitle;
+  @Column LocalDate expectedCompletionDate;
 
-    @Column( name ="milestone_details", length = 755)
-    String milestoneDetails;
+  @Column LocalDate actualCompletionDate;
 
-    @Column
-    LocalDate expectedCompletionDate;
+  @Column Boolean completed;
 
-    @Column
-    LocalDate actualCompletionDate;
+  public Long getId() {
+    return id;
+  }
 
-    @Column
-    Boolean completed;
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public Project getProject() {
+    return project;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setProject(Project project) {
+    this.project = project;
+  }
 
-    public Project getProject() {
-        return project;
-    }
+  public FiniteValue getMilestoneStatus() {
+    return milestoneStatus;
+  }
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
+  public void setMilestoneStatus(FiniteValue milestoneStatus) {
+    this.milestoneStatus = milestoneStatus;
+  }
 
-    public FiniteValue getMilestoneStatus() {
-        return milestoneStatus;
-    }
+  public String getMilestoneDetails() {
+    return milestoneDetails;
+  }
 
-    public void setMilestoneStatus(FiniteValue milestoneStatus) {
-        this.milestoneStatus = milestoneStatus;
-    }
+  public void setMilestoneDetails(String milestoneDetails) {
+    this.milestoneDetails = milestoneDetails;
+  }
 
-    public String getMilestoneDetails() {
-        return milestoneDetails;
-    }
+  public LocalDate getExpectedCompletionDate() {
+    return expectedCompletionDate;
+  }
 
-    public void setMilestoneDetails(String milestoneDetails) {
-        this.milestoneDetails = milestoneDetails;
-    }
+  public void setExpectedCompletionDate(LocalDate expectedCompletionDate) {
+    this.expectedCompletionDate = expectedCompletionDate;
+  }
 
-    public LocalDate getExpectedCompletionDate() {
-        return expectedCompletionDate;
-    }
+  public LocalDate getActualCompletionDate() {
+    return actualCompletionDate;
+  }
 
-    public void setExpectedCompletionDate(LocalDate expectedCompletionDate) {
-        this.expectedCompletionDate = expectedCompletionDate;
-    }
+  public void setActualCompletionDate(LocalDate actualCompletionDate) {
+    this.actualCompletionDate = actualCompletionDate;
+  }
 
-    public LocalDate getActualCompletionDate() {
-        return actualCompletionDate;
-    }
+  public Boolean getCompleted() {
+    return completed;
+  }
 
-    public void setActualCompletionDate(LocalDate actualCompletionDate) {
-        this.actualCompletionDate = actualCompletionDate;
-    }
+  public void setCompleted(Boolean completed) {
+    this.completed = completed;
+  }
 
-    public Boolean getCompleted() {
-        return completed;
-    }
+  @Override
+  public void setParentObject(BaseEntity base) {
+    setProject((Project) base);
+  }
 
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
-    }
+  @Override
+  public Object getPK() {
+    return id;
+  }
 
-    @Override
-    public void setParentObject(BaseEntity base) {
-        setProject((Project)base);
-    }
+  public String getMilestoneTitle() {
+    return milestoneTitle;
+  }
 
-    @Override
-    public Object getPK() {
-        return id;
-    }
-
-    public String getMilestoneTitle() {
-        return milestoneTitle;
-    }
-
-    public void setMilestoneTitle(String milestoneTitle) {
-        this.milestoneTitle = milestoneTitle;
-    }
+  public void setMilestoneTitle(String milestoneTitle) {
+    this.milestoneTitle = milestoneTitle;
+  }
 }

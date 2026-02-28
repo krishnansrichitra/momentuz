@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -323,6 +324,7 @@ public class GenericService {
     preValidation(entity, context);
     TransactionResponse validationResponse = validate(entity, context, skipBKValidation);
     if (validationResponse.hasHardError()) {
+      TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
       return validationResponse;
     }
     preSave(entity, context);

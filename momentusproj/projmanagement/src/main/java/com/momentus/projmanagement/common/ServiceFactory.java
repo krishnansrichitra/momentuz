@@ -11,16 +11,14 @@ public class ServiceFactory implements IServiceFactory {
 
   @Autowired GenericService genericService;
 
-  @Autowired
-    ProjectService projectService ;
-
+  @Autowired ProjectService projectService;
 
   @Override
   public GenericService getService(String entity) {
-      if ("Project".equalsIgnoreCase(entity)) {
-          return projectService;
-      }else {
-          return genericService;
-      }
+    if ("Project".equalsIgnoreCase(entity)) {
+      return projectService;
+    } else {
+      return genericService;
+    }
   }
 }

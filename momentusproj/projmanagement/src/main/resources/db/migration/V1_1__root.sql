@@ -98,7 +98,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-actdt','projectMilestones.actualCompletionDate','date','',null,27,'AEV','PRJT','String','PRJT-tabmiles-tab');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-comptd','projectMilestones.completed','checkbox','',null,28,'AEV','PRJT','String','PRJT-tabmiles-tab');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-id','projectMilestones.id','hidden','',null,29,'AEV','PRJT','Numeric','PRJT-tabmiles-tab');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-version','projectMilestones.version','hidden','',null,29,'30','PRJT','Numeric','PRJT-tabmiles-tab');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('PRJT-tabmiles-tab-version','projectMilestones.version','hidden','',null,29,'AEV','PRJT','Numeric','PRJT-tabmiles-tab');
 
 
 
@@ -308,9 +308,3 @@ insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visib
 insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('RLCR-CLR','btn btn-warning','Clear','clearAccessorControls',2,'E','RLCR');
 
 -- end role
-
-
-
-
-
-

@@ -73,4 +73,15 @@ public class FiniteValue {
   public void setSeqNo(BigDecimal seqNo) {
     this.seqNo = seqNo;
   }
+
+  public static boolean isSame(FiniteValue value1, String code) {
+    return (value1 != null && value1.getFvCode().equalsIgnoreCase(code));
+  }
+
+  public static boolean isSame(FiniteValue value1, FiniteValue value2) {
+    if (value1 == null && value2 == null) return true;
+    return (value1 != null
+        && value2 != null
+        && value1.getFvCode().equalsIgnoreCase(value2.getFvCode()));
+  }
 }

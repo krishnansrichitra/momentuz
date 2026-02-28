@@ -305,6 +305,7 @@ public class MapToEntityMapper {
         || type.equals(BigDecimal.class)
         || type.equals(LocalDate.class)
         || type.equals(LocalDateTime.class)
+        || type.equals(Boolean.class)
         || type.equals(Blob.class);
   }
 

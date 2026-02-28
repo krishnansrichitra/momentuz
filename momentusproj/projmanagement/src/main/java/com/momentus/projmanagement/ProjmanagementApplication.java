@@ -8,18 +8,17 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(
-        scanBasePackages = {
-                "com.momentus", // your main app
-                "com.momentus.corefw",
-                "com.momentus.foundation" // package inside your JAR
-        })
+    scanBasePackages = {
+      "com.momentus", // your main app
+      "com.momentus.corefw",
+      "com.momentus.foundation" // package inside your JAR
+    })
 @EntityScan(basePackages = {"com.momentus.projmanagement", "com.momentus.foundation"})
 @EnableJpaRepositories(basePackages = {"com.momentus.projmanagement", "com.momentus.foundation"})
 @Import(SecurityConfig.class)
 public class ProjmanagementApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProjmanagementApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(ProjmanagementApplication.class, args);
+  }
 }

@@ -49,4 +49,14 @@ public class MomentusError {
   }
 
   public MomentusError() {}
+
+  @Override
+  public boolean equals(Object obj) {
+    return (obj != null && ((MomentusError) obj).getErrorCode().equals(this.errorCode));
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
 }
