@@ -7,9 +7,8 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <script src="./classes/menus.js"></script>
 
     <style>
@@ -151,9 +150,52 @@
             </div>
         </nav>
 
+
+         <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button  name = "pgTitle" id ="pgTitle"  class="nav-link active text-primary fs-4 fw-semibold"
+                    data-bs-toggle="tab"
+                    data-bs-target="#tab-home"
+                    type="button">
+                
+            </button>
+        </li>
+
+        <!-- <li class="nav-item" role="presentation">
+            <button class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#tab-second"
+                    type="button">
+                Second Tab
+            </button>
+        </li> -->
+    </ul>
         <!-- IFRAME -->
-        <iframe id="contentFrame" class="content-frame" src="welcome.html">
-        </iframe>
+        <div class="tab-content">
+
+        <!-- TAB 1 -->
+        <div class="tab-pane fade show active"
+             id="tab-01">
+
+            <iframe id="contentFrame"
+                    src="welcome.html"
+                    style="width:100%; height:90vh; border:none;">
+            </iframe>
+
+        </div>
+
+        <!-- TAB 2 
+        <div class="tab-pane fade"
+             id="tab-second">
+
+            <div class="p-3">
+                Second tab content here
+            </div>
+
+        </div>-->
+
+    </div>
+    
 
         <div class="modal fade" id="htmlDialog" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">

@@ -48,7 +48,7 @@
                     aria-controls="filterPanel"
                     id="filterToggleBtn"
                 >
-                    <span id="filterToggleIcon">−</span>
+                    <span id="filterToggleIcon">+</span>
                 </button>
 
                 <h5 class="mb-0">Filter</h5>
@@ -58,7 +58,7 @@
 
 
         <!-- Collapsible Body -->
-        <div class="collapse show" id="filterPanel"> 
+        <div class="collapse " id="filterPanel"> 
             <div class="card-body" id="filter-container">
                 <h5 class="card-title mb-3">Filter</h5>
 
@@ -203,6 +203,7 @@
   filterPanel.addEventListener("hidden.bs.collapse", () => {
     icon.textContent = "+";
   });
+//  icon.click();
 </script>
 
 

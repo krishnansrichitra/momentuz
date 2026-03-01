@@ -387,7 +387,5 @@ async function populateSelectOptions(select, param) {
             select.appendChild(opt);
         });
     }
-   console.trace();
-
     console.log('Added options');
 }

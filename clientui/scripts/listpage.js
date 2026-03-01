@@ -147,8 +147,11 @@ async function loadMetadata() {
     try {
         const response = await axios.get(url);
         console.log("metadata response:", response.data);
+             const homeTabs = window.parent.document.getElementsByName("pgTitle");
+      // console.log(homeTabs[homeTabs.length-1]);
 
         const listMetadata = new ListMetadata(response.data);
+            homeTabs[homeTabs.length-1].innerText = "List " + listMetadata.entity;
         filterFields = listMetadata.filterFields
         renderFilterFields(filterFields, "filter-container");
 
