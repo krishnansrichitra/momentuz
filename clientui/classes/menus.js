@@ -109,7 +109,7 @@ function renderMenus(menuSet) {
             }else{
                 itemA.className = "dropdown-item";
                 itemA.href = "#";
-                itemA.onclick = () => loadPage(item.page);
+                itemA.onclick = (event) => loadPage(event,item.page,itemA.textContent);
                 itemLi.appendChild(itemA);
                 
             }
