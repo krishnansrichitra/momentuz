@@ -667,15 +667,20 @@ function applyRowFromJson(rowEl, jsonData, setValues = true) {
 
             // Look up value in jsonData (supports dot paths like "address.city")
             const value = getByPath(jsonData, accessor);
-            console.log(accessor + ':' + value);
+           // console.log(accessor + ':' + value);
             //console.log(`col=${c}, accessor=${accessor}, value=`, value);
 
             if (!setValues) return;
             //console.log(ctrl.tagName);
             // Apply value to control based on type
             if (ctrl.tagName === "SPAN") {
-                //console.log('span control ' + value);
-                ctrl.innerHTML = value;
+               // console.log('span control ' + value);
+               if (value === true) {
+                   ctrl.innerHTML =  '<i class="bi bi-check-circle-fill text-success"></i>';
+                } else if (value === false ) {
+                    ctrl.innerHTML = '<i class="bi bi-circle text-muted"></i>';;
+                }else 
+                    ctrl.innerHTML = value;
             } else if (ctrl.type === "checkbox") {
                 ctrl.checked = Boolean(value);
             } else if (ctrl.type === "radio") {
@@ -753,11 +758,8 @@ function setValueByAccessor(formEl, accessor, value) {
         control.innerHTML = normalized;
     }
     else if (control.tagName === 'SELECT') {
-        console.log(control.options.length);
-        console.log(value);
         control.value = value;
     } else if (control.tagName === 'UL') {
-        console.log(normalized);
         applyMultiSelectFromSemicolon(control, normalized);
 
     } else if (control.tagName === 'TEXTAREA') {

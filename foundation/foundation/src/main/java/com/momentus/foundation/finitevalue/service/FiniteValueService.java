@@ -18,4 +18,6 @@ public class FiniteValueService {
   public List<FiniteValue> getFiniteValueByGroup(String group) {
     return finiteValueRepository.findByFiniteGroup_GroupCodeOrderBySeqNoAsc(group);
   }
+
+
 }
