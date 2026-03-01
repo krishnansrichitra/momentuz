@@ -151,7 +151,7 @@ async function loadMetadata() {
       // console.log(homeTabs[homeTabs.length-1]);
 
         const listMetadata = new ListMetadata(response.data);
-            homeTabs[homeTabs.length-1].innerText = "List " + listMetadata.entity;
+
         filterFields = listMetadata.filterFields
         renderFilterFields(filterFields, "filter-container");
 

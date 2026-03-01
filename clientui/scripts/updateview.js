@@ -169,9 +169,7 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
     form.innerHTML = '';
     console.log('metadsta title=' + metadata.title);
  //   document.getElementById("hpageTitle").innerHTML = metadata.title;
-     const homeTabs = window.parent.document.getElementsByName("pgTitle");
-   // console.log(homeTabs[homeTabs.length-1]);
-    homeTabs[homeTabs.length-1].innerText = metadata.title;
+
 
     const visibleFields = metadata.updateViewFields
         .filter(f => f.isVisible(mode) && !f.isHidden());

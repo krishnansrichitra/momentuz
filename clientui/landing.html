@@ -229,7 +229,8 @@
          
          const homeTabs = window.parent.document.getElementsByName("pgTitle");
          console.log(homeTabs.length);
-        const tabId = "tab_" +homeTabs.length+1;  // unique id
+         let tIndex= Number(homeTabs.length)+ Number(1); 
+        const tabId = "tab_" + tIndex // unique id
         console.log(homeTabs.length);
         const tabsContainer = document.getElementById("mainTabs");
         const contentContainer = document.getElementById("tab-content");
@@ -249,8 +250,8 @@
         button.type = "button";
         button.role = "tab";
         button.innerHTML = `
-            ${title}
-            <i class="bi bi-x ms-2" style="cursor:pointer;"></i>
+            <span class="me-2">${title}</span>
+            <span class="btn-close ms-2 tab-close" aria-label="Close"></span>
         `;
 
         li.appendChild(button);
@@ -288,8 +289,30 @@
 
         console.log(document.getElementsByName("contentFrame"));
         document.getElementsByName("contentFrame")[homeTabs.length-1].src = pageUrl;
-        document.getElementBy
+        closeTabButtonSet(button,li,tabPane);
 
+    }
+
+    function closeTabButtonSet(button,li,pane)
+    {
+        button.querySelector(".tab-close").addEventListener("click", function (e) {
+
+        e.stopPropagation(); // Prevent switching tab
+
+        const wasActive = button.classList.contains("active");
+
+        li.remove();
+        pane.remove();
+
+        if (wasActive) {
+            const lastTab =
+                document.querySelector("#mainTabs .nav-link:last-child");
+
+            if (lastTab) {
+                bootstrap.Tab.getOrCreateInstance(lastTab).show();
+            }
+        }
+    });
 
     }
 
@@ -304,6 +327,9 @@
         }else {
 
             document.getElementsByName("contentFrame")[0].src = page;
+                 const homeTabs = document.getElementsByName("pgTitle");
+                // console.log(homeTabs[homeTabs.length-1]);
+                homeTabs[0].innerText = title;
         }
 
         }
