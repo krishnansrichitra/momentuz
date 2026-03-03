@@ -52,6 +52,28 @@
 }
 .dropdown-submenu > .dropdown-menu.show { display: block; }
 
+/* Active tab */
+.nav-tabs .nav-link.active {
+    background-color: #0d6efd;   /* blue */
+    color: #fff !important;
+    font-weight: 600;
+    border-color: #0d6efd #0d6efd #fff;
+     border-bottom: 2px solid #0d6efd;  /* highlight line */
+}
+
+/* Base style for all tabs */
+.nav-tabs .nav-link {
+    background-color: #f8f9fa;
+    border: 1px solid #e5e5e5;   /* very light border */
+    margin-right: 2px;           /* small spacing between tabs */
+}
+
+
+
+/* Hover effect */
+.nav-tabs .nav-link:hover {
+    background-color: #e9ecef;
+}
 
     </style>
 </head>
@@ -291,6 +313,8 @@
         document.getElementsByName("contentFrame")[homeTabs.length-1].src = pageUrl;
         closeTabButtonSet(button,li,tabPane);
 
+  
+
     }
 
     function closeTabButtonSet(button,li,pane)
@@ -316,6 +340,14 @@
 
     }
 
+    function closeAllTabsExceptFirst() {
+
+    const closeButtons = Array.from(document.querySelectorAll("#mainTabs .tab-close"));
+
+  // Click each close icon
+          closeButtons.forEach(btn => btn.click());
+    }
+
         function loadPage(event, page,title) {
             
             
@@ -326,10 +358,14 @@
             return;
         }else {
 
+          
+
             document.getElementsByName("contentFrame")[0].src = page;
                  const homeTabs = document.getElementsByName("pgTitle");
                 // console.log(homeTabs[homeTabs.length-1]);
                 homeTabs[0].innerText = title;
+
+                closeAllTabsExceptFirst();
         }
 
         }
