@@ -1,8 +1,6 @@
 package com.momentus.foundation.common;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.util.StringUtils;
 
@@ -37,5 +35,15 @@ public class Utils {
       }
     }
     return false;
+  }
+
+  public static List<String> getProfileCodes(String fullProfile) {
+    if (fullProfile == null || fullProfile.isBlank()) return Collections.emptyList();
+
+    String[] parts = fullProfile.split("-");
+    List<String> result = new ArrayList<>(Arrays.asList(parts));
+
+    Collections.reverse(result);
+    return result;
   }
 }

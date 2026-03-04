@@ -34,7 +34,8 @@ public class LookupController {
     log.debug("getting getFiniteValueDropdowns for " + fvGroup);
     ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
     Map<String, String> retValue =
-        lookupService.getFValuesforDropDown(fvGroup, context.getLocale());
+        lookupService.getFValuesforDropDown(
+            fvGroup, context.getLocale(), context.getOrganization().getId());
     return ResponseEntity.ok(retValue);
   }
 

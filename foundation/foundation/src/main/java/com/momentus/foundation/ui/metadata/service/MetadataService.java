@@ -1,5 +1,6 @@
 package com.momentus.foundation.ui.metadata.service;
 
+import com.momentus.foundation.common.Utils;
 import com.momentus.foundation.organization.model.OrgProfile;
 import com.momentus.foundation.organization.service.OrgProfileService;
 import com.momentus.foundation.ui.metadata.dto.ListMetadataDTO;
@@ -33,7 +34,7 @@ public class MetadataService {
     if (orgProfile != null) {
       List<ListMetadata> listMetadataList =
           listMetadataRepository.findByProfile_ProfileCodeInAndEntityOrderByProfileLevelDesc(
-              getProfileCodes(orgProfile.getProfile().getFullProfileCode()), entity);
+              Utils.getProfileCodes(orgProfile.getProfile().getFullProfileCode()), entity);
       if (!CollectionUtils.isEmpty(listMetadataList)) {
         return metadataDTOHelper.makeListMetadataDTO(
             listMetadataList.get(listMetadataList.size() - 1), locale);
@@ -50,22 +51,12 @@ public class MetadataService {
     if (orgProfile != null) {
       List<UpdateViewMetadata> updateViewMetadatas =
           updateViewMetadataRepository.findByProfile_ProfileCodeInAndEntityOrderByProfileLevelDesc(
-              getProfileCodes(orgProfile.getProfile().getFullProfileCode()), entity);
+              Utils.getProfileCodes(orgProfile.getProfile().getFullProfileCode()), entity);
       if (!CollectionUtils.isEmpty(updateViewMetadatas)) {
         return metadataDTOHelper.makeUpdateViewDTO(
             updateViewMetadatas.get(updateViewMetadatas.size() - 1), locale, mode);
       }
     }
     return null;
-  }
-
-  private List<String> getProfileCodes(String fullProfile) {
-    if (fullProfile == null || fullProfile.isBlank()) return Collections.emptyList();
-
-    String[] parts = fullProfile.split("-");
-    List<String> result = new ArrayList<>(Arrays.asList(parts));
-
-    Collections.reverse(result);
-    return result;
   }
 }

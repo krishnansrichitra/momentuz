@@ -38,10 +38,11 @@ public class LookupService {
 
   @Autowired UserRepository userRepository;
 
-  @Cacheable("finiteValues")
-  public Map<String, String> getFValuesforDropDown(String groupCode, Locale locale) {
+  @Cacheable("LookupFVByOrgs")
+  public Map<String, String> getFValuesforDropDown(String groupCode, Locale locale, Long orgId) {
     Map<String, String> retValues = new LinkedHashMap<>();
-    List<FiniteValue> finiteValueList = finiteValueService.getFiniteValueByGroup(groupCode);
+    List<FiniteValue> finiteValueList =
+        finiteValueService.getFiniteValueByGroupAndOrg(groupCode, orgId);
     if (!CollectionUtils.isEmpty(finiteValueList)) {
       for (FiniteValue finiteValue : finiteValueList) {
         retValues.put(
