@@ -13,5 +13,6 @@ delete from menu_item where id in ( 'IT_MNU-ADM-CLNT','IT_MNU-RPTS-PRJ');
 
 delete from entity where entity_name in ( 'Division' ,'Role' ,'User' ,'Client','Project');
 
+drop table  wi_task_status_mapping;
 
 delete from flyway_schema_history where version=1.1 and installed_rank=2;
