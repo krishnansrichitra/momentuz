@@ -66,6 +66,13 @@ insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values 
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_status_cnc','Canceled','wi_status','IT',160) on duplicate key update fv_code = fv_code;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_status_blc','Blocked','wi_status','IT',170) on duplicate key update fv_code = fv_code;
 
+insert into finite_group(group_code,group_name) values ('wi_time_uom','Work Item Time UOM') on duplicate key update group_name = group_name;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_time_uom_hr','Hours','wi_time_uom','IT',10) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_time_uom_sp','Story Points','wi_time_uom','IT',20) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_time_uom_dys','Days','wi_time_uom','IT',30) on duplicate key update fv_code = fv_code;
+
+
+
 -- wi_task_status_mapping  ---
 
 

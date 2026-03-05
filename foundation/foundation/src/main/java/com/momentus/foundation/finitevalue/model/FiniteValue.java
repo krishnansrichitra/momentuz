@@ -84,4 +84,9 @@ public class FiniteValue {
         && value2 != null
         && value1.getFvCode().equalsIgnoreCase(value2.getFvCode()));
   }
+
+  public FiniteValue(String fvCode, String fvValue) {
+    this.fvCode = fvCode;
+    this.fvValue = fvValue;
+  }
 }
