@@ -55,14 +55,11 @@ public class WorkItem extends OrgBasedEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "estimate_uom", referencedColumnName = "fv_code")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  FiniteValue estimateUOM;
+  FiniteValue timeUOM;
 
   @Column Float actuals;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "actuals_uom", referencedColumnName = "fv_code")
-  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  FiniteValue actualsUOM;
+
 
   @Column LocalDate plannedStartDate;
 
@@ -155,15 +152,15 @@ public class WorkItem extends OrgBasedEntity {
     this.estimate = estimate;
   }
 
-  public FiniteValue getEstimateUOM() {
-    return estimateUOM;
-  }
+    public FiniteValue getTimeUOM() {
+        return timeUOM;
+    }
 
-  public void setEstimateUOM(FiniteValue estimateUOM) {
-    this.estimateUOM = estimateUOM;
-  }
+    public void setTimeUOM(FiniteValue timeUOM) {
+        this.timeUOM = timeUOM;
+    }
 
-  public Float getActuals() {
+    public Float getActuals() {
     return actuals;
   }
 
@@ -171,13 +168,6 @@ public class WorkItem extends OrgBasedEntity {
     this.actuals = actuals;
   }
 
-  public FiniteValue getActualsUOM() {
-    return actualsUOM;
-  }
-
-  public void setActualsUOM(FiniteValue actualsUOM) {
-    this.actualsUOM = actualsUOM;
-  }
 
   public LocalDate getPlannedStartDate() {
     return plannedStartDate;

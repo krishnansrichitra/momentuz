@@ -19,10 +19,10 @@ public class WorkItemDTOHelper {
     workItem.setDescription(
         new SerialBlob(workItemDTO.getDescription().getBytes(StandardCharsets.UTF_8)));
     workItem.setPlannedStartDate(workItemDTO.getPlannedStartDate());
-    workItem.setEstimateUOM(FiniteValueDTO.makeFiniteValue(workItemDTO.getEstimateUOM()));
+    workItem.setTimeUOM(FiniteValueDTO.makeFiniteValue(workItemDTO.getEstimateUOM()));
     workItem.setEstimate(workItemDTO.getEstimate());
     workItem.setActualStartDate(workItemDTO.getActualStartDate());
-    workItem.setActualsUOM(FiniteValueDTO.makeFiniteValue(workItemDTO.getActualsUOM()));
+    workItem.setTimeUOM(FiniteValueDTO.makeFiniteValue(workItemDTO.getActualsUOM()));
     workItem.setActuals(workItemDTO.getActuals());
     Project project = new Project();
     project.setId(workItemDTO.getProjectId());
