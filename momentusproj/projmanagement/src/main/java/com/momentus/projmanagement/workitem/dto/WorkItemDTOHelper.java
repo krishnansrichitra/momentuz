@@ -38,4 +38,12 @@ public class WorkItemDTOHelper {
     workItem.setParent(parentWorkItem);
     return workItem;
   }
+
+
+  public static WorkItemDTO makeWorkitemDTOfromWorkItem(WorkItem workItem)
+  {
+      WorkItemDTO workItemDTO = new WorkItemDTO();
+      
+      return workItemDTO;
+  }
 }

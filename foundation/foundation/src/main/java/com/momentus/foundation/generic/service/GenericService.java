@@ -338,8 +338,10 @@ public class GenericService {
   protected void preSave(BaseEntity entity, ApplicationContext context) {}
 
   public TransactionResponse saveEntity(OrgBasedEntity entity, ApplicationContext context) {
-    entity.setCreatedBy(context.getLoggedInUser());
-    entity.setCreatedTime(LocalDateTime.now());
+    if (entity.getId() == null || entity.getId() <= 0) {
+      entity.setCreatedBy(context.getLoggedInUser());
+      entity.setCreatedTime(LocalDateTime.now());
+    }
     entity.setLastUpdatedBy(context.getLoggedInUser());
     entity.setLastUpdatedTime(LocalDateTime.now());
     genericDAO.create(entity);

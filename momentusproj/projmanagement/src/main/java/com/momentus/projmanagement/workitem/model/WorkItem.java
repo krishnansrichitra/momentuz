@@ -59,8 +59,6 @@ public class WorkItem extends OrgBasedEntity {
 
   @Column Float actuals;
 
-
-
   @Column LocalDate plannedStartDate;
 
   @Column LocalDate actualStartDate;
@@ -152,22 +150,21 @@ public class WorkItem extends OrgBasedEntity {
     this.estimate = estimate;
   }
 
-    public FiniteValue getTimeUOM() {
-        return timeUOM;
-    }
+  public FiniteValue getTimeUOM() {
+    return timeUOM;
+  }
 
-    public void setTimeUOM(FiniteValue timeUOM) {
-        this.timeUOM = timeUOM;
-    }
+  public void setTimeUOM(FiniteValue timeUOM) {
+    this.timeUOM = timeUOM;
+  }
 
-    public Float getActuals() {
+  public Float getActuals() {
     return actuals;
   }
 
   public void setActuals(Float actuals) {
     this.actuals = actuals;
   }
-
 
   public LocalDate getPlannedStartDate() {
     return plannedStartDate;
