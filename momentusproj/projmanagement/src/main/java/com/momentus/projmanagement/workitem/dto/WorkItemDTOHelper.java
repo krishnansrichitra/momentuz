@@ -1,15 +1,24 @@
 package com.momentus.projmanagement.workitem.dto;
 
 import com.momentus.foundation.accessgroup.model.User;
+import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.finitevalue.dto.FiniteValueDTO;
 import com.momentus.projmanagement.project.model.Project;
 import com.momentus.projmanagement.workitem.model.WorkItem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import javax.sql.rowset.serial.SerialBlob;
 
+@Service
 public class WorkItemDTOHelper {
 
-  public static WorkItem makeWorkItemFromDTO(WorkItemDTO workItemDTO) throws Exception {
+    @Autowired
+    GeneralMessages generalMessages;
+
+  public  WorkItem makeWorkItemFromDTO(WorkItemDTO workItemDTO) throws Exception {
 
     WorkItem workItem = new WorkItem();
     workItem.setType(FiniteValueDTO.makeFiniteValue(workItemDTO.getType()));
@@ -19,7 +28,7 @@ public class WorkItemDTOHelper {
     workItem.setDescription(
         new SerialBlob(workItemDTO.getDescription().getBytes(StandardCharsets.UTF_8)));
     workItem.setPlannedStartDate(workItemDTO.getPlannedStartDate());
-    workItem.setTimeUOM(FiniteValueDTO.makeFiniteValue(workItemDTO.getEstimateUOM()));
+    workItem.setTimeUOM(FiniteValueDTO.makeFiniteValue(workItemDTO.getTimeUOM()));
     workItem.setEstimate(workItemDTO.getEstimate());
     workItem.setActualStartDate(workItemDTO.getActualStartDate());
     workItem.setTimeUOM(FiniteValueDTO.makeFiniteValue(workItemDTO.getActualsUOM()));
@@ -39,11 +48,15 @@ public class WorkItemDTOHelper {
     return workItem;
   }
 
+  public  WorkItemDTO makeWorkitemDTOfromWorkItem(WorkItem workItem, Locale ls) {
+    WorkItemDTO workItemDTO = new WorkItemDTO();
+    workItemDTO.setType(new FiniteValueDTO(workItem.getType().getFvCode(),generalMessages.getMessage(workItem.getType().getFvValue(),ls)));
+    workItemDTO.setStatus(new FiniteValueDTO(workItem.getStatus().getFvCode(),
+            generalMessages.getMessage(workItem.getStatus().getFvValue(),ls)));
+    if (workItem.getTimeUOM() != null)
+        workItemDTO.setTimeUOM(new FiniteValueDTO(workItem.getTimeUOM().getFvCode(),generalMessages.getMessage(workItem.getTimeUOM().getFvValue(),ls)));
+  
 
-  public static WorkItemDTO makeWorkitemDTOfromWorkItem(WorkItem workItem)
-  {
-      WorkItemDTO workItemDTO = new WorkItemDTO();
-      
-      return workItemDTO;
+    return workItemDTO;
   }
 }

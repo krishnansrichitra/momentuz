@@ -11,6 +11,7 @@ import com.momentus.foundation.generic.service.GenericService;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import com.momentus.projmanagement.project.model.Project;
 import com.momentus.projmanagement.project.model.ProjectMilestone;
+import com.momentus.projmanagement.project.repository.ProjectRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ public class ProjectService extends GenericService {
   @Autowired GeneralMessages generalMessages;
 
   @Autowired FiniteValueService finiteValueService;
+
+  @Autowired ProjectRepository projectRepository;
 
   @Override
   protected TransactionResponse validate(
@@ -112,5 +115,15 @@ public class ProjectService extends GenericService {
       }
     }
     return errors;
+  }
+
+  public Project findById(Long id, Long orgId, Boolean includeDel) {
+
+    Project project = (Project) projectRepository.findById(id).orElse(null);
+    return (project != null
+            && project.getOrgId().getId() == orgId
+            && (includeDel || !project.isDeleted()))
+        ? project
+        : null;
   }
 }

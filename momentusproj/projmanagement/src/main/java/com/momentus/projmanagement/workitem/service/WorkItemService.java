@@ -9,7 +9,7 @@ import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import com.momentus.foundation.finitevalue.service.FiniteValueService;
 import com.momentus.foundation.generic.service.GenericService;
-import com.momentus.foundation.organization.model.OrgBasedEntity;
+import com.momentus.projmanagement.project.model.Project;
 import com.momentus.projmanagement.project.service.ProjectService;
 import com.momentus.projmanagement.workitem.dto.WorkItemDTO;
 import com.momentus.projmanagement.workitem.dto.WorkItemDTOHelper;
@@ -40,6 +40,9 @@ public class WorkItemService extends GenericService {
 
   @Autowired UserRepository userRepository;
 
+  @Autowired
+  WorkItemDTOHelper workItemDTOHelper;
+
   public final String WI_STATUS_NEW = "wi_status_new";
   public final String WI_STATUS_ASSN = "wi_status_assn";
   public final String WI_STATUS_INPRG = "wi_status_inpg";
@@ -51,7 +54,7 @@ public class WorkItemService extends GenericService {
       WorkItemDTO workItemDTO, ApplicationContext context) {
     try {
       log.info("Saving WorkItem =" + workItemDTO);
-      WorkItem workItem = WorkItemDTOHelper.makeWorkItemFromDTO(workItemDTO);
+      WorkItem workItem = workItemDTOHelper.makeWorkItemFromDTO(workItemDTO);
       TransactionResponse response = basicValidation(workItem, context);
       if (response.hasHardError()) {
         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -122,6 +125,7 @@ public class WorkItemService extends GenericService {
               generalMessages.getMessage(WorkItemErrorCodes.TYPE_BLANK, context.getLocale()));
       errors.add(momentusError);
     }
+
     if (workItem.getEstimate() != null
         && workItem.getEstimate() != 0
         && workItem.getTimeUOM() == null) {
@@ -173,6 +177,22 @@ public class WorkItemService extends GenericService {
             TransactionResponse.RESPONSE_STATUS.FAILURE, Arrays.asList(momentusError), workItem);
       }
     }
+    if (workItem.getProject() != null) {
+      Project project =
+          projectService.findById(
+              workItem.getProject().getId(), context.getOrganization().getId(), false);
+      if (project != null) {
+        workItem.setProject(project);
+      } else {
+        MomentusError momentusError =
+            new MomentusError(
+                WorkItemErrorCodes.PROJECT_NOT_FOUND,
+                generalMessages.getMessage(
+                    WorkItemErrorCodes.PROJECT_NOT_FOUND, context.getLocale()));
+        return new TransactionResponse(
+            TransactionResponse.RESPONSE_STATUS.FAILURE, Arrays.asList(momentusError), workItem);
+      }
+    }
 
     if (workItem.getOwner() != null && StringUtils.hasLength(workItem.getOwner().getUserId())) {
       User owner = userRepository.findByUserId(workItem.getOwner().getUserId()).orElse(null);
@@ -211,12 +231,9 @@ public class WorkItemService extends GenericService {
     return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
   }
 
-    public WorkItemDTO findById(Long id, ApplicationContext context) {
-      WorkItem workItem = workItemRepository.findById(id).get();
-      if (workItem != null)
-        return WorkItemDTOHelper.makeWorkitemDTOfromWorkItem(workItem);
-      else
-          return null;
-
-    }
+  public WorkItemDTO findById(Long id, ApplicationContext context) {
+    WorkItem workItem = workItemRepository.findById(id).get();
+    if (workItem != null) return workItemDTOHelper.makeWorkitemDTOfromWorkItem(workItem,context.getLocale());
+    else return null;
+  }
 }

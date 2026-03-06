@@ -27,4 +27,11 @@ public class FiniteValueDTO {
   public static FiniteValue makeFiniteValue(FiniteValueDTO finiteValueDTO) {
     return new FiniteValue(finiteValueDTO.getFvCode(), finiteValueDTO.getFvValue());
   }
+
+  public FiniteValueDTO() {}
+
+  public FiniteValueDTO(String fvCode, String fvValue) {
+    this.fvCode = fvCode;
+    this.fvValue = fvValue;
+  }
 }
