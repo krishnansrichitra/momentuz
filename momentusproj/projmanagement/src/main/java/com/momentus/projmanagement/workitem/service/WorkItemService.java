@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,7 @@ public class WorkItemService extends GenericService {
 
   @Autowired UserRepository userRepository;
 
-  @Autowired
-  WorkItemDTOHelper workItemDTOHelper;
+  @Autowired WorkItemDTOHelper workItemDTOHelper;
 
   public final String WI_STATUS_NEW = "wi_status_new";
   public final String WI_STATUS_ASSN = "wi_status_assn";
@@ -231,9 +231,15 @@ public class WorkItemService extends GenericService {
     return new TransactionResponse(TransactionResponse.RESPONSE_STATUS.SUCCESS);
   }
 
-  public WorkItemDTO findById(Long id, ApplicationContext context) {
+  public WorkItemDTO findById(Long id, ApplicationContext context) throws Exception {
     WorkItem workItem = workItemRepository.findById(id).get();
-    if (workItem != null) return workItemDTOHelper.makeWorkitemDTOfromWorkItem(workItem,context.getLocale());
+    if (workItem != null)
+      return workItemDTOHelper.makeWorkitemDTOfromWorkItem(workItem, context.getLocale());
     else return null;
+  }
+
+  public List<WorkItem> listRecords(
+      Map<String, Object> filter, ApplicationContext context, int offset, int limit) {
+    return (List<WorkItem>) this.listRecords(filter, WorkItem.class, context, offset, limit, false);
   }
 }

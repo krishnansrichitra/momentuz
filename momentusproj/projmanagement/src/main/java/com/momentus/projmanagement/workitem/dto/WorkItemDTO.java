@@ -131,15 +131,15 @@ public class WorkItemDTO {
     this.actualStartDate = actualStartDate;
   }
 
-    public FiniteValueDTO getTimeUOM() {
-        return timeUOM;
-    }
+  public FiniteValueDTO getTimeUOM() {
+    return timeUOM;
+  }
 
-    public void setTimeUOM(FiniteValueDTO timeUOM) {
-        this.timeUOM = timeUOM;
-    }
+  public void setTimeUOM(FiniteValueDTO timeUOM) {
+    this.timeUOM = timeUOM;
+  }
 
-    public Float getEstimate() {
+  public Float getEstimate() {
     return estimate;
   }
 
@@ -195,28 +195,56 @@ public class WorkItemDTO {
     this.parent = parent;
   }
 
-    @Override
-    public String toString() {
-        return "WorkItemDTO{" +
-                "type=" + type +
-                ", status=" + status +
-                ", ticketNo='" + ticketNo + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", assignee='" + assignee + '\'' +
-                ", owner='" + owner + '\'' +
-                ", projectId=" + projectId +
-                ", dueDate=" + dueDate +
-                ", plannedStartDate=" + plannedStartDate +
-                ", actualStartDate=" + actualStartDate +
-                ", timeUOM=" + timeUOM +
-                ", estimate=" + estimate +
-                ", actualsUOM=" + actualsUOM +
-                ", actuals=" + actuals +
-                ", acceptanceCritieria='" + acceptanceCritieria + '\'' +
-                ", label='" + label + '\'' +
-                ", blockedBy='" + blockedBy + '\'' +
-                ", parent='" + parent + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "WorkItemDTO{"
+        + "type="
+        + type
+        + ", status="
+        + status
+        + ", ticketNo='"
+        + ticketNo
+        + '\''
+        + ", title='"
+        + title
+        + '\''
+        + ", description='"
+        + description
+        + '\''
+        + ", assignee='"
+        + assignee
+        + '\''
+        + ", owner='"
+        + owner
+        + '\''
+        + ", projectId="
+        + projectId
+        + ", dueDate="
+        + dueDate
+        + ", plannedStartDate="
+        + plannedStartDate
+        + ", actualStartDate="
+        + actualStartDate
+        + ", timeUOM="
+        + timeUOM
+        + ", estimate="
+        + estimate
+        + ", actualsUOM="
+        + actualsUOM
+        + ", actuals="
+        + actuals
+        + ", acceptanceCritieria='"
+        + acceptanceCritieria
+        + '\''
+        + ", label='"
+        + label
+        + '\''
+        + ", blockedBy='"
+        + blockedBy
+        + '\''
+        + ", parent='"
+        + parent
+        + '\''
+        + '}';
+  }
 }

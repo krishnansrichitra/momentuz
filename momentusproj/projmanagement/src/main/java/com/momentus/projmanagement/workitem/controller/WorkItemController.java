@@ -6,11 +6,9 @@ import com.momentus.foundation.common.context.ApplicationContextHelper;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.projmanagement.workitem.dto.WorkItemDTO;
+import com.momentus.projmanagement.workitem.model.WorkItem;
 import com.momentus.projmanagement.workitem.service.WorkItemService;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +67,27 @@ public class WorkItemController {
       String error = ex.getMessage();
       Map<String, Object> mp = new HashMap();
       mp.put("error", error);
+      log.error("Error occured", ex);
       // return ResponseEntity.badRequest().body(new WorkItemDTO());
       return null;
+    }
+  }
+
+  @PostMapping({"/listRecords"})
+  public ResponseEntity<List<WorkItem>> listRecords(
+      @RequestBody Map<String, Object> filterMap,
+      @RequestParam Integer offset,
+      @RequestParam Integer limit,
+      Authentication authentication) {
+    try {
+      ApplicationContext context = this.applicationContextHelper.generateAppContext(authentication);
+      List<WorkItem> orgBasedEntityList =
+          workItemService.listRecords(filterMap, context, offset, limit);
+      return ResponseEntity.ok(orgBasedEntityList);
+    } catch (Exception ex) {
+      String error = ex.getMessage();
+      List es = Arrays.asList(ex.getStackTrace());
+      return ResponseEntity.badRequest().body(es);
     }
   }
 }
