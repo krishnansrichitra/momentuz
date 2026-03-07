@@ -11,6 +11,16 @@ values ('User','User','com.momentus.foundation.accessgroup.model.User', 'GNL','s
 insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
 values ('Project','Project','com.momentus.projmanagement.project.model.Project', 'GNL','seed',now(),1);
 
+insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
+values ('WorkItem','Work Item','com.momentus.projmanagement.workitem.model.WorkItem', 'GNL','seed',now(),1);
+--   entity end  -next up config begin --
+
+INSERT INTO nextup_config(id,profile_code,entity,field_1,field_2)
+values ('WI-IT','IT','WorkItem','nxtup_comp1','nxtup_seq');
+
+--
+
+
 
 insert into finite_group(group_code,group_name) values ('proj_status','Project Status') on duplicate key update group_name = group_name;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('proj_status_rdy','Ready To Start','proj_status','ROOT',1)  on duplicate key update fv_code = fv_code;
@@ -201,8 +211,13 @@ create table wi_task_status_mapping (
 -- Start Purchase  --
 
 
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no) values ('IT_MNU-RPTS-PRJ','Projects','PRJ-ADM','./general/genericList.html?entity=Project','IT_MNU-RPTS',5);
-
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,has_children) values ('IT_MNU-RPTS-ADM','Administration','PRJ-ADM','','IT_MNU-RPTS',5,true);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-PRJ','Projects','PRJ-ADM','./general/genericList.html?entity=Project','IT_MNU-RPTS',6,'IT_MNU-RPTS-ADM');
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-RLSP','Releases and Sprints','PRJ-LD','./release/releasensprints.html','IT_MNU-RPTS',7,'IT_MNU-RPTS-ADM');
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,has_children) values ('IT_MNU-RPTS-OPS','Operations','PRJ-ADM','','IT_MNU-RPTS',8,true);
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-NWIT','New Workitem','PRJ-TM','./workitems/newworkitem.html','IT_MNU-RPTS',9,'IT_MNU-RPTS-OPS');
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-WITL','Workitems','PRJ-TM','./workitems/workitems.html','IT_MNU-RPTS',10,'IT_MNU-RPTS-OPS');
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-WBNCH','Workbench','PRJ-TM','./workitems/workbench.html','IT_MNU-RPTS',11,'IT_MNU-RPTS-OPS');
 
 
 insert into list_metadata(id,profile_code,entity,profile_level) values('PRJT','ROOT','Project',1);

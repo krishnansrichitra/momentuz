@@ -5,6 +5,7 @@ import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.context.ApplicationContextHelper;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
+import com.momentus.projmanagement.project.model.Project;
 import com.momentus.projmanagement.workitem.dto.WorkItemDTO;
 import com.momentus.projmanagement.workitem.model.WorkItem;
 import com.momentus.projmanagement.workitem.service.WorkItemService;
@@ -56,6 +57,23 @@ public class WorkItemController {
     }
   }
 
+    @GetMapping({"/getWorkItemNo"})
+    public ResponseEntity<String> getWorkItemMo(
+            @RequestParam Long projectId, Authentication authentication) {
+        try {
+            ApplicationContext context = this.applicationContextHelper.generateAppContext(authentication);
+            String ticketNo = workItemService.getWINumber(context,projectId);
+            return ResponseEntity.ok(ticketNo);
+        } catch (Exception ex) {
+            String error = ex.getMessage();
+            Map<String, Object> mp = new HashMap();
+            mp.put("error", error);
+            log.error("Error occured", ex);
+             return ResponseEntity.badRequest().body("");
+           // return null;
+        }
+    }
+
   @GetMapping({"/getById"})
   public ResponseEntity<WorkItemDTO> getEntityById(
       @RequestParam Long id, Authentication authentication) {
@@ -68,8 +86,8 @@ public class WorkItemController {
       Map<String, Object> mp = new HashMap();
       mp.put("error", error);
       log.error("Error occured", ex);
-      // return ResponseEntity.badRequest().body(new WorkItemDTO());
-      return null;
+      return ResponseEntity.badRequest().body(new WorkItemDTO());
+      //return null;
     }
   }
 

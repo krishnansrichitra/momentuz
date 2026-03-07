@@ -98,7 +98,7 @@ function renderMenus(menuSet) {
                         subitemA.className = "dropdown-item";
                         subitemA.textContent=child.label;
                         subitemA.href = "#";
-                        subitemA.onclick = () => loadPage(child.page);
+                        subitemA.onclick = (event) => loadPage(event,child.page,subitemA.textContent);
                         subitemLi.appendChild(subitemA);
                         subul.appendChild(subitemLi);
                         

@@ -4,6 +4,7 @@ import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.accessgroup.repository.UserRepository;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
+import com.momentus.foundation.common.service.NextUpService;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
@@ -43,11 +44,28 @@ public class WorkItemService extends GenericService {
 
   @Autowired WorkItemDTOHelper workItemDTOHelper;
 
+    @Autowired
+    NextUpService nextUpService;
+
+
+
   public final String WI_STATUS_NEW = "wi_status_new";
   public final String WI_STATUS_ASSN = "wi_status_assn";
   public final String WI_STATUS_INPRG = "wi_status_inpg";
 
   private static final Logger log = LoggerFactory.getLogger(WorkItemService.class);
+
+  public String getWINumber(ApplicationContext context , Long  projectId )
+  {
+
+          Project project = projectService.findById(projectId, context.getOrganization().getId(), false);
+          if ( project != null)
+            return nextUpService.getNextUpNo(context, "WorkItem", null, project.getProjectCode(), null, null);
+          else
+              return null;
+
+  }
+
 
   @Transactional
   public TransactionResponse createOrUpdateEntity(

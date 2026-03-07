@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WITaskStatusMappingRepo extends JpaRepository<WITaskStatusMapping, Long> {
 
-  List<WITaskStatusMapping> findByTypeAndProfile_ProfileCodeInOrderBySeqAsc(
+  List<WITaskStatusMapping> findByType_FvCodeAndProfile_ProfileCodeInOrderBySeqAsc(
       String type, Collection<String> profileCodes);
 }

@@ -24,7 +24,7 @@ public class WITaskStatusMappingService {
     OrgProfile orgProfile = orgProfileService.getProfileForGroup("GNL", orgId);
     if (orgProfile != null) {
       List<WITaskStatusMapping> taskStatusMappings =
-          wiTaskStatusMappingRepo.findByTypeAndProfile_ProfileCodeInOrderBySeqAsc(
+          wiTaskStatusMappingRepo.findByType_FvCodeAndProfile_ProfileCodeInOrderBySeqAsc(
               taskType, Utils.getProfileCodes(orgProfile.getProfile().getFullProfileCode()));
       if (!CollectionUtils.isEmpty(taskStatusMappings)) {
         return taskStatusMappings.stream()
