@@ -59,7 +59,7 @@ public class WorkItemController {
   }
 
     @GetMapping({"/getWorkItemNo"})
-    public ResponseEntity<String> getWorkItemMo(
+    public ResponseEntity<String> getWorkItemNo(
             @RequestParam Long projectId, Authentication authentication) {
         try {
             ApplicationContext context = this.applicationContextHelper.generateAppContext(authentication);
@@ -113,9 +113,9 @@ public class WorkItemController {
 
     @GetMapping({"/getUpdateViewMetadata"})
     public ResponseEntity<UpdateViewMetadataDTO> getUpdateViewMetadata(Authentication authentication,
-                                                                       @RequestParam Long projectId, @RequestParam String projectType) {
+                                                                       @RequestParam Long projectId, @RequestParam String projectType,@RequestParam  String mode) {
         ApplicationContext context = this.applicationContextHelper.generateAppContext(authentication);
-       // UpdateViewMetadataDTO set = this.metadataService.getUpdateViewMetadata(context.getOrganization().getId(), entity, context.getLocale(), mode);
+       UpdateViewMetadataDTO set = workItemService.getUpdateViewMetadata(context.getOrganization().getId(),  context, mode);
         return ResponseEntity.ok(set);
     }
 }

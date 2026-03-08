@@ -17,7 +17,7 @@ public class WorkItem extends OrgBasedEntity {
 
   @Column
   @EntityProperties(isBK = true)
-  String ticketNo;
+  String wiNo;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "wi_type", referencedColumnName = "fv_code")
@@ -198,15 +198,15 @@ public class WorkItem extends OrgBasedEntity {
     this.label = label;
   }
 
-  public String getTicketNo() {
-    return ticketNo;
-  }
+    public String getWiNo() {
+        return wiNo;
+    }
 
-  public void setTicketNo(String ticketNo) {
-    this.ticketNo = ticketNo;
-  }
+    public void setWiNo(String wiNo) {
+        this.wiNo = wiNo;
+    }
 
-  public WorkItem getBlockedBy() {
+    public WorkItem getBlockedBy() {
     return blockedBy;
   }
 

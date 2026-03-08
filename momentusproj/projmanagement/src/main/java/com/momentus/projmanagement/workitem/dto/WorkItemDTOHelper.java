@@ -21,7 +21,7 @@ public class WorkItemDTOHelper {
     WorkItem workItem = new WorkItem();
     workItem.setType(FiniteValueDTO.makeFiniteValue(workItemDTO.getType()));
     workItem.setStatus(FiniteValueDTO.makeFiniteValue(workItemDTO.getStatus()));
-    workItem.setTicketNo(workItemDTO.getTicketNo());
+    workItem.setWiNo(workItemDTO.getWiNo());
     workItem.setTitle(workItemDTO.getTitle());
     workItem.setDescription(
         new SerialBlob(workItemDTO.getDescription().getBytes(StandardCharsets.UTF_8)));
@@ -41,7 +41,7 @@ public class WorkItemDTOHelper {
     owner.setUserId(workItemDTO.getOwner());
     workItem.setOwner(owner);
     WorkItem parentWorkItem = new WorkItem();
-    parentWorkItem.setTicketNo(workItemDTO.getParent());
+    parentWorkItem.setWiNo(workItemDTO.getParent());
     workItem.setParent(parentWorkItem);
     return workItem;
   }
@@ -87,9 +87,9 @@ public class WorkItemDTOHelper {
       workItemDTO.setDescription(text);
     }
     workItemDTO.setActuals(workItem.getActuals());
-    workItemDTO.setTicketNo(workItem.getTicketNo());
+    workItemDTO.setWiNo(workItem.getWiNo());
     if (workItem.getBlockedBy() != null)
-      workItemDTO.setBlockedBy(workItem.getBlockedBy().getTicketNo());
+      workItemDTO.setBlockedBy(workItem.getBlockedBy().getWiNo());
     workItemDTO.setActualStartDate(workItem.getActualStartDate());
     workItemDTO.setPlannedStartDate(workItem.getPlannedStartDate());
     workItemDTO.setDueDate(workItem.getDueDate());

@@ -36,5 +36,37 @@ async function loadWIMetadata() {
 
 
 async function  createWIT(params) {
+
+     const url =
+        urlPrefix + "api/workitem/getUpdateViewMetadata" +
+        "?projectId=1&projectType=Story&mode=Add";
+    let md='Add';
+
+    try {
+        const response = await axios.get(url);
+        let met = response.data;
+       console.log("metadata response:", met);
+        const updateMetData = new UpdateViewMetadata(met);
+        if (md == 'Add') {
+            await renderUpdateViewForm(updateMetData, 'A');
+        } else if (md == 'Edit') {
+
+            await renderUpdateViewForm(updateMetData, 'E');
+            let jsonContent = await fetchUserDataById( id);
+             console.log(jsonContent);
+            let formControl = document.getElementById("genericForm");
+            if(id!==null)
+                traverseJson(formControl, jsonContent);
+        } else if (md == 'View') {
+
+            await renderUpdateViewForm(updateMetData, 'V');
+            let jsonContent = await fetchUserDataById( id);
+            let formControl = document.getElementById("genericForm");
+            traverseJson(formControl, jsonContent);
+        }
+
+    } catch (error) {
+        console.error("Error loading metadata or list:", error);
+    }
     
 }

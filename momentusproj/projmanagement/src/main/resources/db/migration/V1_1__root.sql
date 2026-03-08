@@ -27,13 +27,21 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('NEWWTST-IT-FET','','button','Create WorkItem','createWIT',3,'AE','NEWWTST-IT','String');
 
 
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-ID','id','hidden','Id',null,1,'AEV','PRJT','Numeric');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-NO','projectCode','text','Project Code',null,2,'AEV','PRJT','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-TITLE','projectTitle','text','Project Title',null,3,'AEV','PRJT','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-DESC','client.title','text','Client','Client',4.1,'V','PRJT','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-PRMUSR','projectPrimaryOwner.userId','lookup','Primary Owner','User',5,'AEV','PRJT','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-SECUSR','projectSecondaryOwner.userId','lookup','Secondary Owner','User',6,'AEV','PRJT','String');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-STATS','status.fvCode','dropdown','Status','fv::proj_status',7,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-ID','id','hidden','Id',null,1,'AEV','WTMN-IT','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-NO','wiNo','text','Workitem No',null,2,'AE','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-PRJ','project.title','span','Project',null,3,'AEV','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-TYP','type.fvDescription','span','Type',null,4,'AEV','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-STATS','status.fvDescription','span','Status',null,5,'AEV','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-TIT','title','text','Title',null,6,'AEV','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-DESC','description','textarea','Description','rows=5;cols=100;',7,'AEV','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-ASSN','assignee.userId','lookup','Assignee','User',8,'AEV','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-TMUM','timeUOM.fvCode','dropdown','Time UOM','fv::wi_time_uom',9,'AEV','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-EST','estimate','text','Estimated Effort',null,10,'AEV','WTMN-IT','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-PLNSD','plannedStartDate','date','Planned Start Date',null,11,'AEV','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-ACCCRT','acceptanceCriteria','textarea','Acceptance Criteria','rows=5;cols=100;',12,'AEV','WTMN-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-LBL','label','textarea','Labels','rows=2;cols=100;',13,'AEV','WTMN-IT','String');
+
+
 
 
 

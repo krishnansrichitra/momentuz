@@ -269,8 +269,7 @@ public class WorkItemService extends GenericService {
   }
 
     @Cacheable({"UpdateViewMetadata"})
-    public UpdateViewMetadataDTO getUpdateViewMetadata(Long orgId, String entity,ApplicationContext context, String mode) {
-        metadataService.getUpdateViewMetadata(orgId,"WorkItem",context.getLocale(),mode);
-        return null;
+    public UpdateViewMetadataDTO getUpdateViewMetadata(Long orgId, ApplicationContext context, String mode) {
+        return metadataService.getUpdateViewMetadata(orgId,"WorkItem",context.getLocale(),mode);
     }
 }

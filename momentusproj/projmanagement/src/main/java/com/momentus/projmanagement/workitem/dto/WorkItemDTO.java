@@ -9,7 +9,7 @@ public class WorkItemDTO {
 
   FiniteValueDTO status;
 
-  String ticketNo;
+  String wiNo;
 
   String title;
 
@@ -59,15 +59,15 @@ public class WorkItemDTO {
     this.status = status;
   }
 
-  public String getTicketNo() {
-    return ticketNo;
-  }
+    public String getWiNo() {
+        return wiNo;
+    }
 
-  public void setTicketNo(String ticketNo) {
-    this.ticketNo = ticketNo;
-  }
+    public void setWiNo(String wiNo) {
+        this.wiNo = wiNo;
+    }
 
-  public String getTitle() {
+    public String getTitle() {
     return title;
   }
 
@@ -202,8 +202,8 @@ public class WorkItemDTO {
         + type
         + ", status="
         + status
-        + ", ticketNo='"
-        + ticketNo
+        + ", wiNo='"
+        + wiNo
         + '\''
         + ", title='"
         + title
