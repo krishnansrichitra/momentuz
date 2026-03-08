@@ -204,7 +204,32 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             continue;
         }
 
-        if (field.control == 'table') {
+        if (field.control == 'fullrow') {
+            console.log('creating fullrow');
+            if (colCount != 0) {
+                form.appendChild(row);
+                row = createRow();
+            }
+            const col = document.createElement('div');
+            col.className = 'col-lg-12 col-md-12 col-sm-12';
+            let childFields = getChildren(field, metadata.updateViewFields,mode);
+            console.log(childFields);
+            if (Array.isArray(childFields)) {
+            for ( let childField of childFields){
+                
+                await callRenderControls(mode,childField,col);
+            }
+            } else {
+                 await callRenderControls(mode,childFields,col);
+            }
+            
+            colCount = 4;
+        //    console.log('table =' + control);
+         //   col.appendChild(control);
+            row.appendChild(col);
+            continue;
+
+        }else if (field.control == 'table') {
             console.log('creating table');
             if (colCount != 0) {
                 form.appendChild(row);
@@ -222,11 +247,34 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
         }
         const col = document.createElement('div');
         col.className = 'col-lg-3 col-md-6 col-sm-12';
-        const label = document.createElement('label');
+        await callRenderControls(mode,field,col);
+        row.appendChild(col);
+        colCount++;
+    }
+    // append last row
+    if (row.children.length > 0) {
+        form.appendChild(row);
+    }
+    // hidden fields
+   await  hiddenFields.forEach(async field => {
+        form.appendChild(await renderControl(field));
+    });
+    let hr1 = document.createElement('hr');
+    hr1.className = 'border border-secondary border-2 my-3';
+    let hr2 = document.createElement('hr');
+    hr2.className = 'border border-secondary border-2 my-3';
+    form.appendChild(hr1);
+    form.appendChild(renderButtons(metadata, mode));
+}
+
+async function callRenderControls(mode,field,col)
+{
+    const label = document.createElement('label');
         label.className = 'form-label';
+        console.log(field);
         if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
             label.textContent = field.fieldLabel + ":";
-        if (mode != 'V') {
+if (mode != 'V') {
             const control =await  renderControl(field);
             label.classList.add('form-label', 'mb-1');
             if(field.control !== 'button'){
@@ -251,33 +299,6 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             }
             col.appendChild(control);
         }
-        row.appendChild(col);
-        colCount++;
-
-    }
-
-    // append last row
-    if (row.children.length > 0) {
-        form.appendChild(row);
-    }
-
-    // hidden fields
-   await  hiddenFields.forEach(async field => {
-        form.appendChild(await renderControl(field));
-    });
-
-    let hr1 = document.createElement('hr');
-    hr1.className = 'border border-secondary border-2 my-3';
-
-    let hr2 = document.createElement('hr');
-    hr2.className = 'border border-secondary border-2 my-3';
-
-    form.appendChild(hr1);
-    //  form.appendChild(hr2)
-
-
-    // action buttons
-    form.appendChild(renderButtons(metadata, mode));
 }
 
 
