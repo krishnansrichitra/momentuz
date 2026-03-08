@@ -5,6 +5,7 @@ import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.context.ApplicationContextHelper;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
+import com.momentus.foundation.ui.metadata.dto.UpdateViewMetadataDTO;
 import com.momentus.projmanagement.project.model.Project;
 import com.momentus.projmanagement.workitem.dto.WorkItemDTO;
 import com.momentus.projmanagement.workitem.model.WorkItem;
@@ -108,4 +109,13 @@ public class WorkItemController {
       return ResponseEntity.badRequest().body(es);
     }
   }
+
+
+    @GetMapping({"/getUpdateViewMetadata"})
+    public ResponseEntity<UpdateViewMetadataDTO> getUpdateViewMetadata(Authentication authentication,
+                                                                       @RequestParam Long projectId, @RequestParam String projectType) {
+        ApplicationContext context = this.applicationContextHelper.generateAppContext(authentication);
+       // UpdateViewMetadataDTO set = this.metadataService.getUpdateViewMetadata(context.getOrganization().getId(), entity, context.getLocale(), mode);
+        return ResponseEntity.ok(set);
+    }
 }

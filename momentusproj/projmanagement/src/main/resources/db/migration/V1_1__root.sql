@@ -18,9 +18,26 @@ values ('WorkItem','Work Item','com.momentus.projmanagement.workitem.model.WorkI
 INSERT INTO nextup_config(id,profile_code,entity,field_1,field_2)
 values ('WI-IT','IT','WorkItem','nxtup_comp1','nxtup_seq');
 
+--  work item edit metadata
+insert into updateview_metadata(id,profile_code,entity,profile_level) values ('NEWWTST-IT','IT','WorkItem-N',2);
+insert into updateview_metadata(id,profile_code,entity,profile_level) values ('WTMN-IT','IT','WorkItem',2);
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('NEWWTST-IT-PRJ','project.id','dropdown','Project','Project',1,'AE','NEWWTST-IT','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('NEWWTST-IT-TSK','task.fvCode','dropdown','Task','fv::wi_type',2,'AE','NEWWTST-IT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('NEWWTST-IT-FET','','button','Create WorkItem','createWIT',3,'AE','NEWWTST-IT','String');
+
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-ID','id','hidden','Id',null,1,'AEV','PRJT','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-NO','projectCode','text','Project Code',null,2,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-TITLE','projectTitle','text','Project Title',null,3,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-DESC','client.title','text','Client','Client',4.1,'V','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-PRMUSR','projectPrimaryOwner.userId','lookup','Primary Owner','User',5,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-SECUSR','projectSecondaryOwner.userId','lookup','Secondary Owner','User',6,'AEV','PRJT','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-STATS','status.fvCode','dropdown','Status','fv::proj_status',7,'AEV','PRJT','String');
+
+
+
 --
-
-
 
 insert into finite_group(group_code,group_name) values ('proj_status','Project Status') on duplicate key update group_name = group_name;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('proj_status_rdy','Ready To Start','proj_status','ROOT',1)  on duplicate key update fv_code = fv_code;

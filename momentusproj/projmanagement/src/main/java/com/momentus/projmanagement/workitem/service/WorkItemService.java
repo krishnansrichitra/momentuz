@@ -3,6 +3,7 @@ package com.momentus.projmanagement.workitem.service;
 import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.accessgroup.repository.UserRepository;
 import com.momentus.foundation.common.GeneralMessages;
+import com.momentus.foundation.common.Utils;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.service.NextUpService;
 import com.momentus.foundation.common.transaction.MomentusError;
@@ -10,6 +11,10 @@ import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import com.momentus.foundation.finitevalue.service.FiniteValueService;
 import com.momentus.foundation.generic.service.GenericService;
+import com.momentus.foundation.organization.model.OrgProfile;
+import com.momentus.foundation.ui.metadata.dto.UpdateViewMetadataDTO;
+import com.momentus.foundation.ui.metadata.model.UpdateViewMetadata;
+import com.momentus.foundation.ui.metadata.service.MetadataService;
 import com.momentus.projmanagement.project.model.Project;
 import com.momentus.projmanagement.project.service.ProjectService;
 import com.momentus.projmanagement.workitem.dto.WorkItemDTO;
@@ -18,13 +23,12 @@ import com.momentus.projmanagement.workitem.model.WorkItem;
 import com.momentus.projmanagement.workitem.repository.WorkItemRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.CollectionUtils;
@@ -43,6 +47,9 @@ public class WorkItemService extends GenericService {
   @Autowired UserRepository userRepository;
 
   @Autowired WorkItemDTOHelper workItemDTOHelper;
+
+  @Autowired
+    MetadataService metadataService;
 
     @Autowired
     NextUpService nextUpService;
@@ -260,4 +267,10 @@ public class WorkItemService extends GenericService {
       Map<String, Object> filter, ApplicationContext context, int offset, int limit) {
     return (List<WorkItem>) this.listRecords(filter, WorkItem.class, context, offset, limit, false);
   }
+
+    @Cacheable({"UpdateViewMetadata"})
+    public UpdateViewMetadataDTO getUpdateViewMetadata(Long orgId, String entity,ApplicationContext context, String mode) {
+        metadataService.getUpdateViewMetadata(orgId,"WorkItem",context.getLocale(),mode);
+        return null;
+    }
 }
