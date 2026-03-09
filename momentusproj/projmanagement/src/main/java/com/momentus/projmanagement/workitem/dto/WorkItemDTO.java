@@ -11,7 +11,7 @@ public class WorkItemDTO {
 
   String wiNo;
 
-  String title;
+  String summary;
 
   String description;
 
@@ -31,7 +31,6 @@ public class WorkItemDTO {
 
   Float estimate;
 
-  FiniteValueDTO actualsUOM;
 
   Float actuals;
 
@@ -67,15 +66,15 @@ public class WorkItemDTO {
         this.wiNo = wiNo;
     }
 
-    public String getTitle() {
-    return title;
-  }
+    public String getSummary() {
+        return summary;
+    }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 
-  public String getDescription() {
+    public String getDescription() {
     return description;
   }
 
@@ -147,13 +146,6 @@ public class WorkItemDTO {
     this.estimate = estimate;
   }
 
-  public FiniteValueDTO getActualsUOM() {
-    return actualsUOM;
-  }
-
-  public void setActualsUOM(FiniteValueDTO actualsUOM) {
-    this.actualsUOM = actualsUOM;
-  }
 
   public Float getActuals() {
     return actuals;
@@ -205,8 +197,8 @@ public class WorkItemDTO {
         + ", wiNo='"
         + wiNo
         + '\''
-        + ", title='"
-        + title
+        + ", summary='"
+        + summary
         + '\''
         + ", description='"
         + description
@@ -229,8 +221,6 @@ public class WorkItemDTO {
         + timeUOM
         + ", estimate="
         + estimate
-        + ", actualsUOM="
-        + actualsUOM
         + ", actuals="
         + actuals
         + ", acceptanceCritieria='"

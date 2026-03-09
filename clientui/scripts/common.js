@@ -113,6 +113,7 @@ function buildJsonFromForm(formEl) {
 
     controls.forEach(control => {
         const accessor = control.dataset.accessor;
+        console.log (control.tagName + " "  + control.id + " " + accessor);
         if (!accessor) return;
         if(control.tagName === "TABLE") {
             let table = control;
@@ -150,6 +151,13 @@ function buildJsonFromForm(formEl) {
             setNestedValue(result, accessor, typedValue);
             return;
     
+        }else if (control.tagName === "DIV"){
+            const html = control.innerHTML;
+            console.log(html);
+            const base64 = btoa(html);
+            console.log(base64);
+            setNestedValue(result, accessor, base64);
+            return;
         }
         
         if (control.dataset.subobject !== undefined && control.dataset.subobject  === 'true'){
@@ -388,4 +396,14 @@ async function populateSelectOptions(select, param) {
         });
     }
     console.log('Added options');
+}
+
+
+function format(command, value = null) {
+    document.execCommand(command, false, value);
+}
+
+function getContent() {
+    document.getElementById("editorContent").value =
+        document.getElementById("editor").innerHTML;
 }

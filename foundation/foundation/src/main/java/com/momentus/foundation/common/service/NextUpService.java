@@ -147,8 +147,12 @@ public class NextUpService {
     }
 
     if ("nxtup_seq".equalsIgnoreCase(finiteValue.getFvCode())) {
-      String s = String.format("%0" + config.getSequenceWidth() + "d", sequence);
-      return s;
+      if (config.getSequenceWidth() != null && config.getSequenceWidth() >= 1) {
+        String s = String.format("%0" + config.getSequenceWidth() + "d", sequence);
+        return s;
+      } else {
+        return String.valueOf(sequence);
+      }
     }
 
     if ("nxtup_BK".equalsIgnoreCase(finiteValue.getFvCode())) {

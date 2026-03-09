@@ -29,7 +29,7 @@ public class WorkItem extends OrgBasedEntity {
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue status;
 
-  @Column String title;
+  @Column String summary;
 
   @Column Blob description;
 
@@ -94,15 +94,15 @@ public class WorkItem extends OrgBasedEntity {
     this.status = status;
   }
 
-  public String getTitle() {
-    return title;
-  }
+    public String getSummary() {
+        return summary;
+    }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 
-  public Blob getDescription() {
+    public Blob getDescription() {
     return description;
   }
 

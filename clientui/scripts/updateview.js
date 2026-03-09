@@ -118,7 +118,7 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
                 const col = document.createElement('div');
                 col.className = 'col-lg-3 col-md-6 col-sm-12';
                 const label = document.createElement('label');
-                label.className = 'form-label';
+                label.className = 'form-label fw-bold';
                 if (typeof field.fieldLabel === 'string' && field.fieldLabel.trim() !== '')
                     label.textContent = field.fieldLabel + ":";
                 if (mode != 'V') {
@@ -276,7 +276,7 @@ async function callRenderControls(mode,field,col)
             label.textContent = field.fieldLabel + ":";
 if (mode != 'V') {
             const control =await  renderControl(field);
-            label.classList.add('form-label', 'mb-1');
+            label.classList.add('form-label', 'mb-1','fw-bold');
             if(field.control !== 'button'){
                       col.appendChild(label);
             }else {
@@ -293,7 +293,7 @@ if (mode != 'V') {
             if(field.control !== 'button'){
                       col.appendChild(label);
             }else {
-                const spacer = document.createElement("div");
+                const spacer = document.createElemnt("div");
                 spacer.className = "field-spacer";
                 col.appendChild(spacer);
             }
@@ -516,20 +516,30 @@ async function renderControl(field, partofTable=false) {
             }
             break;
       case 'textarea' :
+
+
+
             let rows = 3;   
             let cols = 30;
-
+            let formatcontrols = false; 
             field.param.split(";").forEach(part => {
                 const [k, v] = part.split("=");
                 if (k === "rows") rows = Number(v);
                 if (k === "cols") cols = Number(v);
+                if (k === "formatcontrols")  formatcontrols= Boolean(v);
             });
-            el = document.createElement("textarea");
-            el.className = "form-control"; // bootstrap styling (optional)
-            el.rows = rows;
-            el.cols = cols;
-            break;
-          
+            if (formatcontrols == false ) {
+                el = document.createElement("textarea");
+                el.className = "form-control"; // bootstrap styling (optional)
+                el.rows = rows;
+                el.cols = cols;
+                break;
+            }else {
+                el = renderTextAreawithFormatControls(field,partofTable);
+                return el;
+            }
+            
+
 
         case 'password':
             el = document.createElement('input');
@@ -593,7 +603,109 @@ async function renderControl(field, partofTable=false) {
 }
 
 
+function renderTextAreawithFormatControls(field,partofTable){
 
+
+    const container = document.createElement("div");
+    container.id = "prnt"+ field.id;
+
+    /* ===== TOOLBAR ===== */
+
+    const toolbar = document.createElement("div");
+    toolbar.className = "textareatoolbar";
+
+    /* Bold button */
+    const boldBtn = document.createElement("button");
+    boldBtn.type='button';
+    boldBtn.innerHTML = "<b>B</b>";
+    boldBtn.onclick = function () {
+        format('bold');
+    };
+
+    /* Italic button */
+    const italicBtn = document.createElement("button");
+    italicBtn.type='button';
+    italicBtn.innerHTML = "<i>I</i>";
+    italicBtn.onclick = function () {
+        format('italic');
+    };
+
+    /* Underline button */
+    const underlineBtn = document.createElement("button");
+    underlineBtn.type='button';
+    underlineBtn.innerHTML = "<u>U</u>";
+    underlineBtn.onclick = function () {
+        format('underline');
+    };
+
+    /* ===== FONT DROPDOWN ===== */
+
+    const fontSelect = document.createElement("select");
+
+    const fontDefault = new Option("Font", "");
+    const fontArial = new Option("Arial", "Arial");
+    const fontTimes = new Option("Times", "Times New Roman");
+    const fontCourier = new Option("Courier", "Courier New");
+
+    fontSelect.add(fontDefault);
+    fontSelect.add(fontArial);
+    fontSelect.add(fontTimes);
+    fontSelect.add(fontCourier);
+
+    fontSelect.onchange = function () {
+        format('fontName', this.value);
+    };
+
+    /* ===== FONT SIZE DROPDOWN ===== */
+
+    const sizeSelect = document.createElement("select");
+
+    sizeSelect.add(new Option("Size", ""));
+    sizeSelect.add(new Option("10", "1"));
+    sizeSelect.add(new Option("14", "3"));
+    sizeSelect.add(new Option("18", "5"));
+    sizeSelect.add(new Option("24", "7"));
+
+    sizeSelect.onchange = function () {
+        format('fontSize', this.value);
+    };
+
+    /* Add toolbar items */
+
+    toolbar.appendChild(boldBtn);
+    toolbar.appendChild(italicBtn);
+    toolbar.appendChild(underlineBtn);
+    toolbar.appendChild(fontSelect);
+    toolbar.appendChild(sizeSelect);
+
+    /* ===== EDITOR ===== */
+
+    const editor = document.createElement("div");
+    editor.id = field.id;
+    editor.name = field.id;
+    editor.className = "editor";
+    editor.contentEditable = "true";
+    editor.dataset.accessor = field.accessor;
+    editor.dataset.dtype = field.dType;
+    editor.placeholder = field.fieldLabel;
+    if (partofTable == true) {
+        el.dataset.subobject = true;
+    }
+
+    /* ===== HIDDEN FIELD ===== */
+
+
+    
+
+    /* ===== BUILD STRUCTURE ===== */
+
+    container.appendChild(toolbar);
+    container.appendChild(editor);
+   // container.appendChild(hiddenInput);
+
+   return container ;
+
+}
 
 function renderButtons(metadata, mode) {
     const container = document.createElement('div');

@@ -80,6 +80,11 @@ public class WorkItemService extends GenericService {
     try {
       log.info("Saving WorkItem =" + workItemDTO);
       WorkItem workItem = workItemDTOHelper.makeWorkItemFromDTO(workItemDTO);
+      if (!StringUtils.hasLength(workItem.getWiNo())) {
+          String wiNo = getWINumber(context,workItemDTO.getProjectId());
+          workItem.setWiNo(wiNo);
+      }
+
       TransactionResponse response = basicValidation(workItem, context);
       if (response.hasHardError()) {
         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -129,14 +134,14 @@ public class WorkItemService extends GenericService {
 
   private TransactionResponse basicValidation(WorkItem workItem, ApplicationContext context) {
     List<MomentusError> errors = new ArrayList<>();
-    if (!StringUtils.hasLength(workItem.getTitle())) {
+    if (!StringUtils.hasLength(workItem.getSummary())) {
       MomentusError momentusError =
           new MomentusError(
               WorkItemErrorCodes.TITLE_BLANK,
               generalMessages.getMessage(WorkItemErrorCodes.TITLE_BLANK, context.getLocale()));
       errors.add(momentusError);
     }
-    if (!StringUtils.hasLength(workItem.getTitle())) {
+    if (workItem.getDescription() == null ) {
       MomentusError momentusError =
           new MomentusError(
               WorkItemErrorCodes.DESC_BLANK,
@@ -243,8 +248,8 @@ public class WorkItemService extends GenericService {
   private void updateStatus(WorkItem workItem) {
     String statusCode = workItem.getStatus() != null ? workItem.getStatus().getFvCode() : null;
     if (workItem.getId() == null || workItem.getId() <= 0) {
-      if (workItem.getAssignee() == null) workItem.setStatus(new FiniteValue(WI_STATUS_NEW));
-      else workItem.setStatus(new FiniteValue(WI_STATUS_ASSN));
+      if (workItem.getAssignee() == null)  statusCode = WI_STATUS_NEW;
+      else statusCode = WI_STATUS_ASSN;
     }
     FiniteValue status = finiteValueService.getFinitieValueByCode(statusCode);
     if (status != null) {
