@@ -21,9 +21,9 @@ public class WorkItemDTOHelper {
 
     WorkItem workItem = new WorkItem();
     workItem.setType(FiniteValueDTO.makeFiniteValue(workItemDTO.getType()));
-    if (workItemDTO.getStatus() != null )
-    workItem.setStatus(FiniteValueDTO.makeFiniteValue(workItemDTO.getStatus()));
-    if(StringUtils.hasLength(workItemDTO.getWiNo()))  workItem.setWiNo(workItemDTO.getWiNo());
+    if (workItemDTO.getStatus() != null)
+      workItem.setStatus(FiniteValueDTO.makeFiniteValue(workItemDTO.getStatus()));
+    if (StringUtils.hasLength(workItemDTO.getWiNo())) workItem.setWiNo(workItemDTO.getWiNo());
     workItem.setSummary(workItemDTO.getSummary());
     workItem.setDescription(
         new SerialBlob(workItemDTO.getDescription().getBytes(StandardCharsets.UTF_8)));
@@ -39,15 +39,15 @@ public class WorkItemDTOHelper {
     assignee.setUserId(workItemDTO.getAssignee());
     workItem.setAssignee(assignee);
     if (StringUtils.hasLength(workItemDTO.getOwner())) {
-        User owner = new User();
-        owner.setUserId(workItemDTO.getOwner());
-        workItem.setOwner(owner);
+      User owner = new User();
+      owner.setUserId(workItemDTO.getOwner());
+      workItem.setOwner(owner);
     }
-    if (StringUtils.hasLength(workItemDTO.getParent())){
-          WorkItem parentWorkItem = new WorkItem();
-          parentWorkItem.setWiNo(workItemDTO.getParent());
-          workItem.setParent(parentWorkItem);
-      }
+    if (StringUtils.hasLength(workItemDTO.getParent())) {
+      WorkItem parentWorkItem = new WorkItem();
+      parentWorkItem.setWiNo(workItemDTO.getParent());
+      workItem.setParent(parentWorkItem);
+    }
     return workItem;
   }
 

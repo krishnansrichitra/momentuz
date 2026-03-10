@@ -6,7 +6,6 @@ import com.momentus.foundation.common.context.ApplicationContextHelper;
 import com.momentus.foundation.common.transaction.MomentusError;
 import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.ui.metadata.dto.UpdateViewMetadataDTO;
-import com.momentus.projmanagement.project.model.Project;
 import com.momentus.projmanagement.workitem.dto.WorkItemDTO;
 import com.momentus.projmanagement.workitem.model.WorkItem;
 import com.momentus.projmanagement.workitem.service.WorkItemService;
@@ -58,22 +57,22 @@ public class WorkItemController {
     }
   }
 
-    @GetMapping({"/getWorkItemNo"})
-    public ResponseEntity<String> getWorkItemNo(
-            @RequestParam Long projectId, Authentication authentication) {
-        try {
-            ApplicationContext context = this.applicationContextHelper.generateAppContext(authentication);
-            String ticketNo = workItemService.getWINumber(context,projectId);
-            return ResponseEntity.ok(ticketNo);
-        } catch (Exception ex) {
-            String error = ex.getMessage();
-            Map<String, Object> mp = new HashMap();
-            mp.put("error", error);
-            log.error("Error occured", ex);
-             return ResponseEntity.badRequest().body("");
-           // return null;
-        }
+  @GetMapping({"/getWorkItemNo"})
+  public ResponseEntity<String> getWorkItemNo(
+      @RequestParam Long projectId, Authentication authentication) {
+    try {
+      ApplicationContext context = this.applicationContextHelper.generateAppContext(authentication);
+      String ticketNo = workItemService.getWINumber(context, projectId);
+      return ResponseEntity.ok(ticketNo);
+    } catch (Exception ex) {
+      String error = ex.getMessage();
+      Map<String, Object> mp = new HashMap();
+      mp.put("error", error);
+      log.error("Error occured", ex);
+      return ResponseEntity.badRequest().body("");
+      // return null;
     }
+  }
 
   @GetMapping({"/getById"})
   public ResponseEntity<WorkItemDTO> getEntityById(
@@ -88,7 +87,7 @@ public class WorkItemController {
       mp.put("error", error);
       log.error("Error occured", ex);
       return ResponseEntity.badRequest().body(new WorkItemDTO());
-      //return null;
+      // return null;
     }
   }
 
@@ -110,12 +109,15 @@ public class WorkItemController {
     }
   }
 
-
-    @GetMapping({"/getUpdateViewMetadata"})
-    public ResponseEntity<UpdateViewMetadataDTO> getUpdateViewMetadata(Authentication authentication,
-                                                                       @RequestParam Long projectId, @RequestParam String projectType,@RequestParam  String mode) {
-        ApplicationContext context = this.applicationContextHelper.generateAppContext(authentication);
-       UpdateViewMetadataDTO set = workItemService.getUpdateViewMetadata(context.getOrganization().getId(),  context, mode);
-        return ResponseEntity.ok(set);
-    }
+  @GetMapping({"/getUpdateViewMetadata"})
+  public ResponseEntity<UpdateViewMetadataDTO> getUpdateViewMetadata(
+      Authentication authentication,
+      @RequestParam Long projectId,
+      @RequestParam String projectType,
+      @RequestParam String mode) {
+    ApplicationContext context = this.applicationContextHelper.generateAppContext(authentication);
+    UpdateViewMetadataDTO set =
+        workItemService.getUpdateViewMetadata(context.getOrganization().getId(), context, mode);
+    return ResponseEntity.ok(set);
+  }
 }

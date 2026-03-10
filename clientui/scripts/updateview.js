@@ -187,8 +187,19 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             row = createRow();
             colCount = 0;
         }
+        if (field.control == 'hr'){
 
-        if (field.control == 'tabset'){
+            if (colCount != 0) {
+                form.appendChild(row);
+                row = createRow();
+            }
+            let hr1 = document.createElement('hr');
+             hr1.className = 'border border-secondary border-2 my-3';
+            colCount = 4;
+            row.appendChild(hr1);
+            continue;
+
+        } else if (field.control == 'tabset'){
             console.log('creating tabset');
             if (colCount != 0) {
                 form.appendChild(row);

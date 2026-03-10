@@ -1,6 +1,5 @@
 package com.momentus.projmanagement.workitem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.accessgroup.model.User;
@@ -45,7 +44,6 @@ public class WorkItem extends OrgBasedEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "project_id", nullable = true)
-  @JsonIgnore
   Project project;
 
   @Column LocalDate dueDate;
@@ -94,15 +92,15 @@ public class WorkItem extends OrgBasedEntity {
     this.status = status;
   }
 
-    public String getSummary() {
-        return summary;
-    }
+  public String getSummary() {
+    return summary;
+  }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
+  public void setSummary(String summary) {
+    this.summary = summary;
+  }
 
-    public Blob getDescription() {
+  public Blob getDescription() {
     return description;
   }
 
@@ -198,15 +196,15 @@ public class WorkItem extends OrgBasedEntity {
     this.label = label;
   }
 
-    public String getWiNo() {
-        return wiNo;
-    }
+  public String getWiNo() {
+    return wiNo;
+  }
 
-    public void setWiNo(String wiNo) {
-        this.wiNo = wiNo;
-    }
+  public void setWiNo(String wiNo) {
+    this.wiNo = wiNo;
+  }
 
-    public WorkItem getBlockedBy() {
+  public WorkItem getBlockedBy() {
     return blockedBy;
   }
 

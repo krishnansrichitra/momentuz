@@ -13,10 +13,33 @@ values ('Project','Project','com.momentus.projmanagement.project.model.Project',
 
 insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
 values ('WorkItem','Work Item','com.momentus.projmanagement.workitem.model.WorkItem', 'GNL','seed',now(),1);
+
+insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
+values ('Release','Release','com.momentus.projmanagement.releases.model.Release', 'GNL','seed',now(),1);
+
+insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
+values ('Team','Team','com.momentus.projmanagement.releases.model.Team', 'GNL','seed',now(),1);
+
+insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
+values ('Sprint','Sprint','com.momentus.projmanagement.releases.model.Sprint', 'GNL','seed',now(),1);
+
+
+-- FV for Sprint Status
+
+insert into finite_group(group_code,group_name) values ('rls_status','Release Status') on duplicate key update group_name = group_name;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('rls_status_pst','Past','rls_status','IT',1)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('rls_status_active','Active','rls_status','IT',2)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('rls_status_future','Future','rls_status','IT',3)  on duplicate key update fv_code = fv_code;
+
+insert into finite_group(group_code,group_name) values ('sprnt_status','Sprint Status') on duplicate key update group_name = group_name;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sprnt_status_cls','Closed','sprnt_status','IT',1)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sprnt_status_active','Active','sprnt_status','IT',2)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sprnt_status_ftr','Future','sprnt_status','IT',3)  on duplicate key update fv_code = fv_code;
+
 --   entity end  -next up config begin --
 
 INSERT INTO nextup_config(id,profile_code,entity,field_1,field_2)
-values ('WI-IT','IT','WorkItem','nxtup_comp1','nxtup_seq');
+values ('WI-IT','IT','WorkItem','nxtup_comp1','nxtup_seq') on duplicate key update id = id;
 
 --  work item edit metadata
 insert into updateview_metadata(id,profile_code,entity,profile_level) values ('NEWWTST-IT','IT','WorkItem-N',2);
@@ -243,7 +266,7 @@ create table wi_task_status_mapping (
 
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,has_children) values ('IT_MNU-RPTS-ADM','Administration','PRJ-ADM','','IT_MNU-RPTS',5,true);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-PRJ','Projects','PRJ-ADM','./general/genericList.html?entity=Project','IT_MNU-RPTS',6,'IT_MNU-RPTS-ADM');
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-RLSP','Releases and Sprints','PRJ-LD','./release/releasensprints.html','IT_MNU-RPTS',7,'IT_MNU-RPTS-ADM');
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-RLSP','Releases, Teams and Sprints','PRJ-LD','./release/releasensprints.html','IT_MNU-RPTS',7,'IT_MNU-RPTS-ADM');
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,has_children) values ('IT_MNU-RPTS-OPS','Operations','PRJ-ADM','','IT_MNU-RPTS',8,true);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-NWIT','New Workitem','PRJ-TM','./workitems/newworkitem.html','IT_MNU-RPTS',9,'IT_MNU-RPTS-OPS');
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-WITL','Workitems','PRJ-TM','./workitems/workitems.html','IT_MNU-RPTS',10,'IT_MNU-RPTS-OPS');
@@ -506,6 +529,8 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-FETBTN','','button','Fetch','fetchDetails',2,'EV','RLCR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-BLN1','','blank',null,null,3,'EV','RLCR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-BLN2','','blank',null,null,4,'EV','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-HR1','','hr','',null,4.1,'AEV','RLCR','');
+
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESCTIL','title','txt','Role Title',null,5,'E','RLCR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESCTXT','description','txt','Role Description',null,6,'E','RLCR','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-tabset','','tabset','',null,7,'AEV','RLCR','String');

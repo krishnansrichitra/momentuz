@@ -3,7 +3,6 @@ package com.momentus.projmanagement.workitem.service;
 import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.accessgroup.repository.UserRepository;
 import com.momentus.foundation.common.GeneralMessages;
-import com.momentus.foundation.common.Utils;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.service.NextUpService;
 import com.momentus.foundation.common.transaction.MomentusError;
@@ -11,9 +10,7 @@ import com.momentus.foundation.common.transaction.TransactionResponse;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import com.momentus.foundation.finitevalue.service.FiniteValueService;
 import com.momentus.foundation.generic.service.GenericService;
-import com.momentus.foundation.organization.model.OrgProfile;
 import com.momentus.foundation.ui.metadata.dto.UpdateViewMetadataDTO;
-import com.momentus.foundation.ui.metadata.model.UpdateViewMetadata;
 import com.momentus.foundation.ui.metadata.service.MetadataService;
 import com.momentus.projmanagement.project.model.Project;
 import com.momentus.projmanagement.project.service.ProjectService;
@@ -24,7 +21,6 @@ import com.momentus.projmanagement.workitem.repository.WorkItemRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +44,9 @@ public class WorkItemService extends GenericService {
 
   @Autowired WorkItemDTOHelper workItemDTOHelper;
 
-  @Autowired
-    MetadataService metadataService;
+  @Autowired MetadataService metadataService;
 
-    @Autowired
-    NextUpService nextUpService;
-
-
+  @Autowired NextUpService nextUpService;
 
   public final String WI_STATUS_NEW = "wi_status_new";
   public final String WI_STATUS_ASSN = "wi_status_assn";
@@ -62,17 +54,14 @@ public class WorkItemService extends GenericService {
 
   private static final Logger log = LoggerFactory.getLogger(WorkItemService.class);
 
-  public String getWINumber(ApplicationContext context , Long  projectId )
-  {
+  public String getWINumber(ApplicationContext context, Long projectId) {
 
-          Project project = projectService.findById(projectId, context.getOrganization().getId(), false);
-          if ( project != null)
-            return nextUpService.getNextUpNo(context, "WorkItem", null, project.getProjectCode(), null, null);
-          else
-              return null;
-
+    Project project = projectService.findById(projectId, context.getOrganization().getId(), false);
+    if (project != null)
+      return nextUpService.getNextUpNo(
+          context, "WorkItem", null, project.getProjectCode(), null, null);
+    else return null;
   }
-
 
   @Transactional
   public TransactionResponse createOrUpdateEntity(
@@ -81,8 +70,8 @@ public class WorkItemService extends GenericService {
       log.info("Saving WorkItem =" + workItemDTO);
       WorkItem workItem = workItemDTOHelper.makeWorkItemFromDTO(workItemDTO);
       if (!StringUtils.hasLength(workItem.getWiNo())) {
-          String wiNo = getWINumber(context,workItemDTO.getProjectId());
-          workItem.setWiNo(wiNo);
+        String wiNo = getWINumber(context, workItemDTO.getProjectId());
+        workItem.setWiNo(wiNo);
       }
 
       TransactionResponse response = basicValidation(workItem, context);
@@ -141,7 +130,7 @@ public class WorkItemService extends GenericService {
               generalMessages.getMessage(WorkItemErrorCodes.TITLE_BLANK, context.getLocale()));
       errors.add(momentusError);
     }
-    if (workItem.getDescription() == null ) {
+    if (workItem.getDescription() == null) {
       MomentusError momentusError =
           new MomentusError(
               WorkItemErrorCodes.DESC_BLANK,
@@ -248,7 +237,7 @@ public class WorkItemService extends GenericService {
   private void updateStatus(WorkItem workItem) {
     String statusCode = workItem.getStatus() != null ? workItem.getStatus().getFvCode() : null;
     if (workItem.getId() == null || workItem.getId() <= 0) {
-      if (workItem.getAssignee() == null)  statusCode = WI_STATUS_NEW;
+      if (workItem.getAssignee() == null) statusCode = WI_STATUS_NEW;
       else statusCode = WI_STATUS_ASSN;
     }
     FiniteValue status = finiteValueService.getFinitieValueByCode(statusCode);
@@ -273,8 +262,9 @@ public class WorkItemService extends GenericService {
     return (List<WorkItem>) this.listRecords(filter, WorkItem.class, context, offset, limit, false);
   }
 
-    @Cacheable({"UpdateViewMetadata"})
-    public UpdateViewMetadataDTO getUpdateViewMetadata(Long orgId, ApplicationContext context, String mode) {
-        return metadataService.getUpdateViewMetadata(orgId,"WorkItem",context.getLocale(),mode);
-    }
+  @Cacheable({"UpdateViewMetadata"})
+  public UpdateViewMetadataDTO getUpdateViewMetadata(
+      Long orgId, ApplicationContext context, String mode) {
+    return metadataService.getUpdateViewMetadata(orgId, "WorkItem", context.getLocale(), mode);
+  }
 }

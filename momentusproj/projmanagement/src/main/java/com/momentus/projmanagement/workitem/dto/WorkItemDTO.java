@@ -31,7 +31,6 @@ public class WorkItemDTO {
 
   Float estimate;
 
-
   Float actuals;
 
   String acceptanceCritieria;
@@ -58,23 +57,23 @@ public class WorkItemDTO {
     this.status = status;
   }
 
-    public String getWiNo() {
-        return wiNo;
-    }
+  public String getWiNo() {
+    return wiNo;
+  }
 
-    public void setWiNo(String wiNo) {
-        this.wiNo = wiNo;
-    }
+  public void setWiNo(String wiNo) {
+    this.wiNo = wiNo;
+  }
 
-    public String getSummary() {
-        return summary;
-    }
+  public String getSummary() {
+    return summary;
+  }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
+  public void setSummary(String summary) {
+    this.summary = summary;
+  }
 
-    public String getDescription() {
+  public String getDescription() {
     return description;
   }
 
@@ -145,7 +144,6 @@ public class WorkItemDTO {
   public void setEstimate(Float estimate) {
     this.estimate = estimate;
   }
-
 
   public Float getActuals() {
     return actuals;
