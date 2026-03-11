@@ -1,0 +1,23 @@
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-ID','id','hidden','',null,1.1,'EV','RLSCR','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-VERSION','version','hidden','',null,1.2,'AEV','RLSCR','Numeric');
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-FETBTN','','button','Fetch','fetchDetails',2,'EV','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-BLN1','','blank',null,null,3,'EV','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-BLN2','','blank',null,null,4,'EV','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-HR1','','hr','',null,4.1,'AEV','RLCR','');
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-DESCTXT','description','text','Role Description',null,6,'E','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-tabset','','tabset','',null,7,'AEV','RLCR','String');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLCR-TBAC','','tab','Access',null,8,'AEV','RLCR','List','RLCR-tabset');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLCR-ACC','accessCodes','msdropdown','Permissions','accessCodes',9,'AEV','RLCR','String','RLCR-TBAC','position: static; display: block; max-height: 250px; min-width: 600px; overflow-y: auto;');
+
+
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('RLSCR-ACT','btn btn-primary','Activate Release','activateRelease',1,'E','RLCR');
+insert into updateview_buttons(id,button_class,inner_text,js_method,seq_no,visibility,updateview_metadata_id) values ('RLSCR-CLS','btn btn-warning','Close Release','closeRelease',2,'E','RLCR');
+
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLCR-FETBTN','','button','Fetch','fetchDetails',2,'EV','RLCR','String');
+
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('PRJT-CLNIT','client.id','dropdown','Client','Client',4,'AE','PRJT','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-ASSN','assignee','lookup','Assignee','User',10,'AEV','WTMN-IT','String');

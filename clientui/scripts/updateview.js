@@ -55,17 +55,54 @@ function getChildren(currentField, allFields,mode) {
 
 }
 
-async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
+async function drawCard(colCount, form, outerrow,field,metadata,mode)
 {
+
+          if (colCount != 0) {
+                form.appendChild(row);
+                outerrow = createRow();
+            }
+            const cardobj = document.createElement('div');
+            cardobj.className = 'card mb-4';
+            const divheader = document.createElement('div');
+            divheader.className= 'card-header fw-bold';
+            divheader.innerHTML=field.fieldLabel;
+            cardobj.appendChild(divheader);
+            const cardbody = document.createElement('div');
+            cardbody.className= 'card-body';
+            let childFields = getChildren(field, metadata.updateViewFields,mode);
+            console.log(childFields);
+            innerrow = createRow();
+            for ( let childField of childFields){
+                
+                if (colCount === 4) {
+                    cardbody.appendChild(innerrow);
+                    innerrow = createRow();
+                    colCount = 0;
+                }
+                const colchild = document.createElement('div');
+                colchild.className = 'col-lg-3 col-md-6 col-sm-12';
+                await callRenderControls(mode,childField,colchild);
+                innerrow.appendChild(colchild);
+                colCount++;
+            }
+             cardbody.appendChild(innerrow);
+            cardobj.appendChild(cardbody);
+            outerrow.appendChild(cardobj);  
+            form.appendChild(outerrow); 
+    
+}
+
+async function drawTabsAndChildren(container, tabCtrl, tabs, visibleFields, mode) {
     const tabset = document.createElement("ul");
     tabset.className = "nav nav-tabs";
     tabset.role = "tablist";
     tabset.id = tabCtrl.id;
-   
-     const tabContent = document.createElement("div");
+
+    const tabContent = document.createElement("div");
     tabContent.className = "tab-content mt-3";
 
-     for (const [index, tab] of tabs.entries()) {
+    for (const [index, tab] of tabs.entries()) {
 
         const tabId = "tab-" + tab.id;
 
@@ -91,8 +128,8 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
         pane.role = "tabpanel";
 
         // placeholder content (you will fill dynamically later)
-       // pane.innerHTML = `<div class="p-2">Content for ${tab.fieldLabel}</div>`;
-        let childFields = getChildren(tab, visibleFields,mode);
+        // pane.innerHTML = `<div class="p-2">Content for ${tab.fieldLabel}</div>`;
+        let childFields = getChildren(tab, visibleFields, mode);
         let row = createRow();
         pane.appendChild(row);
         let colCount = 0;
@@ -100,16 +137,75 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
             if (colCount === 4) {
                 tabContent.appendChild(pane);
                 row = createRow();
-                 pane.appendChild(row);
+                pane.appendChild(row);
                 colCount = 0;
             }
-            if (field.control == 'table') {
+            if (field.control == 'hr') {
+                if (colCount != 0) {
+                    tabContent.appendChild(pane);
+                    row = createRow();
+                    pane.appendChild(row);
+                    colCount = 0;
+                }
+                let hr1 = document.createElement('hr');
+                hr1.className = 'border border-secondary border-2 my-3';
+                colCount = 4;
+                row.appendChild(hr1);
+                continue;
+
+            }else if (field.control == 'card') {
+                if (colCount != 0) {
+                    tabContent.appendChild(pane);
+                        row = createRow();
+                        pane.appendChild(row);
+                        colCount = 0;
+                }
+                const col = document.createElement('div');
+                col.className = 'card mb-4';
+                const divheader = document.createElement('div');
+                divheader.className= 'card-header fw-bold';
+                divheader.innerHTML=field.fieldLabel;
+                col.append(divheader);
+                const cardbody = document.createElement('div');
+                cardbody.className= 'card-body';
+
+                let childFields = getChildren(field, metadata.updateViewFields,mode);
+                console.log(childFields);
+                for ( let childField of childFields){
+                    
+                    await callRenderControls(mode,childField,cardbody);
+                }
+                col.append(cardbody)
+                colCount = 4;
+                row.appendChild(col);
+                continue;
+           }else if (field.control == 'fullrow') {
+                console.log('creating fullrow');
+                if (colCount != 0) {
+                    tabContent.appendChild(pane);
+                    row = createRow();
+                    pane.appendChild(row);
+                    colCount = 0;
+                }
+                const col = document.createElement('div');
+                col.className = 'col-lg-12 col-md-12 col-sm-12';
+                let childFields = getChildren(field, metadata.updateViewFields, mode);
+                console.log(childFields);
+                for (let childField of childFields) {
+
+                    await callRenderControls(mode, childField, col);
+                }
+                colCount = 4;
+                row.appendChild(col);
+                continue;
+
+            } else if (field.control == 'table') {
                 console.log('creating table inside Tab');
                 const col = document.createElement('div');
                 col.className = 'col-lg-12 col-md-12 col-sm-12';
-                let childFields = getChildren(field, visibleFields,mode);
+                let childFields = getChildren(field, visibleFields, mode);
                 const control = await createTable(field, childFields, mode);
-              //  console.log(typeof(control));
+                //  console.log(typeof(control));
                 col.appendChild(control);
                 pane.append(col);
                 continue;
@@ -124,9 +220,9 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
                 if (mode != 'V') {
                     const control = await renderControl(field);
                     label.classList.add('form-label', 'mb-1');
-                    if(field.control !== 'button'){
-                      col.appendChild(label);
-                    }else {
+                    if (field.control !== 'button') {
+                        col.appendChild(label);
+                    } else {
                         const spacer = document.createElement("div");
                         spacer.className = "field-spacer";
                         col.appendChild(spacer);
@@ -136,26 +232,26 @@ async function drawTabsAndChildren(container,tabCtrl, tabs, visibleFields,mode )
                     const control = await renderViewControl(field);
                     label.classList.add('form-label', 'mb-1');
                     control.classList.add('form-control');
-                    if(field.control !== 'button'){
-                      col.appendChild(label);
-                    }else {
+                    if (field.control !== 'button') {
+                        col.appendChild(label);
+                    } else {
                         const spacer = document.createElement("div");
                         spacer.className = "field-spacer";
                         col.appendChild(spacer);
                     }
                     col.appendChild(control);
-                    
+
                 }
                 row.appendChild(col);
                 colCount++;
             }
-           
+
 
         }
         tabContent.appendChild(pane);
-      /*  if (row.children.length > 0) {
-            tabContent.appendChild(row);
-        }*/
+        /*  if (row.children.length > 0) {
+              tabContent.appendChild(row);
+          }*/
     }
 
     container.appendChild(tabset);
@@ -187,8 +283,12 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             row = createRow();
             colCount = 0;
         }
-        if (field.control == 'hr'){
+        if (field.control == 'card') {
+            await drawCard(colCount,form,row,field,metadata,mode);
+            continue;
 
+
+        }else if (field.control == 'hr'){
             if (colCount != 0) {
                 form.appendChild(row);
                 row = createRow();
@@ -225,18 +325,12 @@ async function renderUpdateViewForm(metadata, mode = 'E') {
             col.className = 'col-lg-12 col-md-12 col-sm-12';
             let childFields = getChildren(field, metadata.updateViewFields,mode);
             console.log(childFields);
-            if (Array.isArray(childFields)) {
             for ( let childField of childFields){
                 
                 await callRenderControls(mode,childField,col);
             }
-            } else {
-                 await callRenderControls(mode,childFields,col);
-            }
             
             colCount = 4;
-        //    console.log('table =' + control);
-         //   col.appendChild(control);
             row.appendChild(col);
             continue;
 
@@ -454,7 +548,10 @@ async function renderControl(field, partofTable=false) {
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.id =field.id;
-            btn.className ='btn btn-info';
+            let className ='btn btn-info';
+            if (field.style !== '')
+                className = field.style;
+            btn.className =className;
             btn.textContent = field.fieldLabel;
             console.log(field.param);
             btn.addEventListener('click', () => {

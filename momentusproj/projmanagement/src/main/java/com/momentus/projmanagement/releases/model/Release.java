@@ -63,4 +63,12 @@ public class Release extends OrgBasedEntity {
   public void setOwner(User owner) {
     this.owner = owner;
   }
+
+    public FiniteValue getStatus() {
+        return status;
+    }
+
+    public void setStatus(FiniteValue status) {
+        this.status = status;
+    }
 }

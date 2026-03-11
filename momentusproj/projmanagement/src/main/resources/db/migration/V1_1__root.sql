@@ -22,6 +22,47 @@ values ('Team','Team','com.momentus.projmanagement.releases.model.Team', 'GNL','
 
 insert into entity (entity_name,entity_display,full_package,profile_group_code,created_by,created_time,support_import)
 values ('Sprint','Sprint','com.momentus.projmanagement.releases.model.Sprint', 'GNL','seed',now(),1);
+--  Creating Relese Tram and Sprint UI
+
+
+insert into updateview_metadata(id,profile_code,entity,js_file) values ('RLSCR-IT','IT','Release','../scripts/release.js');
+
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLSCR-IT-CRD','','card','Release Management',null,1,'E','RLSCR-IT','');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-RLSNO','releaseNo','txt','Release No',null,2,'E','RLSCR-IT','String','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-CRD-SV','','button','Create Release','saveRelease',3,'EV','RLSCR-IT','String','RLSCR-IT-CRD','btn btn-primary');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-BLN2','','blank',null,null,4,'EV','RLSCR-IT','','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-BLN3','','blank',null,null,5,'EV','RLSCR-IT','','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-RLSID','id','dropdown','Release','Release',6,'EV','RLSCR-IT','Numeric','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-OWN','owner','lookup','Owner','User',7,'EV','RLSCR-IT','String','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-STS','status.fvCode','dropdown','Status','fv::rls_status',8,'EV','RLSCR-IT','String','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-CRD-UP','','button','Update Release','updateRelease',9,'EV','RLSCR-IT','String','RLSCR-IT-CRD','btn btn-success');
+
+
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLSCR-IT-TM','','card','Team Management',null,10,'E','RLSCR-IT','');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-TM-NM','name','text','Name',null,11,'E','RLSCR-IT','String','RLSCR-IT-TM');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-TM-PRDOWN','productOwner','lookup','Product Owner','User',12,'EV','RLSCR-IT','String','RLSCR-IT-TM');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-TM-SCRM','scrumMaster','lookup','Scrum Master','User',13,'EV','RLSCR-IT','String','RLSCR-IT-TM');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-TM-SV','','button','Save Team','saveTeam',14,'EV','RLSCR-IT','String','RLSCR-IT-TM','btn btn-info');
+
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLSCR-IT-SP','','card','Sprint Management',null,15,'E','RLSCR-IT','');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-RLSID','releaseid','dropdown','Release','Release',16,'EV','RLSCR-IT','Numeric','RLSCR-IT-SP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-RLSTMID','teamid','dropdown','Team','Team',17,'EV','RLSCR-IT','Numeric','RLSCR-IT-SP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-BLN2','','blank',null,null,17.1,'EV','RLSCR-IT','','RLSCR-IT-SP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-BLN3','','blank',null,null,17.2,'EV','RLSCR-IT','','RLSCR-IT-SP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-NM','prefix','text','Sprint Name Prefix',null,18,'E','RLSCR-IT','String','RLSCR-IT-SP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-PRDOWN','seqStart','text','Sequence Start','User',19,'EV','RLSCR-IT','String','RLSCR-IT-SP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-SCRM','seqEnd','text','Sequence End','User',20,'EV','RLSCR-IT','String','RLSCR-IT-SP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-SP-SV','','button','Generate Sprints','saveTeam',21,'EV','RLSCR-IT','String','RLSCR-IT-SP','btn btn-warning');
+
+
+
+
+
+
+--  end Release Tream and Sprint UI
+
 
 
 -- FV for Sprint Status
@@ -266,7 +307,7 @@ create table wi_task_status_mapping (
 
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,has_children) values ('IT_MNU-RPTS-ADM','Administration','PRJ-ADM','','IT_MNU-RPTS',5,true);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-PRJ','Projects','PRJ-ADM','./general/genericList.html?entity=Project','IT_MNU-RPTS',6,'IT_MNU-RPTS-ADM');
-insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-RLSP','Releases, Teams and Sprints','PRJ-LD','./release/releasensprints.html','IT_MNU-RPTS',7,'IT_MNU-RPTS-ADM');
+insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-RLSP','Releases, Teams and Sprints','PRJ-LD','./general/genericaddview.html?entity=Release&mode=Edit','IT_MNU-RPTS',7,'IT_MNU-RPTS-ADM');
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,has_children) values ('IT_MNU-RPTS-OPS','Operations','PRJ-ADM','','IT_MNU-RPTS',8,true);
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-NWIT','New Workitem','PRJ-TM','./workitems/newworkitem.html','IT_MNU-RPTS',9,'IT_MNU-RPTS-OPS');
 insert into menu_item (id,menu_key,access_code,page,menu_group_id,seq_no,parent_item) values ('IT_MNU-RPTS-WITL','Workitems','PRJ-TM','./workitems/workitems.html','IT_MNU-RPTS',10,'IT_MNU-RPTS-OPS');
