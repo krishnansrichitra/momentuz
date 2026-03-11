@@ -59,13 +59,13 @@ async function drawCard(colCount, form, outerrow,field,metadata,mode)
 {
 
           if (colCount != 0) {
-                form.appendChild(row);
+                form.appendChild(outerrow);
                 outerrow = createRow();
             }
             const cardobj = document.createElement('div');
-            cardobj.className = 'card mb-4';
+            cardobj.className = 'card border-primary mb-4';
             const divheader = document.createElement('div');
-            divheader.className= 'card-header fw-bold';
+            divheader.className= 'card-header bg-primary-subtle text-primary fw-bold';
             divheader.innerHTML=field.fieldLabel;
             cardobj.appendChild(divheader);
             const cardbody = document.createElement('div');

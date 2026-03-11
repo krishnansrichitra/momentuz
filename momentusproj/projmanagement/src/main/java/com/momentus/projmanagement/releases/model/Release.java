@@ -14,7 +14,7 @@ public class Release extends OrgBasedEntity {
 
   @Column
   @EntityProperties(isBK = true)
-  String title;
+  String releaseNo;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "project_id", nullable = true)
@@ -32,15 +32,16 @@ public class Release extends OrgBasedEntity {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     FiniteValue status;
 
-  public String getTitle() {
-    return title;
-  }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    public String getReleaseNo() {
+        return releaseNo;
+    }
 
-  public Project getProject() {
+    public void setReleaseNo(String releaseNo) {
+        this.releaseNo = releaseNo;
+    }
+
+    public Project getProject() {
     return project;
   }
 

@@ -29,14 +29,15 @@ insert into updateview_metadata(id,profile_code,entity,js_file) values ('RLSCR-I
 
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLSCR-IT-CRD','','card','Release Management',null,1,'E','RLSCR-IT','');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-RLSNO','releaseNo','txt','Release No',null,2,'E','RLSCR-IT','String','RLSCR-IT-CRD');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-CRD-SV','','button','Create Release','saveRelease',3,'EV','RLSCR-IT','String','RLSCR-IT-CRD','btn btn-primary');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-BLN2','','blank',null,null,4,'EV','RLSCR-IT','','RLSCR-IT-CRD');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-BLN3','','blank',null,null,5,'EV','RLSCR-IT','','RLSCR-IT-CRD');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-RLSID','id','dropdown','Release','Release',6,'EV','RLSCR-IT','Numeric','RLSCR-IT-CRD');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-OWN','owner','lookup','Owner','User',7,'EV','RLSCR-IT','String','RLSCR-IT-CRD');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-STS','status.fvCode','dropdown','Status','fv::rls_status',8,'EV','RLSCR-IT','String','RLSCR-IT-CRD');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-CRD-UP','','button','Update Release','updateRelease',9,'EV','RLSCR-IT','String','RLSCR-IT-CRD','btn btn-success');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-RLSID','id','dropdown','Release','Release',2,'EV','RLSCR-IT','Numeric','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-CRD-FT','','button','Fetch','fetch',3,'EV','RLSCR-IT','String','RLSCR-IT-CRD','btn btn-warning');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-BLN1','','blank',null,null,4,'EV','RLSCR-IT','','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-BLN2','','blank',null,null,5,'EV','RLSCR-IT','','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-PRJ','project.id','dropdown','Project','Project',6,'E','RLSCR-IT','Numeric','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-RLSNO','releaseNo','text','Release No',null,7,'E','RLSCR-IT','String','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-OWN','owner.userId','lookup','Owner','User',8,'EV','RLSCR-IT','String','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-STS','status.fvCode','dropdown','Status','fv::rls_status',9,'EV','RLSCR-IT','String','RLSCR-IT-CRD');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-CRD-UP','','button','Save Release','updateRelease',9.1,'EV','RLSCR-IT','String','RLSCR-IT-CRD','btn btn-success');
 
 
 
@@ -54,7 +55,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-NM','prefix','text','Sprint Name Prefix',null,18,'E','RLSCR-IT','String','RLSCR-IT-SP');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-PRDOWN','seqStart','text','Sequence Start','User',19,'EV','RLSCR-IT','String','RLSCR-IT-SP');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-SCRM','seqEnd','text','Sequence End','User',20,'EV','RLSCR-IT','String','RLSCR-IT-SP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-SP-SV','','button','Generate Sprints','saveTeam',21,'EV','RLSCR-IT','String','RLSCR-IT-SP','btn btn-warning');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-SP-SV','','button','Generate Sprints','generateSprints',21,'EV','RLSCR-IT','String','RLSCR-IT-SP','btn btn-primary');
 
 
 
@@ -184,7 +185,7 @@ create table wi_task_status_mapping (
         id bigint primary key auto_increment,
         wi_type varchar(255),
         wi_status varchar(255),
-        seq  NUMERIC(10,2),
+        seq  FLOAT(15),
         profile_code varchar(255) not null,
         comments varchar(255),
          created_by varchar(255),
