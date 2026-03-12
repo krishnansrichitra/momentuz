@@ -3,6 +3,7 @@ Projects
 2. milestone status for rescheduled and rescheduled count
 3. Add more SOW Types, Post Go Live Hyper care, User Training, etc..
 4. FW more than 1 control (button in same column)
+5. In Jsons, user info should be passed minimum (other subobjects too )
 
 ------------------------------
 

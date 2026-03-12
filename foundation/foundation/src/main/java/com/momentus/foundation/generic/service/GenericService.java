@@ -321,6 +321,12 @@ public class GenericService {
     }
     prepopulate(entity, context);
     mapToEntityMapper.populateFromMap(dataMap, entity, context);
+    return adaptValidateAndSaveEntity(entity, context, skipBKValidation);
+  }
+
+  @Transactional
+  public TransactionResponse adaptValidateAndSaveEntity(
+      OrgBasedEntity entity, ApplicationContext context, boolean skipBKValidation) {
     preValidation(entity, context);
     TransactionResponse validationResponse = validate(entity, context, skipBKValidation);
     if (validationResponse.hasHardError()) {

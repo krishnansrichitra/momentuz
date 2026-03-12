@@ -15,7 +15,7 @@ public class Sprint extends OrgBasedEntity {
 
   @Column
   @EntityProperties(isBK = true)
-  String name;
+  String sprintNo;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "release_id", nullable = true)
@@ -48,12 +48,12 @@ public class Sprint extends OrgBasedEntity {
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue status;
 
-    public String getName() {
-        return name;
+    public String getSprintNo() {
+        return sprintNo;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSprintNo(String sprintNo) {
+        this.sprintNo = sprintNo;
     }
 
     public Release getRelease() {

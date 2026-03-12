@@ -9,4 +9,5 @@ public class WorkItemErrorCodes {
   public static final String USER_ABSENT_NOT_VALID = "40005";
   public static final String WISTATUS_NOT_VALID = "40006";
   public static final String PROJECT_NOT_FOUND = "40007";
+  public static final String SPRINT_SAVED = "40008";
 }

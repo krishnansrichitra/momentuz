@@ -60,8 +60,8 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-BLN2','','blank',null,null,57.1,'EV','RLSCR-IT','','RLSCR-IT-SP');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-BLN3','','blank',null,null,57.2,'EV','RLSCR-IT','','RLSCR-IT-SP');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-NM','prefix','text','Sprint Name Prefix',null,58,'E','RLSCR-IT','String','RLSCR-IT-SP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-PRDOWN','seqStart','text','Sequence Start','User',59,'EV','RLSCR-IT','String','RLSCR-IT-SP');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-SCRM','seqEnd','text','Sequence End','User',60,'EV','RLSCR-IT','String','RLSCR-IT-SP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-SQST','seqStart','text','Sequence Start','User',59,'EV','RLSCR-IT','String','RLSCR-IT-SP');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-SP-SSQED','seqEnd','text','Sequence End','User',60,'EV','RLSCR-IT','String','RLSCR-IT-SP');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-SP-SV','','button','Generate Sprints','generateSprints',66,'EV','RLSCR-IT','String','RLSCR-IT-SP','btn btn-primary');
 
 

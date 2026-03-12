@@ -103,12 +103,60 @@ async function  fetch() {
     
 }
 async function generateSprints() {
+    let payload = {};
+    payload['prefix'] = document.getElementById('RLSCR-IT-SP-NM').value;
+    payload['seqStart'] = Number (document.getElementById('RLSCR-IT-SP-SQST').value);
+    payload['seqEnd'] = Number (document.getElementById('RLSCR-IT-SP-SSQED').value);
+
+    let releaseId = document.getElementById('RLSCR-IT-SP-RLSID').value ; 
+     if (releaseId !==  null && releaseId !==  '' && Number(releaseId) > 0 ){
+        payload['releaseId'] = Number(releaseId);
+    } 
+    let teamId = document.getElementById('RLSCR-IT-SP-TMID').value ; 
+     if (teamId !==  null && teamId !==  '' && Number(teamId) > 0 ){
+        payload['teamId'] = Number(teamId);
+    } 
     
+    console.log(JSON.stringify(payload, null, 2));
+    console.log('urlPrefix=' + urlPrefix);
+
+    axios.post(
+        urlPrefix + `api/release/generateSprints`,
+        payload,
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+        .then(response => {
+            console.log('Success:', response.data);
+            showSuccessMessage(response.data.Messages);
+            reloadTeamDropDown();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const response = error.response?.data;
+            const apiErrors = new ApiErrorResponse(response);
+            if (apiErrors.hasErrors()) {
+                const messages = apiErrors.getMessages();
+                showErrors(messages);
+            }
+
+        }); 
 }
+
+
 
 async function saveTeam() {
     let payload = {};
     payload['teamName'] = document.getElementById('RLSCR-IT-TM-NM').value;
+
+    let teamId = document.getElementById('RLSCR-IT-TM-TMID').value ; 
+     if (teamId !==  null && teamId !==  '' && Number(teamId) > 0 ){
+        payload['id'] = Number(teamId);
+    } 
+
      let owneruser = document.getElementById('RLSCR-IT-TM-PRDOWN').value ;  
      if (owneruser !==  null && owneruser !==  ''  ){
         let ownjson = {};
