@@ -4,7 +4,15 @@ Projects
 3. Add more SOW Types, Post Go Live Hyper care, User Training, etc..
 
 
+----------------------------
 
 
+Plan1
+
+12 mar- save Releast, Team sprint and workitem
+13/14.comments and atacchments on WIs
+15/16/17- configuration FW
+18-buffer
+19-
 
 

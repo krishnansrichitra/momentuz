@@ -47,4 +47,76 @@ public class Sprint extends OrgBasedEntity {
   @JoinColumn(name = "sprint_status", referencedColumnName = "fv_code")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue status;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Release getRelease() {
+        return release;
+    }
+
+    public void setRelease(Release release) {
+        this.release = release;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public User getProductOwner() {
+        return productOwner;
+    }
+
+    public void setProductOwner(User productOwner) {
+        this.productOwner = productOwner;
+    }
+
+    public User getScrumMaster() {
+        return scrumMaster;
+    }
+
+    public void setScrumMaster(User scrumMaster) {
+        this.scrumMaster = scrumMaster;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public FiniteValue getStatus() {
+        return status;
+    }
+
+    public void setStatus(FiniteValue status) {
+        this.status = status;
+    }
 }

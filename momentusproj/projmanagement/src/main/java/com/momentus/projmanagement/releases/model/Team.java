@@ -14,7 +14,7 @@ public class Team extends OrgBasedEntity {
 
   @Column
   @EntityProperties(isBK = true)
-  String name;
+  String teamName;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "release_id", nullable = true)
@@ -38,15 +38,16 @@ public class Team extends OrgBasedEntity {
   @OrderBy("id Asc")
   List<TeamMember> teamMembers;
 
-  public String getName() {
-    return name;
-  }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public String getTeamName() {
+        return teamName;
+    }
 
-  public Release getRelease() {
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public Release getRelease() {
     return release;
   }
 

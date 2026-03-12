@@ -30,8 +30,6 @@ async function updateRelease() {
     if(version != null && version !== '' && Number(version) >= 0) {
         payload['version'] = Number(version);
     }
-
-    
     
     console.log(JSON.stringify(payload, null, 2));
     console.log('urlPrefix=' + urlPrefix);
@@ -93,7 +91,60 @@ async function generateSprints() {
     
 }
 
-async function createRelease() {
+async function saveTeam() {
+    let payload = {};
+    payload['teamName'] = document.getElementById('RLSCR-IT-TM-NM').value;
+     let owneruser = document.getElementById('RLSCR-IT-TM-PRDOWN').value ;  
+     if (owneruser !==  null && owneruser !==  ''  ){
+        let ownjson = {};
+        ownjson['userId'] =owneruser;
+        payload['productOwner'] = ownjson;
+    } 
+    let scrummaster = document.getElementById('RLSCR-IT-TM-SCRM').value ;  
+     if (scrummaster !==  null && scrummaster !==  ''  ){
+        let ownjson = {};
+        ownjson['userId'] =scrummaster;
+        payload['scrumMaster'] = ownjson;
+    } 
+    let version = document.getElementById('RLSCR-IT-TM-VRS').value ; 
+    if(version != null && version !== '' && Number(version) >= 0) {
+        payload['version'] = Number(version);
+    }
+
+
+    console.log(JSON.stringify(payload, null, 2));
+    console.log('urlPrefix=' + urlPrefix);
+
+    axios.post(
+        urlPrefix + `api/generic/createOrUpdate`,
+        payload,
+        {
+            params: {
+                entityType: 'Team'
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+        .then(response => {
+            console.log('Success:', response.data);
+            showSuccessMessage(response.data.Messages);
+            reloadTeamDropDown();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const response = error.response?.data;
+            const apiErrors = new ApiErrorResponse(response);
+            if (apiErrors.hasErrors()) {
+                const messages = apiErrors.getMessages();
+                showErrors(messages);
+            }
+
+        });    
+}
+
+async function fetchTeam() {
     
 }
 
@@ -105,6 +156,18 @@ async function reloadReleaseDropDown() {
    document.getElementById("RLSCR-IT-SP-RLSID").options.length= 0;
    populateSelectOptions(document.getElementById("RLSCR-IT-CRD-RLSID"),"Release");
     populateSelectOptions(document.getElementById("RLSCR-IT-SP-RLSID"),"Release");
+
+
+    
+}
+
+async function reloadTeamDropDown() {
+
+
+   document.getElementById("RLSCR-IT-TM-TMID").options.length= 0;
+   document.getElementById("RLSCR-IT-SP-TMID").options.length= 0;
+   populateSelectOptions(document.getElementById("RLSCR-IT-TM-TMID"),"Team");
+    populateSelectOptions(document.getElementById("RLSCR-IT-SP-TMID"),"Team");
 
 
     
