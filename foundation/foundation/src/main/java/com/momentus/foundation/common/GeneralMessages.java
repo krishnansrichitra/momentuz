@@ -31,6 +31,7 @@ public class GeneralMessages {
   public static final String ORG_CREATED_SUCCESS = "10018";
   public static final String PRIMARY_USER_EMAIL_MANDATORY = "10019";
   public static final String ROLE_SAVED_SUCCESSFULLY = "10020";
+  public static final String ENTITY_SAVED_SUCCESSFULLY = "10021";
 
   private final MessageSource messageSource;
 

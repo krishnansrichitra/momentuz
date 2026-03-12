@@ -18,6 +18,7 @@ public class Release extends OrgBasedEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "project_id", nullable = true)
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   Project project;
 
   @Column Long year;

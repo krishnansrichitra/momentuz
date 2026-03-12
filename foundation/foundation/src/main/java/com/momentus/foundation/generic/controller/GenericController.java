@@ -56,8 +56,15 @@ public class GenericController {
               .compareTo(TransactionResponse.RESPONSE_STATUS.FAILURE)
           == 0) {
         return ResponseEntity.badRequest().body(transactionResponse.errorMap());
+      } else {
+        String entityMsg = generalMessages.getMessage(entityType, context.getLocale());
+        transactionResponse.setResponseMesage(
+            generalMessages.getMessage(
+                GeneralMessages.ENTITY_SAVED_SUCCESSFULLY,
+                new Object[] {entityMsg},
+                context.getLocale()));
+        return ResponseEntity.ok(transactionResponse.convertToMap());
       }
-      return ResponseEntity.ok(transactionResponse.convertToMap());
     } catch (Exception ex) {
       log.error("Error while creating obj", ex);
       String error = ex.getMessage();

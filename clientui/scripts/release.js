@@ -23,8 +23,16 @@ async function updateRelease() {
     }
     let releaseId = document.getElementById('RLSCR-IT-CRD-RLSID').value ; 
      if (releaseId !==  null && releaseId !==  '' && Number(releaseId) > 0 ){
-        payload['id'] = releaseId;
+        payload['id'] = Number(releaseId);
     } 
+
+    let version = document.getElementById('RLSCR-IT-CRD-VRS').value ; 
+    if(version != null && version !== '' && Number(version) >= 0) {
+        payload['version'] = Number(version);
+    }
+
+    
+    
     console.log(JSON.stringify(payload, null, 2));
     console.log('urlPrefix=' + urlPrefix);
 
@@ -43,6 +51,7 @@ async function updateRelease() {
         .then(response => {
             console.log('Success:', response.data);
             showSuccessMessage(response.data.Messages);
+            reloadReleaseDropDown();
            // window.location.href = './genericList.html?entity=' + entity;
         })
         .catch(error => {
@@ -58,6 +67,28 @@ async function updateRelease() {
    
 }
 
+async function  fetch() {
+
+       let id=  document.getElementById("RLSCR-IT-CRD-RLSID").value;
+    const url =
+    urlPrefix + "api/generic/getById?entityType=" + encodeURIComponent('Release') + "&id=" + id ;
+    try {
+    const response = await axios.get(url);
+    const jsonContent = response.data;
+    console.log(jsonContent);
+    let formControl = document.getElementById("genericForm");
+    if(id!==null)
+                traverseJson(formControl, jsonContent);
+    document.getElementById("RLSCR-IT-CRD-VRS").value = jsonContent['version'];
+    //return data;
+
+
+
+    }catch (error) {
+    console.error("Error fetching data");
+  }
+    
+}
 async function generateSprints() {
     
 }
@@ -66,6 +97,15 @@ async function createRelease() {
     
 }
 
-async function reloadReleaseDropDown(params) {
+async function reloadReleaseDropDown() {
+
+    //RLSCR-IT-CRD-RLSID
+    //RLSCR-IT-SP-RLSID
+   document.getElementById("RLSCR-IT-CRD-RLSID").options.length= 0;
+   document.getElementById("RLSCR-IT-SP-RLSID").options.length= 0;
+   populateSelectOptions(document.getElementById("RLSCR-IT-CRD-RLSID"),"Release");
+    populateSelectOptions(document.getElementById("RLSCR-IT-SP-RLSID"),"Release");
+
+
     
 }

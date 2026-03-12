@@ -38,6 +38,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-OWN','owner.userId','lookup','Owner','User',8,'EV','RLSCR-IT','String','RLSCR-IT-CRD');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('RLSCR-IT-CRD-STS','status.fvCode','dropdown','Status','fv::rls_status',9,'EV','RLSCR-IT','String','RLSCR-IT-CRD');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent,style) values ('RLSCR-IT-CRD-UP','','button','Save Release','updateRelease',9.1,'EV','RLSCR-IT','String','RLSCR-IT-CRD','btn btn-success');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('RLSCR-IT-CRD-VRS','rlsversion','hidden','','Release',9.2,'EV','RLSCR-IT','Numeric');
 
 
 
