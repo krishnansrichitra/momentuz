@@ -65,6 +65,25 @@ async function updateRelease() {
    
 }
 
+async function fetchTeam() {
+
+    let id=  document.getElementById("RLSCR-IT-TM-TMID").value;
+    const url =
+    urlPrefix + "api/generic/getById?entityType=" + encodeURIComponent('Team') + "&id=" + id ;
+    try {
+    const response = await axios.get(url);
+    const jsonContent = response.data;
+    console.log(jsonContent);
+    let formControl = document.getElementById("genericForm");
+    if(id!==null)
+                traverseJson(formControl, jsonContent);
+    document.getElementById("RLSCR-IT-TM-VRS").value = jsonContent['version'];
+    }catch (error) {
+    console.error("Error fetching data");
+  }
+    
+}
+
 async function  fetch() {
 
        let id=  document.getElementById("RLSCR-IT-CRD-RLSID").value;
@@ -78,10 +97,6 @@ async function  fetch() {
     if(id!==null)
                 traverseJson(formControl, jsonContent);
     document.getElementById("RLSCR-IT-CRD-VRS").value = jsonContent['version'];
-    //return data;
-
-
-
     }catch (error) {
     console.error("Error fetching data");
   }
@@ -144,9 +159,7 @@ async function saveTeam() {
         });    
 }
 
-async function fetchTeam() {
-    
-}
+
 
 async function reloadReleaseDropDown() {
 
