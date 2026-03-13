@@ -4,6 +4,9 @@ import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.finitevalue.dto.FiniteValueDTO;
 import com.momentus.projmanagement.project.model.Project;
+import com.momentus.projmanagement.releases.model.Release;
+import com.momentus.projmanagement.releases.model.Sprint;
+import com.momentus.projmanagement.releases.model.Team;
 import com.momentus.projmanagement.workitem.model.WorkItem;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
@@ -48,6 +51,39 @@ public class WorkItemDTOHelper {
       parentWorkItem.setWiNo(workItemDTO.getParent());
       workItem.setParent(parentWorkItem);
     }
+    if (workItemDTO.getReleaseId() != null && workItemDTO.getReleaseId() > 0) {
+      Release release = new Release();
+      release.setId(workItemDTO.getReleaseId());
+      workItem.setRelease(release);
+    }
+    if (workItemDTO.getTeamId() != null && workItemDTO.getTeamId() > 0) {
+      Team team = new Team();
+      team.setId(workItemDTO.getTeamId());
+      workItem.setTeam(team);
+    }
+    if (workItemDTO.getSprintId() != null && workItemDTO.getSprintId() > 0) {
+      Sprint sprint = new Sprint();
+      sprint.setId(workItemDTO.getSprintId());
+      workItem.setSprint(sprint);
+    }
+    if (StringUtils.hasLength(workItemDTO.getBlockedBy())) {
+      WorkItem blockedBy = new WorkItem();
+      blockedBy.setWiNo(workItemDTO.getBlockedBy());
+      workItem.setBlockedBy(blockedBy);
+    }
+    if (StringUtils.hasLength(workItemDTO.getDependentOn())) {
+      WorkItem dependendent = new WorkItem();
+      dependendent.setWiNo(workItemDTO.getDependentOn());
+      workItem.setDependentOn(dependendent);
+    }
+    if (StringUtils.hasLength(workItemDTO.getDuplicateOf())) {
+      WorkItem duplicateOf = new WorkItem();
+      duplicateOf.setWiNo(workItemDTO.getDuplicateOf());
+      workItem.setDuplicateOf(duplicateOf);
+    }
+    if (workItemDTO.getReasonCode() != null)
+      workItem.setInvalidReason(FiniteValueDTO.makeFiniteValue(workItemDTO.getReasonCode()));
+
     return workItem;
   }
 
@@ -66,8 +102,22 @@ public class WorkItemDTOHelper {
           new FiniteValueDTO(
               workItem.getTimeUOM().getFvCode(),
               generalMessages.getMessage(workItem.getTimeUOM().getFvValue(), ls)));
+    if (workItem.getInvalidReason() != null)
+      workItemDTO.setReasonCode(
+          new FiniteValueDTO(
+              workItem.getInvalidReason().getFvCode(),
+              generalMessages.getMessage(workItem.getInvalidReason().getFvValue(), ls)));
     if (workItem.getProject() != null) {
       workItemDTO.setProjectId(workItem.getProject().getId());
+    }
+    if (workItem.getRelease() != null) {
+      workItemDTO.setReleaseId(workItem.getRelease().getId());
+    }
+    if (workItem.getSprint() != null) {
+      workItemDTO.setSprintId(workItem.getSprint().getId());
+    }
+    if (workItem.getTeam() != null) {
+      workItemDTO.setTeamId(workItem.getTeam().getId());
     }
     if (workItem.getAssignee() != null) {
       workItemDTO.setAssignee(workItem.getAssignee().getUserId());
@@ -95,6 +145,12 @@ public class WorkItemDTOHelper {
     workItemDTO.setWiNo(workItem.getWiNo());
     if (workItem.getBlockedBy() != null)
       workItemDTO.setBlockedBy(workItem.getBlockedBy().getWiNo());
+    if (workItem.getDependentOn() != null)
+      workItemDTO.setDependentOn(workItem.getDependentOn().getWiNo());
+    if (workItem.getDuplicateOf() != null)
+      workItemDTO.setDuplicateOf(workItem.getDuplicateOf().getWiNo());
+    if (workItem.getParent() != null) workItemDTO.setParent(workItem.getParent().getWiNo());
+
     workItemDTO.setActualStartDate(workItem.getActualStartDate());
     workItemDTO.setPlannedStartDate(workItem.getPlannedStartDate());
     workItemDTO.setDueDate(workItem.getDueDate());

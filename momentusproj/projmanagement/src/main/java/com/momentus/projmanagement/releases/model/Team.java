@@ -38,16 +38,15 @@ public class Team extends OrgBasedEntity {
   @OrderBy("id Asc")
   List<TeamMember> teamMembers;
 
+  public String getTeamName() {
+    return teamName;
+  }
 
-    public String getTeamName() {
-        return teamName;
-    }
+  public void setTeamName(String teamName) {
+    this.teamName = teamName;
+  }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public Release getRelease() {
+  public Release getRelease() {
     return release;
   }
 

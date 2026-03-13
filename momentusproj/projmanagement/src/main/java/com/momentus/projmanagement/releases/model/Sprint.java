@@ -48,75 +48,75 @@ public class Sprint extends OrgBasedEntity {
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   FiniteValue status;
 
-    public String getSprintNo() {
-        return sprintNo;
-    }
+  public String getSprintNo() {
+    return sprintNo;
+  }
 
-    public void setSprintNo(String sprintNo) {
-        this.sprintNo = sprintNo;
-    }
+  public void setSprintNo(String sprintNo) {
+    this.sprintNo = sprintNo;
+  }
 
-    public Release getRelease() {
-        return release;
-    }
+  public Release getRelease() {
+    return release;
+  }
 
-    public void setRelease(Release release) {
-        this.release = release;
-    }
+  public void setRelease(Release release) {
+    this.release = release;
+  }
 
-    public Project getProject() {
-        return project;
-    }
+  public Project getProject() {
+    return project;
+  }
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
+  public void setProject(Project project) {
+    this.project = project;
+  }
 
-    public Team getTeam() {
-        return team;
-    }
+  public Team getTeam() {
+    return team;
+  }
 
-    public void setTeam(Team team) {
-        this.team = team;
-    }
+  public void setTeam(Team team) {
+    this.team = team;
+  }
 
-    public User getProductOwner() {
-        return productOwner;
-    }
+  public User getProductOwner() {
+    return productOwner;
+  }
 
-    public void setProductOwner(User productOwner) {
-        this.productOwner = productOwner;
-    }
+  public void setProductOwner(User productOwner) {
+    this.productOwner = productOwner;
+  }
 
-    public User getScrumMaster() {
-        return scrumMaster;
-    }
+  public User getScrumMaster() {
+    return scrumMaster;
+  }
 
-    public void setScrumMaster(User scrumMaster) {
-        this.scrumMaster = scrumMaster;
-    }
+  public void setScrumMaster(User scrumMaster) {
+    this.scrumMaster = scrumMaster;
+  }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
+  public LocalDate getStartDate() {
+    return startDate;
+  }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
+  public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+  }
 
-    public LocalDate getEndDate() {
-        return endDate;
-    }
+  public LocalDate getEndDate() {
+    return endDate;
+  }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
+  public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
+  }
 
-    public FiniteValue getStatus() {
-        return status;
-    }
+  public FiniteValue getStatus() {
+    return status;
+  }
 
-    public void setStatus(FiniteValue status) {
-        this.status = status;
-    }
+  public void setStatus(FiniteValue status) {
+    this.status = status;
+  }
 }

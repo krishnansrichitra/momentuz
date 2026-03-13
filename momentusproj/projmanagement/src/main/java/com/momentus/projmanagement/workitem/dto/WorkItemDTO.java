@@ -21,6 +21,12 @@ public class WorkItemDTO {
 
   Long projectId;
 
+  Long releaseId;
+
+  Long teamId;
+
+  Long sprintId;
+
   LocalDate dueDate;
 
   LocalDate plannedStartDate;
@@ -40,6 +46,12 @@ public class WorkItemDTO {
   String blockedBy;
 
   String parent;
+
+  String duplicateOf;
+
+  String dependentOn;
+
+  FiniteValueDTO reasonCode;
 
   public FiniteValueDTO getType() {
     return type;
@@ -234,5 +246,53 @@ public class WorkItemDTO {
         + parent
         + '\''
         + '}';
+  }
+
+  public Long getReleaseId() {
+    return releaseId;
+  }
+
+  public void setReleaseId(Long releaseId) {
+    this.releaseId = releaseId;
+  }
+
+  public Long getTeamId() {
+    return teamId;
+  }
+
+  public void setTeamId(Long teamId) {
+    this.teamId = teamId;
+  }
+
+  public Long getSprintId() {
+    return sprintId;
+  }
+
+  public void setSprintId(Long sprintId) {
+    this.sprintId = sprintId;
+  }
+
+  public String getDuplicateOf() {
+    return duplicateOf;
+  }
+
+  public void setDuplicateOf(String duplicateOf) {
+    this.duplicateOf = duplicateOf;
+  }
+
+  public String getDependentOn() {
+    return dependentOn;
+  }
+
+  public void setDependentOn(String dependentOn) {
+    this.dependentOn = dependentOn;
+  }
+
+  public FiniteValueDTO getReasonCode() {
+    return reasonCode;
+  }
+
+  public void setReasonCode(FiniteValueDTO reasonCode) {
+    this.reasonCode = reasonCode;
   }
 }

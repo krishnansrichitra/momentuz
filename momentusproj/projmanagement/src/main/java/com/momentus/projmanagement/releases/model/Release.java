@@ -28,21 +28,20 @@ public class Release extends OrgBasedEntity {
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   User owner;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "release_status", referencedColumnName = "fv_code")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    FiniteValue status;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "release_status", referencedColumnName = "fv_code")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  FiniteValue status;
 
+  public String getReleaseNo() {
+    return releaseNo;
+  }
 
-    public String getReleaseNo() {
-        return releaseNo;
-    }
+  public void setReleaseNo(String releaseNo) {
+    this.releaseNo = releaseNo;
+  }
 
-    public void setReleaseNo(String releaseNo) {
-        this.releaseNo = releaseNo;
-    }
-
-    public Project getProject() {
+  public Project getProject() {
     return project;
   }
 
@@ -66,11 +65,11 @@ public class Release extends OrgBasedEntity {
     this.owner = owner;
   }
 
-    public FiniteValue getStatus() {
-        return status;
-    }
+  public FiniteValue getStatus() {
+    return status;
+  }
 
-    public void setStatus(FiniteValue status) {
-        this.status = status;
-    }
+  public void setStatus(FiniteValue status) {
+    this.status = status;
+  }
 }

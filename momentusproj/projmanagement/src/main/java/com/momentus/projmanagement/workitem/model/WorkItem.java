@@ -6,6 +6,9 @@ import com.momentus.foundation.accessgroup.model.User;
 import com.momentus.foundation.finitevalue.model.FiniteValue;
 import com.momentus.foundation.organization.model.OrgBasedEntity;
 import com.momentus.projmanagement.project.model.Project;
+import com.momentus.projmanagement.releases.model.Release;
+import com.momentus.projmanagement.releases.model.Sprint;
+import com.momentus.projmanagement.releases.model.Team;
 import jakarta.persistence.*;
 import java.sql.Blob;
 import java.time.LocalDate;
@@ -46,6 +49,21 @@ public class WorkItem extends OrgBasedEntity {
   @JoinColumn(name = "project_id", nullable = true)
   Project project;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "release_id", nullable = true)
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  Release release;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "team_id", nullable = true)
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  Team team;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "sprint_id", nullable = true)
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  Sprint sprint;
+
   @Column LocalDate dueDate;
 
   @Column Float estimate;
@@ -67,14 +85,29 @@ public class WorkItem extends OrgBasedEntity {
   String label;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "blocked_by") // nullable = true if root divisions exist
+  @JoinColumn(name = "blocked_by")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   private WorkItem blockedBy;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "parent_id") // nullable = true if root divisions exist
+  @JoinColumn(name = "duplicate_of")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  private WorkItem duplicateOf;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "dependent_on")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  private WorkItem dependentOn;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "parent_id")
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   private WorkItem parent;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "invalid_reason_code", referencedColumnName = "fv_code")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  FiniteValue invalidReason;
 
   public FiniteValue getType() {
     return type;
@@ -218,5 +251,53 @@ public class WorkItem extends OrgBasedEntity {
 
   public void setParent(WorkItem parent) {
     this.parent = parent;
+  }
+
+  public Release getRelease() {
+    return release;
+  }
+
+  public void setRelease(Release release) {
+    this.release = release;
+  }
+
+  public Team getTeam() {
+    return team;
+  }
+
+  public void setTeam(Team team) {
+    this.team = team;
+  }
+
+  public Sprint getSprint() {
+    return sprint;
+  }
+
+  public void setSprint(Sprint sprint) {
+    this.sprint = sprint;
+  }
+
+  public WorkItem getDuplicateOf() {
+    return duplicateOf;
+  }
+
+  public void setDuplicateOf(WorkItem duplicateOf) {
+    this.duplicateOf = duplicateOf;
+  }
+
+  public WorkItem getDependentOn() {
+    return dependentOn;
+  }
+
+  public void setDependentOn(WorkItem dependentOn) {
+    this.dependentOn = dependentOn;
+  }
+
+  public FiniteValue getInvalidReason() {
+    return invalidReason;
+  }
+
+  public void setInvalidReason(FiniteValue invalidReason) {
+    this.invalidReason = invalidReason;
   }
 }
