@@ -1,5 +1,6 @@
 package com.momentus.foundation.accessgroup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momentus.corefw.data.EntityProperties;
 import com.momentus.foundation.common.model.BaseEntity;
@@ -16,6 +17,7 @@ public class User extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "org_id", referencedColumnName = "Id")
+  @JsonIgnore
   Organization orgId;
 
   @Column(nullable = false)
@@ -39,6 +41,7 @@ public class User extends BaseEntity {
   List<UserRoles> userRoles;
 
   @Column(nullable = false)
+  @JsonIgnore
   private String password; // stored as BCrypt-hash
 
   @Column(nullable = true)
