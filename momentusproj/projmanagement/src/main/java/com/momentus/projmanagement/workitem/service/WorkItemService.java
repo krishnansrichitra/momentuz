@@ -14,6 +14,9 @@ import com.momentus.foundation.ui.metadata.dto.UpdateViewMetadataDTO;
 import com.momentus.foundation.ui.metadata.service.MetadataService;
 import com.momentus.projmanagement.project.model.Project;
 import com.momentus.projmanagement.project.service.ProjectService;
+import com.momentus.projmanagement.releases.model.Release;
+import com.momentus.projmanagement.releases.model.Sprint;
+import com.momentus.projmanagement.releases.model.Team;
 import com.momentus.projmanagement.workitem.dto.WorkItemDTO;
 import com.momentus.projmanagement.workitem.dto.WorkItemDTOHelper;
 import com.momentus.projmanagement.workitem.model.WorkItem;
@@ -47,6 +50,9 @@ public class WorkItemService extends GenericService {
   @Autowired MetadataService metadataService;
 
   @Autowired NextUpService nextUpService;
+
+  @Autowired
+  GenericService genericService;
 
   public final String WI_STATUS_NEW = "wi_status_new";
   public final String WI_STATUS_ASSN = "wi_status_assn";
@@ -213,10 +219,61 @@ public class WorkItemService extends GenericService {
       }
     }
 
+      if (workItem.getRelease() != null) {
+          Release release =
+                  (Release)genericService.findById(
+                          workItem.getProject().getId(), Release.class, context,true);
+          if (release != null) {
+              workItem.setRelease(release);
+          } else {
+              MomentusError momentusError =
+                      new MomentusError(
+                              WorkItemErrorCodes.RELEASE_NOT_FOUND,
+                              generalMessages.getMessage(
+                                      WorkItemErrorCodes.RELEASE_NOT_FOUND, context.getLocale()));
+              return new TransactionResponse(
+                      TransactionResponse.RESPONSE_STATUS.FAILURE, Arrays.asList(momentusError), workItem);
+          }
+      }
+
+      if (workItem.getTeam() != null) {
+          Team team =
+                  (Team)genericService.findById(
+                          workItem.getTeam().getId(), Team.class, context,true);
+          if (team != null) {
+              workItem.setTeam(team);
+          } else {
+              MomentusError momentusError =
+                      new MomentusError(
+                              WorkItemErrorCodes.TEAM_NOT_FOUND,
+                              generalMessages.getMessage(
+                                      WorkItemErrorCodes.TEAM_NOT_FOUND, context.getLocale()));
+              return new TransactionResponse(
+                      TransactionResponse.RESPONSE_STATUS.FAILURE, Arrays.asList(momentusError), workItem);
+          }
+      }
+
+      if (workItem.getSprint() != null) {
+          Sprint sprint =
+                  (Sprint)genericService.findById(
+                          workItem.getSprint().getId(), Sprint.class, context,true);
+          if (sprint != null) {
+              workItem.setSprint(sprint);
+          } else {
+              MomentusError momentusError =
+                      new MomentusError(
+                              WorkItemErrorCodes.SPRINT_NOT_FOUND,
+                              generalMessages.getMessage(
+                                      WorkItemErrorCodes.SPRINT_NOT_FOUND, context.getLocale()));
+              return new TransactionResponse(
+                      TransactionResponse.RESPONSE_STATUS.FAILURE, Arrays.asList(momentusError), workItem);
+          }
+      }
+
     if (workItem.getOwner() != null && StringUtils.hasLength(workItem.getOwner().getUserId())) {
       User owner = userRepository.findByUserId(workItem.getOwner().getUserId()).orElse(null);
       if (owner != null && !owner.isDeleted()) {
-        workItem.setAssignee(owner);
+        workItem.setOwner(owner);
       } else {
         MomentusError momentusError =
             new MomentusError(
@@ -242,7 +299,7 @@ public class WorkItemService extends GenericService {
     }
     FiniteValue status = finiteValueService.getFinitieValueByCode(statusCode);
     if (status != null) {
-      workItem.setType(status);
+      workItem.setStatus(status);
     }
   }
 
