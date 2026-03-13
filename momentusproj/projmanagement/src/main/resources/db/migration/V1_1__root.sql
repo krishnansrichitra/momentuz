@@ -157,6 +157,7 @@ insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values 
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_type_tc','Testing Task','wi_type','IT',70) on duplicate key update fv_code = fv_code;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_type_dt','Documentation Task','wi_type','IT',80) on duplicate key update fv_code = fv_code;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_type_ms','Miscellaneous Task','wi_type','IT',90) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_type_fr','Feature Request','wi_type','IT',100) on duplicate key update fv_code = fv_code;
 
 
 insert into finite_group(group_code,group_name) values ('wi_status','Work Item Status') on duplicate key update group_name = group_name;
@@ -177,6 +178,10 @@ insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values 
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_status_cls','Closed','wi_status','IT',150) on duplicate key update fv_code = fv_code;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_status_cnc','Canceled','wi_status','IT',160) on duplicate key update fv_code = fv_code;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_status_blc','Blocked','wi_status','IT',170) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_status_dfr','Deferred','wi_status','IT',180) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_status_apr','Approved','wi_status','IT',190) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_status_dup','Duplicate','wi_status','IT',200) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_status_inv','Invalid','wi_status','IT',210) on duplicate key update fv_code = fv_code;
 
 insert into finite_group(group_code,group_name) values ('wi_time_uom','Work Item Time UOM') on duplicate key update group_name = group_name;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_time_uom_hr','Hours','wi_time_uom','IT',10) on duplicate key update fv_code = fv_code;
@@ -184,6 +189,10 @@ insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values 
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_time_uom_dys','Days','wi_time_uom','IT',30) on duplicate key update fv_code = fv_code;
 
 
+insert into finite_group(group_code,group_name) values ('wi_inv_reason','Invalid Reason Code') on duplicate key update group_name = group_name;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_inv_reason_dup','Duplicate','wi_inv_reason','IT',10) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_inv_reason_asd','As Designed','wi_inv_reason','IT',20) on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no)values ('wi_inv_reason_cnrp','Cannot Reproduce','wi_inv_reason','IT',30) on duplicate key update fv_code = fv_code;
 
 -- wi_task_status_mapping  ---
 
@@ -207,6 +216,17 @@ create table wi_task_status_mapping (
         foreign key (profile_code) references profile (profile_code)
     );
 
+
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fr','wi_status_new','IT',1);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fr','wi_status_assn','IT',2);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fr','wi_status_inpg','IT',3);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fr','wi_status_apr','IT',4);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fr','wi_status_cls','IT',5);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fr','wi_status_dfr','IT',6);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fr','wi_status_inv','IT',7);
+
+
+
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_ms','wi_status_new','IT',1);
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_ms','wi_status_assn','IT',2);
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_ms','wi_status_inpg','IT',3);
@@ -216,9 +236,13 @@ create table wi_task_status_mapping (
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_ms','wi_status_cls','IT',7);
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_ms','wi_status_cnc','IT',8);
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_ms','wi_status_blc','IT',9);
+      insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_ms','wi_status_dup','IT',10);
+      insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_ms','wi_status_dfr','IT',11);
+      insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_ms','wi_status_inv','IT',12);
 
 
-     insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_new','IT',1);
+
+   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_new','IT',1);
    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_assn','IT',2);
    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_inpg','IT',3);
    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_dc','IT',3);
@@ -226,7 +250,12 @@ create table wi_task_status_mapping (
    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_rop','IT',6);
    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_cls','IT',7);
    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_cnc','IT',8);
-    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_blc','IT',9);
+   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_blc','IT',9);
+   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_dup','IT',10);
+   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_dfr','IT',11);
+   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_fsw','wi_status_inv','IT',12);
+
+
 
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dt','wi_status_new','IT',1);
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dt','wi_status_assn','IT',2);
@@ -237,6 +266,9 @@ create table wi_task_status_mapping (
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dt','wi_status_cls','IT',7);
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dt','wi_status_cnc','IT',8);
       insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dt','wi_status_blc','IT',9);
+      insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dt','wi_status_dfr','IT',10);
+      insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dt','wi_status_inv','IT',11);
+
 
 
 
@@ -248,6 +280,10 @@ create table wi_task_status_mapping (
     insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_tc','wi_status_cls','IT',5);
     insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_tc','wi_status_cnc','IT',6);
     insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_tc','wi_status_blc','IT',7);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_tc','wi_status_dfr','IT',8);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_tc','wi_status_inv','IT',9);
+
+
 
 
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dvt','wi_status_new','IT',1);
@@ -258,6 +294,10 @@ create table wi_task_status_mapping (
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dvt','wi_status_rop','IT',6);
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dvt','wi_status_cls','IT',7);
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dvt','wi_status_blc','IT',8);
+  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dvt','wi_status_dfr','IT',9);
+  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_dvt','wi_status_inv','IT',10);
+
+
 
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_aut','wi_status_new','IT',1);
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_aut','wi_status_assn','IT',2);
@@ -268,6 +308,9 @@ create table wi_task_status_mapping (
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_aut','wi_status_cls','IT',7);
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_aut','wi_status_cnc','IT',8);
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_aut','wi_status_blc','IT',9);
+  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_aut','wi_status_dfr','IT',10);
+  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_aut','wi_status_inv','IT',11);
+
 
  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_epc','wi_status_new','IT',1);
  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_epc','wi_status_assn','IT',2);
@@ -280,6 +323,9 @@ create table wi_task_status_mapping (
  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_epc','wi_status_cls','IT',9);
  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_epc','wi_status_cnc','IT',10);
  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_epc','wi_status_blc','IT',11);
+ insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_epc','wi_status_dfr','IT',12);
+ insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_epc','wi_status_inv','IT',13);
+
 
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_us','wi_status_new','IT',1);
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_us','wi_status_assn','IT',2);
@@ -292,6 +338,9 @@ create table wi_task_status_mapping (
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_us','wi_status_cls','IT',9);
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_us','wi_status_cnc','IT',10);
   insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_us','wi_status_blc','IT',11);
+  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_us','wi_status_dfr','IT',12);
+  insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_us','wi_status_inv','IT',13);
+
 
 
     insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_def','wi_status_new','IT',1);
@@ -305,6 +354,9 @@ create table wi_task_status_mapping (
     insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_def','wi_status_cls','IT',9);
     insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_def','wi_status_cnc','IT',10);
     insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_def','wi_status_blc','IT',11);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_def','wi_status_dfr','IT',12);
+    insert into wi_task_status_mapping (wi_type,wi_status,profile_code,seq) values ('wi_type_def','wi_status_inv','IT',13);
+
 
 
 
