@@ -3,6 +3,8 @@ package com.momentus.projmanagement.releases.service;
 import com.momentus.foundation.common.GeneralMessages;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.transaction.TransactionResponse;
+import com.momentus.foundation.finitevalue.model.FiniteValue;
+import com.momentus.foundation.finitevalue.service.FiniteValueService;
 import com.momentus.foundation.generic.service.GenericService;
 import com.momentus.projmanagement.releases.dto.SprintGenerationDTO;
 import com.momentus.projmanagement.releases.model.Release;
@@ -23,6 +25,9 @@ public class SprintService extends GenericService {
   @Autowired GenericService genericService;
 
   @Autowired GeneralMessages generalMessages;
+
+  @Autowired
+    FiniteValueService finiteValueService;
 
   public static final String SPRINT_STATUS_ACTIVE = "sprnt_status_active";
   public static final String SPRINT_STATUS_CLOSED = "sprnt_status_cls";
@@ -51,6 +56,10 @@ public class SprintService extends GenericService {
           sprint.setRelease(release);
           sprint.setProject(release.getProject());
         }
+      }
+      if (sprint.getStatus() == null ){
+         FiniteValue future =  finiteValueService.getFinitieValueByCode(SprintService.SPRINT_STATUS_FUTURE);
+         sprint.setStatus(future);
       }
       TransactionResponse response =
           genericService.adaptValidateAndSaveEntity(sprint, context, false);
@@ -88,6 +97,7 @@ public class SprintService extends GenericService {
         release.setId(generationDTO.getReleaseId());
         sprint.setRelease(release);
       }
+
       returnList.add(sprint);
     }
     return returnList;

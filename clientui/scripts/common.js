@@ -30,7 +30,7 @@ async function loadFvDropdown(urlPrefix,selectId, fvGroup) {
   }
 }
 
-async function fetchLookupData(lookupKey,param1=null) {
+async function fetchLookupData(lookupKey) {
     if (lookupKey == 'country' || lookupKey == 'cntry') {
         const url =
             urlPrefix + "api/common/getAllCountries";
@@ -379,23 +379,25 @@ function clearAccessorControls() {
 }
 
 
-async function populateSelectOptions(select, param,param1=null) {
-    const items = await fetchLookupData(param,param1);
+async function populateSelectOptions(select, param) {
+    if (param !== null && param !== '') {
+        const items = await fetchLookupData(param);
 
-    const empty = document.createElement('option');
-    empty.value = '';
-    empty.textContent = 'Select';
-    select.appendChild(empty);
-    if (items !== null) {
+        const empty = document.createElement('option');
+        empty.value = '';
+        empty.textContent = 'Select';
+        select.appendChild(empty);
+        if (items !== null) {
 
-        Object.entries(items).forEach(([key, label]) => {
-            const opt = document.createElement('option');
-            opt.value = key;
-            opt.textContent = label;
-            select.appendChild(opt);
-        });
+            Object.entries(items).forEach(([key, label]) => {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = label;
+                select.appendChild(opt);
+            });
+        }
+        console.log('Added options');
     }
-    console.log('Added options');
 }
 
 

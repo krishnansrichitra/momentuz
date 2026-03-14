@@ -1,5 +1,6 @@
 package com.momentus.projmanagement.common;
 
+import com.momentus.foundation.common.Utils;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.generic.dao.GenericDAO;
 import com.momentus.foundation.generic.service.GenericService;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @Service
 public class CustomLookupService extends LookupService {
@@ -39,13 +41,8 @@ public class CustomLookupService extends LookupService {
       StringBuffer cond =
           new StringBuffer(
               " (e.deleted = false and e.orgId.id =" + context.getOrganization().getId() + ")");
-      if ("ActiveSprints".equalsIgnoreCase(condition)) {
-        cond.append(
-            " and  e.status.fvCode in ('"
-                + SprintService.SPRINT_STATUS_ACTIVE
-                + "','"
-                + SprintService.SPRINT_STATUS_FUTURE
-                + "')");
+      if (StringUtils.hasLength(condition)) {
+        cond.append(" and ( "  + Utils.decodeBase64(condition) + " ) ");
       }
 
       List<Sprint> records = genericDAO.listByFilter("Sprint",cond.toString(), Sprint.class, 0, 999);

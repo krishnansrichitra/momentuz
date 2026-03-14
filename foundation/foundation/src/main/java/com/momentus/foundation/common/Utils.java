@@ -1,5 +1,6 @@
 package com.momentus.foundation.common;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.util.StringUtils;
@@ -45,5 +46,10 @@ public class Utils {
 
     Collections.reverse(result);
     return result;
+  }
+
+  public static String decodeBase64(String base64) {
+    byte[] decodedBytes = Base64.getDecoder().decode(base64);
+    return new String(decodedBytes, StandardCharsets.UTF_8);
   }
 }

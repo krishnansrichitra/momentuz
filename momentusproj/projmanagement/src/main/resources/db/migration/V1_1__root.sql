@@ -115,7 +115,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('WTMN-IT-DESC','description','textarea','Description','rows=5;cols=100;formatcontrols=true',10,'AEV','WTMN-IT','String','WTMN-IT-DSROW');
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-TM','teamId','dropdown','Team','Team',11,'AE','WTMN-IT','Numeric');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,param1) values ('WTMN-IT-SPRN','sprintId','dropdown','Sprint','Sprint',12,'AE','WTMN-IT','Numeric','Active');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-SPRN','sprintId','dropdown','Sprint','',12,'AE','WTMN-IT','Numeric');
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-ASSN','assignee','lookup','Assignee','User',13,'AEV','WTMN-IT','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-OWN','owner','lookup','Owner','User',14,'AEV','WTMN-IT','String');
