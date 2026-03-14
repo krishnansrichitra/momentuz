@@ -81,7 +81,8 @@ public class WorkItemDTOHelper {
       duplicateOf.setWiNo(workItemDTO.getDuplicateOf());
       workItem.setDuplicateOf(duplicateOf);
     }
-    if (workItemDTO.getReasonCode() != null && StringUtils.hasLength(workItemDTO.getReasonCode().getFvCode()) )
+    if (workItemDTO.getReasonCode() != null
+        && StringUtils.hasLength(workItemDTO.getReasonCode().getFvCode()))
       workItem.setInvalidReason(FiniteValueDTO.makeFiniteValue(workItemDTO.getReasonCode()));
 
     return workItem;

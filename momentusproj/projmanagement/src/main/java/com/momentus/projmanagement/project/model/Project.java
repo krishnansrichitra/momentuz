@@ -80,6 +80,10 @@ public class Project extends OrgBasedEntity {
     return projectTitle;
   }
 
+  public String getProjectDisplayTitle() {
+    return projectTitle + "(" + projectCode + ")";
+  }
+
   public void setProjectTitle(String projectTitle) {
     this.projectTitle = projectTitle;
   }

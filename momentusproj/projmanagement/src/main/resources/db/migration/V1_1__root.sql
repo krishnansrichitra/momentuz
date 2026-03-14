@@ -79,11 +79,15 @@ insert into finite_group(group_code,group_name) values ('rls_status','Release St
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('rls_status_pst','Past','rls_status','IT',1)  on duplicate key update fv_code = fv_code;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('rls_status_active','Active','rls_status','IT',2)  on duplicate key update fv_code = fv_code;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('rls_status_future','Future','rls_status','IT',3)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('rls_status_inv','Invalid','rls_status','IT',3)  on duplicate key update fv_code = fv_code;
+
 
 insert into finite_group(group_code,group_name) values ('sprnt_status','Sprint Status') on duplicate key update group_name = group_name;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sprnt_status_cls','Closed','sprnt_status','IT',1)  on duplicate key update fv_code = fv_code;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sprnt_status_active','Active','sprnt_status','IT',2)  on duplicate key update fv_code = fv_code;
 insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sprnt_status_ftr','Future','sprnt_status','IT',3)  on duplicate key update fv_code = fv_code;
+insert into finite_value(fv_code,fv_value,group_code,profile_code,seq_no) values ('sprnt_status_inv','Invalid','sprnt_status','IT',4)  on duplicate key update fv_code = fv_code;
+
 
 --   entity end  -next up config begin --
 
@@ -111,7 +115,7 @@ insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibil
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,parent) values ('WTMN-IT-DESC','description','textarea','Description','rows=5;cols=100;formatcontrols=true',10,'AEV','WTMN-IT','String','WTMN-IT-DSROW');
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-TM','teamId','dropdown','Team','Team',11,'AE','WTMN-IT','Numeric');
-insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-SPRN','sprintId','dropdown','Sprint','Sprint',12,'AE','WTMN-IT','Numeric');
+insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type,param1) values ('WTMN-IT-SPRN','sprintId','dropdown','Sprint','Sprint',12,'AE','WTMN-IT','Numeric','Active');
 
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-ASSN','assignee','lookup','Assignee','User',13,'AEV','WTMN-IT','String');
 insert into updateview_fields(id,accessor,control,field_key,param,seq_no,visibility,updateview_metadata_id,data_type) values ('WTMN-IT-OWN','owner','lookup','Owner','User',14,'AEV','WTMN-IT','String');

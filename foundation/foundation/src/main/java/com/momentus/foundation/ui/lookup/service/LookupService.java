@@ -83,7 +83,8 @@ public class LookupService {
     }
   }
 
-  public Map<Long, Object> getDropDownValues(ApplicationContext context, String entityType) {
+  public Map<Long, Object> getDropDownValues(
+      ApplicationContext context, String entityType, String condition) {
 
     String fullPackage = entityService.getFullPackage(entityType);
     try {

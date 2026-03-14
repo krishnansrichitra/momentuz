@@ -30,7 +30,7 @@ async function loadFvDropdown(urlPrefix,selectId, fvGroup) {
   }
 }
 
-async function fetchLookupData(lookupKey) {
+async function fetchLookupData(lookupKey,param1=null) {
     if (lookupKey == 'country' || lookupKey == 'cntry') {
         const url =
             urlPrefix + "api/common/getAllCountries";
@@ -379,8 +379,8 @@ function clearAccessorControls() {
 }
 
 
-async function populateSelectOptions(select, param) {
-    const items = await fetchLookupData(param);
+async function populateSelectOptions(select, param,param1=null) {
+    const items = await fetchLookupData(param,param1);
 
     const empty = document.createElement('option');
     empty.value = '';

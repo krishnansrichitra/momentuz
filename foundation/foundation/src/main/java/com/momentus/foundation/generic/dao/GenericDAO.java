@@ -148,4 +148,13 @@ public class GenericDAO {
 
     return query.getResultList();
   }
+
+  public <T extends BaseEntity> List<T> listByFilter(
+      String entity, String condition, Class<T> entityClass, int offset, int limit) {
+    String jpql = "SELECT e FROM " + entity + " e WHERE " + condition;
+    TypedQuery<T> query = em.createQuery(jpql, entityClass);
+    query.setFirstResult(offset);
+    query.setMaxResults(limit);
+    return query.getResultList();
+  }
 }

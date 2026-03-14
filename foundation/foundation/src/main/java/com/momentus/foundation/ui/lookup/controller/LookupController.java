@@ -3,6 +3,7 @@ package com.momentus.foundation.ui.lookup.controller;
 import com.momentus.foundation.common.context.ApplicationContext;
 import com.momentus.foundation.common.context.ApplicationContextHelper;
 import com.momentus.foundation.entity.service.EntityService;
+import com.momentus.foundation.generic.service.IServiceFactory;
 import com.momentus.foundation.ui.lookup.service.LookupService;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,8 @@ public class LookupController {
   @Autowired LookupService lookupService;
 
   @Autowired EntityService entityService;
+
+  private final IServiceFactory iServiceFactory;
 
   private static final Logger log = LoggerFactory.getLogger(LookupController.class);
 
@@ -58,10 +61,14 @@ public class LookupController {
 
   @GetMapping("getObjectValues")
   public ResponseEntity<Map<Long, Object>> getObjectValues(
-      Authentication authentication, String entity) {
+      Authentication authentication,
+      String entity,
+      @RequestParam(required = false) String condition) {
     log.debug("getting getObjectValues ");
     ApplicationContext context = applicationContextHelper.generateAppContext(authentication);
-    Map<Long, Object> result = lookupService.getDropDownValues(context, entity);
+    LookupService lkService = iServiceFactory.getLookupService(entity);
+
+    Map<Long, Object> result = lkService.getDropDownValues(context, entity, condition);
     return ResponseEntity.ok(result);
   }
 
@@ -78,5 +85,9 @@ public class LookupController {
     log.debug("getting getAllAccessCodes ");
     Map<String, String> result = lookupService.getAccessCodes();
     return ResponseEntity.ok(result);
+  }
+
+  public LookupController(IServiceFactory iServiceFactory) {
+    this.iServiceFactory = iServiceFactory;
   }
 }

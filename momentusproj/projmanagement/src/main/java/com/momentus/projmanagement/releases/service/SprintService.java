@@ -24,6 +24,11 @@ public class SprintService extends GenericService {
 
   @Autowired GeneralMessages generalMessages;
 
+  public static final String SPRINT_STATUS_ACTIVE = "sprnt_status_active";
+  public static final String SPRINT_STATUS_CLOSED = "sprnt_status_cls";
+  public static final String SPRINT_STATUS_FUTURE = "sprnt_status_ftr";
+  public static final String SPRINT_STATUS_INVALID = "sprnt_status_inc";
+
   public TransactionResponse generateSprints(
       ApplicationContext context, SprintGenerationDTO generationDTO) {
     List<Sprint> sprints = generateSprintObjects(generationDTO, context);

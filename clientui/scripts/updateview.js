@@ -680,7 +680,7 @@ async function renderControl(field, partofTable=false) {
             el.className = 'form-select';
 
             // async lookup
-            await populateSelectOptions(el, field.param);
+            await populateSelectOptions(el, field.param,field.param1);
             break;
 
         case 'hidden':
